@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanbooruDownloader3", "DanbooruDownloader3\DanbooruDownloader3.csproj", "{9590336F-EB2B-4C60-9ED6-785E5BB8C430}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9590336F-EB2B-4C60-9ED6-785E5BB8C430}.Debug|x86.ActiveCfg = Release|x86
+		{9590336F-EB2B-4C60-9ED6-785E5BB8C430}.Debug|x86.Build.0 = Release|x86
+		{9590336F-EB2B-4C60-9ED6-785E5BB8C430}.Release|x86.ActiveCfg = Release|x86
+		{9590336F-EB2B-4C60-9ED6-785E5BB8C430}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

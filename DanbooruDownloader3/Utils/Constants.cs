@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.ComponentModel;
+
+namespace DanbooruDownloader3
+{
+    public class Constants
+    {
+        public const string WIN_TITLE = "Danbooru Downloader";
+        public const string VER = "20100607";
+
+
+        public static Dictionary<string, string> OrderBy = new Dictionary<string, string>() 
+                                                            {
+                                                                {"None", null},
+                                                                {"Score", "order:score"},
+                                                                {"ScoreAscending", "order:score_asc"},
+                                                                {"FavoriteCount", "order:favcount"},
+                                                                {"MegaPixel", "order:mpixels"},
+                                                                {"MegaPixelAscending", "order:mpixels_asc"},
+                                                                {"Count", "order:count"},
+                                                                {"Name", "order:name"},
+                                                                {"Date", "order:date"},
+                                                                {"Id", "order:id"},
+                                                                {"IdAscending", "order:id_asc"},
+                                                                {"Landscape", "order:landscape"},
+                                                                {"Portrait", "order:portrait"}        
+                                                            };
+
+     public static Dictionary<string,string> Rating = new Dictionary<string,string>() 
+                                                        {
+                                                            {"All", null},
+                                                            {"Safe", "rating:s"},
+                                                            {"Questionable", "rating:q"},
+                                                            {"Explicit", "rating:e"}
+                                                        };
+    }
+}

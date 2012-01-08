@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Help: Cheat Sheet
+Searching
+
+tag1 tag2
+    Search for posts that have tag1 and tag2.
+~tag1 ~tag2
+    Search for posts that have tag1 or tag2.
+-tag1
+    Search for posts that don't have tag1.
+tag1*
+    Search for posts with tags that start with tag1.
+user:bob
+    Search for posts uploaded by the user Bob.
+fav:bob
+    Search for posts favorited by the user Bob.
+md5:foo
+    Search for posts with the MD5 hash foo.
+rating:questionable
+    Search for posts that are rated questionable.
+-rating:questionable
+    Search for posts that are not rated questionable.
+source:http://site.com
+    Search for posts with a source that starts with http://site.com.
+id:100
+    Search for posts with an ID number of 100.
+id:100..
+    Search for posts with an ID number of 100 or greater.
+id:&gt;=100
+    Same as above.
+id:&gt;100
+    Search for posts with an ID number greater than 100.
+id:..100
+    Search for posts with an ID number of 100 or less.
+id:&lt;=100
+    Same as above.
+id:&lt;100
+    Search for posts with an ID number less than 100.
+id:100..200
+    Search for posts with an ID number between 100 and 200.
+width:100
+    Search for posts with a width of 100 pixels (uses same syntax as id search).
+height:100
+    Search for posts with a height of 100 pixels (uses same syntax as id search)
+score:100
+    Search for posts with a score of 100 (uses same syntax as id search).
+mpixels:2.5..
+    Search for posts with 2.5 million pixels or greater (uses same syntax as id search).
+filesize:200kb..1.5M
+    Search for posts with a filesize between 200 kilobytes and 1.5 megabytes (uses same syntax as id search).
+date:2007-01-01
+    Search for posts uploaded on a certain date (uses same syntax as id search).
+gentags:2
+    Search for posts with two general tags (uses same syntax as id search).
+arttags:2
+    Search for posts with two artist tags (uses same syntax as id search).
+chartags:2
+    Search for posts with two character tags (uses same syntax as id search).
+copytags:2
+    Search for posts with two copyright tags (uses same syntax as id search).
+status:deleted
+    Search for posts with status deleted. Statuses are: active, flagged, pending, deleted.
+approver:bob
+    Search for posts that were approved by bob.
+order:id
+    Order search results in ascending order based on post ID.
+order:id_desc
+    Order search results in descending order based on post ID.
+order:score
+    Order search results in descending order based on post score.
+order:score_asc
+    Order search results in ascending order based on post score.
+order:mpixels
+    Order search results in descending order based on resolution.
+order:mpixels_asc
+    Order search results in descending order based on resolution.
+order:filesize
+    Order search results in descending order based on file size.
+order:landscape
+    Order landscape images first.
+order:portrait
+    Order portrait images first.
+order:favcount
+    Order search results in descending order based on number of favorites.
+parent:1234
+    Search for posts that have 1234 as a parent (and include post 1234).
+parent:none
+    Search for posts that have no parent.
+gun* dress
+    Pattern searches do not work well with other tags.
+~gun dress
+    Or searches do not work well with other tags.
+rating:questionable rating:safe
+    In general, combining the same metatags (the ones that have colons in them) will not work.
+rating:questionable score:100.. id:..1000
+    You can combine different metatags, however.
+unlocked:rating
+    Search for posts with unlocked ratings.
+sub:albert
+    Search for albert's tag subscriptions.
+sub:albert:touhou
+    Search for albert's touhou tag subscription group.</value>
+  </data>
+</root>

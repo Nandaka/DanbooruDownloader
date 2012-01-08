@@ -1,0 +1,6 @@
+DanbooruDownloader3/bin/*
+DanbooruDownloader3/obj/*
+DanbooruDownloader3/publish/*
+*.suo
+old/*
+
