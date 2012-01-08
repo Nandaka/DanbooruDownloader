@@ -7,6 +7,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>Xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex</Name>
@@ -23,6 +24,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>Json</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Konachan</Name>
@@ -31,14 +33,16 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>Json</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
-    <Name>moe.imouto.org</Name>
-    <Url>http://moe.imouto.org</Url>
+    <Name>oreno.imouto.org</Name>
+    <Url>http://oreno.imouto.org</Url>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>gelbooru.com</Name>
@@ -47,6 +51,7 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>nekobooru.net</Name>
@@ -55,6 +60,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>safebooru.org</Name>
@@ -63,6 +69,7 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>hijiribe.donmai.us</Name>
@@ -71,6 +78,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>sonohara.donmai.us</Name>
@@ -79,6 +87,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>ichijou.org</Name>
@@ -87,6 +96,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>TheDoujin.com</Name>
@@ -95,6 +105,7 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
@@ -103,5 +114,6 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
   </DanbooruProvider>
 </DanbooruProviderList>

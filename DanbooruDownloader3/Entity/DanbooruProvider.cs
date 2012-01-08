@@ -19,10 +19,12 @@ namespace DanbooruDownloader3.Entity
         private string queryXml;
         private PreferredMethod preferred;
         private int defaultLimit;
+        private int hardLimit;
 
         public string Name { get{return name;} set{this.name = value;} }
 
         public int DefaultLimit { get { return defaultLimit; } set { this.defaultLimit = value; } }
+        public int HardLimit { get { return hardLimit; } set { this.hardLimit = value; } }
 
         public PreferredMethod Preferred { get { return preferred; } set { this.preferred = value; } }
 

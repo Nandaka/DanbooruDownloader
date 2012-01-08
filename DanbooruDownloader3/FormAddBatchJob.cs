@@ -17,6 +17,7 @@ namespace DanbooruDownloader3
 
         private List<CheckBox> chkList;
         private List<DanbooruProvider> providerList;
+        
         public FormAddBatchJob()
         {
             InitializeComponent();
@@ -120,6 +121,14 @@ namespace DanbooruDownloader3
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox chk in chkList)
+            {
+                chk.Checked = chk.Checked == true ? false : true;
+            }
         }
     }
 }

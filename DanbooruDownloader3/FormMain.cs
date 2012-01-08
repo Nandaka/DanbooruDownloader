@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace DanbooruDownloader3
 {
@@ -46,8 +47,12 @@ namespace DanbooruDownloader3
         {
             InitializeComponent();
             
-            this.Text += " v20100927";
+            // Get assembly version
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            this.Text += fvi.ProductVersion;
 
+            // init webclients
             _clientList = new ExtendedWebClient();
             _clientList.Headers.Add("user-agent", txtUserAgent.Text);
             try
@@ -424,7 +429,221 @@ namespace DanbooruDownloader3
                 }
             }
         }
+                
+        #region batch job helper
+        Thread batchJobThread;
+        ManualResetEvent _shutdownEvent = new ManualResetEvent(false);
+        ManualResetEvent _pauseEvent = new ManualResetEvent(true);
+        BindingList<DanbooruBatchJob> batchJob;
 
+        public void PauseBatchJobs()
+        {
+            _pauseEvent.Reset();
+        }
+
+        public void ResumeBatchJobs()
+        {
+            _pauseEvent.Set();
+        }
+
+        public void StopBatchJobs()
+        {
+            // Signal the shutdown event
+            _shutdownEvent.Set();
+
+            // Make sure to resume any paused threads
+            _pauseEvent.Set();
+
+            // Wait for the thread to exit
+            batchJobThread.Join();
+        }
+
+        private void btnAddBatchJob_Click(object sender, EventArgs e)
+        {
+            FormAddBatchJob f = new FormAddBatchJob();
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                DanbooruBatchJob job = f.Job;
+                if (batchJob == null) batchJob = new BindingList<DanbooruBatchJob>();
+                batchJob.Add(job);
+                dataGridView1.DataSource = batchJob;
+            }
+        }
+
+        private void btnStartBatchJob_Click(object sender, EventArgs e)
+        {
+            batchJobThread = new Thread(DoBatchJob);
+            batchJobThread.Start(batchJob);
+            btnStartBatchJob.Enabled = false;
+        }
+        
+        private void btnStopBatchJob_Click(object sender, EventArgs e)
+        {
+            if (batchJobThread != null && batchJobThread.IsAlive)
+            {
+                StopBatchJobs();
+                //batchJobThread.Abort();
+                btnStartBatchJob.Enabled = true;
+                dataGridView1.Refresh();
+            }
+        }
+
+        public void DoBatchJob(object list)
+        {
+            DoBatchJob((BindingList<DanbooruBatchJob>) list);
+        }
+
+        public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
+        {
+            string progressStatus = "Starting...";
+            string providerStatus = "";
+            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
+            for (int i = 0; i < batchJob.Count; i++)
+            {
+                if (!batchJob[i].isCompleted)
+                {
+                    //get the list from each provider
+                    for (int j = 0; j < batchJob[i].ProviderList.Count; j++)
+                    {
+                        bool flag = true;
+                        int currPage = 0;
+                        int totalImgCount = 0;
+                        int totalSkipCount = 0;
+                        DanbooruPostDao prevDao = null;
+                        do
+                        {
+                            int imgCount = 0;
+                            int skipCount = 0;
+                            DanbooruProvider p = batchJob[i].ProviderList[j];
+                            providerStatus = p.Name;
+
+                            // Construct the query
+                            DanbooruPostDao d;
+                            bool isXml = false;
+                            string url;
+                            string query = "tags=" + batchJob[i].TagQuery;
+                            if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
+                            if (batchJob[i].Limit <= 0) batchJob[i].Limit = p.DefaultLimit;
+                            query += "&limit=" + batchJob[i].Limit;
+                            
+                            if (batchJob[i].Page <= 0) batchJob[i].Page = 1;
+                            query += "&page=" + (batchJob[i].Page + currPage);
+                            
+                            if (p.Preferred == PreferredMethod.Xml)
+                            {
+                                url = p.Url + p.QueryStringXml.Replace("%_query%", query);
+                                isXml = true;
+                            }
+                            else
+                            {
+                                url = p.Url + p.QueryStringJson.Replace("%_query%", query);
+                            }
+
+                            // Get the image list
+                            try
+                            {
+                                progressStatus = "Getting list for page " + (batchJob[i].Page + currPage);
+                                batchJob[i].Status = providerStatus + Environment.NewLine + progressStatus;
+                                BeginInvoke(del);
+
+                                //load the list
+                                MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
+                                d = new DanbooruPostDao(ms, p.Name, query, batchJob[i].TagQuery, url, isXml);
+
+                                if (prevDao != null)
+                                {
+                                    // identical data returned, probably no more new image.
+                                    if (prevDao.RawData.Equals(d.RawData))
+                                    {
+                                        flag = false;
+                                        break;
+                                    }
+                                }
+                                prevDao = d;
+
+                                if (d.Posts.Count == 0) flag = false;
+                                providerStatus += "(p:" + (batchJob[i].Page + currPage) + ") (tot:" + d.Posts.Count + ") ";
+
+                                foreach (DanbooruPost post in d.Posts)
+                                {
+                                    // thread handling
+                                    _pauseEvent.WaitOne(Timeout.Infinite);
+
+                                    if (_shutdownEvent.WaitOne(0))
+                                    {
+                                        batchJob[i].Status = providerStatus + "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + Environment.NewLine + "Aborted";
+                                        return;
+                                    }
+
+                                    progressStatus = "Downloading: ";
+                                    batchJob[i].Status = providerStatus + "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + Environment.NewLine + progressStatus + post.FileUrl;
+                                    BeginInvoke(del);
+                                    string filename = MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+
+                                    bool download = true;
+                                    // check if exist
+                                    if (!chkOverwrite.Checked)
+                                    {
+                                        if (File.Exists(filename))
+                                        {
+                                            ++skipCount;
+                                            ++totalSkipCount;
+                                            download = false;
+                                        }
+                                    }
+                                    // download
+                                    if (download)
+                                    {
+                                        if (chkPadUserAgent.Checked) _clientBatch.UserAgent = PadUserAgent(txtUserAgent.Text);
+                                        _clientBatch.DownloadFile(post.FileUrl, filename);
+                                        ++imgCount;
+                                        ++totalImgCount;
+                                    }
+
+                                    // check if over limit
+                                    if (skipCount + imgCount >= d.Posts.Count)
+                                    {
+                                        if (totalSkipCount + totalImgCount >= batchJob[i].Limit)
+                                        {
+                                            flag = false;
+                                        }
+                                        break;
+                                    }
+                                }
+                                providerStatus += "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + " done." + Environment.NewLine;
+                            }
+                            catch (Exception ex)
+                            {
+                                providerStatus += " Error: " + ex.Message + Environment.NewLine;
+                            }
+
+                            ++currPage;
+                        } while (flag); 
+                    }
+                    batchJob[i].Status = providerStatus + Environment.NewLine + "All Done.";
+                    batchJob[i].isCompleted = true;
+                    BeginInvoke(del);
+                }
+            }
+            ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+            BeginInvoke(bjd, new object[] { true });
+        }
+
+        public delegate void UpdateUiDelegate();
+        public void UpdateUi()
+        {
+            dataGridView1.Refresh();
+        }
+
+        public delegate void ToggleBatchJobButtonDelegate(bool enabled);
+        public void ToggleBatchJobButton(bool enabled)
+        {
+            btnStartBatchJob.Enabled = enabled;
+        }
+
+        #endregion
+        
+        #region windows form events
         private void cbxProvider_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxProvider.SelectedValue.Equals(PreferredMethod.Json)) rbJson.Checked = true;
@@ -543,8 +762,8 @@ namespace DanbooruDownloader3
         private void dgvList_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             // add row number
-            for (int i = e.RowIndex; i < e.RowIndex+e.RowCount; i++) dgvList.Rows[i].Cells["colNumber"].Value = i+1;
-            
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++) dgvList.Rows[i].Cells["colNumber"].Value = i + 1;
+
         }
 
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -579,7 +798,7 @@ namespace DanbooruDownloader3
         private void timLoadNextPage_Tick(object sender, EventArgs e)
         {
             timLoadNextPage.Enabled = false;
-            LoadNextPage(dgvList.Rows.Count-1);
+            LoadNextPage(dgvList.Rows.Count - 1);
             //MessageBox.Show("Hitt!");
         }
 
@@ -596,7 +815,7 @@ namespace DanbooruDownloader3
             {
                 foreach (DataGridViewRow row in dgvList.Rows)
                 {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colCheck"];
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colCheck"];
                     chk.Value = true;
                 }
             }
@@ -618,9 +837,9 @@ namespace DanbooruDownloader3
                     MessageBox.Show("Maximum 200!", "Filename Length Limit");
                     txtFilenameLength.Text = "200";
                 }
-                    
+
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 txtFilenameLength.Text = "200";
             }
@@ -693,7 +912,7 @@ namespace DanbooruDownloader3
         {
             _isPaused = true;
             EnableControls(false);
-            
+
             btnPauseDownload.Enabled = false;
             tsStatus.Text = "Pausing...";
         }
@@ -726,7 +945,7 @@ namespace DanbooruDownloader3
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
                 StreamReader reader = new StreamReader(openFileDialog2.FileName);
-                
+
                 _downloadList = (BindingList<DanbooruPost>)serializer.Deserialize(reader);
                 reader.Close();
             }
@@ -737,7 +956,7 @@ namespace DanbooruDownloader3
         {
             if (FormWindowState.Minimized == this.WindowState)
             {
-                if(chkMinimizeTray.Checked) Hide();
+                if (chkMinimizeTray.Checked) Hide();
             }
         }
 
@@ -766,16 +985,19 @@ namespace DanbooruDownloader3
             {
                 var hti = dgvDownload.HitTest(e.X, e.Y);
                 dgvDownload.ClearSelection();
-                dgvDownload.Rows[hti.RowIndex].Selected = true; 
+                dgvDownload.Rows[hti.RowIndex].Selected = true;
 
             }
         }
 
         private void txtRetry_TextChanged(object sender, EventArgs e)
         {
-            try{
+            try
+            {
                 _retry = Convert.ToInt32(txtRetry.Text);
-            } catch(Exception){
+            }
+            catch (Exception)
+            {
                 MessageBox.Show("Invalid format.");
                 txtRetry.Text = "5";
                 _retry = 5;
@@ -806,7 +1028,7 @@ namespace DanbooruDownloader3
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if(e.Button ==System.Windows.Forms.MouseButtons.Right)
+                if (e.Button == System.Windows.Forms.MouseButtons.Right)
                     dgvList.CurrentCell = dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex];
             }
         }
@@ -848,135 +1070,22 @@ namespace DanbooruDownloader3
             }
         }
 
-        BindingList<DanbooruBatchJob> batchJob;
 
-        private void btnAddBatchJob_Click(object sender, EventArgs e)
+        private void chkProxyLogin_CheckedChanged(object sender, EventArgs e)
         {
-            FormAddBatchJob f = new FormAddBatchJob();
-            if (f.ShowDialog() == DialogResult.OK)
+            if (chkProxyLogin.Checked)
             {
-                DanbooruBatchJob job = f.Job;
-                if (batchJob == null) batchJob = new BindingList<DanbooruBatchJob>();
-                batchJob.Add(job);
-                dataGridView1.DataSource = batchJob;
+                txtProxyPassword.Enabled = true;
+                txtProxyUsername.Enabled = true;
+            }
+            else
+            {
+                txtProxyPassword.Enabled = false;
+                txtProxyUsername.Enabled = false;
             }
         }
 
-        Thread batchJobThread;
 
-        private void btnStartBatchJob_Click(object sender, EventArgs e)
-        {
-            batchJobThread = new Thread(DoBatchJob);
-            batchJobThread.Start(batchJob);
-            btnStartBatchJob.Enabled = false;
-            
-        }
-
-        public void DoBatchJob(object list)
-        {
-            DoBatchJob((BindingList<DanbooruBatchJob>) list);
-        }
-
-        public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
-        {
-            string providerStatus = "";
-            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
-            for (int i = 0; i < batchJob.Count; i++)
-            {
-                if (!batchJob[i].isCompleted)
-                {
-                    for (int j = 0; j < batchJob[i].ProviderList.Count; j++)
-                    {
-                        bool flag = true;
-                        int imgCount = 0;
-                        do
-                        {
-                            //get the list from each provider
-                            DanbooruProvider p = batchJob[i].ProviderList[j];
-                            DanbooruPostDao d;
-                            bool isXml = false;
-                            string url;
-                            string query = "tags=" + batchJob[i].TagQuery;
-                            if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
-                            if (batchJob[i].Limit > 0) query += "&limit=" + batchJob[i].Limit;
-                            if (batchJob[i].Page > 0) query += "&page=" + batchJob[i].Page;
-                            if (p.Preferred == PreferredMethod.Xml)
-                            {
-                                url = p.Url + p.QueryStringXml.Replace("%_query%", query);
-                                isXml = true;
-                            }
-                            else
-                            {
-                                url = p.Url + p.QueryStringJson.Replace("%_query%", query);
-                            }
-
-                            try
-                            {
-                                batchJob[i].Status = providerStatus + Environment.NewLine + "Getting list from: " + p.Name;
-                                BeginInvoke(del);
-
-                                MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
-                                d = new DanbooruPostDao(ms, p.Name, query, batchJob[i].TagQuery, url, isXml);
-
-                                //load the list
-
-                                if (d.Posts.Count == 0) flag = false;
-                                 
-                                foreach (DanbooruPost post in d.Posts)
-                                {
-                                    if (imgCount > batchJob[i].Limit)
-                                    {
-                                        flag = false;
-                                        break;
-                                    }
-                                    batchJob[i].Status = providerStatus + Environment.NewLine + "Downloading: " + post.FileUrl;
-                                    BeginInvoke(del);
-                                    string filename = MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
-                                    if (!chkOverwrite.Checked)
-                                    {
-                                        if (File.Exists(filename)) continue;
-                                    }
-                                    if (chkPadUserAgent.Checked) _clientBatch.UserAgent = PadUserAgent(txtUserAgent.Text);
-                                    _clientBatch.DownloadFile(post.FileUrl, filename);
-                                    imgCount++;
-                                }
-                                providerStatus += p.Name + " done." + Environment.NewLine;
-                            }
-                            catch (Exception ex)
-                            {
-                                providerStatus += p.Name + " Error: " + ex.Message + Environment.NewLine;
-                            }
-                        } while (flag); 
-                    }
-                    batchJob[i].Status = providerStatus + Environment.NewLine + "All Done.";
-                    batchJob[i].isCompleted = true;
-                }
-            }
-            ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
-            BeginInvoke(bjd, new object[] { true });
-        }
-
-        public delegate void UpdateUiDelegate();
-        public void UpdateUi()
-        {
-            dataGridView1.Refresh();
-        }
-
-        public delegate void ToggleBatchJobButtonDelegate(bool enabled);
-        public void ToggleBatchJobButton(bool enabled)
-        {
-            btnStartBatchJob.Enabled = enabled;
-        }
-
-        private void btnStopBatchJob_Click(object sender, EventArgs e)
-        {
-            if (batchJobThread.IsAlive)
-            {
-                batchJobThread.Abort();
-                btnStartBatchJob.Enabled = true;
-                dataGridView1.Refresh();
-            }
-        }
-    
+        #endregion
     }
 }

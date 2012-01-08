@@ -12,6 +12,7 @@
               <xs:element name="QueryStringXml" type="xs:string" />
               <xs:element name="Preferred" type="xs:string" />
               <xs:element name="DefaultLimit" type="xs:unsignedByte" />
+			  <xs:element name="HardLimit" type="xs:unsignedByte" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

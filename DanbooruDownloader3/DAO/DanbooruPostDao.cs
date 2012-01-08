@@ -65,7 +65,9 @@ namespace DanbooruDownloader3.DAO
             get { return posts; }
         }
 
-        
+        public String RawData { get; set; }
+
+
         private void ReadXML(string filename)
         {
             posts = new BindingList<DanbooruPost>();
@@ -84,6 +86,7 @@ namespace DanbooruDownloader3.DAO
             }
 
             ProcessXML(reader);
+            RawData = reader.ReadString();
         }
 
         private void ReadXML(Stream input)
@@ -104,6 +107,7 @@ namespace DanbooruDownloader3.DAO
             }
 
             ProcessXML(reader);
+            RawData = reader.ReadString();
         }
 
         private void ProcessXML(XmlTextReader reader)
@@ -226,6 +230,8 @@ namespace DanbooruDownloader3.DAO
             }
 
             ProcessJson(ref post, ref json, reader, out tmp);
+
+            RawData = json;
         }
 
         public void ReadJSON(Stream input)
@@ -239,6 +245,7 @@ namespace DanbooruDownloader3.DAO
             StreamReader reader = new StreamReader(input);
 
             ProcessJson(ref post, ref json, reader, out tmp);
+            RawData = json;
         }
 
         private void ProcessJson(ref DanbooruPost post, ref String json, StreamReader reader, out String tmp)

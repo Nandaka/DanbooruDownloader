@@ -43,6 +43,8 @@
             this.chkNotRating = new System.Windows.Forms.CheckBox();
             this.cbxRating = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.pnlProvider.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -79,10 +81,11 @@
             // 
             // pnlProvider
             // 
-            this.pnlProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlProvider.AutoScroll = true;
+            this.pnlProvider.Controls.Add(this.btnSelectAll);
             this.pnlProvider.Location = new System.Drawing.Point(82, 64);
             this.pnlProvider.Name = "pnlProvider";
             this.pnlProvider.Size = new System.Drawing.Size(601, 84);
@@ -121,8 +124,8 @@
             // 
             // txtSave
             // 
-            this.txtSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSave.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSave.Location = new System.Drawing.Point(82, 154);
             this.txtSave.Name = "txtSave";
@@ -182,6 +185,16 @@
             this.label7.TabIndex = 17;
             this.label7.Text = "Rating";
             // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(3, 3);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.TabIndex = 0;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            // 
             // FormAddBatchJob
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,6 +217,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FormAddBatchJob";
             this.Text = "FormAddBatchJob";
+            this.pnlProvider.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,5 +240,6 @@
         private System.Windows.Forms.CheckBox chkNotRating;
         private System.Windows.Forms.ComboBox cbxRating;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnSelectAll;
     }
 }

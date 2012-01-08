@@ -82,13 +82,17 @@ namespace DanbooruDownloader3
         /// <summary>
         /// Setting up proxy for all webclient.
         /// </summary>
-        private void SetProxy(bool useProxy, string proxyAddress, int port)
+        private void SetProxy(bool useProxy, string proxyAddress, int port, string username=null, string password=null)
         {
             if (useProxy)
             {
                 if (proxyAddress.Length > 0)
                 {
                     WebProxy proxy = new WebProxy(proxyAddress, port);
+                    if (!string.IsNullOrWhiteSpace(username))
+                    {
+                        proxy.Credentials = new NetworkCredential(username, password);
+                    }
                    _clientFile.Proxy = proxy;
                    _clientList.Proxy = proxy;
                    _clientThumb.Proxy = proxy;
