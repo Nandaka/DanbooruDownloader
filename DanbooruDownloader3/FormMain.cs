@@ -120,7 +120,8 @@ namespace DanbooruDownloader3
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
             _retry = Convert.ToInt32( txtRetry.Text );
 
-            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text));
+            CheckProxyLogin();
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
         }
 
         public void PrintFlags()
@@ -429,7 +430,21 @@ namespace DanbooruDownloader3
                 }
             }
         }
-                
+
+        private void CheckProxyLogin()
+        {
+            if (chkProxyLogin.Checked)
+            {
+                txtProxyPassword.Enabled = true;
+                txtProxyUsername.Enabled = true;
+            }
+            else
+            {
+                txtProxyPassword.Enabled = false;
+                txtProxyUsername.Enabled = false;
+            }
+        }
+
         #region batch job helper
         Thread batchJobThread;
         ManualResetEvent _shutdownEvent = new ManualResetEvent(false);
@@ -749,7 +764,7 @@ namespace DanbooruDownloader3
 
         private void chkUseProxy_CheckedChanged(object sender, EventArgs e)
         {
-            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text));
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -1070,22 +1085,10 @@ namespace DanbooruDownloader3
             }
         }
 
-
         private void chkProxyLogin_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkProxyLogin.Checked)
-            {
-                txtProxyPassword.Enabled = true;
-                txtProxyUsername.Enabled = true;
-            }
-            else
-            {
-                txtProxyPassword.Enabled = false;
-                txtProxyUsername.Enabled = false;
-            }
+            CheckProxyLogin();
         }
-
-
-        #endregion
+        #endregion        
     }
 }

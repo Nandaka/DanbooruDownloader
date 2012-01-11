@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -125,6 +125,12 @@
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
@@ -180,12 +186,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -234,7 +234,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(857, 352);
+            this.tabPage1.Size = new System.Drawing.Size(934, 352);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -330,8 +330,8 @@
             this.dgvList.AllowUserToAddRows = false;
             this.dgvList.AllowUserToDeleteRows = false;
             this.dgvList.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dgvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -355,10 +355,10 @@
             this.dgvList.Name = "dgvList";
             this.dgvList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvList.RowHeadersVisible = false;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dgvList.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.Size = new System.Drawing.Size(841, 176);
+            this.dgvList.Size = new System.Drawing.Size(918, 176);
             this.dgvList.TabIndex = 6;
             this.dgvList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvList_CellContentClick);
             this.dgvList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvList_CellMouseDown);
@@ -391,8 +391,8 @@
             // 
             this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview.DefaultCellStyle = dataGridViewCellStyle18;
             this.colPreview.FillWeight = 150F;
             this.colPreview.Frozen = true;
             this.colPreview.HeaderText = "Preview";
@@ -876,7 +876,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(857, 352);
+            this.tabPage4.Size = new System.Drawing.Size(934, 352);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Download List";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -969,8 +969,8 @@
             this.dgvDownload.AllowUserToAddRows = false;
             this.dgvDownload.AllowUserToDeleteRows = false;
             this.dgvDownload.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -993,11 +993,11 @@
             this.dgvDownload.Name = "dgvDownload";
             this.dgvDownload.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDownload.RowHeadersVisible = false;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dgvDownload.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvDownload.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDownload.Size = new System.Drawing.Size(841, 311);
+            this.dgvDownload.Size = new System.Drawing.Size(920, 311);
             this.dgvDownload.TabIndex = 7;
             this.dgvDownload.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvDownload_RowsAdded);
             this.dgvDownload.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvDownload_MouseClick);
@@ -1016,8 +1016,8 @@
             // 
             this.colPreview2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle13;
             this.colPreview2.FillWeight = 150F;
             this.colPreview2.Frozen = true;
             this.colPreview2.HeaderText = "Preview";
@@ -1144,7 +1144,7 @@
             // btnStopBatchJob
             // 
             this.btnStopBatchJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStopBatchJob.Location = new System.Drawing.Point(698, 6);
+            this.btnStopBatchJob.Location = new System.Drawing.Point(815, 6);
             this.btnStopBatchJob.Name = "btnStopBatchJob";
             this.btnStopBatchJob.Size = new System.Drawing.Size(111, 23);
             this.btnStopBatchJob.TabIndex = 3;
@@ -1155,7 +1155,7 @@
             // btnStartBatchJob
             // 
             this.btnStartBatchJob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartBatchJob.Location = new System.Drawing.Point(815, 6);
+            this.btnStartBatchJob.Location = new System.Drawing.Point(120, 6);
             this.btnStartBatchJob.Name = "btnStartBatchJob";
             this.btnStartBatchJob.Size = new System.Drawing.Size(111, 23);
             this.btnStartBatchJob.TabIndex = 2;
@@ -1198,6 +1198,61 @@
             this.dataGridView1.Size = new System.Drawing.Size(918, 311);
             this.dataGridView1.TabIndex = 0;
             // 
+            // colBatchId
+            // 
+            this.colBatchId.FillWeight = 25F;
+            this.colBatchId.Frozen = true;
+            this.colBatchId.HeaderText = "#";
+            this.colBatchId.MinimumWidth = 25;
+            this.colBatchId.Name = "colBatchId";
+            this.colBatchId.ReadOnly = true;
+            this.colBatchId.Width = 25;
+            // 
+            // colBatchTagQuery
+            // 
+            this.colBatchTagQuery.DataPropertyName = "TagQuery";
+            this.colBatchTagQuery.HeaderText = "Tags Query";
+            this.colBatchTagQuery.Name = "colBatchTagQuery";
+            this.colBatchTagQuery.ReadOnly = true;
+            // 
+            // colBatchLimit
+            // 
+            this.colBatchLimit.DataPropertyName = "Limit";
+            this.colBatchLimit.HeaderText = "Limit";
+            this.colBatchLimit.Name = "colBatchLimit";
+            this.colBatchLimit.ReadOnly = true;
+            // 
+            // colBatchProviders
+            // 
+            this.colBatchProviders.DataPropertyName = "ProviderListString";
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colBatchProviders.FillWeight = 150F;
+            this.colBatchProviders.HeaderText = "Providers";
+            this.colBatchProviders.MinimumWidth = 150;
+            this.colBatchProviders.Name = "colBatchProviders";
+            this.colBatchProviders.ReadOnly = true;
+            this.colBatchProviders.Width = 150;
+            // 
+            // colBatchSaveFolder
+            // 
+            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
+            this.colBatchSaveFolder.HeaderText = "Save Folder";
+            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
+            this.colBatchSaveFolder.ReadOnly = true;
+            // 
+            // colBatchStatus
+            // 
+            this.colBatchStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colBatchStatus.DataPropertyName = "Status";
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle14;
+            this.colBatchStatus.FillWeight = 300F;
+            this.colBatchStatus.HeaderText = "Status";
+            this.colBatchStatus.MinimumWidth = 300;
+            this.colBatchStatus.Name = "colBatchStatus";
+            this.colBatchStatus.ReadOnly = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
@@ -1207,7 +1262,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(857, 352);
+            this.tabPage2.Size = new System.Drawing.Size(934, 352);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1534,7 +1589,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(857, 352);
+            this.tabPage3.Size = new System.Drawing.Size(934, 352);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Log";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1548,7 +1603,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(851, 346);
+            this.txtLog.Size = new System.Drawing.Size(928, 346);
             this.txtLog.TabIndex = 0;
             // 
             // contextMenuStrip2
@@ -1627,9 +1682,11 @@
             // 
             // tsFlag
             // 
+            this.tsFlag.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsFlag.Name = "tsFlag";
             this.tsFlag.Size = new System.Drawing.Size(32, 17);
             this.tsFlag.Text = "flags";
+            this.tsFlag.Visible = false;
             // 
             // openFileDialog2
             // 
@@ -1681,8 +1738,8 @@
             // 
             this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn1.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridViewImageColumn1.FillWeight = 150F;
             this.dataGridViewImageColumn1.Frozen = true;
             this.dataGridViewImageColumn1.HeaderText = "Preview";
@@ -1695,8 +1752,8 @@
             // 
             this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridViewImageColumn2.FillWeight = 150F;
             this.dataGridViewImageColumn2.Frozen = true;
             this.dataGridViewImageColumn2.HeaderText = "Preview";
@@ -1704,61 +1761,6 @@
             this.dataGridViewImageColumn2.MinimumWidth = 150;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 150;
-            // 
-            // colBatchId
-            // 
-            this.colBatchId.FillWeight = 25F;
-            this.colBatchId.Frozen = true;
-            this.colBatchId.HeaderText = "#";
-            this.colBatchId.MinimumWidth = 25;
-            this.colBatchId.Name = "colBatchId";
-            this.colBatchId.ReadOnly = true;
-            this.colBatchId.Width = 25;
-            // 
-            // colBatchTagQuery
-            // 
-            this.colBatchTagQuery.DataPropertyName = "TagQuery";
-            this.colBatchTagQuery.HeaderText = "Tags Query";
-            this.colBatchTagQuery.Name = "colBatchTagQuery";
-            this.colBatchTagQuery.ReadOnly = true;
-            // 
-            // colBatchLimit
-            // 
-            this.colBatchLimit.DataPropertyName = "Limit";
-            this.colBatchLimit.HeaderText = "Limit";
-            this.colBatchLimit.Name = "colBatchLimit";
-            this.colBatchLimit.ReadOnly = true;
-            // 
-            // colBatchProviders
-            // 
-            this.colBatchProviders.DataPropertyName = "ProviderListString";
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle7;
-            this.colBatchProviders.FillWeight = 150F;
-            this.colBatchProviders.HeaderText = "Providers";
-            this.colBatchProviders.MinimumWidth = 150;
-            this.colBatchProviders.Name = "colBatchProviders";
-            this.colBatchProviders.ReadOnly = true;
-            this.colBatchProviders.Width = 150;
-            // 
-            // colBatchSaveFolder
-            // 
-            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
-            this.colBatchSaveFolder.HeaderText = "Save Folder";
-            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
-            this.colBatchSaveFolder.ReadOnly = true;
-            // 
-            // colBatchStatus
-            // 
-            this.colBatchStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle8;
-            this.colBatchStatus.FillWeight = 300F;
-            this.colBatchStatus.HeaderText = "Status";
-            this.colBatchStatus.MinimumWidth = 300;
-            this.colBatchStatus.Name = "colBatchStatus";
-            this.colBatchStatus.ReadOnly = true;
             // 
             // FormMain
             // 

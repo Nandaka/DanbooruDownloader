@@ -109,7 +109,7 @@
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
-    <Url>http://behoimi.org/</Url>
+    <Url>http://behoimi.org</Url>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
