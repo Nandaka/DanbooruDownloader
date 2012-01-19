@@ -25,7 +25,7 @@ namespace DanbooruDownloader3
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
 
-                DanbooruPostDao newPosts = new DanbooruPostDao(ms, cbxProvider.Text, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked);
+                DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked);
                 
                 if (chkAutoLoadNext.Checked) LoadNextList(newPosts);
                 else LoadList(newPosts);

@@ -19,7 +19,7 @@ namespace DanbooruDownloader3.DAO
                 ReadJSON(url);
         }
 
-        public DanbooruPostDao(Stream input, string provider, string query, string searchTags, string referer, Boolean isXMl)
+        public DanbooruPostDao(Stream input, DanbooruProvider provider, string query, string searchTags, string referer, Boolean isXMl)
         {
             this.Provider = provider;
             this.Query = query;
@@ -33,7 +33,7 @@ namespace DanbooruDownloader3.DAO
             else ReadJSON(input);
         }
 
-        public string Provider { get; set; }
+        public DanbooruProvider Provider { get; set; }
 
         public string Query { get; set; }
 
@@ -161,7 +161,19 @@ namespace DanbooruDownloader3.DAO
                                     case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
                                     case "created_at": post.CreatedAt = reader.Value; break;
                                     case "md5": post.MD5 = reader.Value; break;
-                                    case "preview_url": post.PreviewUrl = reader.Value; break;
+                                    case "preview_url":
+                                        {
+                                            if (reader.Value.StartsWith("http"))
+                                            {
+                                                post.PreviewUrl = reader.Value;
+                                            }
+                                            else
+                                            {
+                                                post.PreviewUrl = Provider.Url + reader.Value;
+                                            }
+                                            break;
+
+                                        }
                                     case "preview_width": post.PreviewWidth = -1;
                                         try
                                         {
@@ -194,7 +206,7 @@ namespace DanbooruDownloader3.DAO
                                         break;
                                 }
                             }
-                            post.Provider = this.Provider;
+                            post.Provider = this.Provider.Name;
                             post.Query = this.Query;
                             post.SearchTags = this.SearchTags;
                             post.Referer = this.Referer+@"/post/show/"+post.Id;
@@ -313,7 +325,14 @@ namespace DanbooruDownloader3.DAO
                             post.MD5 = val[1].Replace("\"", "");
                             break;
                         case "\"preview_url\"":
-                            post.PreviewUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
+                            if (val.Length > 2)
+                            {
+                                post.PreviewUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
+                            }
+                            else
+                            {
+                                post.PreviewUrl = Provider.Url + val[1].Replace("\"", "");
+                            }
                             break;
                         case "\"preview_width\"":
                             post.PreviewWidth = -1;
@@ -334,7 +353,7 @@ namespace DanbooruDownloader3.DAO
                         default: break;
                     }
                 }
-                post.Provider = this.Provider;
+                post.Provider = this.Provider.Name;
                 post.Query = this.Query;
                 post.SearchTags = this.SearchTags;
                 post.Referer = this.Referer + @"/post/show/" + post.Id;

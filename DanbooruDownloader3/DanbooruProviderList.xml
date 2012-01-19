@@ -8,6 +8,10 @@
     <Preferred>Xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex</Name>
@@ -16,6 +20,11 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>Json</Preferred>
     <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex (Idol)</Name>
@@ -25,6 +34,10 @@
     <Preferred>Json</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Konachan</Name>
@@ -34,6 +47,10 @@
     <Preferred>Json</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>oreno.imouto.org</Name>
@@ -43,6 +60,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>gelbooru.com</Name>
@@ -52,6 +73,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>nekobooru.net</Name>
@@ -61,6 +86,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>safebooru.org</Name>
@@ -70,24 +99,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>hijiribe.donmai.us</Name>
-    <Url>http://hijiribe.donmai.us</Url>
-    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
-    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
-    <Preferred>xml</Preferred>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>sonohara.donmai.us</Name>
-    <Url>http://sonohara.donmai.us</Url>
-    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
-    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
-    <Preferred>xml</Preferred>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>ichijou.org</Name>
@@ -97,6 +112,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>TheDoujin.com</Name>
@@ -106,6 +125,10 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
@@ -115,5 +138,22 @@
     <Preferred>xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>TheDoujin.com</Name>
+    <Url>http://lolibooru.com</Url>
+    <QueryStringJson></QueryStringJson>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <Preferred>xml</Preferred>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
   </DanbooruProvider>
 </DanbooruProviderList>

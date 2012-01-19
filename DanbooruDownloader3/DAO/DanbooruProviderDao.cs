@@ -41,6 +41,11 @@ namespace DanbooruDownloader3.DAO
                                         case "QueryStringXml": newProvider.QueryStringXml = reader.ReadElementContentAsString(); break;
                                         case "Preferred": string preferred = reader.ReadElementContentAsString(); newProvider.Preferred = preferred.Equals("Json") ? PreferredMethod.Json:PreferredMethod.Xml ; break;
                                         case "DefaultLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
+                                        case "HardLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
+                                        case "UserName": newProvider.UserName = reader.ReadElementContentAsString(); break;
+                                        case "Password": newProvider.Password = reader.ReadElementContentAsString(); break;
+                                        case "UseAuth": newProvider.UseAuth = reader.ReadElementContentAsBoolean(); break;
+                                        case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
                                         default: break;
                                     }
                                 }

@@ -13,37 +13,29 @@ namespace DanbooruDownloader3.Entity
 
     public class DanbooruProvider
     {
-        private string name;
-        private string url;
-        private string queryJson;
-        private string queryXml;
-        private PreferredMethod preferred;
-        private int defaultLimit;
-        private int hardLimit;
-
-        public string Name { get{return name;} set{this.name = value;} }
-
-        public int DefaultLimit { get { return defaultLimit; } set { this.defaultLimit = value; } }
-        public int HardLimit { get { return hardLimit; } set { this.hardLimit = value; } }
-
-        public PreferredMethod Preferred { get { return preferred; } set { this.preferred = value; } }
-
-        public string QueryStringXml { get { return queryXml; } set { this.queryXml = value; } }
-
-        public string QueryStringJson { get { return queryJson; } set { this.queryJson = value; } }
-
-        public string Url { get { return url; } set { this.url = value; } }
-
+        public string Name { get; set; }
+        public int DefaultLimit { get; set; }
+        public int HardLimit { get; set; }
+        public PreferredMethod Preferred { get; set; }
+        public string QueryStringXml { get; set; }
+        public string QueryStringJson { get; set; }
+        public string Url { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool UseAuth { get; set; }
+        public string PasswordSalt { get; set; }
 
         public override string ToString()
         {
-            return "Name: " + name +
-                " Url: " + url +
-                " QueryJson: " + queryJson +
-                " QueryXml: " + queryXml +
-                " Preferred: " + preferred +
-                " Default Limit: " + defaultLimit;
+            return "Name: " + Name +
+                " Url: " + Url +
+                " QueryJson: " + QueryStringJson +
+                " QueryXml: " + QueryStringXml +
+                " Preferred: " + Preferred +
+                " Default Limit: " + DefaultLimit;
         }
+
+        
     }
 
     

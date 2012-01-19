@@ -312,7 +312,7 @@ namespace DanbooruDownloader3
             }
         }
 
-        public string GetQueryUrl()
+        public string GetQueryUrl(string authString="")
         {
             if (chkGenerate.Checked)
             {
@@ -343,6 +343,8 @@ namespace DanbooruDownloader3
 
             string query = (rbJson.Checked ? _currProvider.QueryStringJson : _currProvider.QueryStringXml);
             query = query.Replace("%_query%", txtQuery.Text);
+            if (authString != "") query = query + "&" + authString ;
+
             return _currProvider.Url + query;
         }
 
@@ -373,6 +375,12 @@ namespace DanbooruDownloader3
 
         private void GetList()
         {
+            string authString = "";
+            if (_currProvider.UseAuth)
+            {
+                authString = "login=" + _currProvider.UserName + "&password_hash=" + GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+            }
+
             if (chkSaveQuery.Checked)
             {
                 saveFileDialog1.FileName = cbxProvider.Text + " - " + txtTags.Text + " " + txtPage.Text + (rbJson.Checked ? ".json" : ".xml");
@@ -386,7 +394,7 @@ namespace DanbooruDownloader3
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = PadUserAgent(txtUserAgent.Text);
-                    _clientList.DownloadFileAsync(new Uri(GetQueryUrl()), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
+                    _clientList.DownloadFileAsync(new Uri(GetQueryUrl(authString)), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
                     tsProgressBar.Visible = true;
                 }
             }
@@ -399,7 +407,7 @@ namespace DanbooruDownloader3
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = PadUserAgent(txtUserAgent.Text);
-                    _clientList.DownloadDataAsync(new Uri(GetQueryUrl()), GetQueryUrl());
+                    _clientList.DownloadDataAsync(new Uri(GetQueryUrl(authString)), GetQueryUrl(authString));
                     tsProgressBar.Visible = true;
                 }
             }
@@ -496,8 +504,8 @@ namespace DanbooruDownloader3
         {
             if (batchJobThread != null && batchJobThread.IsAlive)
             {
-                StopBatchJobs();
-                //batchJobThread.Abort();
+                //StopBatchJobs();
+                batchJobThread.Abort();
                 btnStartBatchJob.Enabled = true;
                 dataGridView1.Refresh();
             }
@@ -554,6 +562,12 @@ namespace DanbooruDownloader3
                                 url = p.Url + p.QueryStringJson.Replace("%_query%", query);
                             }
 
+                            if (p.UseAuth)
+                            {
+                                string authString = "login=" + _currProvider.UserName + "&password_hash=" + GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                                url = url + "&" + authString;
+                            }
+
                             // Get the image list
                             try
                             {
@@ -563,7 +577,7 @@ namespace DanbooruDownloader3
 
                                 //load the list
                                 MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
-                                d = new DanbooruPostDao(ms, p.Name, query, batchJob[i].TagQuery, url, isXml);
+                                d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
 
                                 if (prevDao != null)
                                 {
@@ -630,6 +644,10 @@ namespace DanbooruDownloader3
                             catch (Exception ex)
                             {
                                 providerStatus += " Error: " + ex.Message + Environment.NewLine;
+                                if (ex.Message.Contains("(403)"))
+                                {
+                                    flag = false;
+                                }
                             }
 
                             ++currPage;
@@ -1090,5 +1108,13 @@ namespace DanbooruDownloader3
             CheckProxyLogin();
         }
         #endregion        
+
+        private void btnBrowseFolder_Click_1(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtSaveFolder.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
     }
 }

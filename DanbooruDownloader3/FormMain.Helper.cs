@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using DanbooruDownloader3.Entity;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace DanbooruDownloader3
 {
@@ -101,6 +102,23 @@ namespace DanbooruDownloader3
             }
             else _clientFile.Proxy = _clientList.Proxy = _clientThumb.Proxy = _clientBatch.Proxy = null;
             
+        }
+
+        private string GeneratePasswordHash(string password, string salt)
+        {
+            string hash = "";
+            string temp = salt.Replace("%PASSWORD%", password);
+
+            byte[] result = SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(temp));
+
+            foreach (byte b in result)
+            {
+                string hexValue = b.ToString("X").ToLower(); // Lowercase for compatibility on case-sensitive systems
+                hash += (hexValue.Length == 1 ? "0" : "") + hexValue;
+            }
+            
+            return hash;
+
         }
     }
 }
