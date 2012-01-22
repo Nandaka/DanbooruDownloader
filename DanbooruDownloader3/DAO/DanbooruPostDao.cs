@@ -86,7 +86,6 @@ namespace DanbooruDownloader3.DAO
             }
 
             ProcessXML(reader);
-            RawData = reader.ReadString();
         }
 
         private void ReadXML(Stream input)
@@ -107,11 +106,12 @@ namespace DanbooruDownloader3.DAO
             }
 
             ProcessXML(reader);
-            RawData = reader.ReadString();
         }
 
         private void ProcessXML(XmlTextReader reader)
         {
+            RawData = "";
+
             while (reader.Read())
             {
                 switch (reader.NodeType)
@@ -124,10 +124,12 @@ namespace DanbooruDownloader3.DAO
                                 if (reader.Name.Equals("count"))    // Posts Count
                                 {
                                     postCount = int.Parse(reader.Value);
+                                    RawData += postCount;
                                 }
                                 else if (reader.Name.Equals("offset")) // Post Offset
                                 {
                                     offset = int.Parse(reader.Value);
+                                    RawData += offset;
                                 }
 
                             }

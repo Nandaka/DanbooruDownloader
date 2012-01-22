@@ -57,7 +57,7 @@ namespace DanbooruDownloader3
             
             try
             {
-                if(txtLimit.Text.Length > 0) Job.Limit = Convert.ToInt16(txtLimit.Text);
+                if(txtLimit.Text.Length > 0) Job.Limit = Convert.ToInt32(txtLimit.Text);
             }
             catch (Exception ex) 
             {

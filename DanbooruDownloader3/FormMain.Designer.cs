@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -330,8 +330,8 @@
             this.dgvList.AllowUserToAddRows = false;
             this.dgvList.AllowUserToDeleteRows = false;
             this.dgvList.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -355,8 +355,8 @@
             this.dgvList.Name = "dgvList";
             this.dgvList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvList.RowHeadersVisible = false;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvList.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvList.Size = new System.Drawing.Size(918, 176);
             this.dgvList.TabIndex = 6;
@@ -391,8 +391,8 @@
             // 
             this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPreview.FillWeight = 150F;
             this.colPreview.Frozen = true;
             this.colPreview.HeaderText = "Preview";
@@ -970,8 +970,8 @@
             this.dgvDownload.AllowUserToAddRows = false;
             this.dgvDownload.AllowUserToDeleteRows = false;
             this.dgvDownload.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -994,8 +994,8 @@
             this.dgvDownload.Name = "dgvDownload";
             this.dgvDownload.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDownload.RowHeadersVisible = false;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvDownload.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvDownload.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDownload.Size = new System.Drawing.Size(920, 311);
@@ -1017,8 +1017,8 @@
             // 
             this.colPreview2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle5;
             this.colPreview2.FillWeight = 150F;
             this.colPreview2.Frozen = true;
             this.colPreview2.HeaderText = "Preview";
@@ -1225,8 +1225,8 @@
             // colBatchProviders
             // 
             this.colBatchProviders.DataPropertyName = "ProviderListString";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle7;
             this.colBatchProviders.FillWeight = 150F;
             this.colBatchProviders.HeaderText = "Providers";
             this.colBatchProviders.MinimumWidth = 150;
@@ -1245,8 +1245,8 @@
             // 
             this.colBatchStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle8;
             this.colBatchStatus.FillWeight = 300F;
             this.colBatchStatus.HeaderText = "Status";
             this.colBatchStatus.MinimumWidth = 300;
@@ -1738,8 +1738,8 @@
             // 
             this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn1.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewImageColumn1.FillWeight = 150F;
             this.dataGridViewImageColumn1.Frozen = true;
             this.dataGridViewImageColumn1.HeaderText = "Preview";
@@ -1752,8 +1752,8 @@
             // 
             this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewImageColumn2.FillWeight = 150F;
             this.dataGridViewImageColumn2.Frozen = true;
             this.dataGridViewImageColumn2.HeaderText = "Preview";

@@ -424,7 +424,8 @@ namespace DanbooruDownloader3
                             tsStatus.Text = "Loading next page...";
                             if (txtPage.Text.Length == 0)
                             {
-                                txtPage.Text = "2";
+                                if (_currProvider.BoardType == BoardType.Danbooru) txtPage.Text = "2";
+                                if (_currProvider.BoardType == BoardType.Gelbooru) txtPage.Text = "1";
                             }
                             else
                             {
@@ -535,6 +536,7 @@ namespace DanbooruDownloader3
                         {
                             int imgCount = 0;
                             int skipCount = 0;
+                            int limit = 0;
                             DanbooruProvider p = batchJob[i].ProviderList[j];
                             providerStatus = p.Name;
 
@@ -544,11 +546,28 @@ namespace DanbooruDownloader3
                             string url;
                             string query = "tags=" + batchJob[i].TagQuery;
                             if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
-                            if (batchJob[i].Limit <= 0) batchJob[i].Limit = p.DefaultLimit;
-                            query += "&limit=" + batchJob[i].Limit;
-                            
-                            if (batchJob[i].Page <= 0) batchJob[i].Page = 1;
-                            query += "&page=" + (batchJob[i].Page + currPage);
+                            if (batchJob[i].Limit <= 0)
+                            {
+                                batchJob[i].Limit = p.DefaultLimit;
+                                limit = p.DefaultLimit;
+                            }
+                            else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
+
+                            query += "&limit=" + limit;
+
+                            if (batchJob[i].Page <= 0)
+                            {
+                                if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
+                                if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
+                            }
+                            if (p.BoardType == BoardType.Danbooru)
+                            {
+                                query += "&page=" + (batchJob[i].Page + currPage);
+                            }
+                            else if (p.BoardType == BoardType.Gelbooru)
+                            {
+                                query += "&pid=" + (batchJob[i].Page + currPage);
+                            }
                             
                             if (p.Preferred == PreferredMethod.Xml)
                             {
@@ -574,6 +593,7 @@ namespace DanbooruDownloader3
                                 BeginInvoke(del);
 
                                 //load the list
+                                UpdateLog("DoBatchJob", "Downloading list: " + url);
                                 MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
                                 d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
 
@@ -625,6 +645,7 @@ namespace DanbooruDownloader3
                                     if (download)
                                     {
                                         if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
+                                        UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
                                         _clientBatch.DownloadFile(post.FileUrl, filename);
                                         ++imgCount;
                                         ++totalImgCount;
@@ -645,10 +666,11 @@ namespace DanbooruDownloader3
                             catch (Exception ex)
                             {
                                 providerStatus += " Error: " + ex.Message + Environment.NewLine;
-                                if (ex.Message.Contains("(403)"))
+                                if (ex.Message.Contains("(403)") || ex.Message.Contains("resolved") )
                                 {
                                     flag = false;
                                 }
+                                UpdateLog("DoBatchJob", "Error: " + ex.Message);
                             }
 
                             ++currPage;

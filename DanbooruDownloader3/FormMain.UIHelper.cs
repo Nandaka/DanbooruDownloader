@@ -68,5 +68,19 @@ namespace DanbooruDownloader3
             }
             else _clientFile.Proxy = _clientList.Proxy = _clientThumb.Proxy = _clientBatch.Proxy = null;
         }
+
+        delegate void SetUpdateLogCallback(string source, string message);
+        private void UpdateLog(string source, string message)
+        {
+            if (txtLog.InvokeRequired)
+            {
+                SetUpdateLogCallback d = new SetUpdateLogCallback(UpdateLog);
+                this.Invoke(d, new object[] { source, message });
+            }
+            else
+            {
+                txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
+            }
+        }
     }
 }
