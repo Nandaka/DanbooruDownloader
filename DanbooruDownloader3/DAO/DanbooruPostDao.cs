@@ -147,12 +147,14 @@ namespace DanbooruDownloader3.DAO
                                     case "width": post.Width = -1; 
                                         try{
                                             post.Width = Int32.Parse(reader.Value);
-                                        } catch(Exception){}
+                                        }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "height": post.Height = -1;
                                         try{
                                             post.Height = Int32.Parse(reader.Value);
-                                        } catch(Exception){}
+                                        }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "change": post.Change = reader.Value; break;
                                     case "score": post.Score = reader.Value; break;
@@ -179,14 +181,14 @@ namespace DanbooruDownloader3.DAO
                                         {
                                             post.PreviewWidth = Int32.Parse(reader.Value);
                                         }
-                                        catch (Exception) { }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "preview_height": post.PreviewHeight = -1;
                                         try
                                         {
                                             post.PreviewHeight = Int32.Parse(reader.Value);
                                         }
-                                        catch (Exception) { }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "parent_id": post.ParentId = reader.Value; break;
                                     case "sample_url": post.SampleUrl = reader.Value; break;
@@ -195,14 +197,14 @@ namespace DanbooruDownloader3.DAO
                                         {
                                             post.SampleWidth = Int32.Parse(reader.Value);
                                         }
-                                        catch (Exception) { }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "sample_height": post.SampleHeight = -1;
                                         try
                                         {
                                             post.SampleHeight = Int32.Parse(reader.Value);
                                         }
-                                        catch (Exception) { }
+                                        catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                 }
                             }
@@ -305,7 +307,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 post.Width = Convert.ToInt32(val[1]);
                             }
-                            catch (Exception) { }
+                            catch (Exception) { if (FormMain.Debug) throw; }
                             break;
                         case "\"height\"":
                             post.Height = -1;
@@ -313,7 +315,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 post.Height = Convert.ToInt32(val[1]);
                             }
-                            catch (Exception) { }
+                            catch (Exception) { if (FormMain.Debug) throw; }
                             break;
                         case "\"score\"":
                             post.Score = val[1];
@@ -340,7 +342,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 post.PreviewWidth = Convert.ToInt32(val[1]);
                             }
-                            catch (Exception) { }
+                            catch (Exception) { if (FormMain.Debug) throw; }
                             break;
                         case "\"preview_height\"":
                             post.PreviewHeight = -1;
@@ -348,7 +350,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 post.PreviewHeight = Convert.ToInt32(val[1]);
                             }
-                            catch (Exception) { }
+                            catch (Exception) { if (FormMain.Debug) throw; }
                             break;
                         default: break;
                     }

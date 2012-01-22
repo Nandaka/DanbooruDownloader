@@ -137,6 +137,7 @@ namespace DanbooruDownloader3
                     }
                     LoadThumbnailLater(i);
                 }
+                if (FormMain.Debug) throw;
             }
 
         }

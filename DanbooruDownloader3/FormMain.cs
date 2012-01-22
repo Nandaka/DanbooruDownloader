@@ -22,6 +22,8 @@ namespace DanbooruDownloader3
 {
     public partial class FormMain : Form
     {
+        public static bool Debug = false;
+
         List<DanbooruProvider> _listProvider;
         DanbooruProvider _currProvider;
         DanbooruPostDao _postsDao;
@@ -124,21 +126,6 @@ namespace DanbooruDownloader3
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
         }
 
-        public void PrintFlags()
-        {
-            tsFlag.Text = "isPaused = " + _isPaused.ToString() + " | isLoadingList = " + _isLoadingList.ToString() + " | isMorePost = " + _isMorePost.ToString() + " | isLoadingThumb = " + _isLoadingThumb.ToString();
-        }
-
-        public bool CheckListGrid()
-        {
-            return dgvList.Rows.Count > 0 ? true : false;
-        }
-
-        public bool CheckDownloadGrid()
-        {
-            return dgvDownload.Rows.Count > 0 ? true : false;
-        }
-
         public void TransferDownloadRows()
         {
             if (CheckListGrid())
@@ -197,8 +184,12 @@ namespace DanbooruDownloader3
                     if (chkAutoFocus.Checked) dgvDownload.FirstDisplayedScrollingRowIndex = row.Index;
 
                     string url = (string)row.Cells["colUrl2"].Value;
-                    
-                    string filename = MakeFilename(txtSaveFolder.Text , txtFilenameFormat.Text, _downloadList[row.Index], Convert.ToInt32(txtFilenameLength.Text)) + url.Substring(url.LastIndexOf('.'));
+
+                    if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
+                    if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
+                    if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
+
+                    string filename = Helper.MakeFilename(txtSaveFolder.Text , txtFilenameFormat.Text, _downloadList[row.Index], Convert.ToInt32(txtFilenameLength.Text)) + url.Substring(url.LastIndexOf('.'));
 
                     if (!chkOverwrite.Checked && File.Exists(filename))
                     {
@@ -217,7 +208,7 @@ namespace DanbooruDownloader3
 
                         // the actual download
                         _clientFile.Referer = _downloadList[row.Index].Referer;
-                        if (chkPadUserAgent.Checked) _clientFile.UserAgent = PadUserAgent(txtUserAgent.Text);
+                        if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                         _clientFile.DownloadFileAsync(new Uri(url), filename, row);
                     }
                 }
@@ -338,7 +329,14 @@ namespace DanbooruDownloader3
 
                 //Page
                 txtQuery.Text += txtQuery.Text.Length > 0 && txtPage.Text.Length > 0 ? "&" : "";
-                txtQuery.Text += txtPage.Text.Length > 0 ? "page=" + txtPage.Text : "";
+                if (_currProvider.BoardType == BoardType.Danbooru)
+                {
+                    txtQuery.Text += txtPage.Text.Length > 0 ? "page=" + txtPage.Text : "";
+                }
+                else if(_currProvider.BoardType == BoardType.Gelbooru) 
+                {
+                    txtQuery.Text += txtPage.Text.Length > 0 ? "pid=" + txtPage.Text : "";
+                }
             }
 
             string query = (rbJson.Checked ? _currProvider.QueryStringJson : _currProvider.QueryStringXml);
@@ -368,7 +366,7 @@ namespace DanbooruDownloader3
                 _loadedThumbnail = i;
                 timGifAnimation.Enabled = true;
                 _clientThumb.Referer = _postsDao.Posts[i].Referer;
-                if (chkPadUserAgent.Checked) _clientThumb.UserAgent = PadUserAgent(txtUserAgent.Text);
+                if (chkPadUserAgent.Checked) _clientThumb.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                 _clientThumb.DownloadDataAsync(new Uri(_postsDao.Posts[_loadedThumbnail].PreviewUrl), _loadedThumbnail);
             }
         }
@@ -378,7 +376,7 @@ namespace DanbooruDownloader3
             string authString = "";
             if (_currProvider.UseAuth)
             {
-                authString = "login=" + _currProvider.UserName + "&password_hash=" + GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
             }
 
             if (chkSaveQuery.Checked)
@@ -393,7 +391,7 @@ namespace DanbooruDownloader3
 
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
-                    if (chkPadUserAgent.Checked) _clientList.UserAgent = PadUserAgent(txtUserAgent.Text);
+                    if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadFileAsync(new Uri(GetQueryUrl(authString)), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
                     tsProgressBar.Visible = true;
                 }
@@ -406,7 +404,7 @@ namespace DanbooruDownloader3
                     tsProgressBar.Value = 0;
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
-                    if (chkPadUserAgent.Checked) _clientList.UserAgent = PadUserAgent(txtUserAgent.Text);
+                    if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadDataAsync(new Uri(GetQueryUrl(authString)), GetQueryUrl(authString));
                     tsProgressBar.Visible = true;
                 }
@@ -564,7 +562,7 @@ namespace DanbooruDownloader3
 
                             if (p.UseAuth)
                             {
-                                string authString = "login=" + _currProvider.UserName + "&password_hash=" + GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                                string authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
                                 url = url + "&" + authString;
                             }
 
@@ -607,7 +605,10 @@ namespace DanbooruDownloader3
                                     progressStatus = "Downloading: ";
                                     batchJob[i].Status = providerStatus + "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + Environment.NewLine + progressStatus + post.FileUrl;
                                     BeginInvoke(del);
-                                    string filename = MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                    if (post.Provider == null) post.Provider = cbxProvider.Text;
+                                    if (post.Query == null) post.Query = txtQuery.Text;
+                                    if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+                                    string filename = Helper.MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
 
                                     bool download = true;
                                     // check if exist
@@ -623,7 +624,7 @@ namespace DanbooruDownloader3
                                     // download
                                     if (download)
                                     {
-                                        if (chkPadUserAgent.Checked) _clientBatch.UserAgent = PadUserAgent(txtUserAgent.Text);
+                                        if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                                         _clientBatch.DownloadFile(post.FileUrl, filename);
                                         ++imgCount;
                                         ++totalImgCount;

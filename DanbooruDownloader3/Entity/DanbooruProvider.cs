@@ -11,6 +11,12 @@ namespace DanbooruDownloader3.Entity
         Json
     }
 
+    public enum BoardType
+    {
+        Danbooru,
+        Gelbooru
+    }
+
     public class DanbooruProvider
     {
         public string Name { get; set; }
@@ -24,6 +30,7 @@ namespace DanbooruDownloader3.Entity
         public string Password { get; set; }
         public bool UseAuth { get; set; }
         public string PasswordSalt { get; set; }
+        public BoardType BoardType { get; set; }
 
         public override string ToString()
         {
@@ -32,7 +39,8 @@ namespace DanbooruDownloader3.Entity
                 " QueryJson: " + QueryStringJson +
                 " QueryXml: " + QueryStringXml +
                 " Preferred: " + Preferred +
-                " Default Limit: " + DefaultLimit;
+                " Default Limit: " + DefaultLimit +
+                " Type: " + BoardType.ToString();
         }
 
         

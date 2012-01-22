@@ -92,12 +92,13 @@
     <Compile Include="FormCheatSheet.Designer.cs">
       <DependentUpon>FormCheatSheet.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.Helper.cs">
+    <Compile Include="FormMain.UIHelper.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.WebClientEvents.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="Utils\ExtendedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

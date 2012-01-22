@@ -39,13 +39,18 @@ namespace DanbooruDownloader3.DAO
                                         case "Url": newProvider.Url = reader.ReadElementContentAsString(); break;
                                         case "QueryStringJson": newProvider.QueryStringJson = reader.ReadElementContentAsString(); break;
                                         case "QueryStringXml": newProvider.QueryStringXml = reader.ReadElementContentAsString(); break;
-                                        case "Preferred": string preferred = reader.ReadElementContentAsString(); newProvider.Preferred = preferred.Equals("Json") ? PreferredMethod.Json:PreferredMethod.Xml ; break;
+                                        case "Preferred": 
+                                            string preferred = reader.ReadElementContentAsString(); 
+                                            newProvider.Preferred = preferred.Equals("Json") ? PreferredMethod.Json:PreferredMethod.Xml ; break;
                                         case "DefaultLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
                                         case "HardLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
                                         case "UserName": newProvider.UserName = reader.ReadElementContentAsString(); break;
                                         case "Password": newProvider.Password = reader.ReadElementContentAsString(); break;
                                         case "UseAuth": newProvider.UseAuth = reader.ReadElementContentAsBoolean(); break;
                                         case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
+                                        case "BoardType": 
+                                            string type = reader.ReadElementContentAsString(); 
+                                            newProvider.BoardType = type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; break;
                                         default: break;
                                     }
                                 }
@@ -58,5 +63,6 @@ namespace DanbooruDownloader3.DAO
             }
             return list;
         }
+
     }
 }

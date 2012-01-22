@@ -12,6 +12,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex</Name>
@@ -25,6 +26,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex (Idol)</Name>
@@ -38,6 +40,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Konachan</Name>
@@ -51,6 +54,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>oreno.imouto.org</Name>
@@ -64,6 +68,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>gelbooru.com</Name>
@@ -77,6 +82,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>nekobooru.net</Name>
@@ -90,6 +96,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>safebooru.org</Name>
@@ -103,6 +110,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>ichijou.org</Name>
@@ -116,6 +124,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>TheDoujin.com</Name>
@@ -129,6 +138,7 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
+    <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
@@ -142,18 +152,6 @@
     <UserName></UserName>
     <Password></Password>
     <UseAuth>false</UseAuth>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>TheDoujin.com</Name>
-    <Url>http://lolibooru.com</Url>
-    <QueryStringJson></QueryStringJson>
-    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
-    <Preferred>xml</Preferred>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
-    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <UserName></UserName>
-    <Password></Password>
-    <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
 </DanbooruProviderList>
