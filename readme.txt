@@ -4,6 +4,7 @@ Changelog:
   - Add danbooru login information using the DanbooruProviderList.xml.
   - fix preview image parsing if using relative path.
   - fix Gelbooru auto forward page hang (20120122).
+  - Update DanbooruProviderList.xml to add board type (20120122).
 
 - DanbooruDownloader20120108
   - Add proxy username/password support. 
