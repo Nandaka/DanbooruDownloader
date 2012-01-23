@@ -33,6 +33,7 @@
             this.txtLimit = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlProvider = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,7 +44,6 @@
             this.chkNotRating = new System.Windows.Forms.CheckBox();
             this.cbxRating = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnSelectAll = new System.Windows.Forms.Button();
             this.pnlProvider.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,6 +90,16 @@
             this.pnlProvider.Name = "pnlProvider";
             this.pnlProvider.Size = new System.Drawing.Size(601, 84);
             this.pnlProvider.TabIndex = 4;
+            // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(3, 3);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.TabIndex = 0;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
             // btnOK
             // 
@@ -184,16 +194,6 @@
             this.label7.Size = new System.Drawing.Size(38, 13);
             this.label7.TabIndex = 17;
             this.label7.Text = "Rating";
-            // 
-            // btnSelectAll
-            // 
-            this.btnSelectAll.Location = new System.Drawing.Point(3, 3);
-            this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectAll.TabIndex = 0;
-            this.btnSelectAll.Text = "Select All";
-            this.btnSelectAll.UseVisualStyleBackColor = true;
-            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
             // FormAddBatchJob
             // 

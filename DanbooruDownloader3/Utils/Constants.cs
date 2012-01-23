@@ -8,9 +8,6 @@ namespace DanbooruDownloader3
 {
     public class Constants
     {
-        public const string WIN_TITLE = "Danbooru Downloader";
-        public const string VER = "20100607";
-
 
         public static Dictionary<string, string> OrderBy = new Dictionary<string, string>() 
                                                             {
@@ -29,12 +26,12 @@ namespace DanbooruDownloader3
                                                                 {"Portrait", "order:portrait"}        
                                                             };
 
-     public static Dictionary<string,string> Rating = new Dictionary<string,string>() 
+        public static Dictionary<string, string> Rating = new Dictionary<string, string>() 
                                                         {
                                                             {"All", null},
-                                                            {"Safe", "rating:s"},
-                                                            {"Questionable", "rating:q"},
-                                                            {"Explicit", "rating:e"}
+                                                            {"Safe", "rating:safe"},
+                                                            {"Questionable", "rating:questionable"},
+                                                            {"Explicit", "rating:explicit"}
                                                         };
     }
 }

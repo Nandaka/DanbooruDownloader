@@ -303,49 +303,6 @@ namespace DanbooruDownloader3
             }
         }
 
-        public string GetQueryUrl(string authString="")
-        {
-            if (chkGenerate.Checked)
-            {
-                txtQuery.Text = "";
-                //Tags
-                txtQuery.Text += txtTags.Text.Length > 0 ? "tags="+txtTags.Text.Replace(' ', '+') : "";
-
-                //Rating
-                txtQuery.Text += txtQuery.Text.Length > 0 && cbxRating.SelectedIndex > 0 ? "+" : "";
-                txtQuery.Text += (txtTags.Text.Length <= 0 && cbxRating.SelectedIndex > 0? "tags=" : "") + (chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" : "" + cbxRating.SelectedValue);
-
-                //Source
-                txtQuery.Text += txtQuery.Text.Length > 0 && txtSource.Text.Length > 0 ? "+" : txtSource.Text.Length > 0 ? "tags=" : "";
-                txtQuery.Text += txtSource.Text.Length > 0 ? "source:" + txtSource.Text : "";
-
-                //Order
-                txtQuery.Text += txtQuery.Text.Length > 0 && cbxOrder.SelectedIndex > 0 ? "+" : "";
-                txtQuery.Text += cbxOrder.SelectedValue;
-
-                //Limit
-                txtQuery.Text += txtQuery.Text.Length > 0 && txtLimit.Text.Length > 0 ? "&" : "";
-                txtQuery.Text += txtLimit.Text.Length > 0 ? "limit=" + txtLimit.Text : "";
-
-                //Page
-                txtQuery.Text += txtQuery.Text.Length > 0 && txtPage.Text.Length > 0 ? "&" : "";
-                if (_currProvider.BoardType == BoardType.Danbooru)
-                {
-                    txtQuery.Text += txtPage.Text.Length > 0 ? "page=" + txtPage.Text : "";
-                }
-                else if(_currProvider.BoardType == BoardType.Gelbooru) 
-                {
-                    txtQuery.Text += txtPage.Text.Length > 0 ? "pid=" + txtPage.Text : "";
-                }
-            }
-
-            string query = (rbJson.Checked ? _currProvider.QueryStringJson : _currProvider.QueryStringXml);
-            query = query.Replace("%_query%", txtQuery.Text);
-            if (authString != "") query = query + "&" + authString ;
-
-            return _currProvider.Url + query;
-        }
-
         private void UpdateStatus()
         {
             tsStatus.Text = "Query URL: " + GetQueryUrl();

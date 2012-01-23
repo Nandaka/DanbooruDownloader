@@ -1,5 +1,9 @@
 Changelog:
 =============================
+- DanbooruDownloader2012xxxx
+  - Change rating to expanded mode for compatibility with gelbooru.
+  - Fix bug when add batch job but no provider is selected.
+
 - DanbooruDownloader20120120
   - Add danbooru login information using the DanbooruProviderList.xml.
   - fix preview image parsing if using relative path.
