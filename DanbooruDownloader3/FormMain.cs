@@ -481,6 +481,8 @@ namespace DanbooruDownloader3
             {
                 if (!batchJob[i].isCompleted)
                 {
+                    string logMessage = "";
+                    
                     //get the list from each provider
                     for (int j = 0; j < batchJob[i].ProviderList.Count; j++)
                     {
@@ -509,6 +511,7 @@ namespace DanbooruDownloader3
                                 limit = p.DefaultLimit;
                             }
                             else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
+                            else limit = batchJob[i].Limit;
 
                             query += "&limit=" + limit;
 
@@ -566,7 +569,7 @@ namespace DanbooruDownloader3
                                 prevDao = d;
 
                                 if (d.Posts.Count == 0) flag = false;
-                                providerStatus += "(p:" + (batchJob[i].Page + currPage) + ") (tot:" + d.Posts.Count + ") ";
+                                providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
 
                                 foreach (DanbooruPost post in d.Posts)
                                 {
@@ -575,12 +578,12 @@ namespace DanbooruDownloader3
 
                                     if (_shutdownEvent.WaitOne(0))
                                     {
-                                        batchJob[i].Status = providerStatus + "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + Environment.NewLine + "Aborted";
+                                        batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> " + Environment.NewLine + "Aborted";
                                         return;
                                     }
 
                                     progressStatus = "Downloading: ";
-                                    batchJob[i].Status = providerStatus + "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + Environment.NewLine + progressStatus + post.FileUrl;
+                                    batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + Environment.NewLine + progressStatus + post.FileUrl;
                                     BeginInvoke(del);
                                     if (post.Provider == null) post.Provider = cbxProvider.Text;
                                     if (post.Query == null) post.Query = txtQuery.Text;
@@ -617,13 +620,19 @@ namespace DanbooruDownloader3
                                         }
                                         break;
                                     }
+                                    if (batchJob[i].Limit > d.PostCount && d.PostCount != 0)
+                                    {
+                                        flag = false;
+                                        break;
+                                    }
                                 }
-                                providerStatus += "(dl:" + totalImgCount + ") (sk:" + totalSkipCount + ")" + " done." + Environment.NewLine;
+                                providerStatus += "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> Done." + Environment.NewLine;
+                                
                             }
                             catch (Exception ex)
                             {
                                 providerStatus += " Error: " + ex.Message + Environment.NewLine;
-                                if (ex.Message.Contains("(403)") || ex.Message.Contains("resolved") )
+                                if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                 {
                                     flag = false;
                                 }
@@ -631,9 +640,10 @@ namespace DanbooruDownloader3
                             }
 
                             ++currPage;
-                        } while (flag); 
+                        } while (flag);
+                        logMessage += providerStatus;
                     }
-                    batchJob[i].Status = providerStatus + Environment.NewLine + "All Done.";
+                    batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
                     batchJob[i].isCompleted = true;
                     BeginInvoke(del);
                 }

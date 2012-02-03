@@ -124,14 +124,13 @@ namespace DanbooruDownloader3.DAO
                                 if (reader.Name.Equals("count"))    // Posts Count
                                 {
                                     postCount = int.Parse(reader.Value);
-                                    RawData += postCount;
+                                    RawData += "postCount:" + postCount;
                                 }
                                 else if (reader.Name.Equals("offset")) // Post Offset
                                 {
                                     offset = int.Parse(reader.Value);
-                                    RawData += offset;
+                                    RawData +=  ", offset:" + offset;
                                 }
-
                             }
                         }
                         else if (reader.Name.Equals("post"))
@@ -141,7 +140,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 switch (reader.Name)
                                 {
-                                    case "id": post.Id = reader.Value; break;
+                                    case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
                                     case "tags": post.Tags = reader.Value; break;
                                     case "source": post.Source = reader.Value; break;
                                     case "creator_id": post.CreatorId = reader.Value; break;
