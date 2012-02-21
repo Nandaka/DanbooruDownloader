@@ -275,5 +275,17 @@ namespace DanbooruDownloader3.Properties {
                 this["UseProxyLogin"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool batchAbortOnError {
+            get {
+                return ((bool)(this["batchAbortOnError"]));
+            }
+            set {
+                this["batchAbortOnError"] = value;
+            }
+        }
     }
 }

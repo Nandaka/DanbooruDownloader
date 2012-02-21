@@ -1,5 +1,10 @@
 Changelog:
 =============================
+- DanbooruDownloader201202xx
+  - Add abort on error option for batch download as requested by Xemnarth.
+  - Fix batch download stop button.
+  - Add Pause/Resume batch download button.
+
 - DanbooruDownloader20120203
   - Change rating to expanded mode for compatibility with gelbooru.
   - Fix bug when add batch job but no provider is selected.

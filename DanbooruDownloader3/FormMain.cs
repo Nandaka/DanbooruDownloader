@@ -453,16 +453,28 @@ namespace DanbooruDownloader3
         {
             batchJobThread = new Thread(DoBatchJob);
             batchJobThread.Start(batchJob);
-            btnStartBatchJob.Enabled = false;
+            ToggleBatchJobButton(false);
         }
-        
+        private void btnPauseBatchJob_Click(object sender, EventArgs e)
+        {
+            if (btnPauseBatchJob.Text == "Pause Batch Job")
+            {
+                btnPauseBatchJob.Text = "Resume Batch Job";
+                PauseBatchJobs();
+            }
+            else
+            {
+                btnPauseBatchJob.Text = "Pause Batch Job";
+                ResumeBatchJobs();
+            }
+        }
         private void btnStopBatchJob_Click(object sender, EventArgs e)
         {
             if (batchJobThread != null && batchJobThread.IsAlive)
             {
                 //StopBatchJobs();
                 batchJobThread.Abort();
-                btnStartBatchJob.Enabled = true;
+                ToggleBatchJobButton(true);
                 dataGridView1.Refresh();
             }
         }
@@ -474,178 +486,187 @@ namespace DanbooruDownloader3
 
         public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
         {
-            string progressStatus = "Starting...";
-            string providerStatus = "";
-            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
-            for (int i = 0; i < batchJob.Count; i++)
+            if (batchJob != null)
             {
-                if (!batchJob[i].isCompleted)
+                string progressStatus = "Starting...";
+                string providerStatus = "";
+                UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
+                for (int i = 0; i < batchJob.Count; i++)
                 {
-                    string logMessage = "";
-                    
-                    //get the list from each provider
-                    for (int j = 0; j < batchJob[i].ProviderList.Count; j++)
+                    if (!batchJob[i].isCompleted)
                     {
-                        bool flag = true;
-                        int currPage = 0;
-                        int totalImgCount = 0;
-                        int totalSkipCount = 0;
-                        DanbooruPostDao prevDao = null;
-                        do
+                        string logMessage = "";
+
+                        //get the list from each provider
+                        for (int j = 0; j < batchJob[i].ProviderList.Count; j++)
                         {
-                            int imgCount = 0;
-                            int skipCount = 0;
-                            int limit = 0;
-                            DanbooruProvider p = batchJob[i].ProviderList[j];
-                            providerStatus = p.Name;
+                            bool flag = true;
+                            int currPage = 0;
+                            int totalImgCount = 0;
+                            int totalSkipCount = 0;
+                            DanbooruPostDao prevDao = null;
+                            do
+                            {
+                                int imgCount = 0;
+                                int skipCount = 0;
+                                int limit = 0;
+                                DanbooruProvider p = batchJob[i].ProviderList[j];
+                                providerStatus = p.Name;
 
-                            // Construct the query
-                            DanbooruPostDao d;
-                            bool isXml = false;
-                            string url;
-                            string query = "tags=" + batchJob[i].TagQuery;
-                            if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
-                            if (batchJob[i].Limit <= 0)
-                            {
-                                batchJob[i].Limit = p.DefaultLimit;
-                                limit = p.DefaultLimit;
-                            }
-                            else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
-                            else limit = batchJob[i].Limit;
-
-                            query += "&limit=" + limit;
-
-                            if (batchJob[i].Page <= 0)
-                            {
-                                if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
-                                if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
-                            }
-                            if (p.BoardType == BoardType.Danbooru)
-                            {
-                                query += "&page=" + (batchJob[i].Page + currPage);
-                            }
-                            else if (p.BoardType == BoardType.Gelbooru)
-                            {
-                                query += "&pid=" + (batchJob[i].Page + currPage);
-                            }
-                            
-                            if (p.Preferred == PreferredMethod.Xml)
-                            {
-                                url = p.Url + p.QueryStringXml.Replace("%_query%", query);
-                                isXml = true;
-                            }
-                            else
-                            {
-                                url = p.Url + p.QueryStringJson.Replace("%_query%", query);
-                            }
-
-                            if (p.UseAuth)
-                            {
-                                string authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
-                                url = url + "&" + authString;
-                            }
-
-                            // Get the image list
-                            try
-                            {
-                                progressStatus = "Getting list for page " + (batchJob[i].Page + currPage);
-                                batchJob[i].Status = providerStatus + Environment.NewLine + progressStatus;
-                                BeginInvoke(del);
-
-                                //load the list
-                                UpdateLog("DoBatchJob", "Downloading list: " + url);
-                                MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
-                                d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
-
-                                if (prevDao != null)
+                                // Construct the query
+                                DanbooruPostDao d;
+                                bool isXml = false;
+                                string url;
+                                string query = "tags=" + batchJob[i].TagQuery;
+                                if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
+                                if (batchJob[i].Limit <= 0)
                                 {
-                                    // identical data returned, probably no more new image.
-                                    if (prevDao.RawData.Equals(d.RawData))
-                                    {
-                                        flag = false;
-                                        break;
-                                    }
+                                    batchJob[i].Limit = p.DefaultLimit;
+                                    limit = p.DefaultLimit;
                                 }
-                                prevDao = d;
+                                else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
+                                else limit = batchJob[i].Limit;
 
-                                if (d.Posts.Count == 0) flag = false;
-                                providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
+                                query += "&limit=" + limit;
 
-                                foreach (DanbooruPost post in d.Posts)
+                                if (batchJob[i].Page <= 0)
                                 {
-                                    // thread handling
-                                    _pauseEvent.WaitOne(Timeout.Infinite);
+                                    if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
+                                    if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
+                                }
+                                if (p.BoardType == BoardType.Danbooru)
+                                {
+                                    query += "&page=" + (batchJob[i].Page + currPage);
+                                }
+                                else if (p.BoardType == BoardType.Gelbooru)
+                                {
+                                    query += "&pid=" + (batchJob[i].Page + currPage);
+                                }
 
-                                    if (_shutdownEvent.WaitOne(0))
-                                    {
-                                        batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> " + Environment.NewLine + "Aborted";
-                                        return;
-                                    }
+                                if (p.Preferred == PreferredMethod.Xml)
+                                {
+                                    url = p.Url + p.QueryStringXml.Replace("%_query%", query);
+                                    isXml = true;
+                                }
+                                else
+                                {
+                                    url = p.Url + p.QueryStringJson.Replace("%_query%", query);
+                                }
 
-                                    progressStatus = "Downloading: ";
-                                    batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + Environment.NewLine + progressStatus + post.FileUrl;
+                                if (p.UseAuth)
+                                {
+                                    string authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                                    url = url + "&" + authString;
+                                }
+
+                                // Get the image list
+                                try
+                                {
+                                    progressStatus = "Getting list for page " + (batchJob[i].Page + currPage);
+                                    batchJob[i].Status = providerStatus + Environment.NewLine + progressStatus;
                                     BeginInvoke(del);
-                                    if (post.Provider == null) post.Provider = cbxProvider.Text;
-                                    if (post.Query == null) post.Query = txtQuery.Text;
-                                    if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-                                    string filename = Helper.MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
 
-                                    bool download = true;
-                                    // check if exist
-                                    if (!chkOverwrite.Checked)
-                                    {
-                                        if (File.Exists(filename))
-                                        {
-                                            ++skipCount;
-                                            ++totalSkipCount;
-                                            download = false;
-                                        }
-                                    }
-                                    // download
-                                    if (download)
-                                    {
-                                        if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                                        UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
-                                        _clientBatch.DownloadFile(post.FileUrl, filename);
-                                        ++imgCount;
-                                        ++totalImgCount;
-                                    }
+                                    //load the list
+                                    UpdateLog("DoBatchJob", "Downloading list: " + url);
+                                    MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
+                                    d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
 
-                                    // check if over limit
-                                    if (skipCount + imgCount >= d.Posts.Count)
+                                    if (prevDao != null)
                                     {
-                                        if (totalSkipCount + totalImgCount >= batchJob[i].Limit)
+                                        // identical data returned, probably no more new image.
+                                        if (prevDao.RawData.Equals(d.RawData))
                                         {
                                             flag = false;
+                                            break;
                                         }
-                                        break;
                                     }
-                                    if (batchJob[i].Limit > d.PostCount && d.PostCount != 0)
+                                    prevDao = d;
+
+                                    if (d.Posts.Count == 0) flag = false;
+                                    providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
+
+                                    foreach (DanbooruPost post in d.Posts)
+                                    {
+                                        // thread handling
+                                        _pauseEvent.WaitOne(Timeout.Infinite);
+
+                                        if (_shutdownEvent.WaitOne(0))
+                                        {
+                                            batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> " + Environment.NewLine + "Aborted";
+                                            return;
+                                        }
+
+                                        progressStatus = "Downloading: ";
+                                        batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + Environment.NewLine + progressStatus + post.FileUrl;
+                                        BeginInvoke(del);
+                                        if (post.Provider == null) post.Provider = cbxProvider.Text;
+                                        if (post.Query == null) post.Query = txtQuery.Text;
+                                        if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+                                        string filename = Helper.MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+
+                                        bool download = true;
+                                        // check if exist
+                                        if (!chkOverwrite.Checked)
+                                        {
+                                            if (File.Exists(filename))
+                                            {
+                                                ++skipCount;
+                                                ++totalSkipCount;
+                                                download = false;
+                                            }
+                                        }
+                                        // download
+                                        if (download)
+                                        {
+                                            if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
+                                            UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
+                                            _clientBatch.DownloadFile(post.FileUrl, filename);
+                                            ++imgCount;
+                                            ++totalImgCount;
+                                        }
+
+                                        // check if over limit
+                                        if (skipCount + imgCount >= d.Posts.Count)
+                                        {
+                                            if (totalSkipCount + totalImgCount >= batchJob[i].Limit)
+                                            {
+                                                flag = false;
+                                            }
+                                            break;
+                                        }
+                                        if (batchJob[i].Limit > d.PostCount && d.PostCount != 0)
+                                        {
+                                            flag = false;
+                                            break;
+                                        }
+                                    }
+                                    providerStatus += "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> Done." + Environment.NewLine;
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    providerStatus += " Error: " + ex.Message + Environment.NewLine;
+                                    if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
                                         flag = false;
-                                        break;
+                                    }
+                                    UpdateLog("DoBatchJob", "Error: " + ex.Message);
+
+                                    if (cbxAbortOnError.Checked)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                        return;
                                     }
                                 }
-                                providerStatus += "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> Done." + Environment.NewLine;
-                                
-                            }
-                            catch (Exception ex)
-                            {
-                                providerStatus += " Error: " + ex.Message + Environment.NewLine;
-                                if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
-                                {
-                                    flag = false;
-                                }
-                                UpdateLog("DoBatchJob", "Error: " + ex.Message);
-                            }
 
-                            ++currPage;
-                        } while (flag);
-                        logMessage += providerStatus;
+                                ++currPage;
+                            } while (flag);
+                            logMessage += providerStatus;
+                        }
+                        batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
+                        batchJob[i].isCompleted = true;
+                        BeginInvoke(del);
                     }
-                    batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
-                    batchJob[i].isCompleted = true;
-                    BeginInvoke(del);
                 }
             }
             ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
@@ -662,6 +683,16 @@ namespace DanbooruDownloader3
         public void ToggleBatchJobButton(bool enabled)
         {
             btnStartBatchJob.Enabled = enabled;
+            btnStopBatchJob.Enabled = !enabled;
+            btnPauseBatchJob.Enabled = !enabled;
+            if (enabled)
+            {
+                btnPauseBatchJob.Text = "Pause Batch Job";
+                try
+                {
+                    ResumeBatchJobs();
+                }catch(Exception) {};
+            }
         }
 
         #endregion
