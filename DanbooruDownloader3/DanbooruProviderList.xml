@@ -154,4 +154,18 @@
     <UseAuth>false</UseAuth>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>e621 (Furry)</Name>
+    <Url>http://e621.net</Url>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <Preferred>xml</Preferred>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <UserName></UserName>
+    <Password></Password>
+    <UseAuth>false</UseAuth>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
 </DanbooruProviderList>

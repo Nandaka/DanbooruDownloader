@@ -1,9 +1,11 @@
 Changelog:
 =============================
-- DanbooruDownloader201202xx
+- DanbooruDownloader20120229
   - Add abort on error option for batch download as requested by Xemnarth.
   - Fix batch download stop button.
   - Add Pause/Resume batch download button.
+  - Change Target Framework to .NET Framework 4.
+  - Update DanbooruProviderList.xml.
 
 - DanbooruDownloader20120203
   - Change rating to expanded mode for compatibility with gelbooru.
