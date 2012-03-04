@@ -571,18 +571,25 @@ namespace DanbooruDownloader3
                                     MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
                                     d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
 
+                                    // No more image
+                                    if (d.Posts.Count == 0)
+                                    {
+                                        flag = false;
+                                       // break;
+                                    }
+
                                     if (prevDao != null)
                                     {
                                         // identical data returned, probably no more new image.
                                         if (prevDao.RawData.Equals(d.RawData))
                                         {
                                             flag = false;
-                                            break;
+                                            //break;
                                         }
                                     }
                                     prevDao = d;
 
-                                    if (d.Posts.Count == 0) flag = false;
+                                    
                                     providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
 
                                     foreach (DanbooruPost post in d.Posts)
@@ -625,18 +632,19 @@ namespace DanbooruDownloader3
                                             ++totalImgCount;
                                         }
 
-                                        // check if over limit
+                                        // Last image in the current page
                                         if (skipCount + imgCount >= d.Posts.Count)
                                         {
+                                            // check if more than available post
+                                            if (totalSkipCount + totalImgCount >= d.PostCount && d.PostCount != 0)
+                                            {
+                                                flag = false;
+                                            }
+                                            // check if over given limit
                                             if (totalSkipCount + totalImgCount >= batchJob[i].Limit)
                                             {
                                                 flag = false;
                                             }
-                                            break;
-                                        }
-                                        if (batchJob[i].Limit > d.PostCount && d.PostCount != 0)
-                                        {
-                                            flag = false;
                                             break;
                                         }
                                     }

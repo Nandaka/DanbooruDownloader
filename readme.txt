@@ -1,5 +1,8 @@
 Changelog:
 =============================
+- DanbooruDownloader201203xx
+  - Fix batch download limit detection as reported by Q.
+
 - DanbooruDownloader20120229
   - Add abort on error option for batch download as requested by Xemnarth.
   - Fix batch download stop button.

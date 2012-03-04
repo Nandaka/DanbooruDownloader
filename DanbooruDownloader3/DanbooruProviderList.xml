@@ -7,7 +7,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>Xml</Preferred>
     <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
+    <HardLimit>1000</HardLimit>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <UserName></UserName>
     <Password></Password>
