@@ -62,7 +62,7 @@ namespace DanbooruDownloader3
 
             if (chkAutoLoadList.Checked)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text);
+                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider);
                 newPosts.Referer = _clientList.Referer;
                 LoadList(newPosts);
             }

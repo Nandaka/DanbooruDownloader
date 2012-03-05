@@ -4,6 +4,8 @@ Changelog:
   - Fix batch download limit detection as reported by Q.
   - Uncheck Auto Load Next Page if get list is failed.
   - Fix xml parser for relative url as reported by m00kz.
+  - Fix list loading.
+  - Fix batch download as reported by saviorz.
 
 - DanbooruDownloader20120229
   - Add abort on error option for batch download as requested by Xemnarth.

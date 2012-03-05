@@ -627,6 +627,7 @@ namespace DanbooruDownloader3
                                         {
                                             if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                                             UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
+                                            _clientBatch.Referer = post.Referer;
                                             _clientBatch.DownloadFile(post.FileUrl, filename);
                                             ++imgCount;
                                             ++totalImgCount;
@@ -775,7 +776,7 @@ namespace DanbooruDownloader3
         {
             if (txtListFile.Text.Length > 0)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text);
+                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider);
 
                 LoadList(newPosts);
             }

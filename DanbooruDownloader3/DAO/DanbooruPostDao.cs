@@ -11,8 +11,13 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
-        public DanbooruPostDao(string url)
+        public DanbooruPostDao(string url, DanbooruProvider provider)
         {
+            this.Provider = provider;
+            this.Query = url.Split('\\').Last();
+            this.SearchTags = "";
+            this.Referer = provider.Url;
+
             if (url.ToLower().EndsWith(".xml"))
                 ReadXML(url);
             else 
