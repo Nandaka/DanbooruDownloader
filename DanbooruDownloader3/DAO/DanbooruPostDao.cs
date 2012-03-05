@@ -144,7 +144,7 @@ namespace DanbooruDownloader3.DAO
                                     case "tags": post.Tags = reader.Value; break;
                                     case "source": post.Source = reader.Value; break;
                                     case "creator_id": post.CreatorId = reader.Value; break;
-                                    case "file_url": post.FileUrl = reader.Value; break;
+                                    case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
                                     case "width": post.Width = -1; 
                                         try{
                                             post.Width = Int32.Parse(reader.Value);
@@ -164,19 +164,7 @@ namespace DanbooruDownloader3.DAO
                                     case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
                                     case "created_at": post.CreatedAt = reader.Value; break;
                                     case "md5": post.MD5 = reader.Value; break;
-                                    case "preview_url":
-                                        {
-                                            if (reader.Value.StartsWith("http"))
-                                            {
-                                                post.PreviewUrl = reader.Value;
-                                            }
-                                            else
-                                            {
-                                                post.PreviewUrl = Provider.Url + reader.Value;
-                                            }
-                                            break;
-
-                                        }
+                                    case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
                                     case "preview_width": post.PreviewWidth = -1;
                                         try
                                         {
@@ -192,7 +180,7 @@ namespace DanbooruDownloader3.DAO
                                         catch (Exception) { if (FormMain.Debug) throw; }
                                         break;
                                     case "parent_id": post.ParentId = reader.Value; break;
-                                    case "sample_url": post.SampleUrl = reader.Value; break;
+                                    case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
                                     case "sample_width": post.SampleWidth = -1;
                                         try
                                         {
@@ -363,6 +351,15 @@ namespace DanbooruDownloader3.DAO
                 this.posts.Add(post);
                 actualCount++;
             }
+        }
+
+        private string AppendHttp(string url)
+        {
+            if (!url.StartsWith("http"))
+            {
+                return Provider.Url + url;
+            }
+            return url;
         }
     }
 }

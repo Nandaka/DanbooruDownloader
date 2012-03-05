@@ -32,12 +32,15 @@ namespace DanbooruDownloader3
             }
             catch (Exception ex)
             {
+                
                 if (ex.InnerException != null)
                     MessageBox.Show(ex.InnerException.Message, "Download List");
                 else MessageBox.Show(ex.Message, "Download List");
 
                 txtLog.Text += "clientList_DownloadDataCompleted(): " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message);
                 txtLog.Text += _clientList.Referer + Environment.NewLine;
+
+                chkAutoLoadNext.Checked = false;
             }
 
             btnGet.Enabled = true;
