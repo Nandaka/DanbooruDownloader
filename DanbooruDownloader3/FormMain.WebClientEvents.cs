@@ -178,5 +178,22 @@ namespace DanbooruDownloader3
             }
         }
         #endregion
+
+        #region clientBatch event handler
+
+        //void _clientBatch_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        //{
+        //    tsProgressBar.Visible = true;
+        //    tsProgressBar.Value = e.ProgressPercentage;
+        //}
+
+        //void _clientBatch_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        //{
+            
+
+        //    tsProgressBar.Visible = false;
+        //}
+        #endregion
+
     }
 }

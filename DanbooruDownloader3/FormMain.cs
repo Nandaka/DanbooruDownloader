@@ -45,6 +45,8 @@ namespace DanbooruDownloader3
         int _loadedThumbnail;
         int _retry;
 
+        const int MAX_FILENAME_LENGTH = 255;
+
         public FormMain()
         {
             InitializeComponent();
@@ -93,6 +95,8 @@ namespace DanbooruDownloader3
                 _clientBatch.Timeout = Convert.ToInt32(txtTimeout.Text);
             }
             catch (Exception) { _clientBatch.Timeout = 60000; }
+            //_clientBatch.DownloadProgressChanged += new DownloadProgressChangedEventHandler(_clientBatch_DownloadProgressChanged);
+            //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
                 
 
             // Auto populate the Provider List
@@ -491,6 +495,7 @@ namespace DanbooruDownloader3
                 string progressStatus = "Starting...";
                 string providerStatus = "";
                 UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
+                UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
                 for (int i = 0; i < batchJob.Count; i++)
                 {
                     if (!batchJob[i].isCompleted)
@@ -575,7 +580,7 @@ namespace DanbooruDownloader3
                                     if (d.Posts.Count == 0)
                                     {
                                         flag = false;
-                                       // break;
+                                        // break;
                                     }
 
                                     if (prevDao != null)
@@ -589,7 +594,7 @@ namespace DanbooruDownloader3
                                     }
                                     prevDao = d;
 
-                                    
+
                                     providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
 
                                     foreach (DanbooruPost post in d.Posts)
@@ -631,6 +636,11 @@ namespace DanbooruDownloader3
                                             _clientBatch.DownloadFile(post.FileUrl, filename);
                                             ++imgCount;
                                             ++totalImgCount;
+
+                                            object[] myArray = new object[2];
+                                            myArray[0] = totalImgCount + totalSkipCount;
+                                            myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                                            BeginInvoke(del2, myArray);
                                         }
 
                                         // Last image in the current page
@@ -675,6 +685,12 @@ namespace DanbooruDownloader3
                         batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
                         batchJob[i].isCompleted = true;
                         BeginInvoke(del);
+                        {
+                            object[] myArray = new object[2];
+                            myArray[0] = -1;
+                            myArray[1] = -1;
+                            BeginInvoke(del2, myArray);
+                        }
                     }
                 }
             }
@@ -685,6 +701,31 @@ namespace DanbooruDownloader3
         public delegate void UpdateUiDelegate();
         public void UpdateUi()
         {
+            dataGridView1.Refresh();
+        }
+
+        public delegate void UpdateUiDelegate2(int current, int total);
+        public void UpdateUi(int current, int total)
+        {
+            tsProgressBar.Visible = true;
+            if (current != -1 && total != -1)
+            {
+                if (total != 0)
+                {
+                    tsProgressBar.Style = ProgressBarStyle.Continuous;
+                    tsProgressBar.Value = current;
+                    tsProgressBar.Maximum = total;
+                }
+                else
+                {
+                    tsProgressBar.Style = ProgressBarStyle.Marquee;
+                }
+            }
+            else
+            {
+                tsProgressBar.Visible = false;
+            }
+            statusStrip1.Refresh();
             dataGridView1.Refresh();
         }
 
@@ -895,16 +936,16 @@ namespace DanbooruDownloader3
             {
                 int i = Convert.ToInt32(txtFilenameLength.Text);
 
-                if (i > 200)
+                if (i > MAX_FILENAME_LENGTH)
                 {
-                    MessageBox.Show("Maximum 200!", "Filename Length Limit");
-                    txtFilenameLength.Text = "200";
+                    MessageBox.Show("Maximum " + MAX_FILENAME_LENGTH.ToString() + "!", "Filename Length Limit");
+                    txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
                 }
 
             }
             catch (Exception)
             {
-                txtFilenameLength.Text = "200";
+                txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
             }
         }
 
@@ -1144,6 +1185,14 @@ namespace DanbooruDownloader3
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtSaveFolder.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void btnClearCompleted_Click(object sender, EventArgs e)
+        {
+            foreach (var job in batchJob)
+            {
+                if (job.isCompleted) batchJob.Remove(job);
             }
         }
     }
