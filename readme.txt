@@ -1,11 +1,14 @@
 Changelog:
 =============================
-- DanbooruDownloader201203xx
+- DanbooruDownloader20120309
   - Fix batch download limit detection as reported by Q.
   - Uncheck Auto Load Next Page if get list is failed.
   - Fix xml parser for relative url as reported by m00kz.
   - Fix list loading.
   - Fix batch download as reported by saviorz.
+  - Increase max filename length to 255 characters.
+  - Add Clear Completed Batch Job button as requested by Xemnarth.
+  - Add progress bar for batch job download (per provider).
 
 - DanbooruDownloader20120229
   - Add abort on error option for batch download as requested by Xemnarth.
@@ -49,3 +52,13 @@ The contents structure are:
 - UserName    : Your username.
 - Password    : Your password, in plain text.
 - UseAuth     : true/false. Use authentication/login.
+
+FAQ
+=============================
+Q1: I cannot download from Danbooru (403 Forbidden)!
+A1: Please read http://danbooru.donmai.us/forum/show/72300.
+    You need to supply login information in the DanbooruProvider.xml and set UseAuth to true.
+
+Q2: I cannot download/can only download 1 image from 3DBooru!
+A2: On Settings tab, check Pad User Agent.
+    

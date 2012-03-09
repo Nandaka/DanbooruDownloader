@@ -1190,10 +1190,15 @@ namespace DanbooruDownloader3
 
         private void btnClearCompleted_Click(object sender, EventArgs e)
         {
-            foreach (var job in batchJob)
+            for (int i = 0; i < batchJob.Count; ++i)
             {
-                if (job.isCompleted) batchJob.Remove(job);
+                if (batchJob[i].isCompleted)
+                {
+                    batchJob.RemoveAt(i);
+                    --i;
+                }
             }
+            dataGridView1.Refresh();
         }
     }
 }
