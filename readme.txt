@@ -1,5 +1,10 @@
 Changelog:
 =============================
+- DanbooruDownloader201203xx
+  - Add Clear All Batch Job as requested by Xemnarth.
+  - Fix Start Batch Job button state if abort on error is checked.
+  - Add background color for batch job state.
+
 - DanbooruDownloader20120309
   - Fix batch download limit detection as reported by Q.
   - Uncheck Auto Load Next Page if get list is failed.

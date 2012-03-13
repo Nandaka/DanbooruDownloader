@@ -121,6 +121,7 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.btnClearAll = new System.Windows.Forms.Button();
             this.btnClearCompleted = new System.Windows.Forms.Button();
             this.btnPauseBatchJob = new System.Windows.Forms.Button();
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
@@ -1133,6 +1134,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.btnClearAll);
             this.tabPage5.Controls.Add(this.btnClearCompleted);
             this.tabPage5.Controls.Add(this.btnPauseBatchJob);
             this.tabPage5.Controls.Add(this.cbxAbortOnError);
@@ -1147,6 +1149,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Full Batch Mode";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // btnClearAll
+            // 
+            this.btnClearAll.Location = new System.Drawing.Point(454, 6);
+            this.btnClearAll.Name = "btnClearAll";
+            this.btnClearAll.Size = new System.Drawing.Size(111, 23);
+            this.btnClearAll.TabIndex = 7;
+            this.btnClearAll.Text = "Clear All";
+            this.btnClearAll.UseVisualStyleBackColor = true;
+            this.btnClearAll.Click += new System.EventHandler(this.btnClearAll_Click);
             // 
             // btnClearCompleted
             // 
@@ -2003,6 +2015,7 @@
         private System.Windows.Forms.CheckBox cbxAbortOnError;
         private System.Windows.Forms.Button btnPauseBatchJob;
         private System.Windows.Forms.Button btnClearCompleted;
+        private System.Windows.Forms.Button btnClearAll;
     }
 }
 

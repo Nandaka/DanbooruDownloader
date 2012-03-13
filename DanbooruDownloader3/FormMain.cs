@@ -418,7 +418,7 @@ namespace DanbooruDownloader3
         ManualResetEvent _shutdownEvent = new ManualResetEvent(false);
         ManualResetEvent _pauseEvent = new ManualResetEvent(true);
         BindingList<DanbooruBatchJob> batchJob;
-
+        
         public void PauseBatchJobs()
         {
             _pauseEvent.Reset();
@@ -447,7 +447,10 @@ namespace DanbooruDownloader3
             if (f.ShowDialog() == DialogResult.OK)
             {
                 DanbooruBatchJob job = f.Job;
-                if (batchJob == null) batchJob = new BindingList<DanbooruBatchJob>();
+                if (batchJob == null)
+                {
+                    batchJob = new BindingList<DanbooruBatchJob>();
+                }
                 batchJob.Add(job);
                 dataGridView1.DataSource = batchJob;
             }
@@ -664,6 +667,7 @@ namespace DanbooruDownloader3
                                 }
                                 catch (Exception ex)
                                 {
+                                    batchJob[i].isError = true;
                                     providerStatus += " Error: " + ex.Message + Environment.NewLine;
                                     if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
@@ -674,7 +678,18 @@ namespace DanbooruDownloader3
                                     if (cbxAbortOnError.Checked)
                                     {
                                         MessageBox.Show(ex.Message);
-                                        return;
+                                        break;
+                                    }
+                                }
+                                finally
+                                {
+                                    // hide the progress bar
+                                    BeginInvoke(del);
+                                    {
+                                        object[] myArray = new object[2];
+                                        myArray[0] = -1;
+                                        myArray[1] = -1;
+                                        BeginInvoke(del2, myArray);
                                     }
                                 }
 
@@ -684,13 +699,6 @@ namespace DanbooruDownloader3
                         }
                         batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
                         batchJob[i].isCompleted = true;
-                        BeginInvoke(del);
-                        {
-                            object[] myArray = new object[2];
-                            myArray[0] = -1;
-                            myArray[1] = -1;
-                            BeginInvoke(del2, myArray);
-                        }
                     }
                 }
             }
@@ -701,6 +709,13 @@ namespace DanbooruDownloader3
         public delegate void UpdateUiDelegate();
         public void UpdateUi()
         {
+            foreach (DataGridViewRow  row in dataGridView1.Rows)
+            {
+                if (batchJob[row.Index].isError)
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                else if (batchJob[row.Index].isCompleted)
+                    row.DefaultCellStyle.BackColor = Color.Lime;                
+            }
             dataGridView1.Refresh();
         }
 
@@ -1198,6 +1213,12 @@ namespace DanbooruDownloader3
                     --i;
                 }
             }
+            dataGridView1.Refresh();
+        }
+
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+            batchJob.Clear();
             dataGridView1.Refresh();
         }
     }

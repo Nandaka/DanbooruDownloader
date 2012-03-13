@@ -36,6 +36,9 @@ namespace DanbooruDownloader3.Entity
         [Browsable(false)]
         public bool isCompleted { get; set; }
 
+        [Browsable(false)]
+        public bool isError { get; set; }
+
         public string Rating { get; set; }
         public int Page { get; set; }
     }
