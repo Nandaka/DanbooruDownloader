@@ -3,8 +3,9 @@ Changelog:
 - DanbooruDownloader201203xx
   - Add Clear All Batch Job as requested by Xemnarth.
   - Fix Start Batch Job button state if abort on error is checked.
-  - Add background color for batch job state.
+  - Add background color for batch job state (red == error, green == completed).
   - Retain last entered job information (cleared when closing the application).
+  - Add context menu to delete job in batch job grid.
 
 - DanbooruDownloader20120309
   - Fix batch download limit detection as reported by Q.

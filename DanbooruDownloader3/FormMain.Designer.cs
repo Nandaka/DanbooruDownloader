@@ -128,13 +128,15 @@
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvBatchJob = new System.Windows.Forms.DataGridView();
             this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
@@ -202,7 +204,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDownload)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBatchJob)).BeginInit();
+            this.contextMenuStrip5.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1141,7 +1144,7 @@
             this.tabPage5.Controls.Add(this.btnStopBatchJob);
             this.tabPage5.Controls.Add(this.btnStartBatchJob);
             this.tabPage5.Controls.Add(this.btnAddBatchJob);
-            this.tabPage5.Controls.Add(this.dataGridView1);
+            this.tabPage5.Controls.Add(this.dgvBatchJob);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1226,30 +1229,32 @@
             this.btnAddBatchJob.UseVisualStyleBackColor = true;
             this.btnAddBatchJob.Click += new System.EventHandler(this.btnAddBatchJob_Click);
             // 
-            // dataGridView1
+            // dgvBatchJob
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvBatchJob.AllowUserToAddRows = false;
+            this.dgvBatchJob.AllowUserToDeleteRows = false;
+            this.dgvBatchJob.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvBatchJob.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvBatchJob.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBatchJob.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colBatchId,
             this.colBatchTagQuery,
             this.colBatchLimit,
             this.colBatchProviders,
             this.colBatchSaveFolder,
             this.colBatchStatus});
-            this.dataGridView1.Location = new System.Drawing.Point(8, 35);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ShowCellErrors = false;
-            this.dataGridView1.ShowCellToolTips = false;
-            this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.ShowRowErrors = false;
-            this.dataGridView1.Size = new System.Drawing.Size(918, 311);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvBatchJob.ContextMenuStrip = this.contextMenuStrip5;
+            this.dgvBatchJob.Location = new System.Drawing.Point(8, 35);
+            this.dgvBatchJob.Name = "dgvBatchJob";
+            this.dgvBatchJob.ShowCellErrors = false;
+            this.dgvBatchJob.ShowCellToolTips = false;
+            this.dgvBatchJob.ShowEditingIcon = false;
+            this.dgvBatchJob.ShowRowErrors = false;
+            this.dgvBatchJob.Size = new System.Drawing.Size(918, 311);
+            this.dgvBatchJob.TabIndex = 0;
+            this.dgvBatchJob.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvBatchJob_MouseDown);
             // 
             // colBatchId
             // 
@@ -1305,6 +1310,20 @@
             this.colBatchStatus.MinimumWidth = 300;
             this.colBatchStatus.Name = "colBatchStatus";
             this.colBatchStatus.ReadOnly = true;
+            // 
+            // contextMenuStrip5
+            // 
+            this.contextMenuStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem1});
+            this.contextMenuStrip5.Name = "contextMenuStrip5";
+            this.contextMenuStrip5.Size = new System.Drawing.Size(108, 26);
+            // 
+            // deleteToolStripMenuItem1
+            // 
+            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem1.Text = "Delete";
+            this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
             // tabPage2
             // 
@@ -1845,7 +1864,8 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBatchJob)).EndInit();
+            this.contextMenuStrip5.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1998,7 +2018,7 @@
         private System.Windows.Forms.ToolStripMenuItem addSelectedRowsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Button btnAddBatchJob;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvBatchJob;
         private System.Windows.Forms.Button btnStartBatchJob;
         private System.Windows.Forms.Button btnStopBatchJob;
         private System.Windows.Forms.CheckBox chkProxyLogin;
@@ -2016,6 +2036,8 @@
         private System.Windows.Forms.Button btnPauseBatchJob;
         private System.Windows.Forms.Button btnClearCompleted;
         private System.Windows.Forms.Button btnClearAll;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
     }
 }
 

@@ -456,7 +456,7 @@ namespace DanbooruDownloader3
                     batchJob = new BindingList<DanbooruBatchJob>();
                 }
                 batchJob.Add(job);
-                dataGridView1.DataSource = batchJob;
+                dgvBatchJob.DataSource = batchJob;
             }
         }
 
@@ -486,7 +486,7 @@ namespace DanbooruDownloader3
                 //StopBatchJobs();
                 batchJobThread.Abort();
                 ToggleBatchJobButton(true);
-                dataGridView1.Refresh();
+                dgvBatchJob.Refresh();
             }
         }
 
@@ -672,6 +672,7 @@ namespace DanbooruDownloader3
                                 catch (Exception ex)
                                 {
                                     batchJob[i].isError = true;
+                                    batchJob[i].isCompleted = false;
                                     providerStatus += " Error: " + ex.Message + Environment.NewLine;
                                     if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
@@ -713,14 +714,14 @@ namespace DanbooruDownloader3
         public delegate void UpdateUiDelegate();
         public void UpdateUi()
         {
-            foreach (DataGridViewRow  row in dataGridView1.Rows)
+            foreach (DataGridViewRow  row in dgvBatchJob.Rows)
             {
                 if (batchJob[row.Index].isError)
                     row.DefaultCellStyle.BackColor = Color.Red;
                 else if (batchJob[row.Index].isCompleted)
                     row.DefaultCellStyle.BackColor = Color.Lime;                
             }
-            dataGridView1.Refresh();
+            dgvBatchJob.Refresh();
         }
 
         public delegate void UpdateUiDelegate2(int current, int total);
@@ -745,7 +746,7 @@ namespace DanbooruDownloader3
                 tsProgressBar.Visible = false;
             }
             statusStrip1.Refresh();
-            dataGridView1.Refresh();
+            dgvBatchJob.Refresh();
         }
 
         public delegate void ToggleBatchJobButtonDelegate(bool enabled);
@@ -1217,13 +1218,35 @@ namespace DanbooruDownloader3
                     --i;
                 }
             }
-            dataGridView1.Refresh();
+            dgvBatchJob.Refresh();
         }
 
         private void btnClearAll_Click(object sender, EventArgs e)
         {
             batchJob.Clear();
-            dataGridView1.Refresh();
+            dgvBatchJob.Refresh();
         }
+
+        private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (dgvBatchJob.SelectedRows.Count > 0)
+            {
+                dgvBatchJob.Rows.Remove(dgvBatchJob.SelectedRows[0]);
+            }
+        }
+
+        private void dgvBatchJob_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                var hti = dgvBatchJob.HitTest(e.X, e.Y);
+                dgvBatchJob.ClearSelection();
+                if (hti.RowIndex >= 0)
+                {
+                    dgvBatchJob.Rows[hti.RowIndex].Selected = true;
+                }
+            }
+        }
+
     }
 }
