@@ -441,9 +441,13 @@ namespace DanbooruDownloader3
             batchJobThread.Join();
         }
 
+        FormAddBatchJob f;
         private void btnAddBatchJob_Click(object sender, EventArgs e)
         {
-            FormAddBatchJob f = new FormAddBatchJob();
+            if (f == null)
+            {
+                f = new FormAddBatchJob();
+            }
             if (f.ShowDialog() == DialogResult.OK)
             {
                 DanbooruBatchJob job = f.Job;

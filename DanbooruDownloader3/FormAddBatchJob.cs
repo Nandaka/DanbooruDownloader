@@ -112,15 +112,19 @@ namespace DanbooruDownloader3
             if (!providerFlag)
             {
                 MessageBox.Show("Please select at least 1 provider.");
-                this.Job = null;
-                this.btnCancel_Click(sender, e);
+                pnlProvider.Focus();
+                this.DialogResult = DialogResult.None;
+                //this.Job = null;
+                //this.btnCancel_Click(sender, e);
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            this.Job = null;
+            //this.Close();
+            this.Hide();
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
