@@ -1,6 +1,6 @@
 Changelog:
 =============================
-- DanbooruDownloader201203xx
+- DanbooruDownloader20120316
   - Add Clear All Batch Job as requested by Xemnarth.
   - Fix Start Batch Job button state if abort on error is checked.
   - Add background color for batch job state (red == error, green == completed).

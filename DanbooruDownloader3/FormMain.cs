@@ -672,7 +672,6 @@ namespace DanbooruDownloader3
                                 catch (Exception ex)
                                 {
                                     batchJob[i].isError = true;
-                                    batchJob[i].isCompleted = false;
                                     providerStatus += " Error: " + ex.Message + Environment.NewLine;
                                     if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
@@ -703,7 +702,14 @@ namespace DanbooruDownloader3
                             logMessage += providerStatus;
                         }
                         batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
-                        batchJob[i].isCompleted = true;
+                        if (batchJob[i].isError)
+                        {
+                            batchJob[i].isCompleted = true;
+                        }
+                        else
+                        {
+                            batchJob[i].isCompleted = true;
+                        }
                     }
                 }
             }
