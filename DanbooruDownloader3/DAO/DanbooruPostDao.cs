@@ -82,15 +82,16 @@ namespace DanbooruDownloader3.DAO
 
             try
             {
-                reader = new XmlTextReader(filename);
+                using (reader = new XmlTextReader(filename))
+                {
+                    ProcessXML(reader);
+                }
                 
             }
             catch (Exception)
             {
                 throw;
-            }
-
-            ProcessXML(reader);
+            }            
         }
 
         private void ReadXML(Stream input)
@@ -102,118 +103,131 @@ namespace DanbooruDownloader3.DAO
 
             try
             {
-                reader = new XmlTextReader(input);
+                using (reader = new XmlTextReader(input))
+                {
+                    ProcessXML(reader);
+                }
 
             }
             catch (Exception)
             {
                 throw;
-            }
-
-            ProcessXML(reader);
+            }                        
         }
 
         private void ProcessXML(XmlTextReader reader)
         {
             RawData = "";
-
-            while (reader.Read())
+            if (Provider.BoardType == BoardType.Shimmie2)
             {
-                switch (reader.NodeType)
+                posts =  Engine.ShimmieEngine.Parse(reader, Provider, Query, SearchTags);
+                foreach (var item in posts)
                 {
-                    case XmlNodeType.Element: // The node is an element.
-                        if (reader.Name.Equals("posts"))
-                        {
-                            while (reader.MoveToNextAttribute())
+                    RawData += item.Id + ":" + item.FileUrl + ", ";
+                }
+            }
+            else
+            {
+                while (reader.Read())
+                {
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.Element: // The node is an element.
+                            if (reader.Name.Equals("posts"))
                             {
-                                if (reader.Name.Equals("count"))    // Posts Count
+                                while (reader.MoveToNextAttribute())
                                 {
-                                    postCount = int.Parse(reader.Value);
-                                    RawData += "postCount:" + postCount;
-                                }
-                                else if (reader.Name.Equals("offset")) // Post Offset
-                                {
-                                    offset = int.Parse(reader.Value);
-                                    RawData +=  ", offset:" + offset;
+                                    if (reader.Name.Equals("count"))    // Posts Count
+                                    {
+                                        postCount = int.Parse(reader.Value);
+                                        RawData += "postCount:" + postCount;
+                                    }
+                                    else if (reader.Name.Equals("offset")) // Post Offset
+                                    {
+                                        offset = int.Parse(reader.Value);
+                                        RawData += ", offset:" + offset;
+                                    }
                                 }
                             }
-                        }
-                        else if (reader.Name.Equals("post"))
-                        {
-                            DanbooruPost post = new DanbooruPost();
-                            while (reader.MoveToNextAttribute())
+                            else if (reader.Name.Equals("post"))
                             {
-                                switch (reader.Name)
+                                DanbooruPost post = new DanbooruPost();
+                                while (reader.MoveToNextAttribute())
                                 {
-                                    case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
-                                    case "tags": post.Tags = reader.Value; break;
-                                    case "source": post.Source = reader.Value; break;
-                                    case "creator_id": post.CreatorId = reader.Value; break;
-                                    case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
-                                    case "width": post.Width = -1; 
-                                        try{
-                                            post.Width = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
-                                    case "height": post.Height = -1;
-                                        try{
-                                            post.Height = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
-                                    case "change": post.Change = reader.Value; break;
-                                    case "score": post.Score = reader.Value; break;
-                                    case "rating": post.Rating = reader.Value; break;
-                                    case "status": post.Status = reader.Value; break;
-                                    case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
-                                    case "created_at": post.CreatedAt = reader.Value; break;
-                                    case "md5": post.MD5 = reader.Value; break;
-                                    case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
-                                    case "preview_width": post.PreviewWidth = -1;
-                                        try
-                                        {
-                                            post.PreviewWidth = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
-                                    case "preview_height": post.PreviewHeight = -1;
-                                        try
-                                        {
-                                            post.PreviewHeight = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
-                                    case "parent_id": post.ParentId = reader.Value; break;
-                                    case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
-                                    case "sample_width": post.SampleWidth = -1;
-                                        try
-                                        {
-                                            post.SampleWidth = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
-                                    case "sample_height": post.SampleHeight = -1;
-                                        try
-                                        {
-                                            post.SampleHeight = Int32.Parse(reader.Value);
-                                        }
-                                        catch (Exception) { if (FormMain.Debug) throw; }
-                                        break;
+                                    switch (reader.Name)
+                                    {
+                                        case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
+                                        case "tags": post.Tags = reader.Value; break;
+                                        case "source": post.Source = reader.Value; break;
+                                        case "creator_id": post.CreatorId = reader.Value; break;
+                                        case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
+                                        case "width": post.Width = -1;
+                                            try
+                                            {
+                                                post.Width = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "height": post.Height = -1;
+                                            try
+                                            {
+                                                post.Height = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "change": post.Change = reader.Value; break;
+                                        case "score": post.Score = reader.Value; break;
+                                        case "rating": post.Rating = reader.Value; break;
+                                        case "status": post.Status = reader.Value; break;
+                                        case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
+                                        case "created_at": post.CreatedAt = reader.Value; break;
+                                        case "md5": post.MD5 = reader.Value; break;
+                                        case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
+                                        case "preview_width": post.PreviewWidth = -1;
+                                            try
+                                            {
+                                                post.PreviewWidth = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "preview_height": post.PreviewHeight = -1;
+                                            try
+                                            {
+                                                post.PreviewHeight = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "parent_id": post.ParentId = reader.Value; break;
+                                        case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
+                                        case "sample_width": post.SampleWidth = -1;
+                                            try
+                                            {
+                                                post.SampleWidth = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "sample_height": post.SampleHeight = -1;
+                                            try
+                                            {
+                                                post.SampleHeight = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                    }
                                 }
-                            }
-                            post.Provider = this.Provider.Name;
-                            post.Query = this.Query;
-                            post.SearchTags = this.SearchTags;
-                            post.Referer = this.Referer+@"/post/show/"+post.Id;
-                            posts.Add(post);
-                            actualCount++;
+                                post.Provider = this.Provider.Name;
+                                post.Query = this.Query;
+                                post.SearchTags = this.SearchTags;
+                                post.Referer = this.Referer + @"/post/show/" + post.Id;
+                                posts.Add(post);
+                                actualCount++;
 
-                        }
-                        break;
-                    case XmlNodeType.EndElement: //Display the end of the element.
-                        //txtResult.AppendText("END");
-                        break;
+                            }
+                            break;
+                        case XmlNodeType.EndElement: //Display the end of the element.
+                            //txtResult.AppendText("END");
+                            break;
+                    }
                 }
             }
         }

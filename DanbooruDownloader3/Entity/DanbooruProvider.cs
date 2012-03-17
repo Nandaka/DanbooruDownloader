@@ -14,7 +14,8 @@ namespace DanbooruDownloader3.Entity
     public enum BoardType
     {
         Danbooru,
-        Gelbooru
+        Gelbooru,
+        Shimmie2
     }
 
     public class DanbooruProvider

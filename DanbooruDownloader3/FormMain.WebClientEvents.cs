@@ -32,7 +32,6 @@ namespace DanbooruDownloader3
             }
             catch (Exception ex)
             {
-                
                 if (ex.InnerException != null)
                     MessageBox.Show(ex.InnerException.Message, "Download List");
                 else MessageBox.Show(ex.Message, "Download List");

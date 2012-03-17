@@ -49,8 +49,9 @@ namespace DanbooruDownloader3.DAO
                                         case "UseAuth": newProvider.UseAuth = reader.ReadElementContentAsBoolean(); break;
                                         case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
                                         case "BoardType": 
-                                            string type = reader.ReadElementContentAsString(); 
-                                            newProvider.BoardType = type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; break;
+                                            string type = reader.ReadElementContentAsString();
+                                            newProvider.BoardType = (BoardType) Enum.Parse(typeof(BoardType), type); //type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
+                                            break;
                                         default: break;
                                     }
                                 }

@@ -529,8 +529,8 @@ namespace DanbooruDownloader3
                                 DanbooruPostDao d;
                                 bool isXml = false;
                                 string url;
-                                string query = "tags=" + batchJob[i].TagQuery;
-                                if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
+                                string query = "";
+
                                 if (batchJob[i].Limit <= 0)
                                 {
                                     batchJob[i].Limit = p.DefaultLimit;
@@ -539,20 +539,34 @@ namespace DanbooruDownloader3
                                 else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
                                 else limit = batchJob[i].Limit;
 
-                                query += "&limit=" + limit;
+                                if (p.BoardType == BoardType.Shimmie2)
+                                {
+                                    query += batchJob[i].TagQuery;
+                                    if (!string.IsNullOrWhiteSpace(batchJob[i].TagQuery)) query += "/";
+                                    if (batchJob[i].Page <= 0) batchJob[i].Page = 1;
+                                    query += batchJob[i].Page;
+                                    url = query;
+                                }
+                                else
+                                {
+                                    query = "tags=" + batchJob[i].TagQuery;
+                                    if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
+                                    
+                                    query += "&limit=" + limit;
 
-                                if (batchJob[i].Page <= 0)
-                                {
-                                    if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
-                                    if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
-                                }
-                                if (p.BoardType == BoardType.Danbooru)
-                                {
-                                    query += "&page=" + (batchJob[i].Page + currPage);
-                                }
-                                else if (p.BoardType == BoardType.Gelbooru)
-                                {
-                                    query += "&pid=" + (batchJob[i].Page + currPage);
+                                    if (batchJob[i].Page <= 0)
+                                    {
+                                        if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
+                                        if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
+                                    }
+                                    if (p.BoardType == BoardType.Danbooru)
+                                    {
+                                        query += "&page=" + (batchJob[i].Page + currPage);
+                                    }
+                                    else if (p.BoardType == BoardType.Gelbooru)
+                                    {
+                                        query += "&pid=" + (batchJob[i].Page + currPage);
+                                    }                                    
                                 }
 
                                 if (p.Preferred == PreferredMethod.Xml)
@@ -600,7 +614,6 @@ namespace DanbooruDownloader3
                                         }
                                     }
                                     prevDao = d;
-
 
                                     providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
 

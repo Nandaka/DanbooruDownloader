@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\DanbooruPostDao.cs" />
+    <Compile Include="Engine\ShimmieEngine.cs" />
     <Compile Include="Entity\DanbooruBatchJob.cs" />
     <Compile Include="Entity\DanbooruPost.cs" />
     <Compile Include="FormAddBatchJob.cs">

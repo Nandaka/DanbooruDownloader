@@ -1,5 +1,9 @@
 Changelog:
 =============================
+- DanbooruDownloader201203xx
+  - Update DanbooruProvider.xml
+  - Add basic Shimmie2 parsing.
+
 - DanbooruDownloader20120316
   - Add Clear All Batch Job as requested by Xemnarth.
   - Fix Start Batch Job button state if abort on error is checked.
@@ -68,4 +72,21 @@ A1: Please read http://danbooru.donmai.us/forum/show/72300.
 
 Q2: I cannot download/can only download 1 image from 3DBooru!
 A2: On Settings tab, check Pad User Agent.
-    
+
+Supported Board
+=============================
+Currently only supporting Danbooru-type and Gelbooru-type with Danbooru API
+
+- danbooru (http://danbooru.donmai.us)				NSFW
+- Sankaku Complex (http://chan.sankakucomplex.com)		NSFW
+- Sankaku Complex (Idol) (http://idol.sankakucomplex.com)	NSFW
+- Konachan (http://konachan.com)				NSFW
+- oreno.imouto.org (http://oreno.imouto.org)			NSFW
+- gelbooru.com (http://gelbooru.com)				NSFW
+- nekobooru.net (http://nekobooru.net)				NSFW
+- safebooru (http://safebooru.org)
+- ichijou (ichijou.org)
+- TheDoujin.com (http://thedoujin.com)				NSFW
+- 3dbooru (http://behoimi.org)
+- e621 (http://e621.net)					NSFW, Furry
+- rule34 (http://rule34.xxx)					NSFW
