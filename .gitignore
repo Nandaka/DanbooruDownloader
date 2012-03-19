@@ -3,4 +3,6 @@ DanbooruDownloader3/obj/*
 DanbooruDownloader3/publish/*
 *.suo
 old/*
-
+TestResults/*
+DanbooruDownloader3.test/bin/*
+DanbooruDownloader3.test/obj/*

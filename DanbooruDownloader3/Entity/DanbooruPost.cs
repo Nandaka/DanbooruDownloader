@@ -57,8 +57,7 @@ namespace DanbooruDownloader3.Entity
             get { return _rating; }
             set { this._rating = value; }
         }
-
-
+        
         private string _file_url;
         public string FileUrl
         {
@@ -79,8 +78,7 @@ namespace DanbooruDownloader3.Entity
             get { return _height; }
             set { this._height = value; }
         }
-
-
+        
         private string _preview_url;
         [Browsable(false)]
         public string PreviewUrl
@@ -96,6 +94,7 @@ namespace DanbooruDownloader3.Entity
             get { return _preview_width; }
             set { this._preview_width = value; }
         }
+        
         private int _preview_height;
         [Browsable(false)]
         public int PreviewHeight
@@ -143,8 +142,7 @@ namespace DanbooruDownloader3.Entity
             get { return _has_children; }
             set { this._has_children = value; }
         }
-
-
+        
         private string _parent_id;
         [Browsable(false)]
         public string ParentId
@@ -170,7 +168,6 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _created_at;
-        
         [Browsable(false)]
         public string CreatedAt
         {
@@ -194,8 +191,7 @@ namespace DanbooruDownloader3.Entity
             get { return thumbnailImage; }
             set { thumbnailImage = value; }
         }
-
-
+        
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

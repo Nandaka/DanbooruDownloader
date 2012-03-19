@@ -7,9 +7,9 @@ using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3.DAO
 {
-    class DanbooruProviderDao
+    public class DanbooruProviderDao
     {
-        string xmlProviderUrl = @"DanbooruProviderList.xml";
+        public string xmlProviderUrl = @"DanbooruProviderList.xml";
 
         public List<DanbooruProvider> GetAllProvider()
         {

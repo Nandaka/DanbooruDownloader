@@ -68,6 +68,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\DanbooruPostDao.cs" />
+    <Compile Include="Engine\DanbooruEngine.cs" />
     <Compile Include="Engine\ShimmieEngine.cs" />
     <Compile Include="Entity\DanbooruBatchJob.cs" />
     <Compile Include="Entity\DanbooruPost.cs" />
