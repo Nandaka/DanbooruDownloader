@@ -12,13 +12,12 @@ namespace DanbooruDownloader3.Engine
 {
     public class ShimmieEngine
     {
-
-        public static BindingList<DanbooruPost> Parse(XmlReader reader, DanbooruProvider provider, string query, string searchTags)
+        public static BindingList<DanbooruPost> ParseRSS(XmlReader reader, DanbooruProvider provider, string query, string searchTags)
         {
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
             
             XDocument doc = XDocument.Load(reader);
-            
+
             foreach (var item in doc.Descendants("item"))
             {
                 DanbooruPost post = new DanbooruPost();

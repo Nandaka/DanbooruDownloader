@@ -11,9 +11,9 @@ using System.ComponentModel;
 
 namespace DanbooruDownloader3.Utils
 {
-    public class EnumUtils
+    public static class EnumUtils
     {
-        public static string stringValueOf(Enum value)
+        public static string StringValueOf(Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
             DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -27,7 +27,7 @@ namespace DanbooruDownloader3.Utils
             }
         }
 
-        public static string stringValueOf(string name, Type enumType)
+        public static string StringValueOf(string name, Type enumType)
         {
             string[] names = Enum.GetNames(enumType);
             foreach (string name2 in names)
@@ -35,18 +35,18 @@ namespace DanbooruDownloader3.Utils
                 Console.WriteLine(name2+": "+name);
                 if (name2.Equals(name))
                 {
-                    return stringValueOf((Enum)Enum.Parse(enumType, name));
+                    return StringValueOf((Enum)Enum.Parse(enumType, name));
                 }
             }
             return name;
         }
 
-        public static object enumValueOf(string value, Type enumType)
+        public static object EnumValueOf(string value, Type enumType)
         {
             string[] names = Enum.GetNames(enumType);
             foreach (string name in names)
             {
-                if (stringValueOf((Enum)Enum.Parse(enumType, name)).Equals(value))
+                if (StringValueOf((Enum)Enum.Parse(enumType, name)).Equals(value))
                 {
                     return Enum.Parse(enumType, name);
                 }

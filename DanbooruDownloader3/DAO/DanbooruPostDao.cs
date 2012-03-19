@@ -11,6 +11,7 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
+        #region ctor
         public DanbooruPostDao(string url, DanbooruProvider provider)
         {
             this.Provider = provider;
@@ -37,7 +38,9 @@ namespace DanbooruDownloader3.DAO
             }
             else ReadJSON(input);
         }
-
+        #endregion
+        
+        #region property
         public DanbooruProvider Provider { get; set; }
 
         public string Query { get; set; }
@@ -71,27 +74,16 @@ namespace DanbooruDownloader3.DAO
         }
 
         public String RawData { get; set; }
-
-
+        #endregion
+        
         private void ReadXML(string filename)
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
-
-            XmlTextReader reader;
-
-            try
+            using (XmlTextReader reader = new XmlTextReader(filename))
             {
-                using (reader = new XmlTextReader(filename))
-                {
-                    ProcessXML(reader);
-                }
-                
+                ProcessXML(reader);
             }
-            catch (Exception)
-            {
-                throw;
-            }            
         }
 
         private void ReadXML(Stream input)
@@ -99,20 +91,11 @@ namespace DanbooruDownloader3.DAO
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
 
-            XmlTextReader reader;
-
-            try
+            using (XmlTextReader reader = new XmlTextReader(input))
             {
-                using (reader = new XmlTextReader(input))
-                {
-                    ProcessXML(reader);
-                }
-
+                ProcessXML(reader);
             }
-            catch (Exception)
-            {
-                throw;
-            }                        
+                       
         }
 
         private void ProcessXML(XmlTextReader reader)
@@ -120,7 +103,7 @@ namespace DanbooruDownloader3.DAO
             RawData = "";
             if (Provider.BoardType == BoardType.Shimmie2)
             {
-                posts =  Engine.ShimmieEngine.Parse(reader, Provider, Query, SearchTags);
+                posts =  Engine.ShimmieEngine.ParseRSS(reader, Provider, Query, SearchTags);
                 foreach (var item in posts)
                 {
                     RawData += item.Id + ":" + item.FileUrl + ", ";

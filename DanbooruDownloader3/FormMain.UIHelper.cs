@@ -146,7 +146,7 @@ namespace DanbooruDownloader3
 
             string query = (rbJson.Checked ? _currProvider.QueryStringJson : _currProvider.QueryStringXml);
             query = query.Replace("%_query%", txtQuery.Text);
-            if (authString != "") query = query + "&" + authString;
+            if (!string.IsNullOrWhiteSpace(authString)) query = query + "&" + authString;
 
             return _currProvider.Url + query;
         }

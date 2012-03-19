@@ -36,14 +36,14 @@ namespace DanbooruDownloader3.Utils
             set
             {
                 this.referer = value;
-                try
-                {
-                    this.Headers.Set("Referer", this.referer);
-                }
-                catch (Exception)
-                {
+                //try
+                //{
+                //    this.Headers.Set("Referer", this.referer);
+                //}
+                //catch (Exception)
+                //{
                     this.Headers.Add("Referer", this.referer);
-                }
+                //}
             }
         }
 
@@ -54,14 +54,14 @@ namespace DanbooruDownloader3.Utils
             set
             {
                 this.userAgent = value;
-                try
-                {
-                    this.Headers.Set("user-agent", this.userAgent);
-                }
-                catch (Exception)
-                {
+                //try
+                //{
+                //    this.Headers.Set("user-agent", this.userAgent);
+                //}
+                //catch (Exception)
+                //{
                     this.Headers.Add("user-agent", this.userAgent);
-                }
+                //}
             }
         }
 

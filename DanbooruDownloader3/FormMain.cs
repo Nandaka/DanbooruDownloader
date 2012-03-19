@@ -263,7 +263,7 @@ namespace DanbooruDownloader3
             catch (Exception ex)
             {
                 MessageBox.Show("LoadNextList" + Environment.NewLine + ex.Message + Environment.NewLine + ex.InnerException.Message, "Listing");
-                throw ex;
+                throw;
             }
 
         }
@@ -1073,7 +1073,7 @@ namespace DanbooruDownloader3
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
-                XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
+                //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
                 StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
 
                 serializer.Serialize(writer, _downloadList);

@@ -8,7 +8,7 @@ using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
-    public class Helper
+    public static class Helper
     {
         /// <summary>
         /// Generate hashed password+salt using SHA1

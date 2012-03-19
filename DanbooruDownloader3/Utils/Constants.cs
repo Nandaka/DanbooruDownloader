@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace DanbooruDownloader3
 {
-    public class Constants
+    public static class Constants
     {
 
         public static Dictionary<string, string> OrderBy = new Dictionary<string, string>() 
