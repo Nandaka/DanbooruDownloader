@@ -3,6 +3,8 @@ Changelog:
 - DanbooruDownloader201203xx
   - Update DanbooruProvider.xml
   - Add basic Shimmie2 parsing.
+  - Fix start page detection for batch download if mixed board type as reported by Erin.
+  - Disable clear/remove job if batch job still running.
 
 - DanbooruDownloader20120316
   - Add Clear All Batch Job as requested by Xemnarth.
@@ -73,9 +75,13 @@ A1: Please read http://danbooru.donmai.us/forum/show/72300.
 Q2: I cannot download/can only download 1 image from 3DBooru!
 A2: On Settings tab, check Pad User Agent.
 
+Q3: I can use space, the program always converting it to underscores!
+A3: Use '+' for space.
+
 Supported Board
 =============================
-Currently only supporting Danbooru-type and Gelbooru-type with Danbooru API
+Currently only supporting Danbooru-type, Gelbooru-type with Danbooru API,
+and Shimmie2 with RSS enabled.
 
 - danbooru (http://danbooru.donmai.us)				NSFW
 - Sankaku Complex (http://chan.sankakucomplex.com)		NSFW
@@ -90,3 +96,6 @@ Currently only supporting Danbooru-type and Gelbooru-type with Danbooru API
 - 3dbooru (http://behoimi.org)
 - e621 (http://e621.net)					NSFW, Furry
 - rule34 (http://rule34.xxx)					NSFW
+- dollbooru
+- 4chanhouse
+- fairygarden

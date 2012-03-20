@@ -57,7 +57,7 @@ namespace DanbooruDownloader3
             
             try
             {
-                if(txtLimit.Text.Length > 0) Job.Limit = Convert.ToInt32(txtLimit.Text);
+                if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
             }
             catch (Exception ex) 
             {
@@ -69,7 +69,8 @@ namespace DanbooruDownloader3
 
             try
             {
-                if (txtPage.Text.Length > 0) Job.Page = Convert.ToInt16(txtPage.Text);
+                if (!string.IsNullOrWhiteSpace(txtPage.Text)) Job.Page = Convert.ToInt16(txtPage.Text);
+                else Job.Page = -1;
             }
             catch (Exception ex)
             {
@@ -84,7 +85,7 @@ namespace DanbooruDownloader3
 
             Job.TagQuery = txtTagQuery.Text.Replace(" ","_");
 
-            if (txtSave.Text.Length == 0)
+            if (string.IsNullOrWhiteSpace(txtSave.Text))
             {
                 MessageBox.Show("Save destination is empty!");
                 txtSave.Focus();

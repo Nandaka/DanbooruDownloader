@@ -517,6 +517,7 @@ namespace DanbooruDownloader3
                             int totalImgCount = 0;
                             int totalSkipCount = 0;
                             DanbooruPostDao prevDao = null;
+                            int originalPage = batchJob[i].Page;
                             do
                             {
                                 int imgCount = 0;
@@ -543,8 +544,8 @@ namespace DanbooruDownloader3
                                 {
                                     query += batchJob[i].TagQuery;
                                     if (!string.IsNullOrWhiteSpace(batchJob[i].TagQuery)) query += "/";
-                                    if (batchJob[i].Page <= 0) batchJob[i].Page = 1;
-                                    query += batchJob[i].Page;
+                                    if (originalPage <= 0) originalPage = 1;
+                                    query += originalPage;
                                     url = query;
                                 }
                                 else
@@ -554,18 +555,18 @@ namespace DanbooruDownloader3
                                     
                                     query += "&limit=" + limit;
 
-                                    if (batchJob[i].Page <= 0)
+                                    if (originalPage < 0)
                                     {
-                                        if (p.BoardType == BoardType.Danbooru) batchJob[i].Page = 1;
-                                        if (p.BoardType == BoardType.Gelbooru) batchJob[i].Page = 0;
+                                        if (p.BoardType == BoardType.Danbooru) originalPage = 1;
+                                        else if (p.BoardType == BoardType.Gelbooru) originalPage = 0;
                                     }
                                     if (p.BoardType == BoardType.Danbooru)
                                     {
-                                        query += "&page=" + (batchJob[i].Page + currPage);
+                                        query += "&page=" + (originalPage + currPage);
                                     }
                                     else if (p.BoardType == BoardType.Gelbooru)
                                     {
-                                        query += "&pid=" + (batchJob[i].Page + currPage);
+                                        query += "&pid=" + (originalPage + currPage);
                                     }                                    
                                 }
 
@@ -588,7 +589,7 @@ namespace DanbooruDownloader3
                                 // Get the image list
                                 try
                                 {
-                                    progressStatus = "Getting list for page " + (batchJob[i].Page + currPage);
+                                    progressStatus = "Getting list for page " + (originalPage + currPage);
                                     batchJob[i].Status = providerStatus + Environment.NewLine + progressStatus;
                                     BeginInvoke(del);
 
@@ -615,7 +616,7 @@ namespace DanbooruDownloader3
                                     }
                                     prevDao = d;
 
-                                    providerStatus += " Page:" + (batchJob[i].Page + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
+                                    providerStatus += " Page:" + (originalPage + currPage) + " Total:" + d.PostCount + " Offset:" + d.Offset + " TotalCurrentPage:" + d.Posts.Count + " ";
 
                                     foreach (DanbooruPost post in d.Posts)
                                     {
@@ -774,6 +775,9 @@ namespace DanbooruDownloader3
             btnStartBatchJob.Enabled = enabled;
             btnStopBatchJob.Enabled = !enabled;
             btnPauseBatchJob.Enabled = !enabled;
+            btnClearCompleted.Enabled = enabled;
+            btnClearAll.Enabled = enabled;
+            deleteToolStripMenuItem1.Enabled = enabled;
             if (enabled)
             {
                 btnPauseBatchJob.Text = "Pause Batch Job";
