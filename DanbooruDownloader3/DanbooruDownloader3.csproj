@@ -102,6 +102,12 @@
     <Compile Include="FormMain.WebClientEvents.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormProvider.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProvider.Designer.cs">
+      <DependentUpon>FormProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Utils\ExtendedWebClient.cs">
       <SubType>Component</SubType>
@@ -117,12 +123,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\FormTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\FormTest.Designer.cs">
-      <DependentUpon>FormTest.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utils\EnumUtils.cs" />
     <EmbeddedResource Include="FormAddBatchJob.resx">
       <DependentUpon>FormAddBatchJob.cs</DependentUpon>
@@ -134,6 +134,9 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormProvider.resx">
+      <DependentUpon>FormProvider.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -144,9 +147,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Test\FormTest.resx">
-      <DependentUpon>FormTest.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="DanbooruDownloader3_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">

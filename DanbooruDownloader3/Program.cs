@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using DanbooruDownloader3.Test;
 
 namespace DanbooruDownloader3
 {
@@ -16,7 +15,6 @@ namespace DanbooruDownloader3
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormTest());
             Application.Run(new FormMain());
         }
     }

@@ -26,6 +26,7 @@ namespace DanbooruDownloader3
 
         List<DanbooruProvider> _listProvider;
         DanbooruProvider _currProvider;
+        DanbooruProviderDao _dao;
         DanbooruPostDao _postsDao;
 
         BindingList<DanbooruPost> _downloadList;
@@ -99,12 +100,13 @@ namespace DanbooruDownloader3
             //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
                 
 
-            // Auto populate the Provider List
-            DanbooruProviderDao dao = new DanbooruProviderDao();
-            _listProvider = dao.GetAllProvider();
+            // Auto populate the provider List
+            _dao = new DanbooruProviderDao();
+            _listProvider = _dao.Read();
             cbxProvider.DataSource = _listProvider;
             cbxProvider.DisplayMember = "Name";
             cbxProvider.ValueMember = "Preferred";
+            cbxProvider.SelectedIndex = 0;
             // end auto populate
 
             //Auto populate Order and Rating
@@ -115,7 +117,7 @@ namespace DanbooruDownloader3
             cbxRating.DisplayMember = "Key";
             cbxRating.ValueMember = "Value";
 
-            txtFilenameHelp.Text = "%provider% = Provider Name" + Environment.NewLine +
+            txtFilenameHelp.Text = "%provider% = provider Name" + Environment.NewLine +
                                     "%id% = Image ID" + Environment.NewLine +
                                     "%tags% = Image Tags" + Environment.NewLine +
                                     "%rating% = Image Rating" + Environment.NewLine +
@@ -1268,6 +1270,21 @@ namespace DanbooruDownloader3
                 {
                     dgvBatchJob.Rows[hti.RowIndex].Selected = true;
                 }
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            FormProvider form = new FormProvider();
+            form.Providers = _listProvider;
+            form.SelectedIndex = cbxProvider.SelectedIndex;
+            DialogResult result = form.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                _listProvider = form.Providers;
+                cbxProvider.SelectedIndex = form.SelectedIndex;
+                _dao.Save(_listProvider);
+                _currProvider = _listProvider[cbxProvider.SelectedIndex];
             }
         }
 

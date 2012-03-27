@@ -33,7 +33,7 @@ namespace DanbooruDownloader3
         private void FillProvider()
         {
             DanbooruProviderDao dao = new DanbooruProviderDao();
-            providerList = dao.GetAllProvider();
+            providerList = dao.Read();
 
             chkList = new List<CheckBox>();
             foreach (DanbooruProvider p in providerList)

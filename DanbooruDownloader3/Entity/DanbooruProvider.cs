@@ -43,9 +43,7 @@ namespace DanbooruDownloader3.Entity
                 " Default Limit: " + DefaultLimit +
                 " Type: " + BoardType.ToString();
         }
-
-        
     }
 
-    
+
 }

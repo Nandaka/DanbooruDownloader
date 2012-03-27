@@ -75,6 +75,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtListFile = new System.Windows.Forms.TextBox();
             this.gbxSearch = new System.Windows.Forms.GroupBox();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.btnSearchHelp = new System.Windows.Forms.Button();
             this.btnListCancel = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -257,7 +258,7 @@
             this.gbxDanbooru.Controls.Add(this.chkSaveQuery);
             this.gbxDanbooru.Controls.Add(this.chkAutoLoadList);
             this.gbxDanbooru.Controls.Add(this.chkLoadPreview);
-            this.gbxDanbooru.Location = new System.Drawing.Point(577, 100);
+            this.gbxDanbooru.Location = new System.Drawing.Point(654, 100);
             this.gbxDanbooru.Name = "gbxDanbooru";
             this.gbxDanbooru.Size = new System.Drawing.Size(272, 60);
             this.gbxDanbooru.TabIndex = 7;
@@ -412,10 +413,10 @@
             // 
             // colProvider
             // 
-            this.colProvider.DataPropertyName = "Provider";
-            this.colProvider.HeaderText = "Provider";
+            this.colProvider.DataPropertyName = "provider";
+            this.colProvider.HeaderText = "provider";
             this.colProvider.Name = "colProvider";
-            this.colProvider.Width = 71;
+            this.colProvider.Width = 70;
             // 
             // colId
             // 
@@ -514,7 +515,7 @@
             this.gbxList.Controls.Add(this.btnBrowseListFile);
             this.gbxList.Controls.Add(this.label9);
             this.gbxList.Controls.Add(this.txtListFile);
-            this.gbxList.Location = new System.Drawing.Point(577, 6);
+            this.gbxList.Location = new System.Drawing.Point(654, 6);
             this.gbxList.Name = "gbxList";
             this.gbxList.Size = new System.Drawing.Size(272, 88);
             this.gbxList.TabIndex = 5;
@@ -594,6 +595,7 @@
             // 
             this.gbxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxSearch.Controls.Add(this.btnEdit);
             this.gbxSearch.Controls.Add(this.btnSearchHelp);
             this.gbxSearch.Controls.Add(this.btnListCancel);
             this.gbxSearch.Controls.Add(this.linkLabel1);
@@ -620,15 +622,26 @@
             this.gbxSearch.Controls.Add(this.txtQuery);
             this.gbxSearch.Location = new System.Drawing.Point(8, 6);
             this.gbxSearch.Name = "gbxSearch";
-            this.gbxSearch.Size = new System.Drawing.Size(563, 158);
+            this.gbxSearch.Size = new System.Drawing.Size(640, 158);
             this.gbxSearch.TabIndex = 0;
             this.gbxSearch.TabStop = false;
             this.gbxSearch.Text = "1. Search";
             // 
+            // btnEdit
+            // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEdit.Location = new System.Drawing.Point(559, 17);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 21;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
             // btnSearchHelp
             // 
             this.btnSearchHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearchHelp.Location = new System.Drawing.Point(482, 70);
+            this.btnSearchHelp.Location = new System.Drawing.Point(559, 70);
             this.btnSearchHelp.Name = "btnSearchHelp";
             this.btnSearchHelp.Size = new System.Drawing.Size(75, 23);
             this.btnSearchHelp.TabIndex = 20;
@@ -652,7 +665,7 @@
             this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(447, 44);
+            this.linkLabel1.Location = new System.Drawing.Point(524, 44);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(110, 23);
             this.linkLabel1.TabIndex = 18;
@@ -664,7 +677,7 @@
             // 
             this.rbJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbJson.AutoSize = true;
-            this.rbJson.Location = new System.Drawing.Point(372, 20);
+            this.rbJson.Location = new System.Drawing.Point(383, 20);
             this.rbJson.Name = "rbJson";
             this.rbJson.Size = new System.Drawing.Size(47, 17);
             this.rbJson.TabIndex = 2;
@@ -678,7 +691,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGet.Location = new System.Drawing.Point(505, 122);
             this.btnGet.Name = "btnGet";
-            this.btnGet.Size = new System.Drawing.Size(52, 23);
+            this.btnGet.Size = new System.Drawing.Size(129, 23);
             this.btnGet.TabIndex = 17;
             this.btnGet.Text = "Get";
             this.btnGet.UseVisualStyleBackColor = true;
@@ -689,9 +702,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Provider";
+            this.label1.Text = "provider";
             // 
             // chkNotRating
             // 
@@ -722,7 +735,7 @@
             this.cbxProvider.FormattingEnabled = true;
             this.cbxProvider.Location = new System.Drawing.Point(58, 19);
             this.cbxProvider.Name = "cbxProvider";
-            this.cbxProvider.Size = new System.Drawing.Size(308, 21);
+            this.cbxProvider.Size = new System.Drawing.Size(319, 21);
             this.cbxProvider.TabIndex = 0;
             this.cbxProvider.SelectedIndexChanged += new System.EventHandler(this.cbxProvider_SelectedIndexChanged);
             // 
@@ -730,7 +743,7 @@
             // 
             this.rbXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbXml.AutoSize = true;
-            this.rbXml.Location = new System.Drawing.Point(425, 20);
+            this.rbXml.Location = new System.Drawing.Point(436, 20);
             this.rbXml.Name = "rbXml";
             this.rbXml.Size = new System.Drawing.Size(42, 17);
             this.rbXml.TabIndex = 3;
@@ -753,7 +766,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSource.Location = new System.Drawing.Point(135, 98);
             this.txtSource.Name = "txtSource";
-            this.txtSource.Size = new System.Drawing.Size(422, 20);
+            this.txtSource.Size = new System.Drawing.Size(499, 20);
             this.txtSource.TabIndex = 14;
             this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
             // 
@@ -824,7 +837,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(42, 72);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(434, 20);
+            this.txtTags.Size = new System.Drawing.Size(511, 20);
             this.txtTags.TabIndex = 4;
             this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
             // 
@@ -843,7 +856,7 @@
             this.chkGenerate.AutoSize = true;
             this.chkGenerate.Checked = true;
             this.chkGenerate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGenerate.Location = new System.Drawing.Point(473, 21);
+            this.chkGenerate.Location = new System.Drawing.Point(484, 21);
             this.chkGenerate.Name = "chkGenerate";
             this.chkGenerate.Size = new System.Drawing.Size(76, 17);
             this.chkGenerate.TabIndex = 2;
@@ -867,7 +880,7 @@
             this.txtQuery.Enabled = false;
             this.txtQuery.Location = new System.Drawing.Point(58, 46);
             this.txtQuery.Name = "txtQuery";
-            this.txtQuery.Size = new System.Drawing.Size(383, 20);
+            this.txtQuery.Size = new System.Drawing.Size(460, 20);
             this.txtQuery.TabIndex = 0;
             // 
             // tabPage4
@@ -1048,11 +1061,11 @@
             // 
             // colProvider2
             // 
-            this.colProvider2.DataPropertyName = "Provider";
+            this.colProvider2.DataPropertyName = "provider";
             this.colProvider2.Frozen = true;
-            this.colProvider2.HeaderText = "Provider";
+            this.colProvider2.HeaderText = "provider";
             this.colProvider2.Name = "colProvider2";
-            this.colProvider2.Width = 71;
+            this.colProvider2.Width = 70;
             // 
             // colId2
             // 
@@ -2040,6 +2053,7 @@
         private System.Windows.Forms.Button btnClearAll;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
 

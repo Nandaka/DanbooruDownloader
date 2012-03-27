@@ -5,6 +5,7 @@ Changelog:
   - Add basic Shimmie2 parsing.
   - Fix start page detection for batch download if mixed board type as reported by Erin.
   - Disable clear/remove job if batch job still running.
+  - Add Danbooru Provider Editor.
 
 - DanbooruDownloader20120316
   - Add Clear All Batch Job as requested by Xemnarth.
