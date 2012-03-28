@@ -1284,17 +1284,23 @@ namespace DanbooruDownloader3
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            FormProvider form = new FormProvider();
-            form.Providers = _listProvider;
-            form.SelectedIndex = cbxProvider.SelectedIndex;
-            DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            using (FormProvider form = new FormProvider())
             {
-                _listProvider = form.Providers;
-                LoadProvider();
-                cbxProvider.SelectedIndex = form.SelectedIndex;
-                _dao.Save(_listProvider);
-                _currProvider = _listProvider[cbxProvider.SelectedIndex];
+
+                form.Providers = _listProvider.ToList<DanbooruProvider>();
+                form.SelectedIndex = cbxProvider.SelectedIndex;
+                DialogResult result = form.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    if (form.IsModified)
+                    {
+                        _listProvider = form.Providers;
+                        LoadProvider();
+                        _dao.Save(_listProvider);
+                    }
+                    cbxProvider.SelectedIndex = form.SelectedIndex;
+                    _currProvider = _listProvider[cbxProvider.SelectedIndex];
+                }
             }
         }
 

@@ -16,11 +16,13 @@ namespace DanbooruDownloader3
         public List<DanbooruProvider> Providers { get; set; }
         public int SelectedIndex { get; set; }
         private int lastSelectedIndex = -1;
+        public bool IsModified { get; set; }
 
         public FormProvider()
         {
             InitializeComponent();
             CreateControls();
+            IsModified = false;
         }
 
         private void FormProvider_Load(object sender, EventArgs e)
@@ -89,8 +91,8 @@ namespace DanbooruDownloader3
                     var item = cbx.SelectedItem;
                     if(item.Equals(BoardType.Danbooru)) 
                     {
-                        xmlBox[0].Text = "/post/index.json?%_query%";
-                        jsonBox[0].Text = "/post/index.xml?%_query%";
+                        xmlBox[0].Text = "/post/index.xml?%_query%";
+                        jsonBox[0].Text = "/post/index.json?%_query%";
                     }
                     else if (item.Equals(BoardType.Gelbooru))
                     {
@@ -176,31 +178,48 @@ namespace DanbooruDownloader3
 
         private void cbxProviders_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetValues(lastSelectedIndex);
-            Fill(cbxProviders.SelectedIndex);
-            lastSelectedIndex = cbxProviders.SelectedIndex;
+            if (cbxProviders.SelectedIndex != -1)
+            {
+                if(cbxProviders.SelectedIndex!= lastSelectedIndex) GetValues(lastSelectedIndex);
+                Fill(cbxProviders.SelectedIndex);
+                lastSelectedIndex = cbxProviders.SelectedIndex;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             GetValues(cbxProviders.SelectedIndex);
-            SelectedIndex = cbxProviders.SelectedIndex;
+            LoadProviders();
+            IsModified = true;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             DanbooruProvider newP = new DanbooruProvider();
             newP.Url = "http://";
-            newP.BoardType = BoardType.Danbooru;
             Providers.Add(newP);
             LoadProviders();
-            cbxProviders.SelectedIndex = cbxProviders.Items.Count - 1;
-            
+            cbxProviders.SelectedIndex = cbxProviders.Items.Count - 1;            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            SelectedIndex = cbxProviders.SelectedIndex;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (cbxProviders.SelectedIndex != -1)
+            {
+                Providers.RemoveAt(cbxProviders.SelectedIndex);
+                LoadProviders();
+                cbxProviders.SelectedIndex = 0;
+            }
         }
 
     }
