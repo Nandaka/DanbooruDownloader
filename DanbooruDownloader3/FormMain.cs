@@ -917,7 +917,9 @@ namespace DanbooruDownloader3
 
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dgvList.Columns["colUrl"].Index || e.ColumnIndex == dgvList.Columns["colSourceUrl"].Index)
+            if (e.ColumnIndex == dgvList.Columns["colUrl"].Index || 
+                e.ColumnIndex == dgvList.Columns["colSourceUrl"].Index ||
+                 e.ColumnIndex == dgvList.Columns["colReferer"].Index )
             {
                 // Load web browser to the image url
                 Process.Start(dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());

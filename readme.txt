@@ -6,6 +6,7 @@ Changelog:
   - Fix start page detection for batch download if mixed board type as reported by Erin.
   - Disable clear/remove job if batch job still running.
   - Add Danbooru Provider Editor.
+  - Make Referer column clickable and auto resize Preview column.
 
 - DanbooruDownloader20120316
   - Add Clear All Batch Job as requested by Xemnarth.
