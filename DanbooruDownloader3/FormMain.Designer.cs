@@ -33,6 +33,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,7 +42,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -52,6 +52,18 @@
             this.chkAutoLoadList = new System.Windows.Forms.CheckBox();
             this.chkLoadPreview = new System.Windows.Forms.CheckBox();
             this.dgvList = new System.Windows.Forms.DataGridView();
+            this.colNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colPreview = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colProvider = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUrl = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colMD5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSourceUrl = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colReferer = new System.Windows.Forms.DataGridViewLinkColumn();
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchByParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSelectedRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -184,18 +196,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colPreview = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colProvider = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUrl = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.colMD5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSourceUrl = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.colReferer = new System.Windows.Forms.DataGridViewLinkColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -376,6 +376,122 @@
             this.dgvList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvList_CellMouseDown);
             this.dgvList.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvList_RowPostPaint);
             this.dgvList.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvList_RowsAdded);
+            // 
+            // colNumber
+            // 
+            this.colNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colNumber.FillWeight = 35F;
+            this.colNumber.Frozen = true;
+            this.colNumber.HeaderText = "#";
+            this.colNumber.MinimumWidth = 25;
+            this.colNumber.Name = "colNumber";
+            this.colNumber.Width = 25;
+            // 
+            // colCheck
+            // 
+            this.colCheck.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colCheck.FillWeight = 25F;
+            this.colCheck.Frozen = true;
+            this.colCheck.HeaderText = "*";
+            this.colCheck.MinimumWidth = 25;
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colCheck.Width = 25;
+            // 
+            // colPreview
+            // 
+            this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.colPreview.DataPropertyName = "ThumbnailImage";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colPreview.FillWeight = 300F;
+            this.colPreview.Frozen = true;
+            this.colPreview.HeaderText = "Preview";
+            this.colPreview.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
+            this.colPreview.MinimumWidth = 150;
+            this.colPreview.Name = "colPreview";
+            this.colPreview.Width = 150;
+            // 
+            // colProvider
+            // 
+            this.colProvider.DataPropertyName = "provider";
+            this.colProvider.HeaderText = "provider";
+            this.colProvider.Name = "colProvider";
+            this.colProvider.Width = 70;
+            // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colId.DataPropertyName = "Id";
+            this.colId.FillWeight = 75F;
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colId.Width = 22;
+            // 
+            // colRating
+            // 
+            this.colRating.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colRating.DataPropertyName = "Rating";
+            this.colRating.FillWeight = 25F;
+            this.colRating.HeaderText = "Rating";
+            this.colRating.MinimumWidth = 25;
+            this.colRating.Name = "colRating";
+            this.colRating.Width = 25;
+            // 
+            // colTags
+            // 
+            this.colTags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colTags.DataPropertyName = "Tags";
+            this.colTags.FillWeight = 300F;
+            this.colTags.HeaderText = "Tags";
+            this.colTags.MinimumWidth = 110;
+            this.colTags.Name = "colTags";
+            this.colTags.Width = 300;
+            // 
+            // colUrl
+            // 
+            this.colUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colUrl.DataPropertyName = "FileUrl";
+            this.colUrl.FillWeight = 250F;
+            this.colUrl.HeaderText = "Url";
+            this.colUrl.MinimumWidth = 250;
+            this.colUrl.Name = "colUrl";
+            this.colUrl.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colUrl.Width = 250;
+            // 
+            // colMD5
+            // 
+            this.colMD5.DataPropertyName = "MD5";
+            this.colMD5.HeaderText = "MD5";
+            this.colMD5.Name = "colMD5";
+            this.colMD5.Width = 55;
+            // 
+            // colQuery
+            // 
+            this.colQuery.DataPropertyName = "Query";
+            this.colQuery.HeaderText = "Query";
+            this.colQuery.Name = "colQuery";
+            this.colQuery.Width = 60;
+            // 
+            // colSourceUrl
+            // 
+            this.colSourceUrl.DataPropertyName = "Source";
+            this.colSourceUrl.HeaderText = "Source";
+            this.colSourceUrl.MinimumWidth = 25;
+            this.colSourceUrl.Name = "colSourceUrl";
+            this.colSourceUrl.Width = 47;
+            // 
+            // colReferer
+            // 
+            this.colReferer.DataPropertyName = "Referer";
+            this.colReferer.HeaderText = "Referer";
+            this.colReferer.Name = "colReferer";
+            this.colReferer.ReadOnly = true;
+            this.colReferer.Width = 48;
             // 
             // contextMenuStrip3
             // 
@@ -1742,122 +1858,6 @@
             this.dataGridViewImageColumn2.MinimumWidth = 150;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 150;
-            // 
-            // colNumber
-            // 
-            this.colNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colNumber.FillWeight = 35F;
-            this.colNumber.Frozen = true;
-            this.colNumber.HeaderText = "#";
-            this.colNumber.MinimumWidth = 25;
-            this.colNumber.Name = "colNumber";
-            this.colNumber.Width = 25;
-            // 
-            // colCheck
-            // 
-            this.colCheck.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colCheck.FillWeight = 25F;
-            this.colCheck.Frozen = true;
-            this.colCheck.HeaderText = "*";
-            this.colCheck.MinimumWidth = 25;
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colCheck.Width = 25;
-            // 
-            // colPreview
-            // 
-            this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.colPreview.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colPreview.FillWeight = 300F;
-            this.colPreview.Frozen = true;
-            this.colPreview.HeaderText = "Preview";
-            this.colPreview.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
-            this.colPreview.MinimumWidth = 150;
-            this.colPreview.Name = "colPreview";
-            this.colPreview.Width = 150;
-            // 
-            // colProvider
-            // 
-            this.colProvider.DataPropertyName = "provider";
-            this.colProvider.HeaderText = "provider";
-            this.colProvider.Name = "colProvider";
-            this.colProvider.Width = 70;
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colId.DataPropertyName = "Id";
-            this.colId.FillWeight = 75F;
-            this.colId.HeaderText = "Id";
-            this.colId.Name = "colId";
-            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId.Width = 22;
-            // 
-            // colRating
-            // 
-            this.colRating.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colRating.DataPropertyName = "Rating";
-            this.colRating.FillWeight = 25F;
-            this.colRating.HeaderText = "Rating";
-            this.colRating.MinimumWidth = 25;
-            this.colRating.Name = "colRating";
-            this.colRating.Width = 25;
-            // 
-            // colTags
-            // 
-            this.colTags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colTags.DataPropertyName = "Tags";
-            this.colTags.FillWeight = 300F;
-            this.colTags.HeaderText = "Tags";
-            this.colTags.MinimumWidth = 110;
-            this.colTags.Name = "colTags";
-            this.colTags.Width = 300;
-            // 
-            // colUrl
-            // 
-            this.colUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colUrl.DataPropertyName = "FileUrl";
-            this.colUrl.FillWeight = 250F;
-            this.colUrl.HeaderText = "Url";
-            this.colUrl.MinimumWidth = 250;
-            this.colUrl.Name = "colUrl";
-            this.colUrl.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colUrl.Width = 250;
-            // 
-            // colMD5
-            // 
-            this.colMD5.DataPropertyName = "MD5";
-            this.colMD5.HeaderText = "MD5";
-            this.colMD5.Name = "colMD5";
-            this.colMD5.Width = 55;
-            // 
-            // colQuery
-            // 
-            this.colQuery.DataPropertyName = "Query";
-            this.colQuery.HeaderText = "Query";
-            this.colQuery.Name = "colQuery";
-            this.colQuery.Width = 60;
-            // 
-            // colSourceUrl
-            // 
-            this.colSourceUrl.DataPropertyName = "Source";
-            this.colSourceUrl.HeaderText = "Source";
-            this.colSourceUrl.MinimumWidth = 25;
-            this.colSourceUrl.Name = "colSourceUrl";
-            this.colSourceUrl.Width = 47;
-            // 
-            // colReferer
-            // 
-            this.colReferer.DataPropertyName = "Referer";
-            this.colReferer.HeaderText = "Referer";
-            this.colReferer.Name = "colReferer";
-            this.colReferer.ReadOnly = true;
-            this.colReferer.Width = 48;
             // 
             // FormMain
             // 

@@ -14,7 +14,7 @@ namespace DanbooruDownloader3.Engine
 {
     public class ShimmieEngine
     {
-        private static Regex imageResolutionRegex = new Regex(@"title=.*\|\| (\d+)x(\d+).*width='(\d+)'.*height='(\d+)");
+        private static Regex imageResolutionRegex = new Regex(@"title=.*[\|\||\/\/] (\d+)x(\d+).*width='(\d+)'.*height='(\d+).*Uploaded by (.+)<");
 
         public static BindingList<DanbooruPost> ParseRSS(XmlReader reader, DanbooruProvider provider, string query, string searchTags)
         {
@@ -29,18 +29,17 @@ namespace DanbooruDownloader3.Engine
 
                 var titleData = item.Element("title").Value.Split(new char[] { '-' } , 2);
 
-                post.Id = titleData[0];
-                post.Tags = titleData[1];
+                post.Id = titleData[0].Trim();
+                post.Tags = titleData[1].Trim();
 
-                post.Referer = item.Element("link").Value;
-                if (!post.Referer.Contains("http://")) post.Referer = provider.Url + post.Referer;
-
+                post.Referer = AppendHttp(item.Element("link").Value, provider);
+                post.CreatedAt = item.Element("pubDate").Value;
                 post.Provider = provider.Name;
 
-                var data = item.Element("{" + media + "}thumbnail");//("{http://search.yahoo.com/mrss}thumbnail");
-                post.PreviewUrl = provider.Url + data.Attribute("url").Value;
+                var data = item.Element("{" + media + "}thumbnail");
+                post.PreviewUrl = AppendHttp(data.Attribute("url").Value, provider);
                 data = item.Element("{" + media + "}content");
-                post.FileUrl = provider.Url + data.Attribute("url").Value;
+                post.FileUrl = AppendHttp(data.Attribute("url").Value, provider);
 
                 post.Query = query;
                 post.SearchTags = searchTags;
@@ -53,12 +52,19 @@ namespace DanbooruDownloader3.Engine
                     post.Height = Convert.ToInt32(matches.Groups[2].Value);
                     post.PreviewWidth = Convert.ToInt32(matches.Groups[3].Value);
                     post.PreviewHeight = Convert.ToInt32(matches.Groups[4].Value);
+                    post.CreatorId = matches.Groups[5].Value;
                 }
                 catch (Exception) { }
 
                 posts.Add(post);
             }
             return posts;
+        }
+
+        private static string AppendHttp(string url, DanbooruProvider provider) 
+        {
+            if (!url.StartsWith("http")) url = provider.Url + url;
+            return url;
         }
     }
 }

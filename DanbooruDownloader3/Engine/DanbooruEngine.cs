@@ -9,6 +9,10 @@ using System.Xml.Linq;
 
 namespace DanbooruDownloader3.Engine
 {
+    /// <summary>
+    /// TODO: Port the danbooru parser to this part, create standard interface for parsing....
+    /// </summary>
+
     public class DanbooruEngine
     {
         public static BindingList<DanbooruPost> ParseXML(XmlReader reader, DanbooruProvider provider, string query, string searchTags) 

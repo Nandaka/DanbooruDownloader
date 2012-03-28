@@ -26,10 +26,15 @@ namespace DanbooruDownloader3
         private void FormProvider_Load(object sender, EventArgs e)
         {
             lastSelectedIndex = SelectedIndex;
-            cbxProviders.DataSource = Providers;
-            cbxProviders.DisplayMember = "Name";
+            LoadProviders();
             cbxProviders.SelectedIndex = SelectedIndex;
-            Fill(SelectedIndex);            
+        }
+
+        private void LoadProviders()
+        {
+            cbxProviders.DataSource = null;
+            cbxProviders.DataSource = Providers;
+            cbxProviders.DisplayMember = "Name";            
         }
 
         private void CreateControls()
@@ -59,6 +64,7 @@ namespace DanbooruDownloader3
                     {
                         _cbx.Items.Add(item);
                     }
+                    _cbx.SelectedIndexChanged += new EventHandler(_cbx_SelectedIndexChanged);
                     tableLayoutPanel1.Controls.Add(_cbx);
                 }
                 else
@@ -72,8 +78,39 @@ namespace DanbooruDownloader3
             }
         }
 
+        void _cbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox cbx = (ComboBox)sender;
+            switch (cbx.Name)
+            {
+                case "BoardType":
+                    var xmlBox = tableLayoutPanel1.Controls.Find("QueryStringXml", true);
+                    var jsonBox = tableLayoutPanel1.Controls.Find("QueryStringJson", true);
+                    var item = cbx.SelectedItem;
+                    if(item.Equals(BoardType.Danbooru)) 
+                    {
+                        xmlBox[0].Text = "/post/index.json?%_query%";
+                        jsonBox[0].Text = "/post/index.xml?%_query%";
+                    }
+                    else if (item.Equals(BoardType.Gelbooru))
+                    {
+                        xmlBox[0].Text = "/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%";
+                        jsonBox[0].Text = "";
+                    }
+                    else if (item.Equals(BoardType.Shimmie2))
+                    {
+                        xmlBox[0].Text = "/index.php?q=/rss/images/%_query%";
+                        jsonBox[0].Text = "";
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void Fill(int index)
         {
+            if (index == -1 || index >= Providers.Count ) return;
             PropertyInfo[] propertyInfos;
             propertyInfos = typeof(DanbooruProvider).GetProperties();
 
@@ -96,7 +133,9 @@ namespace DanbooruDownloader3
                     else
                     {
                         TextBox _txt = (TextBox)controls[0];
-                        _txt.Text = info.GetValue(Providers[index], null).ToString();
+                        var value = info.GetValue(Providers[index], null);
+                        if (value != null) _txt.Text = value.ToString();
+                        else _txt.Text = "";
                     }
                 }
             }
@@ -104,6 +143,7 @@ namespace DanbooruDownloader3
 
         private void GetValues(int index)
         {
+            if (index == -1 || index >= Providers.Count) return;
             DanbooruProvider temp = new DanbooruProvider();
             PropertyInfo[] propertyInfos;
             propertyInfos = typeof(DanbooruProvider).GetProperties();
@@ -143,8 +183,24 @@ namespace DanbooruDownloader3
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            SelectedIndex = cbxProviders.SelectedIndex;
             GetValues(cbxProviders.SelectedIndex);
+            SelectedIndex = cbxProviders.SelectedIndex;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            DanbooruProvider newP = new DanbooruProvider();
+            newP.Url = "http://";
+            newP.BoardType = BoardType.Danbooru;
+            Providers.Add(newP);
+            LoadProviders();
+            cbxProviders.SelectedIndex = cbxProviders.Items.Count - 1;
+            
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
         }
 
     }

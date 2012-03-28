@@ -103,9 +103,7 @@ namespace DanbooruDownloader3
             // Auto populate the provider List
             _dao = new DanbooruProviderDao();
             _listProvider = _dao.Read();
-            cbxProvider.DataSource = _listProvider;
-            cbxProvider.DisplayMember = "Name";
-            cbxProvider.ValueMember = "Preferred";
+            LoadProvider();
             cbxProvider.SelectedIndex = 0;
             // end auto populate
 
@@ -130,6 +128,14 @@ namespace DanbooruDownloader3
 
             CheckProxyLogin();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+        }
+
+        private void LoadProvider()
+        {
+            cbxProvider.DataSource = null;
+            cbxProvider.DataSource = _listProvider;
+            cbxProvider.DisplayMember = "Name";
+            cbxProvider.ValueMember = "Preferred";
         }
 
         public void TransferDownloadRows()
@@ -795,6 +801,7 @@ namespace DanbooruDownloader3
         #region windows form events
         private void cbxProvider_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbxProvider.SelectedIndex == -1) return;
             if (cbxProvider.SelectedValue.Equals(PreferredMethod.Json)) rbJson.Checked = true;
             else rbXml.Checked = true;
 
@@ -1284,6 +1291,7 @@ namespace DanbooruDownloader3
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 _listProvider = form.Providers;
+                LoadProvider();
                 cbxProvider.SelectedIndex = form.SelectedIndex;
                 _dao.Save(_listProvider);
                 _currProvider = _listProvider[cbxProvider.SelectedIndex];
