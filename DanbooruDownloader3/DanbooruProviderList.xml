@@ -62,7 +62,7 @@
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <Preferred>xml</Preferred>
-    <DefaultLimit>20</DefaultLimit>
+    <DefaultLimit>16</DefaultLimit>
     <HardLimit>1000</HardLimit>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <UserName></UserName>

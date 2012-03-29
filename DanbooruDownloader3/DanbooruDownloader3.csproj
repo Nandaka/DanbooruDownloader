@@ -80,10 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\DanbooruPostDao.cs" />
-    <Compile Include="Engine\DanbooruEngine.cs" />
+    <Compile Include="Engine\DanbooruJsonEngine.cs" />
+    <Compile Include="Engine\DanbooruXmlEngine.cs" />
+    <Compile Include="Engine\IEngine.cs" />
     <Compile Include="Engine\ShimmieEngine.cs" />
     <Compile Include="Entity\DanbooruBatchJob.cs" />
     <Compile Include="Entity\DanbooruPost.cs" />
+    <Compile Include="Entity\DanbooruSearchParam.cs" />
     <Compile Include="FormAddBatchJob.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -197,5 +197,8 @@ namespace DanbooruDownloader3.Entity
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        [Browsable(false)]
+        public int Filesize { get; set; }
     }
 }

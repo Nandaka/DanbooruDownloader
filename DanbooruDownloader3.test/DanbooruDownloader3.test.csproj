@@ -60,7 +60,13 @@
     <Content Include="DanbooruProviderList.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestXml\danbooru.xml" />
     <Content Include="TestXml\shimmie2.xml" />
+    <Content Include="TestXml\yande.re.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestXml\danbooru.json" />
+    <None Include="TestXml\yande.re.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
