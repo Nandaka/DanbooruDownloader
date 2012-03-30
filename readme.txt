@@ -1,8 +1,8 @@
 Changelog:
 =============================
-- DanbooruDownloader201203xx
+- DanbooruDownloader20120330
   - Update DanbooruProvider.xml
-  - Add basic Shimmie2 parsing.
+  - Add basic Shimmie2 RSS XML parsing.
   - Fix start page detection for batch download if mixed board type as reported by Erin.
   - Disable clear/remove job if batch job still running.
   - Add Danbooru Provider Editor.
