@@ -337,6 +337,7 @@ namespace DanbooruDownloader3
                     _resetLoadedThumbnail = false;
                     _isLoadingThumb = false;
                     _loadedThumbnail = 0;
+                    _clientThumb.CancelAsync();
                     return;
                 }
 
@@ -386,7 +387,7 @@ namespace DanbooruDownloader3
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadDataAsync(new Uri(GetQueryUrl(authString)), GetQueryUrl(authString));
                     tsProgressBar.Visible = true;
-                    if (!(chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb && !chkAutoLoadNext.Checked)) _resetLoadedThumbnail = true;
+                    if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy ) _resetLoadedThumbnail = true;
                 }
             }
         }
