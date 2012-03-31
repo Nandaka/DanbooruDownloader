@@ -13,17 +13,23 @@ namespace DanbooruDownloader3
                                                             {
                                                                 {"None", null},
                                                                 {"Score", "order:score"},
-                                                                {"ScoreAscending", "order:score_asc"},
-                                                                {"FavoriteCount", "order:favcount"},
+                                                                {"Score (Ascending)", "order:score_asc"},
+                                                                {"Score (Descending)", "order:score_desc"},
+                                                                {"Favorite Count", "order:favcount"},
                                                                 {"MegaPixel", "order:mpixels"},
-                                                                {"MegaPixelAscending", "order:mpixels_asc"},
+                                                                {"MegaPixel Ascending", "order:mpixels_asc"},
+                                                                {"Megapixels (Descending)", "order:mpixels_desc"},
                                                                 {"Count", "order:count"},
                                                                 {"Name", "order:name"},
                                                                 {"Date", "order:date"},
                                                                 {"Id", "order:id"},
-                                                                {"IdAscending", "order:id_asc"},
+                                                                {"Id (Ascending)", "order:id_asc"},
+                                                                {"Id (Descending)", "order:id_desc"},
                                                                 {"Landscape", "order:landscape"},
-                                                                {"Portrait", "order:portrait"}        
+                                                                {"Portrait", "order:portrait"},
+                                                                {"Popularity", "order:popular"},
+                                                                {"No. of Favorites", "order:favcount"},
+                                                                {"Filesize (Descending)", "order:filesize"}
                                                             };
 
         public static Dictionary<string, string> Rating = new Dictionary<string, string>() 

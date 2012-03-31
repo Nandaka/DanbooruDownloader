@@ -17,6 +17,7 @@ using System.Threading;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace DanbooruDownloader3
 {
@@ -922,6 +923,9 @@ namespace DanbooruDownloader3
 
         }
 
+        // http://img14.pixiv.net/img/leucojum-aest/17661193_p3.jpg
+        Regex pixivUrl = new Regex(@"img.*pixiv.*\/(\d+).*\.");
+
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == dgvList.Columns["colUrl"].Index || 
@@ -929,7 +933,15 @@ namespace DanbooruDownloader3
                  e.ColumnIndex == dgvList.Columns["colReferer"].Index )
             {
                 // Load web browser to the image url
-                Process.Start(dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                string url = dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                // preprocess Pixiv Url
+                var match = pixivUrl.Match(url);
+                if( match.Success) 
+                {
+                    url = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + match.Groups[1].Value;
+                }
+
+                Process.Start(url);
             }
 
         }
@@ -1302,6 +1314,11 @@ namespace DanbooruDownloader3
                     _currProvider = _listProvider[cbxProvider.SelectedIndex];
                 }
             }
+        }
+
+        private void linkUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(@"http://nandaka.wordpress.com/tag/danbooru-batch-download/");
         }
 
     }

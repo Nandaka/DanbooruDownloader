@@ -1,5 +1,10 @@
 Changelog:
 =============================
+- DanbooruDownloader201204xx
+  - Add preprocessor for Pixiv referer column (use the proper url if clicked).
+  - Add new order by criteria.
+
+
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml
   - Add basic Shimmie2 RSS XML parsing.
