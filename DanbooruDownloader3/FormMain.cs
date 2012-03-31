@@ -45,6 +45,7 @@ namespace DanbooruDownloader3
         bool _isMorePost = true;
 
         int _loadedThumbnail;
+        bool _resetLoadedThumbnail = false;
         int _retry;
 
         const int MAX_FILENAME_LENGTH = 255;
@@ -331,6 +332,14 @@ namespace DanbooruDownloader3
             // check whether the previous thread still running.
             if (!_clientThumb.IsBusy)
             {
+                if (_resetLoadedThumbnail)
+                {
+                    _resetLoadedThumbnail = false;
+                    _isLoadingThumb = false;
+                    _loadedThumbnail = 0;
+                    return;
+                }
+
                 _isLoadingThumb = true;
                 tsProgressBar.Visible = true;
                 _loadedThumbnail = i;
@@ -377,6 +386,7 @@ namespace DanbooruDownloader3
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadDataAsync(new Uri(GetQueryUrl(authString)), GetQueryUrl(authString));
                     tsProgressBar.Visible = true;
+                    if (!(chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb && !chkAutoLoadNext.Checked)) _resetLoadedThumbnail = true;
                 }
             }
         }

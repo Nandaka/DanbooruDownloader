@@ -108,6 +108,7 @@ namespace DanbooruDownloader3
                 {
                     MemoryStream ms = new MemoryStream(e.Result);
                     int i = (int)e.UserState;
+                    
                     _postsDao.Posts[i].ThumbnailImage = new Bitmap(ms);
                     dgvList.Refresh();
 

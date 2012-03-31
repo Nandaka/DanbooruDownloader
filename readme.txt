@@ -3,7 +3,7 @@ Changelog:
 - DanbooruDownloader201204xx
   - Add preprocessor for Pixiv referer column (use the proper url if clicked).
   - Add new order by criteria.
-
+  - Fix thumbnail not loaded if clicking get list when the current thumbnail loading is not completed.
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml

@@ -31,17 +31,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -156,6 +156,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.linkUrl = new System.Windows.Forms.LinkLabel();
             this.chkProxyLogin = new System.Windows.Forms.CheckBox();
             this.txtProxyPassword = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -196,7 +197,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.linkUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -342,8 +342,8 @@
             this.dgvList.AllowUserToAddRows = false;
             this.dgvList.AllowUserToDeleteRows = false;
             this.dgvList.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -368,8 +368,8 @@
             this.dgvList.Name = "dgvList";
             this.dgvList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvList.RowHeadersVisible = false;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvList.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvList.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvList.Size = new System.Drawing.Size(918, 176);
             this.dgvList.TabIndex = 6;
@@ -404,8 +404,8 @@
             // 
             this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.colPreview.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPreview.FillWeight = 300F;
             this.colPreview.Frozen = true;
             this.colPreview.HeaderText = "Preview";
@@ -1003,8 +1003,8 @@
             this.dgvDownload.AllowUserToAddRows = false;
             this.dgvDownload.AllowUserToDeleteRows = false;
             this.dgvDownload.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1027,8 +1027,8 @@
             this.dgvDownload.Name = "dgvDownload";
             this.dgvDownload.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDownload.RowHeadersVisible = false;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDownload.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvDownload.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvDownload.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDownload.Size = new System.Drawing.Size(920, 311);
@@ -1050,8 +1050,8 @@
             // 
             this.colPreview2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle5;
             this.colPreview2.FillWeight = 150F;
             this.colPreview2.Frozen = true;
             this.colPreview2.HeaderText = "Preview";
@@ -1309,8 +1309,8 @@
             // colBatchProviders
             // 
             this.colBatchProviders.DataPropertyName = "ProviderListString";
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle7;
             this.colBatchProviders.FillWeight = 150F;
             this.colBatchProviders.HeaderText = "Providers";
             this.colBatchProviders.MinimumWidth = 150;
@@ -1329,8 +1329,8 @@
             // 
             this.colBatchStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle8;
             this.colBatchStatus.FillWeight = 300F;
             this.colBatchStatus.HeaderText = "Status";
             this.colBatchStatus.MinimumWidth = 300;
@@ -1531,6 +1531,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Internet Settings";
+            // 
+            // linkUrl
+            // 
+            this.linkUrl.AutoSize = true;
+            this.linkUrl.Location = new System.Drawing.Point(408, 101);
+            this.linkUrl.Name = "linkUrl";
+            this.linkUrl.Size = new System.Drawing.Size(308, 13);
+            this.linkUrl.TabIndex = 15;
+            this.linkUrl.TabStop = true;
+            this.linkUrl.Text = "http://nandaka.wordpress.com/tag/danbooru-batch-download/";
+            this.linkUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkUrl_LinkClicked);
             // 
             // chkProxyLogin
             // 
@@ -1837,8 +1848,8 @@
             // 
             this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn1.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewImageColumn1.FillWeight = 150F;
             this.dataGridViewImageColumn1.Frozen = true;
             this.dataGridViewImageColumn1.HeaderText = "Preview";
@@ -1851,8 +1862,8 @@
             // 
             this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewImageColumn2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewImageColumn2.FillWeight = 150F;
             this.dataGridViewImageColumn2.Frozen = true;
             this.dataGridViewImageColumn2.HeaderText = "Preview";
@@ -1860,17 +1871,6 @@
             this.dataGridViewImageColumn2.MinimumWidth = 150;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 150;
-            // 
-            // linkUrl
-            // 
-            this.linkUrl.AutoSize = true;
-            this.linkUrl.Location = new System.Drawing.Point(408, 101);
-            this.linkUrl.Name = "linkUrl";
-            this.linkUrl.Size = new System.Drawing.Size(308, 13);
-            this.linkUrl.TabIndex = 15;
-            this.linkUrl.TabStop = true;
-            this.linkUrl.Text = "http://nandaka.wordpress.com/tag/danbooru-batch-download/";
-            this.linkUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkUrl_LinkClicked);
             // 
             // FormMain
             // 
