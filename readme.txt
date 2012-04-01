@@ -4,6 +4,8 @@ Changelog:
   - Add preprocessor for Pixiv referer column (use the proper url if clicked).
   - Add new order by criteria.
   - Fix thumbnail not loaded if clicking get list when the current thumbnail loading is not completed.
+  - Fix Gelbooru referer url.
+  - Fix Shimmie2 paging for batch download.
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml

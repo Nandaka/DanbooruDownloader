@@ -201,7 +201,14 @@ namespace DanbooruDownloader3.DAO
                                 post.Provider = this.Provider.Name;
                                 post.Query = this.Query;
                                 post.SearchTags = this.SearchTags;
-                                post.Referer = this.Referer + @"/post/show/" + post.Id;
+                                if (Provider.BoardType == BoardType.Danbooru || Provider.BoardType == BoardType.Shimmie2)
+                                {
+                                    post.Referer = this.Referer + @"/post/show/" + post.Id;
+                                }
+                                else if(Provider.BoardType == BoardType.Gelbooru)
+                                {
+                                    post.Referer = this.Referer + @"/index.php?page=post&s=view&id=" + post.Id;
+                                }
                                 posts.Add(post);
                                 actualCount++;
 

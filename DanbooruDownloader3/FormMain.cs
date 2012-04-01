@@ -565,7 +565,7 @@ namespace DanbooruDownloader3
                                     query += batchJob[i].TagQuery;
                                     if (!string.IsNullOrWhiteSpace(batchJob[i].TagQuery)) query += "/";
                                     if (originalPage <= 0) originalPage = 1;
-                                    query += originalPage;
+                                    query += (originalPage + currPage);
                                     url = query;
                                 }
                                 else
@@ -773,8 +773,9 @@ namespace DanbooruDownloader3
                 if (total != 0)
                 {
                     tsProgressBar.Style = ProgressBarStyle.Continuous;
-                    tsProgressBar.Value = current;
                     tsProgressBar.Maximum = total;
+                    tsProgressBar.Value = current >= total ? total : current;
+                    
                 }
                 else
                 {
