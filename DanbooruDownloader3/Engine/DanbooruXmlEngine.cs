@@ -24,7 +24,7 @@ namespace DanbooruDownloader3.Engine
             BindingList<DanbooruPost> list = new BindingList<DanbooruPost>();
             XDocument posts = XDocument.Parse(data);
             this.RawData = posts.ToString();
-            this.TotalPost = Convert.ToInt32(posts.Root.Attribute("count").Value);
+            this.TotalPost = Convert.ToInt32(posts.Root.Attribute("Count").Value);
             this.Offset = Convert.ToInt32(posts.Root.Attribute("offset").Value);
 
             string queryStr = GenerateQueryString(query);

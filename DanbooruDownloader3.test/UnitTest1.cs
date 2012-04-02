@@ -9,6 +9,8 @@ using System.Xml;
 using DanbooruDownloader3.Entity;
 using System.Xml.Linq;
 using System.ComponentModel;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace DanbooruDownloader3.test
 {
@@ -18,6 +20,9 @@ namespace DanbooruDownloader3.test
         string sourceProvider = @"../../../DanbooruDownloader3.test/DanbooruProviderList.xml";
         string sourceDanbooruXml = @"../../../DanbooruDownloader3.test/TestXml/danbooru.xml";
         string sourceYandereXml = @"../../../DanbooruDownloader3.test/TestXml/yande.re.xml";
+
+        string sourceDanbooruTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_danbooru.xml";
+        string sourceYandereTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_yande.re.xml";
 
         [TestMethod]
         public void TestShimmie2Parser()
@@ -74,6 +79,53 @@ namespace DanbooruDownloader3.test
                 Assert.IsTrue(e.TotalPost == 160753);
                 Assert.IsTrue(result.Count == 16);
                 Assert.IsTrue(result[0].PreviewUrl == "https://yande.re/data/preview/d3/41/d34184030ee19c6e63051967cf135f65.jpg");
+            }
+        }
+
+        [TestMethod]
+        public void TestDanbooruTags()
+        {
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(DanbooruTags));
+                DanbooruTags tags = (DanbooruTags)ser.Deserialize(File.OpenText(sourceDanbooruTagsXml));
+
+                Assert.IsTrue(tags.Tag.Length == 151190);
+                Assert.IsTrue(tags.Tag[0].Name == "geordi_la_forge");
+                Assert.IsTrue(tags.Tag[0].Ambiguous == false);
+                Assert.IsTrue(tags.Tag[0].Type == DanbooruTagType.Character);
+                Assert.IsTrue(tags.Tag[0].Count == 1);
+                Assert.IsTrue(tags.Tag[0].Id == "525178");
+
+                var AmbiguousTags = tags.Tag.First<tagsTag>(x => x.Id == "1723");
+                Assert.IsTrue(AmbiguousTags.Name == "parody");
+                Assert.IsTrue(AmbiguousTags.Type == DanbooruTagType.General);
+                Assert.IsTrue(AmbiguousTags.Count == 16546);
+                Assert.IsTrue(AmbiguousTags.Ambiguous == true);
+
+                Assert.IsTrue(tags.GeneralTag.Length == 23011);
+                Assert.IsTrue(tags.ArtistTag.Length == 67705);
+                Assert.IsTrue(tags.CopyrightTag.Length == 12209);
+                Assert.IsTrue(tags.CharacterTag.Length == 48265);
+                Assert.IsTrue(tags.CircleTag.Length == 0);
+                Assert.IsTrue(tags.FaultsTag.Length == 0);
+
+                Assert.IsTrue(tags.GeneralTag.Length + tags.ArtistTag.Length + tags.CopyrightTag.Length + tags.CharacterTag.Length + tags.CircleTag.Length + tags.FaultsTag.Length == tags.Tag.Length);
+            }
+        }
+
+        [TestMethod]
+        public void TestDanbooruTagsDao()
+        {
+            {
+                var dao = new DanbooruTagsDao(sourceDanbooruTagsXml);
+
+                Assert.IsTrue(dao.IsArtistTag("raistlinkid"));
+                Assert.IsTrue(dao.IsCopyrightTag("i_feel_fine"));
+                Assert.IsTrue(dao.IsCharacterTag("geordi_la_forge"));
+                //Assert.IsTrue(dao.IsCircleTag(""));
+                //Assert.IsTrue(dao.IsFaultsTag(""));
+                Assert.IsTrue(dao.GetTagType("cracking_knuckles") == DanbooruTagType.General);
+                Assert.IsTrue(dao.GetTagType("unknown_tags!!!@!@#!") == DanbooruTagType.General);
             }
         }
     }

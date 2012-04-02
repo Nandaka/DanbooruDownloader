@@ -49,7 +49,7 @@ namespace DanbooruDownloader3.DAO
                                             case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
                                             case "BoardType":
                                                 string type = reader.ReadElementContentAsString();
-                                                newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
+                                                newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
                                                 break;
                                             default: break;
                                         }

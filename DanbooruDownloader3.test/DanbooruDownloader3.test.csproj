@@ -62,6 +62,8 @@
     </Content>
     <Content Include="TestXml\danbooru.xml" />
     <Content Include="TestXml\shimmie2.xml" />
+    <Content Include="TestXml\tags_danbooru.xml" />
+    <Content Include="TestXml\tags_yande.re.xml" />
     <Content Include="TestXml\yande.re.xml" />
   </ItemGroup>
   <ItemGroup>

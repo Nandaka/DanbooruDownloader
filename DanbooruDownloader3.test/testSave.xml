@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DanbooruProviderList>
+  <DanbooruProvider>
+    <Name>hahaha</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://danbooru.donmai.us</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>Sankaku Complex</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Json</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://chan.sankakucomplex.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>Sankaku Complex (Idol)</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Json</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://idol.sankakucomplex.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>Konachan</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Json</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://konachan.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>yande.re (oreno.imouto.org)</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>https://yande.re</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>gelbooru.com</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://gelbooru.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Gelbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>nekobooru.net</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://nekobooru.net</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>safebooru.org</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://safebooru.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Gelbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>ichijou.org</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://ichijou.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>TheDoujin.com</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://thedoujin.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Gelbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>3dbooru</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://behoimi.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>e621 (Furry)</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <Url>http://e621.net</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Danbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>rule34</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://rule34.xxx</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Gelbooru</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>dollbooru</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://www.dollbooru.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Shimmie2</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>4chanhouse</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://shimmie.4chanhouse.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Shimmie2</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>fairygarden</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>100</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://fairygarden.no-ip.org/shimmie2</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <BoardType>Shimmie2</BoardType>
+  </DanbooruProvider>
+</DanbooruProviderList>

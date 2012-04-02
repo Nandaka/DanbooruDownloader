@@ -19,7 +19,7 @@ namespace DanbooruDownloader3
                                                                 {"MegaPixel", "order:mpixels"},
                                                                 {"MegaPixel Ascending", "order:mpixels_asc"},
                                                                 {"Megapixels (Descending)", "order:mpixels_desc"},
-                                                                {"Count", "order:count"},
+                                                                {"Count", "order:Count"},
                                                                 {"Name", "order:name"},
                                                                 {"Date", "order:date"},
                                                                 {"Id", "order:id"},

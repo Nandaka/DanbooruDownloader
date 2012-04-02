@@ -120,7 +120,7 @@ namespace DanbooruDownloader3.DAO
                             {
                                 while (reader.MoveToNextAttribute())
                                 {
-                                    if (reader.Name.Equals("count"))    // Posts Count
+                                    if (reader.Name.Equals("Count"))    // Posts Count
                                     {
                                         postCount = int.Parse(reader.Value);
                                         RawData += "postCount:" + postCount;
