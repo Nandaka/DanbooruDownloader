@@ -191,7 +191,11 @@ namespace DanbooruDownloader3.Entity
             get { return thumbnailImage; }
             set { thumbnailImage = value; }
         }
-        
+
+        [XmlIgnore]
+        [Browsable(false)]
+        public List<DanbooruTag> TagsEntity { get; set; }
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

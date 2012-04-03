@@ -168,6 +168,9 @@
     <Content Include="DanbooruProviderList.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="tags.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\not_available_icon.png" />
     <None Include="Resources\WAIT.png" />
     <None Include="Resources\5-1.gif" />

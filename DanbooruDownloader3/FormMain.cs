@@ -122,7 +122,11 @@ namespace DanbooruDownloader3
                                     "%tags% = Image Tags" + Environment.NewLine +
                                     "%rating% = Image Rating" + Environment.NewLine +
                                     "%md5% = MD5 Hash" + Environment.NewLine +
-                                    "%query% = Query String" + Environment.NewLine +
+                                    "%artist% = Artist Tag" + Environment.NewLine +
+                                    "%copyright% = Copyright Tag" + Environment.NewLine +
+                                    "%character% = Character Tag" + Environment.NewLine +
+                                    "%circle% = Circle Tag" + Environment.NewLine +
+                                    "%faults% = Faults Tag" + Environment.NewLine +
                                     "%searchtag% = Search tag";
 
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
@@ -942,8 +946,10 @@ namespace DanbooruDownloader3
         {
             if (e.ColumnIndex == dgvList.Columns["colUrl"].Index || 
                 e.ColumnIndex == dgvList.Columns["colSourceUrl"].Index ||
-                 e.ColumnIndex == dgvList.Columns["colReferer"].Index )
+                e.ColumnIndex == dgvList.Columns["colReferer"].Index
+                )
             {
+                if (e.RowIndex == -1) return;
                 // Load web browser to the image url
                 string url = dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 // preprocess Pixiv Url
@@ -1332,6 +1338,5 @@ namespace DanbooruDownloader3
         {
             Process.Start(@"http://nandaka.wordpress.com/tag/danbooru-batch-download/");
         }
-
     }
 }

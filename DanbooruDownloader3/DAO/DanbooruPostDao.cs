@@ -11,6 +11,8 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
+        private static DanbooruTagsDao tagsDao = new DanbooruTagsDao("tags.xml");
+
         #region ctor
         public DanbooruPostDao(string url, DanbooruProvider provider)
         {
@@ -140,7 +142,10 @@ namespace DanbooruDownloader3.DAO
                                     switch (reader.Name)
                                     {
                                         case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
-                                        case "tags": post.Tags = reader.Value; break;
+                                        case "tags": 
+                                            post.Tags = reader.Value;
+                                            post.TagsEntity =  DanbooruPostDao.tagsDao.ParseTagsString(post.Tags);
+                                            break;
                                         case "source": post.Source = reader.Value; break;
                                         case "creator_id": post.CreatorId = reader.Value; break;
                                         case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
@@ -289,6 +294,7 @@ namespace DanbooruDownloader3.DAO
                             break;
                         case "\"tags\"":
                             post.Tags = val[1].Replace("\"", "");
+                            post.TagsEntity = DanbooruPostDao.tagsDao.ParseTagsString(post.Tags);
                             break;
                         case "\"source\"":
                             post.Source = val[1].Replace("\"", "");

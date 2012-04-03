@@ -5,87 +5,86 @@ using System.Xml.Serialization;
 namespace DanbooruDownloader3.Entity
 {
     [XmlType("tags")]
-    public class DanbooruTags
+    public class DanbooruTagCollection
     {
         [XmlElementAttribute("tag", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public tagsTag[] Tag { get; set; }
+        public DanbooruTag[] Tag { get; set; }
 
-        private tagsTag[] generalTag;
+        private DanbooruTag[] generalTag;
         [XmlIgnore]
-        public tagsTag[] GeneralTag
+        public DanbooruTag[] GeneralTag
         {
             get
             {
-                if (generalTag == null) generalTag = this.Tag.Where(x => x.Type == DanbooruTagType.General).ToArray<tagsTag>();
+                if (generalTag == null) generalTag = this.Tag.Where(x => x.Type == DanbooruTagType.General).ToArray<DanbooruTag>();
                 return generalTag;
             }
             private set { }
         }
 
-        private tagsTag[] artistTag;
+        private DanbooruTag[] artistTag;
         [XmlIgnore]
-        public tagsTag[] ArtistTag
+        public DanbooruTag[] ArtistTag
         {
             get
             {
-                if (artistTag == null) artistTag = this.Tag.Where(x => x.Type == DanbooruTagType.Artist).ToArray<tagsTag>();
+                if (artistTag == null) artistTag = this.Tag.Where(x => x.Type == DanbooruTagType.Artist).ToArray<DanbooruTag>();
                 return artistTag;
             }
             private set { }
         }
 
-        private tagsTag[] copyrightTag;
+        private DanbooruTag[] copyrightTag;
         [XmlIgnore]
-        public tagsTag[] CopyrightTag
+        public DanbooruTag[] CopyrightTag
         {
             get
             {
-                if (copyrightTag == null) copyrightTag = this.Tag.Where(x => x.Type == DanbooruTagType.Copyright).ToArray<tagsTag>();
+                if (copyrightTag == null) copyrightTag = this.Tag.Where(x => x.Type == DanbooruTagType.Copyright).ToArray<DanbooruTag>();
                 return copyrightTag;
             }
             private set { }
         }
 
-        private tagsTag[] characterTag;
+        private DanbooruTag[] characterTag;
         [XmlIgnore]
-        public tagsTag[] CharacterTag
+        public DanbooruTag[] CharacterTag
         {
             get
             {
-                if (characterTag == null) characterTag = this.Tag.Where(x => x.Type == DanbooruTagType.Character).ToArray<tagsTag>();
+                if (characterTag == null) characterTag = this.Tag.Where(x => x.Type == DanbooruTagType.Character).ToArray<DanbooruTag>();
                 return characterTag;
             }
             private set { }
         }
 
-        private tagsTag[] circleTag;
+        private DanbooruTag[] circleTag;
         [XmlIgnore]
-        public tagsTag[] CircleTag
+        public DanbooruTag[] CircleTag
         {
             get
             {
-                if (circleTag == null) circleTag = this.Tag.Where(x => x.Type == DanbooruTagType.Circle).ToArray<tagsTag>();
+                if (circleTag == null) circleTag = this.Tag.Where(x => x.Type == DanbooruTagType.Circle).ToArray<DanbooruTag>();
                 return circleTag;
             }
             private set { }
         }
 
-        private tagsTag[] faultsTag;
+        private DanbooruTag[] faultsTag;
         [XmlIgnore]
-        public tagsTag[] FaultsTag
+        public DanbooruTag[] FaultsTag
         {
             get
             {
-                if (faultsTag == null) faultsTag = this.Tag.Where(x => x.Type == DanbooruTagType.Faults).ToArray<tagsTag>();
+                if (faultsTag == null) faultsTag = this.Tag.Where(x => x.Type == DanbooruTagType.Faults).ToArray<DanbooruTag>();
                 return faultsTag;
             }
             private set { }
         }
-
     }
 
     [XmlTypeAttribute(AnonymousType = true)]
-    public class tagsTag
+    public class DanbooruTag
     {
         [XmlAttribute("type")]
         public DanbooruTagType Type { get; set; }
@@ -101,7 +100,7 @@ namespace DanbooruDownloader3.Entity
 
         [XmlAttribute("id")]
         public string Id { get; set; }
-    }
+   }
 
     public enum DanbooruTagType
     {

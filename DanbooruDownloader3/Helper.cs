@@ -86,6 +86,18 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%query%", Helper.SanitizeFilename(query));
             filename = filename.Replace("%searchtag%", Helper.SanitizeFilename(searchTags));
 
+            var artist = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name));
+            filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist));
+            var copyright = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Copyright).Select(x => x.Name));
+            filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright));
+            var character = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name));
+            filename = filename.Replace("%character%", Helper.SanitizeFilename(character));
+            var circle = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name));
+            filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle));
+            var faults = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name));
+            filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults));
+            
+
             if (baseFolder.EndsWith(@"\")) filename = baseFolder + filename;
             else filename = baseFolder + @"\" + filename;
 

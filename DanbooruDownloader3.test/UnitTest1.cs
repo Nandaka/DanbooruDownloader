@@ -86,8 +86,8 @@ namespace DanbooruDownloader3.test
         public void TestDanbooruTags()
         {
             {
-                XmlSerializer ser = new XmlSerializer(typeof(DanbooruTags));
-                DanbooruTags tags = (DanbooruTags)ser.Deserialize(File.OpenText(sourceDanbooruTagsXml));
+                XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
+                DanbooruTagCollection tags = (DanbooruTagCollection)ser.Deserialize(File.OpenText(sourceDanbooruTagsXml));
 
                 Assert.IsTrue(tags.Tag.Length == 151190);
                 Assert.IsTrue(tags.Tag[0].Name == "geordi_la_forge");
@@ -96,7 +96,7 @@ namespace DanbooruDownloader3.test
                 Assert.IsTrue(tags.Tag[0].Count == 1);
                 Assert.IsTrue(tags.Tag[0].Id == "525178");
 
-                var AmbiguousTags = tags.Tag.First<tagsTag>(x => x.Id == "1723");
+                var AmbiguousTags = tags.Tag.First<DanbooruTag>(x => x.Id == "1723");
                 Assert.IsTrue(AmbiguousTags.Name == "parody");
                 Assert.IsTrue(AmbiguousTags.Type == DanbooruTagType.General);
                 Assert.IsTrue(AmbiguousTags.Count == 16546);
