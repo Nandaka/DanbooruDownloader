@@ -6,6 +6,11 @@ Changelog:
   - Fix thumbnail not loaded if clicking get list when the current thumbnail loading is not completed.
   - Fix Gelbooru referer url.
   - Fix Shimmie2 paging for batch download.
+  - Add tags.xml for tags type detection, you can get the latest from:
+    - http://danbooru.donmai.us/tag/index.xml?limit=0 or 
+    - https://yande.re/tag/index.xml?limit=0 or from other *booru.
+    Just save the xml as tags.xml in the same folder as the application.
+  - Add %artist%, %copyright%, %character%, %circle%, and %faults% tag for filename.
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml
