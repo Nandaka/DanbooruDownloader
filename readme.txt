@@ -11,6 +11,7 @@ Changelog:
     - https://yande.re/tag/index.xml?limit=0 or from other *booru.
     Just save the xml as tags.xml in the same folder as the application.
   - Add %artist%, %copyright%, %character%, %circle%, and %faults% tag for filename.
+  - Add colored tags column in Main Tag (enable in Settings tab).
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml

@@ -134,6 +134,8 @@ namespace DanbooruDownloader3
 
             CheckProxyLogin();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+
+            ToggleTagsColor();
         }
 
         private void LoadProvider()
@@ -1337,6 +1339,26 @@ namespace DanbooruDownloader3
         private void linkUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(@"http://nandaka.wordpress.com/tag/danbooru-batch-download/");
+        }
+
+        private void chkUseTagColor_CheckedChanged(object sender, EventArgs e)
+        {
+            ToggleTagsColor();
+        }
+
+        private void ToggleTagsColor()
+        {
+            if (chkUseTagColor.Checked)
+            {
+                dgvList.Columns["colTagsE"].Visible = true;
+                dgvList.Columns["colTags"].Visible = false;
+            }
+            else
+            {
+                dgvList.Columns["colTagsE"].Visible = false;
+                dgvList.Columns["colTags"].Visible = true;
+            }
+            dgvList.Refresh();
         }
     }
 }

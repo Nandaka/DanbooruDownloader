@@ -193,7 +193,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         [XmlIgnore]
-        [Browsable(false)]
+        //[Browsable(false)]
         public List<DanbooruTag> TagsEntity { get; set; }
 
         #region INotifyPropertyChanged Members
