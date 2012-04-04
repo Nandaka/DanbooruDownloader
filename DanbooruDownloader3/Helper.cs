@@ -5,11 +5,19 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using DanbooruDownloader3.Entity;
+using System.Drawing;
 
 namespace DanbooruDownloader3
 {
     public static class Helper
     {
+        public static Color ColorGeneral = Color.Black;
+        public static Color ColorArtist = Color.HotPink;
+        public static Color ColorCopyright = Color.OrangeRed;
+        public static Color ColorCharacter = Color.Blue;
+        public static Color ColorCircle = Color.Purple;
+        public static Color ColorFaults = Color.Red;
+
         /// <summary>
         /// Generate hashed password+salt using SHA1
         /// </summary>

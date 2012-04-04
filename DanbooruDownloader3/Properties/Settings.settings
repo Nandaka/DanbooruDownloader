@@ -71,5 +71,23 @@
     <Setting Name="UseColoredTag" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ColorGeneral" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ControlText</Value>
+    </Setting>
+    <Setting Name="ColorArtist" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">HotPink</Value>
+    </Setting>
+    <Setting Name="ColorCopyright" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Blue</Value>
+    </Setting>
+    <Setting Name="ColorCharacter" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Purple</Value>
+    </Setting>
+    <Setting Name="ColorCircle" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">OrangeRed</Value>
+    </Setting>
+    <Setting Name="ColorFaults" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

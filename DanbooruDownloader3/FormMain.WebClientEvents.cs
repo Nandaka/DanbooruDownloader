@@ -110,6 +110,10 @@ namespace DanbooruDownloader3
                     int i = (int)e.UserState;
                     
                     _postsDao.Posts[i].ThumbnailImage = new Bitmap(ms);
+                    if (dgvList.Columns["colPreview"].Width < _postsDao.Posts[i].ThumbnailImage.Width)
+                    {
+                        dgvList.Columns["colPreview"].Width = _postsDao.Posts[i].ThumbnailImage.Width;
+                    }
                     dgvList.Refresh();
 
                     i++;

@@ -135,6 +135,7 @@ namespace DanbooruDownloader3
             CheckProxyLogin();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
 
+            SetTagColors();
             ToggleTagsColor();
         }
 
@@ -330,6 +331,7 @@ namespace DanbooruDownloader3
 
         private void LoadThumbnailLater(int i)
         {
+            if (this.IsDisposed || this.Disposing) return;
             if (i >= _postsDao.Posts.Count)
             {
                 _isLoadingThumb = false;
@@ -937,7 +939,10 @@ namespace DanbooruDownloader3
         private void dgvList_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             // add row number
-            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++) dgvList.Rows[i].Cells["colNumber"].Value = i + 1;
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
+            {
+                dgvList.Rows[i].Cells["colNumber"].Value = i + 1;
+            }
 
         }
 
@@ -1359,6 +1364,76 @@ namespace DanbooruDownloader3
                 dgvList.Columns["colTags"].Visible = true;
             }
             dgvList.Refresh();
+        }
+
+        private void lblColorGeneral_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorGeneral.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorGeneral.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void lblColorArtist_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorArtist.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorArtist.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void lblColorCopy_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorCopy.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorCopy.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void lblColorChara_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorChara.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorChara.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void lblColorCircle_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorCircle.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorCircle.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void lblColorFaults_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorFaults.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorFaults.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
+        }
+
+        private void SetTagColors()
+        {
+            Helper.ColorGeneral = lblColorGeneral.ForeColor;
+            Helper.ColorArtist = lblColorArtist.ForeColor;
+            Helper.ColorCopyright = lblColorCopy.ForeColor;
+            Helper.ColorCharacter = lblColorChara.ForeColor;
+            Helper.ColorCircle = lblColorCircle.ForeColor;
+            Helper.ColorFaults = lblColorFaults.ForeColor;
         }
     }
 }

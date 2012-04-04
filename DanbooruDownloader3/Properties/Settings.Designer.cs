@@ -299,5 +299,77 @@ namespace DanbooruDownloader3.Properties {
                 this["UseColoredTag"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ControlText")]
+        public global::System.Drawing.Color ColorGeneral {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorGeneral"]));
+            }
+            set {
+                this["ColorGeneral"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("HotPink")]
+        public global::System.Drawing.Color ColorArtist {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorArtist"]));
+            }
+            set {
+                this["ColorArtist"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        public global::System.Drawing.Color ColorCopyright {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCopyright"]));
+            }
+            set {
+                this["ColorCopyright"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Purple")]
+        public global::System.Drawing.Color ColorCharacter {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCharacter"]));
+            }
+            set {
+                this["ColorCharacter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("OrangeRed")]
+        public global::System.Drawing.Color ColorCircle {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCircle"]));
+            }
+            set {
+                this["ColorCircle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color ColorFaults {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorFaults"]));
+            }
+            set {
+                this["ColorFaults"] = value;
+            }
+        }
     }
 }

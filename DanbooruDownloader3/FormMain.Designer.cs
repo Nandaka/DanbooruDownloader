@@ -140,7 +140,6 @@
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnClearCompleted = new System.Windows.Forms.Button();
             this.btnPauseBatchJob = new System.Windows.Forms.Button();
-            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
@@ -153,14 +152,15 @@
             this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.lblColorFaults = new System.Windows.Forms.Label();
+            this.lblColorCircle = new System.Windows.Forms.Label();
+            this.lblColorChara = new System.Windows.Forms.Label();
+            this.lblColorCopy = new System.Windows.Forms.Label();
+            this.lblColorArtist = new System.Windows.Forms.Label();
+            this.lblColorGeneral = new System.Windows.Forms.Label();
             this.chkUseTagColor = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -238,6 +238,7 @@
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -468,11 +469,12 @@
             // 
             // colPreview
             // 
-            this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.colPreview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colPreview.DataPropertyName = "ThumbnailImage";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.colPreview.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colPreview.FillWeight = 300F;
+            this.colPreview.FillWeight = 500F;
             this.colPreview.Frozen = true;
             this.colPreview.HeaderText = "Preview";
             this.colPreview.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
@@ -483,9 +485,9 @@
             // colProvider
             // 
             this.colProvider.DataPropertyName = "provider";
-            this.colProvider.HeaderText = "provider";
+            this.colProvider.HeaderText = "Provider";
             this.colProvider.Name = "colProvider";
-            this.colProvider.Width = 70;
+            this.colProvider.Width = 71;
             // 
             // colId
             // 
@@ -1269,11 +1271,11 @@
             this.tabPage5.Controls.Add(this.btnClearAll);
             this.tabPage5.Controls.Add(this.btnClearCompleted);
             this.tabPage5.Controls.Add(this.btnPauseBatchJob);
-            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Controls.Add(this.btnStopBatchJob);
             this.tabPage5.Controls.Add(this.btnStartBatchJob);
             this.tabPage5.Controls.Add(this.btnAddBatchJob);
             this.tabPage5.Controls.Add(this.dgvBatchJob);
+            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1313,18 +1315,6 @@
             this.btnPauseBatchJob.Text = "Pause Batch Job";
             this.btnPauseBatchJob.UseVisualStyleBackColor = true;
             this.btnPauseBatchJob.Click += new System.EventHandler(this.btnPauseBatchJob_Click);
-            // 
-            // cbxAbortOnError
-            // 
-            this.cbxAbortOnError.AutoSize = true;
-            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
-            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
-            this.cbxAbortOnError.Name = "cbxAbortOnError";
-            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
-            this.cbxAbortOnError.TabIndex = 4;
-            this.cbxAbortOnError.Text = "Abort On Error";
-            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
             // btnStopBatchJob
             // 
@@ -1478,6 +1468,18 @@
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
+            // cbxAbortOnError
+            // 
+            this.cbxAbortOnError.AutoSize = true;
+            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
+            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
+            this.cbxAbortOnError.Name = "cbxAbortOnError";
+            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
+            this.cbxAbortOnError.TabIndex = 4;
+            this.cbxAbortOnError.Text = "Abort On Error";
+            this.cbxAbortOnError.UseVisualStyleBackColor = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
@@ -1494,12 +1496,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label25);
-            this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Controls.Add(this.label23);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.lblColorFaults);
+            this.groupBox2.Controls.Add(this.lblColorCircle);
+            this.groupBox2.Controls.Add(this.lblColorChara);
+            this.groupBox2.Controls.Add(this.lblColorCopy);
+            this.groupBox2.Controls.Add(this.lblColorArtist);
+            this.groupBox2.Controls.Add(this.lblColorGeneral);
             this.groupBox2.Controls.Add(this.chkUseTagColor);
             this.groupBox2.Controls.Add(this.chkMinimizeTray);
             this.groupBox2.Location = new System.Drawing.Point(8, 268);
@@ -1509,64 +1511,83 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Application Settings";
             // 
-            // label25
+            // lblColorFaults
             // 
-            this.label25.AutoSize = true;
-            this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(364, 39);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(35, 13);
-            this.label25.TabIndex = 14;
-            this.label25.Text = "Faults";
+            this.lblColorFaults.AutoSize = true;
+            this.lblColorFaults.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorFaults.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorFaults", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorFaults.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorFaults;
+            this.lblColorFaults.Location = new System.Drawing.Point(364, 39);
+            this.lblColorFaults.Name = "lblColorFaults";
+            this.lblColorFaults.Size = new System.Drawing.Size(35, 13);
+            this.lblColorFaults.TabIndex = 14;
+            this.lblColorFaults.Text = "Faults";
+            this.lblColorFaults.DoubleClick += new System.EventHandler(this.lblColorFaults_DoubleClick);
             // 
-            // label24
+            // lblColorCircle
             // 
-            this.label24.AutoSize = true;
-            this.label24.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label24.Location = new System.Drawing.Point(325, 39);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(33, 13);
-            this.label24.TabIndex = 13;
-            this.label24.Text = "Circle";
+            this.lblColorCircle.AutoSize = true;
+            this.lblColorCircle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorCircle.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCircle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorCircle.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCircle;
+            this.lblColorCircle.Location = new System.Drawing.Point(325, 39);
+            this.lblColorCircle.Name = "lblColorCircle";
+            this.lblColorCircle.Size = new System.Drawing.Size(33, 13);
+            this.lblColorCircle.TabIndex = 13;
+            this.lblColorCircle.Text = "Circle";
+            this.lblColorCircle.DoubleClick += new System.EventHandler(this.lblColorCircle_DoubleClick);
             // 
-            // label23
+            // lblColorChara
             // 
-            this.label23.AutoSize = true;
-            this.label23.ForeColor = System.Drawing.Color.Purple;
-            this.label23.Location = new System.Drawing.Point(266, 39);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(53, 13);
-            this.label23.TabIndex = 12;
-            this.label23.Text = "Character";
+            this.lblColorChara.AutoSize = true;
+            this.lblColorChara.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorChara.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCharacter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorChara.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCharacter;
+            this.lblColorChara.Location = new System.Drawing.Point(266, 39);
+            this.lblColorChara.Name = "lblColorChara";
+            this.lblColorChara.Size = new System.Drawing.Size(53, 13);
+            this.lblColorChara.TabIndex = 12;
+            this.lblColorChara.Text = "Character";
+            this.lblColorChara.DoubleClick += new System.EventHandler(this.lblColorChara_DoubleClick);
             // 
-            // label22
+            // lblColorCopy
             // 
-            this.label22.AutoSize = true;
-            this.label22.ForeColor = System.Drawing.Color.Blue;
-            this.label22.Location = new System.Drawing.Point(209, 39);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(51, 13);
-            this.label22.TabIndex = 11;
-            this.label22.Text = "Copyright";
+            this.lblColorCopy.AutoSize = true;
+            this.lblColorCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorCopy.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCopyright", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorCopy.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCopyright;
+            this.lblColorCopy.Location = new System.Drawing.Point(209, 39);
+            this.lblColorCopy.Name = "lblColorCopy";
+            this.lblColorCopy.Size = new System.Drawing.Size(51, 13);
+            this.lblColorCopy.TabIndex = 11;
+            this.lblColorCopy.Text = "Copyright";
+            this.lblColorCopy.DoubleClick += new System.EventHandler(this.lblColorCopy_DoubleClick);
             // 
-            // label21
+            // lblColorArtist
             // 
-            this.label21.AutoSize = true;
-            this.label21.ForeColor = System.Drawing.Color.HotPink;
-            this.label21.Location = new System.Drawing.Point(173, 39);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(30, 13);
-            this.label21.TabIndex = 10;
-            this.label21.Text = "Artist";
+            this.lblColorArtist.AutoSize = true;
+            this.lblColorArtist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorArtist.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorArtist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorArtist.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorArtist;
+            this.lblColorArtist.Location = new System.Drawing.Point(173, 39);
+            this.lblColorArtist.Name = "lblColorArtist";
+            this.lblColorArtist.Size = new System.Drawing.Size(30, 13);
+            this.lblColorArtist.TabIndex = 10;
+            this.lblColorArtist.Text = "Artist";
+            this.lblColorArtist.DoubleClick += new System.EventHandler(this.lblColorArtist_DoubleClick);
             // 
-            // label20
+            // lblColorGeneral
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(123, 39);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(44, 13);
-            this.label20.TabIndex = 9;
-            this.label20.Text = "General";
+            this.lblColorGeneral.AutoSize = true;
+            this.lblColorGeneral.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorGeneral.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorGeneral", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorGeneral.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorGeneral;
+            this.lblColorGeneral.Location = new System.Drawing.Point(123, 39);
+            this.lblColorGeneral.Name = "lblColorGeneral";
+            this.lblColorGeneral.Size = new System.Drawing.Size(44, 13);
+            this.lblColorGeneral.TabIndex = 9;
+            this.lblColorGeneral.Text = "General";
+            this.lblColorGeneral.DoubleClick += new System.EventHandler(this.lblColorGeneral_DoubleClick);
             // 
             // chkUseTagColor
             // 
@@ -2476,19 +2497,6 @@
         private System.Windows.Forms.DataGridViewLinkColumn colUrl2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMD52;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuery2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
-        private System.Windows.Forms.DataGridViewImageColumn colPreview;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
-        private TagsColumn colTagsE;
-        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
-        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
-        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -2512,12 +2520,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn21;
         private System.Windows.Forms.CheckBox chkUseTagColor;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lblColorGeneral;
+        private System.Windows.Forms.Label lblColorArtist;
+        private System.Windows.Forms.Label lblColorCopy;
+        private System.Windows.Forms.Label lblColorChara;
+        private System.Windows.Forms.Label lblColorCircle;
+        private System.Windows.Forms.Label lblColorFaults;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
+        private System.Windows.Forms.DataGridViewImageColumn colPreview;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
+        private TagsColumn colTagsE;
+        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
+        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
+        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
     }
 }
 
