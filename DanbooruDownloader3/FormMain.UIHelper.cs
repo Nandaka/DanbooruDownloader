@@ -117,7 +117,7 @@ namespace DanbooruDownloader3
 
                     //Rating
                     txtQuery.Text += txtQuery.Text.Length > 0 && cbxRating.SelectedIndex > 0 ? "+" : "";
-                    txtQuery.Text += (txtTags.Text.Length <= 0 && cbxRating.SelectedIndex > 0 ? "tags=" : "") + (chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" : "" + cbxRating.SelectedValue);
+                    txtQuery.Text += (txtTags.Text.Length <= 0 && cbxRating.SelectedIndex > 0 ? "tags=" : "") + (chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue);
 
                     //Source
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtSource.Text.Length > 0 ? "+" : txtSource.Text.Length > 0 ? "tags=" : "";

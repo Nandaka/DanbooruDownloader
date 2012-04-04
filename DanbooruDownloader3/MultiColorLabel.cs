@@ -52,19 +52,17 @@ namespace DanbooruDownloader3
 
             if (value != null && value.GetType() == typeof(List<DanbooruDownloader3.Entity.DanbooruTag>))
             {
-                Rectangle newRect = new Rectangle(cellBounds.X + 1,
-                    cellBounds.Y + 1, cellBounds.Width - 4,
-                    cellBounds.Height - 4);
-
-
-                using (Brush backColorBrush = new SolidBrush(cellStyle.BackColor))
+                //Rectangle newRect = new Rectangle(cellBounds.X + 1, cellBounds.Y + 1, cellBounds.Width - 4, cellBounds.Height - 4);
+                
+                using (Brush backColorBrush = new SolidBrush(cellStyle.BackColor), selectedBrush = new SolidBrush(cellStyle.SelectionBackColor))
                 {
-                    // Erase the cell.
-                    graphics.FillRectangle(backColorBrush, cellBounds);
+                    if (Selected) graphics.FillRectangle(selectedBrush, cellBounds);
+                    else graphics.FillRectangle(backColorBrush, cellBounds);
+
+                    // Draw the grid lines (only the right and bottom lines;
+                    // DataGridView takes care of the others).
                     using (Pen gridLinePen = new Pen(DataGridView.GridColor))
                     {
-                        // Draw the grid lines (only the right and bottom lines;
-                        // DataGridView takes care of the others).
                         graphics.DrawLine(gridLinePen, cellBounds.Left,
                             cellBounds.Bottom - 1, cellBounds.Right - 1,
                             cellBounds.Bottom - 1);
@@ -73,7 +71,33 @@ namespace DanbooruDownloader3
                             cellBounds.Bottom);
                     }
 
-                    PointF pad = new PointF(cellBounds.X, cellBounds.Y);
+                    PointF pad = new PointF(cellBounds.X + 1, cellBounds.Y + 1);
+
+                    SizeF strSize = new SizeF();
+                    // check the total height
+                    var limitX = cellBounds.X + 1 + cellBounds.Width - 4;
+                    var limitY = cellBounds.Y + 1 + cellBounds.Height - 4;
+                    foreach (var item in (List<DanbooruDownloader3.Entity.DanbooruTag>)value)
+                    {
+                        var temp = item.Name + " ";
+                        strSize = graphics.MeasureString(temp, cellStyle.Font);
+                        if (pad.X + strSize.Width > limitX)
+                        {
+                            pad.X = cellBounds.X + 1;
+                            pad.Y += strSize.Height;
+                        }
+                        if (pad.X + strSize.Width > limitX)
+                        {
+                            pad.X = cellBounds.X + 1;
+                            pad.Y += strSize.Height;
+                        }
+                        else pad.X += strSize.Width;
+                    }
+                    pad.X = cellBounds.X + 1;
+                    if (pad.Y > limitY) pad.Y = cellBounds.Y + 1;
+                    else pad.Y = cellBounds.Y + 1 + ((cellBounds.Y + cellBounds.Height) - (pad.Y + strSize.Height)) / 2;
+
+                    // the actual draw
                     foreach (var item in (List<DanbooruDownloader3.Entity.DanbooruTag>)value)
                     {
                         var temp = item.Name + " ";
@@ -87,21 +111,22 @@ namespace DanbooruDownloader3
                             case Entity.DanbooruTagType.Faults: brush = Brushes.Red; break;
                         }
 
-                        var strSize = graphics.MeasureString(temp, cellStyle.Font);
-                        if (pad.X + strSize.Width > cellBounds.X + cellBounds.Width)
+                        strSize = graphics.MeasureString(temp, cellStyle.Font);
+                        // check over X bound
+                        if (pad.X + strSize.Width > limitX)
                         {
-                            pad.X = cellBounds.X;
+                            pad.X = cellBounds.X + 1;
                             pad.Y += strSize.Height;
                         }
+                        // check over Y bound?
+                        if (pad.Y + strSize.Height > limitY) break;
                         graphics.DrawString(temp, cellStyle.Font, brush, pad);
-                        if (pad.X + strSize.Width > cellBounds.X + cellBounds.Width)
+                        if (pad.X + strSize.Width > limitX)
                         {
-                            pad.X = cellBounds.X;
+                            pad.X = cellBounds.X + 1;
                             pad.Y += strSize.Height;
                         }
                         else pad.X += strSize.Width;
-
-                        
                     }
                 }
             }
