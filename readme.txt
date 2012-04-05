@@ -1,6 +1,6 @@
 Changelog:
 =============================
-- DanbooruDownloader201204xx
+- DanbooruDownloader20120405
   - Add preprocessor for Pixiv referer column (use the proper url if clicked).
   - Add new order by criteria.
   - Fix thumbnail not loaded if clicking get list when the current thumbnail loading is not completed.
@@ -12,6 +12,9 @@ Changelog:
     Just save the xml as tags.xml in the same folder as the application.
   - Add %artist%, %copyright%, %character%, %circle%, and %faults% tag for filename.
   - Add colored tags column in Main Tag (enable in Settings tab).
+    - Depend on tags.xml file, you can download it from http://danbooru.donmai.us/tag/index.xml?limit=0.
+  - Fix invalid auth info for batch download.
+
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml

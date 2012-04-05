@@ -610,7 +610,7 @@ namespace DanbooruDownloader3
 
                                 if (p.UseAuth)
                                 {
-                                    string authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                                    string authString = "login=" + p.UserName + "&password_hash=" + Helper.GeneratePasswordHash(p.Password, p.PasswordSalt);
                                     url = url + "&" + authString;
                                 }
 
