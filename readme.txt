@@ -1,5 +1,9 @@
 Changelog:
 =============================
+- DanbooruDownloader201204xx
+  - Fix shimmie2 downloader as reported by Spidey.
+  - Add tags auto complete in tags text box.
+
 - DanbooruDownloader20120405
   - Add preprocessor for Pixiv referer column (use the proper url if clicked).
   - Add new order by criteria.

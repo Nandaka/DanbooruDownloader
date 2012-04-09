@@ -56,6 +56,7 @@ namespace DanbooruDownloader3
                     ComboBox _cbx = new ComboBox();
                     _cbx.Name = info.Name;
                     _cbx.Items.AddRange(new object[] { true, false });
+                    
                     tableLayoutPanel1.Controls.Add(_cbx);
                 }
                 else if (info.PropertyType.IsEnum)
@@ -74,7 +75,7 @@ namespace DanbooruDownloader3
                     TextBox _txt = new TextBox();
                     _txt.Name = info.Name;
                     _txt.Dock = DockStyle.Fill;
-
+                    if (info.Name.ToLowerInvariant().Contains("password")) _txt.UseSystemPasswordChar = true;
                     tableLayoutPanel1.Controls.Add(_txt);
                 }
             }

@@ -11,7 +11,7 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
-        private static DanbooruTagsDao tagsDao = new DanbooruTagsDao("tags.xml");
+        public static DanbooruTagsDao tagsDao = new DanbooruTagsDao("tags.xml");
 
         #region ctor
         public DanbooruPostDao(string url, DanbooruProvider provider)
@@ -109,6 +109,7 @@ namespace DanbooruDownloader3.DAO
                 foreach (var item in posts)
                 {
                     RawData += item.Id + ":" + item.FileUrl + ", ";
+                    item.TagsEntity = DanbooruPostDao.tagsDao.ParseTagsString(item.Tags);
                 }
             }
             else

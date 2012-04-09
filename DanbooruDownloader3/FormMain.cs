@@ -137,6 +137,21 @@ namespace DanbooruDownloader3
 
             SetTagColors();
             ToggleTagsColor();
+
+            SetTagAutoComplete();
+        }
+
+        private void SetTagAutoComplete()
+        {
+            if (chkTagAutoComplete.Checked)
+            {
+                var tagAutoComplete = DanbooruPostDao.tagsDao.Tags.Tag.Select(x => x.Name).ToArray<String>();
+                txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
+            }
+            else
+            {
+                txtTags.AutoCompleteCustomSource.Clear();
+            }
         }
 
         private void LoadProvider()
@@ -1434,6 +1449,11 @@ namespace DanbooruDownloader3
             Helper.ColorCharacter = lblColorChara.ForeColor;
             Helper.ColorCircle = lblColorCircle.ForeColor;
             Helper.ColorFaults = lblColorFaults.ForeColor;
+        }
+
+        private void chkTagAutoComplete_CheckedChanged(object sender, EventArgs e)
+        {
+            SetTagAutoComplete();
         }
     }
 }

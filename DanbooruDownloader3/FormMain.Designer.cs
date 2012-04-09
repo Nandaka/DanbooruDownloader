@@ -155,6 +155,7 @@
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkTagAutoComplete = new System.Windows.Forms.CheckBox();
             this.lblColorFaults = new System.Windows.Forms.Label();
             this.lblColorCircle = new System.Windows.Forms.Label();
             this.lblColorChara = new System.Windows.Forms.Label();
@@ -794,9 +795,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "provider";
+            this.label1.Text = "Provider";
             // 
             // chkNotRating
             // 
@@ -927,6 +928,8 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTags.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtTags.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtTags.Location = new System.Drawing.Point(42, 72);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(511, 20);
@@ -1496,6 +1499,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkTagAutoComplete);
             this.groupBox2.Controls.Add(this.lblColorFaults);
             this.groupBox2.Controls.Add(this.lblColorCircle);
             this.groupBox2.Controls.Add(this.lblColorChara);
@@ -1506,10 +1510,23 @@
             this.groupBox2.Controls.Add(this.chkMinimizeTray);
             this.groupBox2.Location = new System.Drawing.Point(8, 268);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(632, 68);
+            this.groupBox2.Size = new System.Drawing.Size(710, 68);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Application Settings";
+            // 
+            // chkTagAutoComplete
+            // 
+            this.chkTagAutoComplete.AutoSize = true;
+            this.chkTagAutoComplete.Checked = global::DanbooruDownloader3.Properties.Settings.Default.TagAutoComplete;
+            this.chkTagAutoComplete.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "TagAutoComplete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkTagAutoComplete.Location = new System.Drawing.Point(176, 19);
+            this.chkTagAutoComplete.Name = "chkTagAutoComplete";
+            this.chkTagAutoComplete.Size = new System.Drawing.Size(144, 17);
+            this.chkTagAutoComplete.TabIndex = 15;
+            this.chkTagAutoComplete.Text = "Use Tags Auto Complete";
+            this.chkTagAutoComplete.UseVisualStyleBackColor = true;
+            this.chkTagAutoComplete.CheckedChanged += new System.EventHandler(this.chkTagAutoComplete_CheckedChanged);
             // 
             // lblColorFaults
             // 
@@ -1628,7 +1645,7 @@
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Location = new System.Drawing.Point(8, 142);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(722, 120);
+            this.groupBox3.Size = new System.Drawing.Size(791, 120);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Download";
@@ -1702,8 +1719,8 @@
             this.txtFilenameHelp.Multiline = true;
             this.txtFilenameHelp.Name = "txtFilenameHelp";
             this.txtFilenameHelp.ReadOnly = true;
-            this.txtFilenameHelp.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtFilenameHelp.Size = new System.Drawing.Size(145, 101);
+            this.txtFilenameHelp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtFilenameHelp.Size = new System.Drawing.Size(214, 101);
             this.txtFilenameHelp.TabIndex = 2;
             this.txtFilenameHelp.WordWrap = false;
             // 
@@ -1727,7 +1744,7 @@
             // 
             // btnSaveConfig
             // 
-            this.btnSaveConfig.Location = new System.Drawing.Point(655, 268);
+            this.btnSaveConfig.Location = new System.Drawing.Point(724, 268);
             this.btnSaveConfig.Name = "btnSaveConfig";
             this.btnSaveConfig.Size = new System.Drawing.Size(75, 23);
             this.btnSaveConfig.TabIndex = 2;
@@ -1755,7 +1772,7 @@
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(722, 130);
+            this.groupBox1.Size = new System.Drawing.Size(791, 130);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Internet Settings";
@@ -2540,6 +2557,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
         private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
         private System.Windows.Forms.DataGridViewLinkColumn colReferer;
+        private System.Windows.Forms.CheckBox chkTagAutoComplete;
     }
 }
 

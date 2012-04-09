@@ -371,5 +371,17 @@ namespace DanbooruDownloader3.Properties {
                 this["ColorFaults"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TagAutoComplete {
+            get {
+                return ((bool)(this["TagAutoComplete"]));
+            }
+            set {
+                this["TagAutoComplete"] = value;
+            }
+        }
     }
 }

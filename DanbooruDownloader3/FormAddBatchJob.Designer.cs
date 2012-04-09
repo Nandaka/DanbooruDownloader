@@ -85,10 +85,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlProvider.AutoScroll = true;
+            this.pnlProvider.AutoSize = true;
             this.pnlProvider.Controls.Add(this.btnSelectAll);
             this.pnlProvider.Location = new System.Drawing.Point(82, 64);
             this.pnlProvider.Name = "pnlProvider";
-            this.pnlProvider.Size = new System.Drawing.Size(601, 84);
+            this.pnlProvider.Size = new System.Drawing.Size(600, 90);
             this.pnlProvider.TabIndex = 4;
             // 
             // btnSelectAll
@@ -104,7 +105,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(608, 180);
+            this.btnOK.Location = new System.Drawing.Point(608, 190);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 5;
@@ -115,7 +116,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(527, 180);
+            this.btnCancel.Location = new System.Drawing.Point(527, 190);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
@@ -128,25 +129,26 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(45, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "provider";
             // 
             // txtSave
             // 
-            this.txtSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSave.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSave.Location = new System.Drawing.Point(82, 154);
+            this.txtSave.Location = new System.Drawing.Point(83, 164);
             this.txtSave.Name = "txtSave";
-            this.txtSave.Size = new System.Drawing.Size(601, 20);
+            this.txtSave.Size = new System.Drawing.Size(600, 20);
             this.txtSave.TabIndex = 9;
             this.txtSave.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameFormat;
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 157);
+            this.label4.Location = new System.Drawing.Point(12, 167);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(64, 13);
             this.label4.TabIndex = 8;
@@ -199,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 211);
+            this.ClientSize = new System.Drawing.Size(695, 225);
             this.Controls.Add(this.chkNotRating);
             this.Controls.Add(this.cbxRating);
             this.Controls.Add(this.label7);
