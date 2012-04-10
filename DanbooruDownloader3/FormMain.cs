@@ -570,7 +570,7 @@ namespace DanbooruDownloader3
                                 providerStatus = p.Name;
 
                                 // Construct the query
-                                DanbooruPostDao d;
+                                DanbooruPostDao d = null;
                                 bool isXml = false;
                                 string url;
                                 string query = "";
@@ -638,12 +638,38 @@ namespace DanbooruDownloader3
 
                                     //load the list
                                     UpdateLog("DoBatchJob", "Downloading list: " + url);
-                                    MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url));
-                                    d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
-
-                                    // No more image
-                                    if (d.Posts.Count == 0)
+                                    int currRetry = 0;
+                                    while (currRetry < Convert.ToInt32(txtRetry.Text))
                                     {
+                                        try
+                                        {
+                                            using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
+                                            {
+                                                d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
+                                            }
+                                            break;
+                                        }
+                                        catch (System.Net.WebException ex)
+                                        {
+                                            if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
+                                            else
+                                            {
+                                                UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + ex.Message);
+                                            }
+                                            ++currRetry;
+                                        }
+                                    }
+
+                                    if (d == null)
+                                    {
+                                        // Cannot get list.
+                                        UpdateLog("DoBatchJob", "List is null!");
+                                        flag = false;
+                                    }
+                                    else if (d.Posts.Count == 0)
+                                    {
+                                        // No more image
+                                        UpdateLog("DoBatchJob", "No more image.");
                                         flag = false;
                                         // break;
                                     }
@@ -653,6 +679,7 @@ namespace DanbooruDownloader3
                                         // identical data returned, probably no more new image.
                                         if (prevDao.RawData.Equals(d.RawData))
                                         {
+                                            UpdateLog("DoBatchJob", "Identical list, probably last page.");
                                             flag = false;
                                             //break;
                                         }
@@ -697,7 +724,8 @@ namespace DanbooruDownloader3
                                             if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                                             UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
                                             _clientBatch.Referer = post.Referer;
-                                            int currRetry = 0;
+                                            
+                                            currRetry = 0;
                                             while (currRetry < Convert.ToInt32(txtRetry.Text))
                                             {
                                                 try
@@ -705,7 +733,7 @@ namespace DanbooruDownloader3
                                                     _clientBatch.DownloadFile(post.FileUrl, filename);
                                                     break;
                                                 }
-                                                catch (TimeoutException ex)
+                                                catch (System.Net.WebException ex)
                                                 {
                                                     if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
                                                     else
