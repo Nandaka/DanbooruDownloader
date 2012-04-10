@@ -697,7 +697,24 @@ namespace DanbooruDownloader3
                                             if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                                             UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
                                             _clientBatch.Referer = post.Referer;
-                                            _clientBatch.DownloadFile(post.FileUrl, filename);
+                                            int currRetry = 0;
+                                            while (currRetry < Convert.ToInt32(txtRetry.Text))
+                                            {
+                                                try
+                                                {
+                                                    _clientBatch.DownloadFile(post.FileUrl, filename);
+                                                    break;
+                                                }
+                                                catch (TimeoutException ex)
+                                                {
+                                                    if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
+                                                    else
+                                                    {
+                                                        UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + ex.Message);
+                                                    }
+                                                    ++currRetry;
+                                                }
+                                            }
                                             ++imgCount;
                                             ++totalImgCount;
 
