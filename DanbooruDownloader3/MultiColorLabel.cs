@@ -95,6 +95,11 @@ namespace DanbooruDownloader3
                     }
 
                     pad.X = cellBounds.X + 1;
+                    if (this.DataGridView.AutoSizeRowsMode != DataGridViewAutoSizeRowsMode.None)
+                    {
+                        OwningRow.MinimumHeight = (int)(pad.Y + strSize.Height) - cellBounds.Y;
+                    }
+
                     if (cellStyle.WrapMode == DataGridViewTriState.True)
                     {
                         OwningRow.MinimumHeight = OwningRow.MinimumHeight > pad.Y - cellBounds.Y ? OwningRow.MinimumHeight : (int)(pad.Y + strSize.Height) - cellBounds.Y;
