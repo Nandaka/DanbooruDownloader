@@ -169,7 +169,7 @@
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
-    <Name>rule34</Name>
+    <Name>rule34.xxx</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
     <Preferred>Xml</Preferred>
@@ -232,6 +232,20 @@
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
     <Url>http://megabooru.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt />
+    <BoardType>Shimmie2</BoardType>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>rule34.paheal.net</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>20</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <Url>http://rule34.paheal.net</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
