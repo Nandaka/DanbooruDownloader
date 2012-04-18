@@ -295,6 +295,7 @@ namespace DanbooruDownloader3.DAO
                             break;
                         case "\"tags\"":
                             post.Tags = val[1].Replace("\"", "");
+                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
                             post.TagsEntity = DanbooruPostDao.tagsDao.ParseTagsString(post.Tags);
                             break;
                         case "\"source\"":

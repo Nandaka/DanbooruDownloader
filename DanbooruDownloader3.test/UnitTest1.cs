@@ -128,5 +128,14 @@ namespace DanbooruDownloader3.test
                 Assert.IsTrue(dao.GetTagType("unknown_tags!!!@!@#!") == DanbooruTagType.General);
             }
         }
+
+        [TestMethod]
+        public void TestJsonDecode()
+        {
+            string input = "Here could be characters like \u00e5\u00e4\u00f6\u041c\u043e\u0439";
+            string expected = "Here could be characters like åäöМой";
+            Assert.AreEqual(Helper.DecodeEncodedNonAsciiCharacters(input), expected);
+
+        }
     }
 }

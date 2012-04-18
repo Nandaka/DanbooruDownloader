@@ -1,5 +1,8 @@
 Changelog:
 =============================
+- DanbooruDownloader201204xx
+  - Properly decode JSON-encoded unicode string.
+
 - DanbooruDownloader20120413
   - Fix shimmie2 downloader as reported by Spidey.
   - Add tags auto complete in tags text box.
