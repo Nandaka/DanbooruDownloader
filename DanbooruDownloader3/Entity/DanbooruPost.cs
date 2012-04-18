@@ -204,5 +204,7 @@ namespace DanbooruDownloader3.Entity
 
         [Browsable(false)]
         public int Filesize { get; set; }
+
+        public string Filename { get; set; }
     }
 }

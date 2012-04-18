@@ -127,6 +127,7 @@ namespace DanbooruDownloader3
                                     "%character% = Character Tag" + Environment.NewLine +
                                     "%circle% = Circle Tag" + Environment.NewLine +
                                     "%faults% = Faults Tag" + Environment.NewLine +
+                                    "%originalFilename% = Original Filename" + Environment.NewLine +
                                     "%searchtag% = Search tag";
 
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
@@ -182,6 +183,7 @@ namespace DanbooruDownloader3
                             row.Cells["colCheck"].Value = false;
                         }
                     }
+                    dgvDownload.AutoGenerateColumns = false;
                     dgvDownload.DataSource = _downloadList;
                 }
             }
@@ -242,10 +244,18 @@ namespace DanbooruDownloader3
                         string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
                         if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
+                        row.Cells["colFilename"].Value = filename;
+                        var filename2 = filename + ".!tmp";
+                        if (File.Exists(filename2))
+                        {
+                            row.Cells["colProgress2"].Value = "Deleting temporary file: " + filename2;
+                            File.Delete(filename2);
+                        }
+
                         // the actual download
                         _clientFile.Referer = _downloadList[row.Index].Referer;
                         if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                        _clientFile.DownloadFileAsync(new Uri(url), filename, row);
+                        _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
                     }
                 }
                 else
@@ -730,7 +740,14 @@ namespace DanbooruDownloader3
                                             {
                                                 try
                                                 {
-                                                    _clientBatch.DownloadFile(post.FileUrl, filename);
+                                                    var filename2 = filename + ".!tmp";
+                                                    if (File.Exists(filename2))
+                                                    {
+                                                        UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
+                                                        File.Delete(filename2);                                                        
+                                                    }
+                                                    _clientBatch.DownloadFile(post.FileUrl, filename2);
+                                                    File.Move(filename2, filename);
                                                     break;
                                                 }
                                                 catch (System.Net.WebException ex)

@@ -87,6 +87,7 @@ namespace DanbooruDownloader3
             string provider = post.Provider;
             string query = post.Query;
             string searchTags = post.SearchTags;
+            string originalFileName = post.FileUrl.Split('/').Last();
 
             filename = filename.Replace("%provider%", Helper.SanitizeFilename(provider));
             filename = filename.Replace("%id%", post.Id);
@@ -95,6 +96,7 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%md5%", post.MD5);
             filename = filename.Replace("%query%", Helper.SanitizeFilename(query));
             filename = filename.Replace("%searchtag%", Helper.SanitizeFilename(searchTags));
+            filename = filename.Replace("%originalFilename%", Helper.SanitizeFilename(originalFileName));
 
             var artist = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name));
             filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist));
@@ -111,7 +113,7 @@ namespace DanbooruDownloader3
             if (baseFolder.EndsWith(@"\")) filename = baseFolder + filename;
             else filename = baseFolder + @"\" + filename;
 
-            filename = filename.Substring(0, filename.Length < limit ? filename.Length : limit);
+            filename = filename.Substring(0, filename.Length < limit ? filename.Length : limit).Trim();
 
             string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);

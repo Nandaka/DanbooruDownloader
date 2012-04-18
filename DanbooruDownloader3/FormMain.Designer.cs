@@ -133,6 +133,7 @@
             this.colUrl2 = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colMD52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colQuery2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtSaveFolder = new System.Windows.Forms.TextBox();
@@ -1113,7 +1114,8 @@
             this.colTags2,
             this.colUrl2,
             this.colMD52,
-            this.colQuery2});
+            this.colQuery2,
+            this.colFilename});
             this.dgvDownload.ContextMenuStrip = this.contextMenuStrip1;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
@@ -1243,6 +1245,13 @@
             this.colQuery2.HeaderText = "Query";
             this.colQuery2.Name = "colQuery2";
             this.colQuery2.Width = 60;
+            // 
+            // colFilename
+            // 
+            this.colFilename.DataPropertyName = "Filename";
+            this.colFilename.HeaderText = "Filename";
+            this.colFilename.Name = "colFilename";
+            this.colFilename.Width = 74;
             // 
             // contextMenuStrip1
             // 
@@ -2504,16 +2513,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.LinkLabel linkUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIndex;
-        private System.Windows.Forms.DataGridViewImageColumn colPreview2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProgress2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colId2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRating2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTags2;
-        private System.Windows.Forms.DataGridViewLinkColumn colUrl2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMD52;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -2558,6 +2557,17 @@
         private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
         private System.Windows.Forms.DataGridViewLinkColumn colReferer;
         private System.Windows.Forms.CheckBox chkTagAutoComplete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIndex;
+        private System.Windows.Forms.DataGridViewImageColumn colPreview2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProgress2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRating2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTags2;
+        private System.Windows.Forms.DataGridViewLinkColumn colUrl2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMD52;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFilename;
     }
 }
 

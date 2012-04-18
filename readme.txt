@@ -15,6 +15,8 @@ Changelog:
 =============================
 - DanbooruDownloader201204xx
   - Properly decode JSON-encoded unicode string.
+  - Add .!tmp for currently downloaded file.
+  - Add %originalFilename% tag for filename.
 
 - DanbooruDownloader20120413
   - Fix shimmie2 downloader as reported by Spidey.

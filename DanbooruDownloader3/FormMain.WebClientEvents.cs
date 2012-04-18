@@ -172,7 +172,19 @@ namespace DanbooruDownloader3
             DataGridViewRow row = (DataGridViewRow)e.UserState;
             row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: " + (e.Error == null ? "OK" : e.Error.Message);
 
-            if (e.Error == null) _downloadList[row.Index].Completed = true;
+            if (e.Error == null)
+            {
+                _downloadList[row.Index].Completed = true;
+                string filename = row.Cells["colFilename"].Value.ToString();
+                try
+                {
+                    if (String.IsNullOrWhiteSpace(filename)) File.Move(filename + ".!tmp", filename);
+                }
+                catch (IOException ex)
+                {
+                    txtLog.AppendText("[clientFileDownload] Cannot rename completed file: " + ex.Message);
+                }
+            }
             if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None)) DownloadRows(dgvDownload.Rows[row.Index + 1]);
             else
             {
