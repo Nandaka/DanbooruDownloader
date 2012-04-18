@@ -88,6 +88,7 @@ namespace DanbooruDownloader3
             }
             else
             {
+                if (IsDisposed) return;
                 txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
             }
         }

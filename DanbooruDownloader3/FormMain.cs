@@ -773,17 +773,26 @@ namespace DanbooruDownloader3
                                 }
                                 catch (Exception ex)
                                 {
+                                    string message = ex.Message;
+                                    if (ex.InnerException != null)
+                                    {
+                                        message += Environment.NewLine + "Inner: " + ex.InnerException.Message;
+                                    }
+                                    message += Environment.NewLine + "Stack Trace: " + Environment.NewLine + ex.StackTrace;
+                                    message += Environment.NewLine + "Query: " + batchJob[i].TagQuery;
+
                                     batchJob[i].isError = true;
+                                    batchJob[i].isCompleted = false;
                                     providerStatus += " Error: " + ex.Message + Environment.NewLine;
                                     if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
                                         flag = false;
                                     }
-                                    UpdateLog("DoBatchJob", "Error: " + ex.Message);
+                                    UpdateLog("DoBatchJob", "Error: " + message);
 
                                     if (cbxAbortOnError.Checked)
                                     {
-                                        MessageBox.Show(ex.Message);
+                                        MessageBox.Show(message);
                                         break;
                                     }
                                 }
