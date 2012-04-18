@@ -116,8 +116,11 @@ A2: On Settings tab, check Pad User Agent.
 Q3: I cannot use space in batch download, the program always converting it to underscores!
 A3: Use '+' for space.
 
-Q3: I got 'ERROR_MESSAGE_HERE'!
-A3: Sent me a message in the comment with the details, such as:
+Q4: I got 503 error from Danbooru!
+A4: See A1. If still have the error, see this: http://danbooru.donmai.us/forum/show/24011.
+
+Q5: I got 'ERROR_MESSAGE_HERE'!
+A5: Sent me a message in the comment with the details, such as:
     - The Provider you are using.
     - The query.
     - The settings (screen shot is fine, please upload it to http://imgur.com/)
