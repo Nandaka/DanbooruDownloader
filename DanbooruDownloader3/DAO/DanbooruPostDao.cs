@@ -11,8 +11,6 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
-        public static DanbooruTagsDao tagsDao = new DanbooruTagsDao("tags.xml");
-
         #region ctor
         public DanbooruPostDao(string url, DanbooruProvider provider)
         {
@@ -109,7 +107,7 @@ namespace DanbooruDownloader3.DAO
                 foreach (var item in posts)
                 {
                     RawData += item.Id + ":" + item.FileUrl + ", ";
-                    item.TagsEntity = DanbooruPostDao.tagsDao.ParseTagsString(item.Tags);
+                    item.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(item.Tags);
                 }
             }
             else
@@ -119,33 +117,33 @@ namespace DanbooruDownloader3.DAO
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element: // The node is an element.
-                            if (reader.Name.Equals("posts"))
+                            if (reader.Name.ToLowerInvariant().Equals("posts"))
                             {
                                 while (reader.MoveToNextAttribute())
                                 {
-                                    if (reader.Name.Equals("Count"))    // Posts Count
+                                    if (reader.Name.ToLowerInvariant().Equals("count"))    // Posts Count
                                     {
                                         postCount = int.Parse(reader.Value);
                                         RawData += "postCount:" + postCount;
                                     }
-                                    else if (reader.Name.Equals("offset")) // Post Offset
+                                    else if (reader.Name.ToLowerInvariant().Equals("offset")) // Post Offset
                                     {
                                         offset = int.Parse(reader.Value);
                                         RawData += ", offset:" + offset;
                                     }
                                 }
                             }
-                            else if (reader.Name.Equals("post"))
+                            else if (reader.Name.ToLowerInvariant().Equals("post"))
                             {
                                 DanbooruPost post = new DanbooruPost();
                                 while (reader.MoveToNextAttribute())
                                 {
-                                    switch (reader.Name)
+                                    switch (reader.Name.ToLowerInvariant())
                                     {
                                         case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
                                         case "tags": 
                                             post.Tags = reader.Value;
-                                            post.TagsEntity =  DanbooruPostDao.tagsDao.ParseTagsString(post.Tags);
+                                            post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
                                             break;
                                         case "source": post.Source = reader.Value; break;
                                         case "creator_id": post.CreatorId = reader.Value; break;
@@ -288,7 +286,7 @@ namespace DanbooruDownloader3.DAO
                 {
 
                     string[] val = str2.Split(':');
-                    switch (val[0])
+                    switch (val[0].ToLowerInvariant())
                     {
                         case "\"id\"":
                             post.Id = val[1].Replace("\"", "");
@@ -296,7 +294,7 @@ namespace DanbooruDownloader3.DAO
                         case "\"tags\"":
                             post.Tags = val[1].Replace("\"", "");
                             post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                            post.TagsEntity = DanbooruPostDao.tagsDao.ParseTagsString(post.Tags);
+                            post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
                             break;
                         case "\"source\"":
                             post.Source = val[1].Replace("\"", "");

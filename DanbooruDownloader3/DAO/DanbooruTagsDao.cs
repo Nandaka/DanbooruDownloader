@@ -84,5 +84,19 @@ namespace DanbooruDownloader3.DAO
             }
             return tags;
         }
+
+        private static DanbooruTagsDao _DefaultTagsDao;
+        public static DanbooruTagsDao Instance
+        {
+            get 
+            {
+                if (_DefaultTagsDao == null)
+                {
+                    _DefaultTagsDao = new DanbooruTagsDao("tags.xml");
+                }
+                return _DefaultTagsDao;
+            }
+            set { _DefaultTagsDao = value; }
+        }
     }
 }

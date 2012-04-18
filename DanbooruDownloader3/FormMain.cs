@@ -145,7 +145,7 @@ namespace DanbooruDownloader3
         {
             if (chkTagAutoComplete.Checked)
             {
-                var tagAutoComplete = DanbooruPostDao.tagsDao.Tags.Tag.Select(x => x.Name).ToArray<String>();
+                var tagAutoComplete = DanbooruTagsDao.Instance.Tags.Tag.Select(x => x.Name).ToArray<String>();
                 txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
             }
             else
