@@ -1,3 +1,16 @@
+Requirement:
+=============================
+- Windows XP or later.
+- .Net Framework 4.0
+
+For linux/Mac, you can try to compile the source code using:
+- Mono (http://www.mono-project.com/Main_Page)
+- SharpDevelop (http://www.icsharpcode.net/OpenSource/SD/Download/)
+
+The latest source code can be pulled from https://github.com/Nandaka/DanbooruDownloader.
+The compiled binary can be downloaded at http://nandaka.wordpress.com/tag/danbooru-batch-download/
+The previous version of compiled binary can be downloaded at http://www.mediafire.com/?tglaujm3ylc88
+
 Changelog:
 =============================
 - DanbooruDownloader201204xx
@@ -22,7 +35,6 @@ Changelog:
   - Add colored tags column in Main Tag (enable in Settings tab).
     - Depend on tags.xml file, you can download it from http://danbooru.donmai.us/tag/index.xml?limit=0.
   - Fix invalid auth info for batch download.
-
 
 - DanbooruDownloader20120330
   - Update DanbooruProvider.xml
@@ -101,8 +113,15 @@ A1: Please read http://danbooru.donmai.us/forum/show/72300.
 Q2: I cannot download/can only download 1 image from 3DBooru!
 A2: On Settings tab, check Pad User Agent.
 
-Q3: I can use space, the program always converting it to underscores!
+Q3: I cannot use space in batch download, the program always converting it to underscores!
 A3: Use '+' for space.
+
+Q3: I got 'ERROR_MESSAGE_HERE'!
+A3: Sent me a message in the comment with the details, such as:
+    - The Provider you are using.
+    - The query.
+    - The settings (screen shot is fine, please upload it to http://imgur.com/)
+    - The error message (screen shot also fine)
 
 Supported Board
 =============================
@@ -125,3 +144,28 @@ and Shimmie2 with RSS enabled.
 - dollbooru
 - 4chanhouse
 - fairygarden
+
+License Agreement
+=============================
+Copyright (c) 2012, Nandaka
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+  - Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
+OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN 
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
