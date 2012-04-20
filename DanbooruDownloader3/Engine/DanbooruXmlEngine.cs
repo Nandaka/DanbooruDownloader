@@ -29,6 +29,20 @@ namespace DanbooruDownloader3.Engine
 
             string queryStr = GenerateQueryString(query);
 
+            var responses = posts.Descendants("response");
+            if (responses != null)
+            {
+                foreach (var response in responses)
+                {
+                    var message = response.Attribute("response").Value.ToString();
+                    var success = response.Attribute("success").Value.ToString();
+                    if (success == "false")
+                    {
+                        throw new Exception("Server Message: " + message);
+                    }
+                }
+            }
+
             foreach (var post in posts.Descendants("post"))
             {
                 DanbooruPost p = new DanbooruPost();

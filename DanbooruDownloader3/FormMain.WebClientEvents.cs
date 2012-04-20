@@ -33,7 +33,16 @@ namespace DanbooruDownloader3
             catch (Exception ex)
             {
                 if (ex.InnerException != null)
-                    MessageBox.Show(ex.InnerException.Message, "Download List");
+                {
+                    if (ex.InnerException.GetType() == typeof(System.Net.WebException))
+                    {
+                        var wex = (System.Net.WebException)ex.InnerException;
+                        var resp = new DanbooruPostDao(wex.Response.GetResponseStream(), _currProvider, "", "", "", rbXml.Checked);
+                        wex.Response.GetResponseStream().Close();
+                        MessageBox.Show("Server Message: " + resp.ResponseMessage, "Download List");
+                    }
+                    else MessageBox.Show(ex.InnerException.Message, "Download List");
+                }
                 else MessageBox.Show(ex.Message, "Download List");
 
                 txtLog.Text += "clientList_DownloadDataCompleted(): " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message);

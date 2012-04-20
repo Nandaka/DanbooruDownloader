@@ -169,7 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DanbooruProviderList.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="tags.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -203,7 +203,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(SolutionDir)readme.txt $(TargetDir)readme.txt /Y /F</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)readme.txt $(TargetDir)readme.txt /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

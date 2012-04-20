@@ -653,6 +653,7 @@ namespace DanbooruDownloader3
                                     {
                                         try
                                         {
+                                            var strs = _clientBatch.DownloadString(url);
                                             using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
                                             {
                                                 d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
@@ -661,7 +662,7 @@ namespace DanbooruDownloader3
                                         }
                                         catch (System.Net.WebException ex)
                                         {
-                                            if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
+                                            if (currRetry < Convert.ToInt32(txtRetry.Text)) throw;
                                             else
                                             {
                                                 UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + ex.Message);
@@ -676,12 +677,12 @@ namespace DanbooruDownloader3
                                         UpdateLog("DoBatchJob", "List is null!");
                                         flag = false;
                                     }
-                                    else if (d.Posts.Count == 0)
+                                    else if (d.Posts == null || d.Posts.Count == 0)
                                     {
                                         // No more image
                                         UpdateLog("DoBatchJob", "No more image.");
                                         flag = false;
-                                        // break;
+                                        //break;
                                     }
 
                                     if (prevDao != null)
@@ -791,6 +792,7 @@ namespace DanbooruDownloader3
                                 catch (Exception ex)
                                 {
                                     string message = ex.Message;
+                                    string responseMessage = "";
                                     if (ex.InnerException != null)
                                     {
                                         message += Environment.NewLine + "Inner: " + ex.InnerException.Message;
@@ -800,16 +802,30 @@ namespace DanbooruDownloader3
 
                                     batchJob[i].isError = true;
                                     batchJob[i].isCompleted = false;
-                                    providerStatus += " Error: " + ex.Message + Environment.NewLine;
+
+                                    if (ex.GetType() == typeof(System.Net.WebException))
+                                    {
+                                        System.Net.WebException wex = (System.Net.WebException)ex;
+
+                                        var e = new DanbooruPostDao(wex.Response.GetResponseStream(), p, query, batchJob[i].TagQuery, url, isXml);
+                                        wex.Response.GetResponseStream().Close();
+                                        if (!e.Success)
+                                        {
+                                            responseMessage = e.ResponseMessage;
+                                            flag = false;
+                                        }
+                                    }
                                     if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
                                     {
                                         flag = false;
                                     }
+
+                                    providerStatus += " Error: " + (responseMessage.Length == 0 ? ex.Message : responseMessage) + Environment.NewLine;
                                     UpdateLog("DoBatchJob", "Error: " + message);
 
                                     if (cbxAbortOnError.Checked)
                                     {
-                                        MessageBox.Show(message);
+                                        MessageBox.Show(message, "Batch Download");
                                         break;
                                     }
                                 }

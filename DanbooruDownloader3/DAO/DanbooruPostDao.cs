@@ -74,6 +74,9 @@ namespace DanbooruDownloader3.DAO
         }
 
         public String RawData { get; set; }
+
+        public bool Success { get; set; }
+        public string ResponseMessage { get; set; }
         #endregion
         
         private void ReadXML(string filename)
@@ -117,7 +120,8 @@ namespace DanbooruDownloader3.DAO
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element: // The node is an element.
-                            if (reader.Name.ToLowerInvariant().Equals("posts"))
+                            var nodeName = reader.Name.ToLowerInvariant();
+                            if (nodeName.Equals("posts"))
                             {
                                 while (reader.MoveToNextAttribute())
                                 {
@@ -133,7 +137,22 @@ namespace DanbooruDownloader3.DAO
                                     }
                                 }
                             }
-                            else if (reader.Name.ToLowerInvariant().Equals("post"))
+                            else if (nodeName.Equals("response"))
+                            {
+                                Success = true;
+                                while (reader.MoveToNextAttribute())
+                                {
+                                    if (reader.Name.ToLowerInvariant().Equals("reason"))    // Posts Count
+                                    {
+                                        ResponseMessage = reader.Value;
+                                    }
+                                    else if (reader.Name.ToLowerInvariant().Equals("success"))    // Posts Count
+                                    {
+                                        Success = bool.Parse(reader.Value);
+                                    }
+                                }
+                            }
+                            else if (nodeName.Equals("post"))
                             {
                                 DanbooruPost post = new DanbooruPost();
                                 while (reader.MoveToNextAttribute())
@@ -141,7 +160,7 @@ namespace DanbooruDownloader3.DAO
                                     switch (reader.Name.ToLowerInvariant())
                                     {
                                         case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
-                                        case "tags": 
+                                        case "tags":
                                             post.Tags = reader.Value;
                                             post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
                                             break;
@@ -209,7 +228,7 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.Referer = this.Referer + @"/post/show/" + post.Id;
                                 }
-                                else if(Provider.BoardType == BoardType.Gelbooru)
+                                else if (Provider.BoardType == BoardType.Gelbooru)
                                 {
                                     post.Referer = this.Referer + @"/index.php?page=post&s=view&id=" + post.Id;
                                 }
@@ -274,97 +293,119 @@ namespace DanbooruDownloader3.DAO
 
             if (json.Length < 4) return;
 
-            json = json.Substring(2, json.Length - 4);
-            string[] splitter = { "},{" };
-            string[] split = json.Split(splitter, StringSplitOptions.None);
-
-            foreach (string str in split)
+            if (json.StartsWith("{"))
             {
-                post = new DanbooruPost();
-                string[] node = str.Split(',');
+                json = json.Substring(1, json.Length - 2);
+                string[] splitter = { "\"," };
+                string[] node = json.Split(splitter, StringSplitOptions.None);
                 foreach (string str2 in node)
                 {
-
                     string[] val = str2.Split(':');
                     switch (val[0].ToLowerInvariant())
                     {
-                        case "\"id\"":
-                            post.Id = val[1].Replace("\"", "");
+                        case "\"reason\"":
+                            ResponseMessage = val[1].Replace("\"", "");
                             break;
-                        case "\"tags\"":
-                            post.Tags = val[1].Replace("\"", "");
-                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                            post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                        case "\"success\"":
+                            Success = bool.Parse(val[1].Replace("\"", ""));
                             break;
-                        case "\"source\"":
-                            post.Source = val[1].Replace("\"", "");
-                            break;
-                        case "\"creator_id\"":
-                            post.CreatorId = val[1].Replace("\"", "");
-                            break;
-                        case "\"file_url\"":
-                            post.FileUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
-                            break;
-                        case "\"width\"":
-                            post.Width = -1;
-                            try
-                            {
-                                post.Width = Convert.ToInt32(val[1]);
-                            }
-                            catch (Exception) { if (FormMain.Debug) throw; }
-                            break;
-                        case "\"height\"":
-                            post.Height = -1;
-                            try
-                            {
-                                post.Height = Convert.ToInt32(val[1]);
-                            }
-                            catch (Exception) { if (FormMain.Debug) throw; }
-                            break;
-                        case "\"score\"":
-                            post.Score = val[1];
-                            break;
-                        case "\"rating\"":
-                            post.Rating = val[1].Replace("\"", "");
-                            break;
-                        case "\"md5\"":
-                            post.MD5 = val[1].Replace("\"", "");
-                            break;
-                        case "\"preview_url\"":
-                            if (val.Length > 2)
-                            {
-                                post.PreviewUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
-                            }
-                            else
-                            {
-                                post.PreviewUrl = Provider.Url + val[1].Replace("\"", "");
-                            }
-                            break;
-                        case "\"preview_width\"":
-                            post.PreviewWidth = -1;
-                            try
-                            {
-                                post.PreviewWidth = Convert.ToInt32(val[1]);
-                            }
-                            catch (Exception) { if (FormMain.Debug) throw; }
-                            break;
-                        case "\"preview_height\"":
-                            post.PreviewHeight = -1;
-                            try
-                            {
-                                post.PreviewHeight = Convert.ToInt32(val[1]);
-                            }
-                            catch (Exception) { if (FormMain.Debug) throw; }
-                            break;
-                        default: break;
                     }
                 }
-                post.Provider = this.Provider.Name;
-                post.Query = this.Query;
-                post.SearchTags = this.SearchTags;
-                post.Referer = this.Referer + @"/post/show/" + post.Id;
-                this.posts.Add(post);
-                actualCount++;
+            }
+            else
+            {
+                json = json.Substring(2, json.Length - 4);
+                string[] splitter = { "},{" };
+                string[] split = json.Split(splitter, StringSplitOptions.None);
+
+                foreach (string str in split)
+                {
+                    post = new DanbooruPost();
+                    string[] node = str.Split(',');
+                    foreach (string str2 in node)
+                    {
+
+                        string[] val = str2.Split(':');
+                        switch (val[0].ToLowerInvariant())
+                        {
+                            case "\"id\"":
+                                post.Id = val[1].Replace("\"", "");
+                                break;
+                            case "\"tags\"":
+                                post.Tags = val[1].Replace("\"", "");
+                                post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
+                                post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                                break;
+                            case "\"source\"":
+                                post.Source = val[1].Replace("\"", "");
+                                break;
+                            case "\"creator_id\"":
+                                post.CreatorId = val[1].Replace("\"", "");
+                                break;
+                            case "\"file_url\"":
+                                post.FileUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
+                                break;
+                            case "\"width\"":
+                                post.Width = -1;
+                                try
+                                {
+                                    post.Width = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"height\"":
+                                post.Height = -1;
+                                try
+                                {
+                                    post.Height = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"score\"":
+                                post.Score = val[1];
+                                break;
+                            case "\"rating\"":
+                                post.Rating = val[1].Replace("\"", "");
+                                break;
+                            case "\"md5\"":
+                                post.MD5 = val[1].Replace("\"", "");
+                                break;
+                            case "\"preview_url\"":
+                                if (val.Length > 2)
+                                {
+                                    post.PreviewUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
+                                }
+                                else
+                                {
+                                    post.PreviewUrl = Provider.Url + val[1].Replace("\"", "");
+                                }
+                                break;
+                            case "\"preview_width\"":
+                                post.PreviewWidth = -1;
+                                try
+                                {
+                                    post.PreviewWidth = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"preview_height\"":
+                                post.PreviewHeight = -1;
+                                try
+                                {
+                                    post.PreviewHeight = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            default: break;
+                        }
+                    }
+                    post.Provider = this.Provider.Name;
+                    post.Query = this.Query;
+                    post.SearchTags = this.SearchTags;
+                    post.Referer = this.Referer + @"/post/show/" + post.Id;
+                    this.posts.Add(post);
+                    actualCount++;
+                }
             }
         }
 
