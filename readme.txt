@@ -13,7 +13,7 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
-- DanbooruDownloader201204xx
+- DanbooruDownloader20120421
   - Properly decode JSON-encoded unicode string.
   - Add .!tmp for currently downloaded file.
   - Add %originalFilename% tag for filename.
