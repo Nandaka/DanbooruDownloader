@@ -108,10 +108,10 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle));
             var faults = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name));
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults));
-            
+
 
             if (baseFolder.EndsWith(@"\")) filename = baseFolder + filename;
-            else filename = baseFolder + @"\" + filename;
+            else if (!String.IsNullOrWhiteSpace(baseFolder)) filename = baseFolder + @"\" + filename;
 
             filename = filename.Substring(0, filename.Length < limit ? filename.Length : limit).Trim();
 

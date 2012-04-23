@@ -13,6 +13,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201204xx
+  - Fix absolute path in download batch.
+
 - DanbooruDownloader20120421
   - Properly decode JSON-encoded unicode string.
   - Add .!tmp for currently downloaded file.
