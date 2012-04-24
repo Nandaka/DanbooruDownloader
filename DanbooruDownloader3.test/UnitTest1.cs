@@ -135,7 +135,17 @@ namespace DanbooruDownloader3.test
             string input = "Here could be characters like \u00e5\u00e4\u00f6\u041c\u043e\u0439";
             string expected = "Here could be characters like åäöМой";
             Assert.AreEqual(Helper.DecodeEncodedNonAsciiCharacters(input), expected);
+        }
 
+        [TestMethod]
+        public void TestDownloadTagsXml()
+        {
+            string url = @"https://yande.re/tag/index.xml?limit=0";
+            string filename = @"test-tag.xml";
+            DanbooruDownloader3.Utils.ExtendedWebClient client = new Utils.ExtendedWebClient();
+
+            client.DownloadFile(url, filename);
+            Assert.IsTrue(File.Exists(filename));
         }
     }
 }

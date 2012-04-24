@@ -1542,5 +1542,11 @@ namespace DanbooruDownloader3
         {
             SetTagAutoComplete();
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            DownloadTagsForm form = new DownloadTagsForm();
+            form.ShowDialog();
+        }
     }
 }
