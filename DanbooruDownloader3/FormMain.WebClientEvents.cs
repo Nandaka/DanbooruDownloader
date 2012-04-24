@@ -34,12 +34,14 @@ namespace DanbooruDownloader3
             {
                 if (ex.InnerException != null)
                 {
-                    if (ex.InnerException.GetType() == typeof(System.Net.WebException))
+                    if (ex.InnerException.GetType() == typeof(System.Net.WebException) && !ex.InnerException.Message.Contains("403"))
                     {
                         var wex = (System.Net.WebException)ex.InnerException;
+                        
                         var resp = new DanbooruPostDao(wex.Response.GetResponseStream(), _currProvider, "", "", "", rbXml.Checked);
                         wex.Response.GetResponseStream().Close();
                         MessageBox.Show("Server Message: " + resp.ResponseMessage, "Download List");
+                        
                     }
                     else MessageBox.Show(ex.InnerException.Message, "Download List");
                 }
