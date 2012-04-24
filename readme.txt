@@ -15,6 +15,7 @@ Changelog:
 =============================
 - DanbooruDownloader201204xx
   - Fix absolute path in download batch.
+  - Add form for updating tags.xml.
 
 - DanbooruDownloader20120421
   - Properly decode JSON-encoded unicode string.

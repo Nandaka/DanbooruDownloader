@@ -36,20 +36,24 @@ namespace DanbooruDownloader3
             }
             File.Move(filename + ".!tmp", filename);
             DanbooruTagsDao.Instance = new DanbooruTagsDao(filename);
-            lblStatus.Text = "Download complete.";
+            lblStatus.Text = "Status: Download complete.";
+            if (chkAutoClose.Checked)
+            {
+                this.Close();
+            }
         }
 
         void client_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
         {
             if (e.TotalBytesToReceive != -1)
             {
-                lblStatus.Text = "Status: Downloading " + e.BytesReceived + " of " + e.TotalBytesToReceive;
+                lblStatus.Text = "Status: Downloading " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes";
                 progressBar1.Value = e.ProgressPercentage < 100 ? e.ProgressPercentage : 100;
                 progressBar1.Style = ProgressBarStyle.Continuous;
             }
             else
             {
-                lblStatus.Text = "Status: Downloading " + e.BytesReceived;
+                lblStatus.Text = "Status: Downloading " + e.BytesReceived + " bytes";
                 progressBar1.Style = ProgressBarStyle.Marquee;
             }
         }
@@ -60,6 +64,7 @@ namespace DanbooruDownloader3
             {
                 client.DownloadFileAsync(new Uri(txtUrl.Text), filename + ".!tmp");
                 btnDownload.Enabled = false;
+                lblStatus.Text = "Status: Download starting...";
             }
         }
 

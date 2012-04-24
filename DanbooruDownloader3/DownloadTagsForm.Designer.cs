@@ -34,6 +34,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbxProvider = new System.Windows.Forms.ComboBox();
+            this.chkAutoClose = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnDownload
@@ -87,11 +88,22 @@
             this.cbxProvider.TabIndex = 5;
             this.cbxProvider.SelectedIndexChanged += new System.EventHandler(this.cbxProvider_SelectedIndexChanged);
             // 
+            // chkAutoClose
+            // 
+            this.chkAutoClose.AutoSize = true;
+            this.chkAutoClose.Location = new System.Drawing.Point(473, 69);
+            this.chkAutoClose.Name = "chkAutoClose";
+            this.chkAutoClose.Size = new System.Drawing.Size(77, 17);
+            this.chkAutoClose.TabIndex = 6;
+            this.chkAutoClose.Text = "Auto Close";
+            this.chkAutoClose.UseVisualStyleBackColor = true;
+            // 
             // DownloadTagsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(562, 92);
+            this.Controls.Add(this.chkAutoClose);
             this.Controls.Add(this.cbxProvider);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.progressBar1);
@@ -117,6 +129,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cbxProvider;
+        private System.Windows.Forms.CheckBox chkAutoClose;
 
     }
 }

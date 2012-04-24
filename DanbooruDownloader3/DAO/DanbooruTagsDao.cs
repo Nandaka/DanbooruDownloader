@@ -14,8 +14,12 @@ namespace DanbooruDownloader3.DAO
         public DanbooruTagsDao(string xmlTagFile)
         {
             XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
+
             if (!File.Exists(xmlTagFile)) throw new FileNotFoundException("Cannot load tags.xml", xmlTagFile);
-            this.Tags = (DanbooruTagCollection)ser.Deserialize(File.OpenText(xmlTagFile));
+            using (StreamReader s = File.OpenText(xmlTagFile))
+            {
+                this.Tags = (DanbooruTagCollection)ser.Deserialize(s);
+            }
         }
 
         public bool IsArtistTag(string tag)
