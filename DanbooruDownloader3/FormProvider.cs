@@ -84,30 +84,33 @@ namespace DanbooruDownloader3
         void _cbx_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cbx = (ComboBox)sender;
-            switch (cbx.Name)
+            if (cbx.SelectedIndex > -1)
             {
-                case "BoardType":
-                    var xmlBox = tableLayoutPanel1.Controls.Find("QueryStringXml", true);
-                    var jsonBox = tableLayoutPanel1.Controls.Find("QueryStringJson", true);
-                    var item = cbx.SelectedItem;
-                    if(item.Equals(BoardType.Danbooru)) 
-                    {
-                        xmlBox[0].Text = "/post/index.xml?%_query%";
-                        jsonBox[0].Text = "/post/index.json?%_query%";
-                    }
-                    else if (item.Equals(BoardType.Gelbooru))
-                    {
-                        xmlBox[0].Text = "/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%";
-                        jsonBox[0].Text = "";
-                    }
-                    else if (item.Equals(BoardType.Shimmie2))
-                    {
-                        xmlBox[0].Text = "/index.php?q=/rss/images/%_query%";
-                        jsonBox[0].Text = "";
-                    }
-                    break;
-                default:
-                    break;
+                switch (cbx.Name)
+                {
+                    case "BoardType":
+                        var xmlBox = tableLayoutPanel1.Controls.Find("QueryStringXml", true);
+                        var jsonBox = tableLayoutPanel1.Controls.Find("QueryStringJson", true);
+                        var item = cbx.SelectedItem;
+                        if (item.Equals(BoardType.Danbooru))
+                        {
+                            xmlBox[0].Text = "/post/index.xml?%_query%";
+                            jsonBox[0].Text = "/post/index.json?%_query%";
+                        }
+                        else if (item.Equals(BoardType.Gelbooru))
+                        {
+                            xmlBox[0].Text = "/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%";
+                            jsonBox[0].Text = "";
+                        }
+                        else if (item.Equals(BoardType.Shimmie2))
+                        {
+                            xmlBox[0].Text = "/index.php?q=/rss/images/%_query%";
+                            jsonBox[0].Text = "";
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -200,7 +203,16 @@ namespace DanbooruDownloader3
             newP.Url = "http://";
             Providers.Add(newP);
             LoadProviders();
-            cbxProviders.SelectedIndex = cbxProviders.Items.Count - 1;            
+            cbxProviders.SelectedIndex = cbxProviders.Items.Count - 1;
+
+            var controls = this.Controls.Find("BoardType", true);
+            if (controls.Length > 0)
+            {
+                ComboBox c = controls[0] as ComboBox;
+                c.SelectedIndex = -1;
+                c.SelectedValue = null;
+                c.SelectedText = "";
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

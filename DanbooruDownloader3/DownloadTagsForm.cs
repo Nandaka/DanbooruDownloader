@@ -62,9 +62,10 @@ namespace DanbooruDownloader3
         {
             if (!String.IsNullOrWhiteSpace(txtUrl.Text))
             {
-                client.DownloadFileAsync(new Uri(txtUrl.Text), filename + ".!tmp");
                 btnDownload.Enabled = false;
                 lblStatus.Text = "Status: Download starting...";
+                if (File.Exists(filename + ".!tmp")) File.Delete(filename + ".!tmp");
+                client.DownloadFileAsync(new Uri(txtUrl.Text), filename + ".!tmp");
             }
         }
 
