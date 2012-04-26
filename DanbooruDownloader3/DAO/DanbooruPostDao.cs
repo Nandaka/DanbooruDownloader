@@ -12,6 +12,11 @@ namespace DanbooruDownloader3.DAO
     public class DanbooruPostDao
     {
         #region ctor
+        /// <summary>
+        /// parse xml/json list file
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="provider"></param>
         public DanbooruPostDao(string url, DanbooruProvider provider)
         {
             this.Provider = provider;
@@ -25,6 +30,15 @@ namespace DanbooruDownloader3.DAO
                 ReadJSON(url);
         }
 
+        /// <summary>
+        /// parse xml/json list stream and close it.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="provider"></param>
+        /// <param name="query"></param>
+        /// <param name="searchTags"></param>
+        /// <param name="referer"></param>
+        /// <param name="isXMl"></param>
         public DanbooruPostDao(Stream input, DanbooruProvider provider, string query, string searchTags, string referer, Boolean isXMl)
         {
             this.Provider = provider;
@@ -37,6 +51,7 @@ namespace DanbooruDownloader3.DAO
                 ReadXML(input);
             }
             else ReadJSON(input);
+            input.Close();
         }
         #endregion
         
@@ -253,18 +268,24 @@ namespace DanbooruDownloader3.DAO
             String json = "";
             String tmp;
 
-
-            StreamReader reader;
+            StreamReader reader = null;
             try
             {
-                reader = File.OpenText(filename);
-            }
-            catch (Exception)
-            {
-                reader = new StreamReader(System.Net.WebRequest.Create(filename).GetResponse().GetResponseStream());
-            }
+                try
+                {
+                    reader = File.OpenText(filename);
+                }
+                catch (Exception)
+                {
+                    reader = new StreamReader(System.Net.WebRequest.Create(filename).GetResponse().GetResponseStream());
+                }
 
-            ProcessJson(ref post, ref json, reader, out tmp);
+                ProcessJson(ref post, ref json, reader, out tmp);
+            }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
 
             RawData = json;
         }
@@ -277,10 +298,11 @@ namespace DanbooruDownloader3.DAO
             String json = "";
             String tmp;
 
-            StreamReader reader = new StreamReader(input);
-
-            ProcessJson(ref post, ref json, reader, out tmp);
-            RawData = json;
+            using (StreamReader reader = new StreamReader(input))
+            {
+                ProcessJson(ref post, ref json, reader, out tmp);
+                RawData = json;
+            }
         }
 
         private void ProcessJson(ref DanbooruPost post, ref String json, StreamReader reader, out String tmp)
@@ -324,8 +346,8 @@ namespace DanbooruDownloader3.DAO
                     string[] node = str.Split(',');
                     foreach (string str2 in node)
                     {
-
-                        string[] val = str2.Split(':');
+                        char[] splitter2 = { ':' };
+                        string[] val = str2.Split(splitter2, 2);
                         switch (val[0].ToLowerInvariant())
                         {
                             case "\"id\"":
@@ -336,14 +358,14 @@ namespace DanbooruDownloader3.DAO
                                 post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
                                 post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
                                 break;
-                            case "\"source\"":
+                            case "\"source\"":                                
                                 post.Source = val[1].Replace("\"", "");
                                 break;
                             case "\"creator_id\"":
                                 post.CreatorId = val[1].Replace("\"", "");
                                 break;
                             case "\"file_url\"":
-                                post.FileUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
+                                post.FileUrl = AppendHttp(val[1].Replace("\"", ""));
                                 break;
                             case "\"width\"":
                                 post.Width = -1;
@@ -371,14 +393,7 @@ namespace DanbooruDownloader3.DAO
                                 post.MD5 = val[1].Replace("\"", "");
                                 break;
                             case "\"preview_url\"":
-                                if (val.Length > 2)
-                                {
-                                    post.PreviewUrl = "http:" + val[2].Replace("\\", "").Replace("\"", "");
-                                }
-                                else
-                                {
-                                    post.PreviewUrl = Provider.Url + val[1].Replace("\"", "");
-                                }
+                                post.PreviewUrl = AppendHttp(val[1].Replace("\"", ""));
                                 break;
                             case "\"preview_width\"":
                                 post.PreviewWidth = -1;
@@ -395,6 +410,50 @@ namespace DanbooruDownloader3.DAO
                                     post.PreviewHeight = Convert.ToInt32(val[1]);
                                 }
                                 catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"file_size\"":
+                                post.Filesize = -1;
+                                try
+                                {
+                                    post.Filesize= Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"parent_id\"":
+                                post.ParentId = val[1];
+                                break;
+                            case "\"status\"":
+                                post.Status = val[1];
+                                break;
+                            case "\"created_at\"":
+                                post.CreatedAt = val[1];
+                                break;
+                            case "\"has_children\"":
+                                post.HasChildren = false;
+                                try
+                                {
+                                    post.HasChildren = Convert.ToBoolean(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"sample_width\"":
+                                post.SampleWidth = -1;
+                                try
+                                {
+                                    post.SampleWidth = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"sample_height\"":
+                                post.SampleHeight = -1;
+                                try
+                                {
+                                    post.SampleHeight = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"sample_url\"":
+                                post.SampleUrl = AppendHttp(val[1].Replace("\"", ""));
                                 break;
                             default: break;
                         }
