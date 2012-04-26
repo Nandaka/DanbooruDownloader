@@ -10,6 +10,8 @@ namespace DanbooruDownloader3.Engine
         int? TotalPost { get; set; }
         int? Offset { get; set; }
         string RawData { get; set; }
+        string ResponseMessage { get; set; }
+        bool Success { get; set; }
 
         BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query);
 

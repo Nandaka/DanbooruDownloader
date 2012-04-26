@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -31,6 +32,7 @@ namespace DanbooruDownloader3.Engine
 
                 post.Id = titleData[0].Trim();
                 post.Tags = titleData[1].Trim();
+                post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
 
                 post.Referer = AppendHttp(item.Element("link").Value, provider);
                 post.CreatedAt = item.Element("pubDate").Value;

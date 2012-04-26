@@ -11,6 +11,9 @@ namespace DanbooruDownloader3.Engine
         public int? Offset { get; set; }
         public string RawData { get; set; }
 
+        public string ResponseMessage { get; set; }
+        public bool Success { get; set; }
+
         public System.ComponentModel.BindingList<Entity.DanbooruPost> Parse(string data, Entity.DanbooruSearchParam query)
         {
             throw new NotImplementedException();

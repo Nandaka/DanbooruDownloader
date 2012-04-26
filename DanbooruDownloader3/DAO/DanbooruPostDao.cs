@@ -124,10 +124,27 @@ namespace DanbooruDownloader3.DAO
                 posts =  Engine.ShimmieEngine.ParseRSS(reader, Provider, Query, SearchTags);
                 foreach (var item in posts)
                 {
-                    RawData += item.Id + ":" + item.FileUrl + ", ";
-                    item.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(item.Tags);
+                    RawData += item.Id + ":" + item.FileUrl + ", ";                    
                 }
             }
+            // only for testing
+            //else if (Provider.BoardType == BoardType.Danbooru)
+            //{
+            //    var parser = new Engine.DanbooruXmlEngine();
+            //    XmlDocument doc = new XmlDocument();
+            //    doc.Load(reader);
+            //    RawData = doc.InnerXml;
+            //    var query = new DanbooruSearchParam() { Provider = Provider, Tag = SearchTags };
+            //    posts = parser.Parse(RawData, query);
+            //    this.ResponseMessage = parser.ResponseMessage;
+            //    this.Success = parser.Success;
+            //    if (Success)
+            //    {
+            //        postCount = parser.TotalPost.Value;
+            //        offset = parser.Offset.Value;
+            //        actualCount = posts.Count;
+            //    }
+            //}
             else
             {
                 while (reader.Read())
@@ -249,7 +266,6 @@ namespace DanbooruDownloader3.DAO
                                 }
                                 posts.Add(post);
                                 actualCount++;
-
                             }
                             break;
                         case XmlNodeType.EndElement: //Display the end of the element.

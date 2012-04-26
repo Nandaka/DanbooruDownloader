@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Xml;
 using DanbooruDownloader3.Entity;
 using System.Xml.Linq;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -19,35 +20,38 @@ namespace DanbooruDownloader3.Engine
         public int? Offset { get; set; }
         public string RawData { get; set; }
 
+        public string ResponseMessage { get; set; }
+        public bool Success { get; set; }
+
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
         {
             BindingList<DanbooruPost> list = new BindingList<DanbooruPost>();
             XDocument posts = XDocument.Parse(data);
             this.RawData = posts.ToString();
-            this.TotalPost = Convert.ToInt32(posts.Root.Attribute("Count").Value);
+
+            Success = true;
+            var responses = posts.Descendants("response");
+            if (responses != null && responses.Count() > 0)
+            {
+                ResponseMessage = responses.First().Attribute("reason").Value.ToString();
+                Success = Convert.ToBoolean(responses.First().Attribute("success").Value);
+                if (!Success)
+                {
+                    return null;
+                }                
+            }
+
+            this.TotalPost = Convert.ToInt32(posts.Root.Attribute("count").Value);
             this.Offset = Convert.ToInt32(posts.Root.Attribute("offset").Value);
 
             string queryStr = GenerateQueryString(query);
-
-            var responses = posts.Descendants("response");
-            if (responses != null)
-            {
-                foreach (var response in responses)
-                {
-                    var message = response.Attribute("response").Value.ToString();
-                    var success = response.Attribute("success").Value.ToString();
-                    if (success == "false")
-                    {
-                        throw new Exception("Server Message: " + message);
-                    }
-                }
-            }
 
             foreach (var post in posts.Descendants("post"))
             {
                 DanbooruPost p = new DanbooruPost();
                 p.Id = post.Attribute("id").Value.ToString();
                 p.Tags = post.Attribute("tags").Value.ToString();
+                p.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(p.Tags);
                 p.Source = post.Attribute("source").Value.ToString();
                 p.Score = post.Attribute("score").Value.ToString();
                 p.Rating = post.Attribute("rating").Value.ToString();
