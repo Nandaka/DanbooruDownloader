@@ -13,10 +13,11 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
-- DanbooruDownloader201204xx
+- DanbooruDownloader20120427
   - Fix absolute path in download batch.
   - Add form for updating tags.xml.
   - Update json parser.
+  - Fix unhandled 'root element missing' exception when downloading list.
 
 - DanbooruDownloader20120421
   - Properly decode JSON-encoded unicode string.
