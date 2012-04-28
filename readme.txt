@@ -18,6 +18,7 @@ Changelog:
   - Add form for updating tags.xml.
   - Update json parser.
   - Fix unhandled 'root element missing' exception when downloading list.
+  - Fix remove .!tmp when download success (20120428)
 
 - DanbooruDownloader20120421
   - Properly decode JSON-encoded unicode string.

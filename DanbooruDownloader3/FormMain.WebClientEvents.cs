@@ -189,7 +189,7 @@ namespace DanbooruDownloader3
                 string filename = row.Cells["colFilename"].Value.ToString();
                 try
                 {
-                    if (String.IsNullOrWhiteSpace(filename)) File.Move(filename + ".!tmp", filename);
+                    if (!String.IsNullOrWhiteSpace(filename)) File.Move(filename + ".!tmp", filename);
                 }
                 catch (IOException ex)
                 {
