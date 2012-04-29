@@ -17,7 +17,7 @@ namespace DanbooruDownloader3.Engine
     {
         private static Regex imageResolutionRegex = new Regex(@"title=.*[\|\||\/\/] (\d+)x(\d+).*width='(\d+)'.*height='(\d+).*Uploaded by (.+)<");
 
-        public static BindingList<DanbooruPost> ParseRSS(XmlReader reader, DanbooruProvider provider, string query, string searchTags)
+        public static BindingList<DanbooruPost> ParseRSS(XmlReader reader, DanbooruProvider provider, string query, string searchTags, List<DanbooruTag> BlacklistedTag)
         {
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
             
@@ -33,6 +33,7 @@ namespace DanbooruDownloader3.Engine
                 post.Id = titleData[0].Trim();
                 post.Tags = titleData[1].Trim();
                 post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                post.Hidden = CheckBlacklisted(post, BlacklistedTag);
 
                 post.Referer = AppendHttp(item.Element("link").Value, provider);
                 post.CreatedAt = item.Element("pubDate").Value;
@@ -67,6 +68,15 @@ namespace DanbooruDownloader3.Engine
         {
             if (!url.StartsWith("http")) url = provider.Url + url;
             return url;
+        }
+
+        private static bool CheckBlacklisted(DanbooruPost post, List<DanbooruTag> TagBlackList)
+        {
+            foreach (var tag in TagBlackList)
+            {
+                if (post.Tags.Contains(tag.Name)) return true;
+            }
+            return false;
         }
     }
 }

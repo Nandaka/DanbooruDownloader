@@ -19,6 +19,7 @@ namespace DanbooruDownloader3
         public static Color ColorCharacter = Color.Blue;
         public static Color ColorCircle = Color.Purple;
         public static Color ColorFaults = Color.Red;
+        public static Color ColorBlacklisted = Color.LightGray;
 
         /// <summary>
         /// Generate hashed password+salt using SHA1
@@ -81,9 +82,9 @@ namespace DanbooruDownloader3
         /// <param name="post"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public static string MakeFilename(string baseFolder, string format, DanbooruPost post, int limit)
+        public static string MakeFilename(DanbooruFilenameFormat format, DanbooruPost post)
         {
-            string filename = format;
+            string filename = format.FilenameFormat;
             string provider = post.Provider;
             string query = post.Query;
             string searchTags = post.SearchTags;
@@ -99,22 +100,32 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%originalFilename%", Helper.SanitizeFilename(originalFileName));
 
             var artist = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name));
+            if (string.IsNullOrWhiteSpace(artist)) artist = format.MissingTagReplacement;
             filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist));
+
             var copyright = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Copyright).Select(x => x.Name));
+            if (string.IsNullOrWhiteSpace(copyright)) copyright = format.MissingTagReplacement;
             filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright));
+
             var character = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name));
+            if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement; 
             filename = filename.Replace("%character%", Helper.SanitizeFilename(character));
+            
             var circle = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name));
+            if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement; 
             filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle));
+            
             var faults = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name));
+            if (string.IsNullOrWhiteSpace(faults)) faults = format.MissingTagReplacement;
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults));
 
             // append base folder from Save Folder text box
-            if (baseFolder.EndsWith(@"\")) filename = baseFolder + filename;
-            else if (!String.IsNullOrWhiteSpace(baseFolder)) filename = baseFolder + @"\" + filename;
+            if (format.BaseFolder.EndsWith(@"\")) filename = format.BaseFolder + filename;
+            else if (!String.IsNullOrWhiteSpace(format.BaseFolder)) filename = format.BaseFolder + @"\" + filename;
 
-            filename = filename.Substring(0, filename.Length < limit ? filename.Length : limit).Trim();
+            filename = filename.Substring(0, filename.Length < format.Limit ? filename.Length : format.Limit).Trim();
 
+            // check if contains subdirectory
             if (filename.Contains(@"\"))
             {
                 string dir = filename.Substring(0, filename.LastIndexOf(@"\"));

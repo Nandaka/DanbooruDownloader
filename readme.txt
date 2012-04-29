@@ -15,6 +15,11 @@ Changelog:
 =============================
 - DanbooruDownloader201204xx
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.
+  - Add blacklist tag support.
+    - The blacklisted post is still shown in the Main Tab, but with different background color, 
+      the color can be configured in Settings Tab.
+    - The blacklisted post is skipped in the Full Batch mode, see the Log tab for more details.
+  - Add option to replace empty filename format.
 
 - DanbooruDownloader20120427
   - Fix absolute path in download batch.
@@ -117,6 +122,24 @@ The contents structure are:
 - Password    : Your password, in plain text.
 - UseAuth     : true/false. Use authentication/login.
 
+
+Filename Format
+=============================
+- %provider% 	= provider Name
+- %id% 		= Image ID
+- %tags% 	= Image Tags
+- %rating% 	= Image Rating
+- %md5% 	= MD5 Hash
+- %artist% 	= Artist Tag
+- %copyright% 	= Copyright Tag
+- %character% 	= Character Tag
+- %circle% 	= Circle Tag, yande.re extension
+- %faults% 	= Faults Tag, yande.re extension
+- %originalFilename% = Original Filename
+- %searchtag% 	= Search tag
+
+If the given tags is not available, it will replaced with empty string.
+
 FAQ
 =============================
 Q1: I cannot download from Danbooru (403 Forbidden)!
@@ -138,6 +161,9 @@ A5: Sent me a message in the comment with the details, such as:
     - The query.
     - The settings (screen shot is fine, please upload it to http://imgur.com/)
     - The error message (screen shot also fine)
+
+Q6: I got a lot of skipped files when do batch download!
+A6: It is caused of the target filename is already exists. Add %md5% in your filename format.
 
 Supported Board
 =============================

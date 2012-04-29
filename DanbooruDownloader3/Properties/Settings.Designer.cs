@@ -383,5 +383,41 @@ namespace DanbooruDownloader3.Properties {
                 this["TagAutoComplete"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EmptyTagReplacement {
+            get {
+                return ((string)(this["EmptyTagReplacement"]));
+            }
+            set {
+                this["EmptyTagReplacement"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TagBlacklist {
+            get {
+                return ((string)(this["TagBlacklist"]));
+            }
+            set {
+                this["TagBlacklist"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        public global::System.Drawing.Color ColorBlacklistedTag {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorBlacklistedTag"]));
+            }
+            set {
+                this["ColorBlacklistedTag"] = value;
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace DanbooruDownloader3
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
 
-                DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked);
+                DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked, TagBlacklist);
                 
                 if (chkAutoLoadNext.Checked) LoadNextList(newPosts);
                 else LoadList(newPosts);
@@ -37,11 +37,14 @@ namespace DanbooruDownloader3
                     if (ex.InnerException.GetType() == typeof(System.Net.WebException) && !ex.InnerException.Message.Contains("403"))
                     {
                         var wex = (System.Net.WebException)ex.InnerException;
-                        
-                        var resp = new DanbooruPostDao(wex.Response.GetResponseStream(), _currProvider, "", "", "", rbXml.Checked);
-                        wex.Response.GetResponseStream().Close();
-                        MessageBox.Show("Server Message: " + resp.ResponseMessage, "Download List");
-                        
+                        var response = wex.Response.GetResponseStream();
+                        if (response != null)
+                        {
+                            var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
+                            wex.Response.GetResponseStream().Close();
+                            MessageBox.Show("Server Message: " + resp.ResponseMessage, "Download List");
+                        }
+                        else MessageBox.Show(ex.InnerException.Message, "Download List");
                     }
                     else MessageBox.Show(ex.InnerException.Message, "Download List");
                 }
@@ -72,7 +75,7 @@ namespace DanbooruDownloader3
 
             if (chkAutoLoadList.Checked)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider);
+                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider, TagBlacklist);
                 newPosts.Referer = _clientList.Referer;
                 LoadList(newPosts);
             }

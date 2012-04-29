@@ -17,12 +17,13 @@ namespace DanbooruDownloader3.DAO
         /// </summary>
         /// <param name="url"></param>
         /// <param name="provider"></param>
-        public DanbooruPostDao(string url, DanbooruProvider provider)
+        public DanbooruPostDao(string url, DanbooruProvider provider, List<DanbooruTag> BlacklistedTag)
         {
             this.Provider = provider;
             this.Query = url.Split('\\').Last();
             this.SearchTags = "";
             this.Referer = provider.Url;
+            this.TagBlackList = BlacklistedTag;
 
             if (url.ToLower().EndsWith(".xml"))
                 ReadXML(url);
@@ -39,12 +40,13 @@ namespace DanbooruDownloader3.DAO
         /// <param name="searchTags"></param>
         /// <param name="referer"></param>
         /// <param name="isXMl"></param>
-        public DanbooruPostDao(Stream input, DanbooruProvider provider, string query, string searchTags, string referer, Boolean isXMl)
+        public DanbooruPostDao(Stream input, DanbooruProvider provider, string query, string searchTags, string referer, Boolean isXMl, List<DanbooruTag> BlacklistedTag)
         {
             this.Provider = provider;
             this.Query = query;
             this.SearchTags = searchTags;
             this.Referer = referer;
+            this.TagBlackList = BlacklistedTag;
 
             if (isXMl)
             {
@@ -92,6 +94,8 @@ namespace DanbooruDownloader3.DAO
 
         public bool Success { get; set; }
         public string ResponseMessage { get; set; }
+
+        public List<DanbooruTag> TagBlackList { get; set; }
         #endregion
         
         private void ReadXML(string filename)
@@ -121,7 +125,7 @@ namespace DanbooruDownloader3.DAO
             RawData = "";
             if (Provider.BoardType == BoardType.Shimmie2)
             {
-                posts =  Engine.ShimmieEngine.ParseRSS(reader, Provider, Query, SearchTags);
+                posts =  Engine.ShimmieEngine.ParseRSS(reader, Provider, Query, SearchTags, TagBlackList);
                 foreach (var item in posts)
                 {
                     RawData += item.Id + ":" + item.FileUrl + ", ";                    
@@ -253,6 +257,7 @@ namespace DanbooruDownloader3.DAO
                                             break;
                                     }
                                 }
+                                post.Hidden = CheckBlacklisted(post);
                                 post.Provider = this.Provider.Name;
                                 post.Query = this.Query;
                                 post.SearchTags = this.SearchTags;
@@ -474,6 +479,7 @@ namespace DanbooruDownloader3.DAO
                             default: break;
                         }
                     }
+                    post.Hidden = CheckBlacklisted(post);
                     post.Provider = this.Provider.Name;
                     post.Query = this.Query;
                     post.SearchTags = this.SearchTags;
@@ -491,6 +497,15 @@ namespace DanbooruDownloader3.DAO
                 return Provider.Url + url;
             }
             return url;
+        }
+
+        private bool CheckBlacklisted(DanbooruPost post)
+        {
+            foreach (var tag in TagBlackList)
+            {
+                if (post.Tags.Contains(tag.Name)) return true;
+            }
+            return false;
         }
     }
 }

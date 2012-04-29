@@ -94,6 +94,7 @@
     <Compile Include="Engine\IEngine.cs" />
     <Compile Include="Engine\ShimmieEngine.cs" />
     <Compile Include="Entity\DanbooruBatchJob.cs" />
+    <Compile Include="Entity\DanbooruFilenameFormat.cs" />
     <Compile Include="Entity\DanbooruPost.cs" />
     <Compile Include="Entity\DanbooruSearchParam.cs" />
     <Compile Include="Entity\DanbooruTags.cs" />

@@ -48,7 +48,9 @@ namespace DanbooruDownloader3
         bool _resetLoadedThumbnail = false;
         int _retry;
 
-        const int MAX_FILENAME_LENGTH = 255;
+        public const int MAX_FILENAME_LENGTH = 255;
+
+        List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
 
         public FormMain()
         {
@@ -140,6 +142,21 @@ namespace DanbooruDownloader3
             ToggleTagsColor();
 
             SetTagAutoComplete();
+
+            ParseTagBlacklist();
+        }
+
+        private void ParseTagBlacklist()
+        {
+            var tagStr = txtTagBlacklist.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(tagStr))
+            {
+                TagBlacklist = DanbooruTagsDao.Instance.ParseTagsString(tagStr);
+            }
+            else
+            {
+                if (TagBlacklist != null) TagBlacklist.Clear();
+            }
         }
 
         private void SetTagAutoComplete()
@@ -227,7 +244,12 @@ namespace DanbooruDownloader3
                     if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
                     if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
 
-                    string filename = Helper.MakeFilename(txtSaveFolder.Text , txtFilenameFormat.Text, _downloadList[row.Index], Convert.ToInt32(txtFilenameLength.Text)) + url.Substring(url.LastIndexOf('.'));
+                    var format = new DanbooruFilenameFormat() {
+                        FilenameFormat = txtFilenameFormat.Text,
+                        Limit = Convert.ToInt32(txtFilenameLength.Text),
+                        BaseFolder = txtSaveFolder.Text,
+                        MissingTagReplacement = txtTagReplacement.Text};
+                    string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + url.Substring(url.LastIndexOf('.'));
 
                     if (!chkOverwrite.Checked && File.Exists(filename))
                     {
@@ -656,7 +678,7 @@ namespace DanbooruDownloader3
                                             var strs = _clientBatch.DownloadString(url);
                                             using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
                                             {
-                                                d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml);
+                                                d = new DanbooruPostDao(ms, p, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
                                             }
                                             break;
                                         }
@@ -716,7 +738,14 @@ namespace DanbooruDownloader3
                                         if (post.Provider == null) post.Provider = cbxProvider.Text;
                                         if (post.Query == null) post.Query = txtQuery.Text;
                                         if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-                                        string filename = Helper.MakeFilename(txtSaveFolder.Text, batchJob[i].SaveFolder, post, Convert.ToInt16(txtFilenameLength.Text)) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                        var format = new DanbooruFilenameFormat()
+                                        {
+                                            FilenameFormat = txtFilenameFormat.Text,
+                                            Limit = Convert.ToInt32(txtFilenameLength.Text),
+                                            BaseFolder = batchJob[i].SaveFolder,
+                                            MissingTagReplacement = txtTagReplacement.Text
+                                        };
+                                        string filename = Helper.MakeFilename(format, post) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
 
                                         bool download = true;
                                         // check if exist
@@ -729,6 +758,14 @@ namespace DanbooruDownloader3
                                                 download = false;
                                             }
                                         }
+                                        if (post.Hidden)
+                                        {
+                                            ++skipCount;
+                                            ++totalSkipCount;
+                                            download = false;
+                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + post.FileUrl);
+                                        }
+
                                         // download
                                         if (download)
                                         {
@@ -807,7 +844,7 @@ namespace DanbooruDownloader3
                                     {
                                         System.Net.WebException wex = (System.Net.WebException)ex;
 
-                                        var e = new DanbooruPostDao(wex.Response.GetResponseStream(), p, query, batchJob[i].TagQuery, url, isXml);
+                                        var e = new DanbooruPostDao(wex.Response.GetResponseStream(), p, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
                                         wex.Response.GetResponseStream().Close();
                                         if (!e.Success)
                                         {
@@ -993,7 +1030,7 @@ namespace DanbooruDownloader3
         {
             if (txtListFile.Text.Length > 0)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider);
+                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider, TagBlacklist);
 
                 LoadList(newPosts);
             }
@@ -1045,6 +1082,12 @@ namespace DanbooruDownloader3
             for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
             {
                 dgvList.Rows[i].Cells["colNumber"].Value = i + 1;
+
+                var item = dgvList.Rows[i].DataBoundItem as DanbooruPost;
+                if (item.Hidden)
+                {
+                    dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorBlacklisted;
+                }
             }
 
         }
@@ -1537,6 +1580,7 @@ namespace DanbooruDownloader3
             Helper.ColorCharacter = lblColorChara.ForeColor;
             Helper.ColorCircle = lblColorCircle.ForeColor;
             Helper.ColorFaults = lblColorFaults.ForeColor;
+            Helper.ColorBlacklisted = lblColorBlacklistedTag.ForeColor;
         }
 
         private void chkTagAutoComplete_CheckedChanged(object sender, EventArgs e)
@@ -1548,6 +1592,21 @@ namespace DanbooruDownloader3
         {
             DownloadTagsForm form = new DownloadTagsForm();
             form.ShowDialog();
+        }
+
+        private void txtTagBlacklist_TextChanged(object sender, EventArgs e)
+        {
+            ParseTagBlacklist();
+        }
+
+        private void lblColorBlacklistedTag_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorBlacklistedTag.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorBlacklistedTag.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
         }
     }
 }
