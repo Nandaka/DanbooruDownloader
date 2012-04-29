@@ -13,6 +13,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201204xx
+  - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.
+
 - DanbooruDownloader20120427
   - Fix absolute path in download batch.
   - Add form for updating tags.xml.

@@ -846,6 +846,7 @@ namespace DanbooruDownloader3
                             logMessage += providerStatus;
                         }
                         batchJob[i].Status = logMessage + Environment.NewLine + "All Done.";
+                        UpdateLog("DoBatchJob", "Batch Job #" + i + ": All Done");
                         if (batchJob[i].isError)
                         {
                             batchJob[i].isCompleted = true;
