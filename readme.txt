@@ -20,6 +20,7 @@ Changelog:
       the color can be configured in Settings Tab.
     - The blacklisted post is skipped in the Full Batch mode, see the Log tab for more details.
   - Add option to replace empty filename format.
+  - Add check if the file_url is empty.
 
 - DanbooruDownloader20120427
   - Fix absolute path in download batch.

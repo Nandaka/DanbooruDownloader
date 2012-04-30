@@ -226,6 +226,7 @@ namespace DanbooruDownloader3
                     if (result.Equals(DialogResult.Cancel))
                     {
                         tsStatus.Text = "Canceled.";
+                        _isDownloading = false;
                         return;
                     }
                 }
@@ -240,6 +241,20 @@ namespace DanbooruDownloader3
 
                     string url = (string)row.Cells["colUrl2"].Value;
 
+                    if (string.IsNullOrWhiteSpace(url))
+                    {
+                        row.Cells["colProgress2"].Value = "No file_url, probably deleted.";
+
+                        try
+                        {
+                            DownloadRows(dgvDownload.Rows[row.Index + 1]);//dgvDownload.Rows.GetNextRow(row.Index,DataGridViewElementStates.None)]);
+                        }
+                        catch (Exception ex) { txtLog.Text += "[DownloadRow] no file_url, " + ex.Message; }
+                        _isDownloading = false;
+                        return;
+                    }
+
+
                     if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
                     if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
                     if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
@@ -251,7 +266,8 @@ namespace DanbooruDownloader3
                         MissingTagReplacement = txtTagReplacement.Text};
                     string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + url.Substring(url.LastIndexOf('.'));
 
-                    if (!chkOverwrite.Checked && File.Exists(filename))
+                    
+                    if ((!chkOverwrite.Checked && File.Exists(filename)))
                     {
                         row.Cells["colProgress2"].Value = "File exists!";
 
@@ -764,6 +780,13 @@ namespace DanbooruDownloader3
                                             ++totalSkipCount;
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + post.FileUrl);
+                                        }
+                                        if (String.IsNullOrWhiteSpace(post.FileUrl))
+                                        {
+                                            ++skipCount;
+                                            ++totalSkipCount;
+                                            download = false;
+                                            UpdateLog("DoBatchJob", "Download skipped, ID: "+ post.Id + " No file_url, probably deleted");
                                         }
 
                                         // download

@@ -128,7 +128,6 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _status = "-";
-        [Browsable(false)]
         public string Status
         {
             get { return _status; }
