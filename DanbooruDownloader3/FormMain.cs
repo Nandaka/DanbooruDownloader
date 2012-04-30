@@ -756,9 +756,9 @@ namespace DanbooruDownloader3
                                         if (post.SearchTags == null) post.SearchTags = txtTags.Text;
                                         var format = new DanbooruFilenameFormat()
                                         {
-                                            FilenameFormat = txtFilenameFormat.Text,
+                                            FilenameFormat = batchJob[i].SaveFolder,
                                             Limit = Convert.ToInt32(txtFilenameLength.Text),
-                                            BaseFolder = batchJob[i].SaveFolder,
+                                            BaseFolder = txtSaveFolder.Text,
                                             MissingTagReplacement = txtTagReplacement.Text
                                         };
                                         string filename = Helper.MakeFilename(format, post) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
