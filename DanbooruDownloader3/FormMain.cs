@@ -264,7 +264,12 @@ namespace DanbooruDownloader3
                         Limit = Convert.ToInt32(txtFilenameLength.Text),
                         BaseFolder = txtSaveFolder.Text,
                         MissingTagReplacement = txtTagReplacement.Text};
-                    string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + url.Substring(url.LastIndexOf('.'));
+                    string extension = url.Substring(url.LastIndexOf('.'));
+                    if (chkRenameJpeg.Checked)
+                    {
+                        if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                    }
+                    string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + extension;
 
                     
                     if ((!chkOverwrite.Checked && File.Exists(filename)))
@@ -761,7 +766,12 @@ namespace DanbooruDownloader3
                                             BaseFolder = txtSaveFolder.Text,
                                             MissingTagReplacement = txtTagReplacement.Text
                                         };
-                                        string filename = Helper.MakeFilename(format, post) + post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                        string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                        if (chkRenameJpeg.Checked)
+                                        {
+                                            if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                                        }
+                                        string filename = Helper.MakeFilename(format, post) + extension;
 
                                         bool download = true;
                                         // check if exist
@@ -915,6 +925,7 @@ namespace DanbooruDownloader3
                         {
                             batchJob[i].isCompleted = true;
                         }
+                        BeginInvoke(del);
                     }
                 }
             }
@@ -925,7 +936,7 @@ namespace DanbooruDownloader3
         public delegate void UpdateUiDelegate();
         public void UpdateUi()
         {
-            foreach (DataGridViewRow  row in dgvBatchJob.Rows)
+            foreach (DataGridViewRow row in dgvBatchJob.Rows)
             {
                 if (batchJob[row.Index].isError)
                     row.DefaultCellStyle.BackColor = Color.Red;

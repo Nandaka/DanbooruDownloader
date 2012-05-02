@@ -86,7 +86,12 @@ namespace DanbooruDownloader3
         {
             tsProgressBar.Visible = true;
             txtLog.AppendText("[clientList]" + e.UserState + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
-            tsProgressBar.Value = e.ProgressPercentage;
+            if (e.TotalBytesToReceive > 0)
+            {
+                tsProgressBar.Style = ProgressBarStyle.Continuous;
+                tsProgressBar.Value = e.ProgressPercentage;
+            }
+            else tsProgressBar.Style = ProgressBarStyle.Marquee;
         }
         #endregion
 
@@ -97,7 +102,12 @@ namespace DanbooruDownloader3
             {
                 tsProgress2.Visible = true;
                 txtLog.AppendText("[clientThumbnail]" + e.UserState + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
-                tsProgress2.Value = e.ProgressPercentage;
+                if (e.TotalBytesToReceive > 0)
+                {
+                    tsProgress2.Style = ProgressBarStyle.Continuous;
+                    tsProgress2.Value = e.ProgressPercentage;
+                }
+                else tsProgress2.Style = ProgressBarStyle.Marquee;
             }
             catch (Exception ex)
             {
@@ -174,7 +184,12 @@ namespace DanbooruDownloader3
                 txtLog.AppendText("[clientFileDownload]" + row.Index + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
                 row.Cells["colProgress2"].Value = "Downloading: " + e.BytesReceived + " of " + e.TotalBytesToReceive;
             }
-            tsProgressBar.Value = e.ProgressPercentage;
+            if (e.TotalBytesToReceive > 0)
+            {
+                tsProgressBar.Style = ProgressBarStyle.Continuous;
+                tsProgressBar.Value = e.ProgressPercentage;
+            }
+            else tsProgressBar.Style = ProgressBarStyle.Marquee;
         }
 
         void clientFile_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)

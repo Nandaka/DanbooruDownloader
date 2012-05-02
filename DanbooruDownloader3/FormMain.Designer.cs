@@ -168,6 +168,7 @@
             this.chkUseTagColor = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txtTagBlacklist = new System.Windows.Forms.TextBox();
             this.txtTagReplacement = new System.Windows.Forms.TextBox();
@@ -1684,6 +1685,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkRenameJpeg);
             this.groupBox3.Controls.Add(this.label21);
             this.groupBox3.Controls.Add(this.txtTagBlacklist);
             this.groupBox3.Controls.Add(this.txtTagReplacement);
@@ -1703,6 +1705,18 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Download";
+            // 
+            // chkRenameJpeg
+            // 
+            this.chkRenameJpeg.AutoSize = true;
+            this.chkRenameJpeg.Checked = global::DanbooruDownloader3.Properties.Settings.Default.RenameJpeg;
+            this.chkRenameJpeg.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "RenameJpeg", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkRenameJpeg.Location = new System.Drawing.Point(441, 95);
+            this.chkRenameJpeg.Name = "chkRenameJpeg";
+            this.chkRenameJpeg.Size = new System.Drawing.Size(124, 17);
+            this.chkRenameJpeg.TabIndex = 14;
+            this.chkRenameJpeg.Text = "Rename .jpeg to .jpg";
+            this.chkRenameJpeg.UseVisualStyleBackColor = true;
             // 
             // label21
             // 
@@ -1794,7 +1808,7 @@
             this.chkOverwrite.AutoSize = true;
             this.chkOverwrite.Checked = global::DanbooruDownloader3.Properties.Settings.Default.overwrite;
             this.chkOverwrite.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkOverwrite.Location = new System.Drawing.Point(475, 67);
+            this.chkOverwrite.Location = new System.Drawing.Point(441, 67);
             this.chkOverwrite.Name = "chkOverwrite";
             this.chkOverwrite.Size = new System.Drawing.Size(90, 17);
             this.chkOverwrite.TabIndex = 3;
@@ -2653,6 +2667,7 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtTagBlacklist;
         private System.Windows.Forms.Label lblColorBlacklistedTag;
+        private System.Windows.Forms.CheckBox chkRenameJpeg;
     }
 }
 

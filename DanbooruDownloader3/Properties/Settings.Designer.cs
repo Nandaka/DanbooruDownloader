@@ -419,5 +419,17 @@ namespace DanbooruDownloader3.Properties {
                 this["ColorBlacklistedTag"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RenameJpeg {
+            get {
+                return ((bool)(this["RenameJpeg"]));
+            }
+            set {
+                this["RenameJpeg"] = value;
+            }
+        }
     }
 }

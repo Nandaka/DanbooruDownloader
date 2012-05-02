@@ -31,7 +31,7 @@ namespace DanbooruDownloader3.test
             var shimmie2Provider = pd.Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Shimmie2).First<DanbooruProvider>();
             XmlReader reader = new XmlTextReader(@"../../../DanbooruDownloader3.test/TestXml/shimmie2.xml");
 
-            var list = ShimmieEngine.ParseRSS(reader, shimmie2Provider, "", "");
+            var list = ShimmieEngine.ParseRSS(reader, shimmie2Provider, "", "", null);
 
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Count == 9);
