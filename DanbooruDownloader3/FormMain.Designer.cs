@@ -985,6 +985,7 @@
             this.txtQuery.Name = "txtQuery";
             this.txtQuery.Size = new System.Drawing.Size(460, 20);
             this.txtQuery.TabIndex = 0;
+            this.txtQuery.TextChanged += new System.EventHandler(this.txtQuery_TextChanged);
             // 
             // tabPage4
             // 

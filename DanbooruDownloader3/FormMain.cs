@@ -1642,5 +1642,10 @@ namespace DanbooruDownloader3
                 SetTagColors();
             }
         }
+
+        private void txtQuery_TextChanged(object sender, EventArgs e)
+        {
+            tsStatus.Text = "Query URL: " + _currProvider.Url + txtQuery.Text;
+        }
     }
 }

@@ -117,15 +117,15 @@ namespace DanbooruDownloader3
                     txtQuery.Text += txtTags.Text.Length > 0 ? "tags=" + txtTags.Text.Replace(' ', '+') : "";
 
                     //Rating
-                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxRating.SelectedIndex > 0 ? "+" : "";
-                    txtQuery.Text += (txtTags.Text.Length <= 0 && cbxRating.SelectedIndex > 0 ? "tags=" : "") + (chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue);
+                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxRating.SelectedIndex > 0 ? "+" : cbxRating.SelectedIndex > 0 ? "tags=" : "";
+                    txtQuery.Text += chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue;
 
                     //Source
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtSource.Text.Length > 0 ? "+" : txtSource.Text.Length > 0 ? "tags=" : "";
                     txtQuery.Text += txtSource.Text.Length > 0 ? "source:" + txtSource.Text : "";
 
                     //Order
-                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxOrder.SelectedIndex > 0 ? "+" : "";
+                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxOrder.SelectedIndex > 0 ? "+" : cbxOrder.SelectedIndex > 0 ? "tags=" : "";
                     txtQuery.Text += cbxOrder.SelectedValue;
 
                     //Limit
