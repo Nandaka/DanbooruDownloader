@@ -32,23 +32,28 @@ namespace DanbooruDownloader3
             }
             catch (Exception ex)
             {
+                var message = ex.Message;
                 if (ex.InnerException != null)
                 {
-                    if (ex.InnerException.GetType() == typeof(System.Net.WebException) && !ex.InnerException.Message.Contains("403"))
+                    message = ex.InnerException.Message;
+                    if (ex.InnerException.GetType() == typeof(System.Net.WebException))
                     {
                         var wex = (System.Net.WebException)ex.InnerException;
-                        var response = wex.Response.GetResponseStream();
-                        if (response != null)
+                        if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response.Headers["Status"].ToString() != "403")
                         {
-                            var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
-                            wex.Response.GetResponseStream().Close();
-                            MessageBox.Show("Server Message: " + resp.ResponseMessage, "Download List");
+                            using (var response = wex.Response.GetResponseStream())
+                            {
+                                if (response != null)
+                                {
+                                    var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
+                                    message = "Server Message: " + resp.ResponseMessage;
+                                }
+                            }
                         }
-                        else MessageBox.Show(ex.InnerException.Message, "Download List");
                     }
-                    else MessageBox.Show(ex.InnerException.Message, "Download List");
                 }
-                else MessageBox.Show(ex.Message, "Download List");
+                
+                MessageBox.Show(message, "Download List");
 
                 txtLog.Text += "clientList_DownloadDataCompleted(): " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message);
                 txtLog.Text += _clientList.Referer + Environment.NewLine;
