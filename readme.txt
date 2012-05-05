@@ -13,15 +13,17 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
-- DanbooruDownloader201204xx
+- DanbooruDownloader20120505
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.
   - Add blacklist tag support.
     - The blacklisted post is still shown in the Main Tab, but with different background color, 
       the color can be configured in Settings Tab.
     - The blacklisted post is skipped in the Full Batch mode, see the Log tab for more details.
+    - Separate each blacklisted tag with space.
   - Add option to replace empty filename format.
   - Add check if the file_url is empty.
   - Fix query url generator.
+  - Add application icon.
 
 - DanbooruDownloader20120427
   - Fix absolute path in download batch.
