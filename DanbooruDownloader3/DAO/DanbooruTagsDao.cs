@@ -102,5 +102,50 @@ namespace DanbooruDownloader3.DAO
             }
             set { _DefaultTagsDao = value; }
         }
+
+        /// <summary>
+        /// Update the source xml with the tags from target xml
+        /// The updated tags is saved to target xml
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static string Merge(string source, string target)
+        {
+            if (!File.Exists(source)) return "Cannot find source";
+            if (!File.Exists(target)) return "Cannot find target";
+
+            int added = 0;
+            int updated = 0;
+            var sourceInstance = new DanbooruTagsDao(source).Tags.Tag.ToList();
+            var targetInstance = new DanbooruTagsDao(target).Tags.Tag.ToList();
+            
+            foreach (var targetItem in targetInstance)
+            {
+                var sourceIndex = sourceInstance.FindIndex(x => x.Name == targetItem.Name);
+                if (sourceIndex > 0)
+                {
+                    if (sourceInstance[sourceIndex].Type < targetItem.Type)
+                    {
+                        sourceInstance[sourceIndex].Type = targetItem.Type;
+                        ++updated;
+                    }
+                }
+                else
+                {
+                    sourceInstance.Add(targetItem);
+                    ++added;
+                }
+            }
+
+            XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
+            using (StreamWriter s = File.CreateText(target))
+            {
+                DanbooruTagCollection col = new DanbooruTagCollection();
+                col.Tag = sourceInstance.ToArray();
+                ser.Serialize(s, col);
+            }
+            return "Added: " + added + " tags, Updated: " + updated + " tags";
+        }
     }
 }

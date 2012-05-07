@@ -13,6 +13,11 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201205xx
+  - Add option to backup the tags.xml before updating.
+  - Add option to merge the tags.xml after updating (slow!).
+  - Clear the page number text box if provider selection is changed.
+
 - DanbooruDownloader20120505
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.
   - Add blacklist tag support.

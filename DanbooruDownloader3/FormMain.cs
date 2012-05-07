@@ -1000,6 +1000,7 @@ namespace DanbooruDownloader3
             if (cbxProvider.SelectedValue.Equals(PreferredMethod.Json)) rbJson.Checked = true;
             else rbXml.Checked = true;
 
+            txtPage.Text = "";
             _currProvider = _listProvider[cbxProvider.SelectedIndex];
             UpdateStatus();
         }

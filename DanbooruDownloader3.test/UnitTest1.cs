@@ -147,5 +147,19 @@ namespace DanbooruDownloader3.test
             client.DownloadFile(url, filename);
             Assert.IsTrue(File.Exists(filename));
         }
+
+        [TestMethod]
+        public void TestMergeTagsXml()
+        {
+            string source = @"../../../DanbooruDownloader3.test/TestXml/tags-source.xml";
+            string actualTarget = @"../../../DanbooruDownloader3.test/TestXml/tags-target.xml";
+            string target = "tags-target.xml";
+
+            File.Copy(actualTarget, target);
+            var message = DanbooruTagsDao.Merge(source, target);
+            var targetInstance = new DanbooruTagsDao(target);
+
+            Assert.IsTrue(targetInstance.Tags.Tag.Length > 0);
+        }
     }
 }

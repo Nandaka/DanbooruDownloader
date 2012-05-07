@@ -58,7 +58,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Sanitize the filename.
+        /// Sanitize the TAGS_FILENAME.
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// For constructing filename.
+        /// For constructing TAGS_FILENAME.
         /// </summary>
         /// <param name="baseFolder"></param>
         /// <param name="format"></param>

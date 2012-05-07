@@ -35,11 +35,14 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbxProvider = new System.Windows.Forms.ComboBox();
             this.chkAutoClose = new System.Windows.Forms.CheckBox();
+            this.chkBackup = new System.Windows.Forms.CheckBox();
+            this.chkMerge = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnDownload
             // 
-            this.btnDownload.Location = new System.Drawing.Point(475, 7);
+            this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownload.Location = new System.Drawing.Point(513, 7);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(75, 23);
             this.btnDownload.TabIndex = 0;
@@ -58,16 +61,20 @@
             // 
             // txtUrl
             // 
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUrl.Location = new System.Drawing.Point(194, 9);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(275, 20);
+            this.txtUrl.Size = new System.Drawing.Size(313, 20);
             this.txtUrl.TabIndex = 2;
             // 
             // progressBar1
             // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(15, 40);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(535, 23);
+            this.progressBar1.Size = new System.Drawing.Size(573, 23);
             this.progressBar1.TabIndex = 3;
             // 
             // lblStatus
@@ -90,19 +97,44 @@
             // 
             // chkAutoClose
             // 
+            this.chkAutoClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkAutoClose.AutoSize = true;
-            this.chkAutoClose.Location = new System.Drawing.Point(473, 69);
+            this.chkAutoClose.Location = new System.Drawing.Point(511, 69);
             this.chkAutoClose.Name = "chkAutoClose";
             this.chkAutoClose.Size = new System.Drawing.Size(77, 17);
             this.chkAutoClose.TabIndex = 6;
             this.chkAutoClose.Text = "Auto Close";
             this.chkAutoClose.UseVisualStyleBackColor = true;
             // 
+            // chkBackup
+            // 
+            this.chkBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkBackup.AutoSize = true;
+            this.chkBackup.Location = new System.Drawing.Point(403, 69);
+            this.chkBackup.Name = "chkBackup";
+            this.chkBackup.Size = new System.Drawing.Size(104, 17);
+            this.chkBackup.TabIndex = 7;
+            this.chkBackup.Text = "Backup tags.xml";
+            this.chkBackup.UseVisualStyleBackColor = true;
+            // 
+            // chkMerge
+            // 
+            this.chkMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkMerge.AutoSize = true;
+            this.chkMerge.Location = new System.Drawing.Point(341, 69);
+            this.chkMerge.Name = "chkMerge";
+            this.chkMerge.Size = new System.Drawing.Size(56, 17);
+            this.chkMerge.TabIndex = 8;
+            this.chkMerge.Text = "Merge";
+            this.chkMerge.UseVisualStyleBackColor = true;
+            // 
             // DownloadTagsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(562, 92);
+            this.ClientSize = new System.Drawing.Size(600, 92);
+            this.Controls.Add(this.chkMerge);
+            this.Controls.Add(this.chkBackup);
             this.Controls.Add(this.chkAutoClose);
             this.Controls.Add(this.cbxProvider);
             this.Controls.Add(this.lblStatus);
@@ -130,6 +162,8 @@
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cbxProvider;
         private System.Windows.Forms.CheckBox chkAutoClose;
+        private System.Windows.Forms.CheckBox chkBackup;
+        private System.Windows.Forms.CheckBox chkMerge;
 
     }
 }

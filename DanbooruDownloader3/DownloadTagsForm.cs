@@ -15,7 +15,7 @@ namespace DanbooruDownloader3
 {
     public partial class DownloadTagsForm : Form
     {
-        private const string filename = "tags.xml";
+        private const string TAGS_FILENAME = "tags.xml";
         private ExtendedWebClient client;
 
         public DownloadTagsForm()
@@ -29,17 +29,43 @@ namespace DanbooruDownloader3
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             btnDownload.Enabled = true;
-            if (File.Exists(filename))
+            if (e.Error != null)
             {
-                File.Delete(filename);
-                
+                var message = e.Error.Message;
+                if (File.Exists(TAGS_FILENAME + ".bak"))
+                {
+                    message += "," + Environment.NewLine + "Restoring backup.";
+                    File.Move(TAGS_FILENAME + ".bak", TAGS_FILENAME);
+                }
+                MessageBox.Show(message);
             }
-            File.Move(filename + ".!tmp", filename);
-            DanbooruTagsDao.Instance = new DanbooruTagsDao(filename);
-            lblStatus.Text = "Status: Download complete.";
-            if (chkAutoClose.Checked)
-            {
-                this.Close();
+            else
+            {                
+                if (File.Exists(TAGS_FILENAME))
+                {
+                    File.Delete(TAGS_FILENAME);
+                }
+                File.Move(TAGS_FILENAME + ".!tmp", TAGS_FILENAME);
+
+                // merge operation
+                if (chkMerge.Checked)
+                {
+                    lblStatus.Text = "Status: Merging...";
+                    lblStatus.Invalidate();
+                    lblStatus.Update();
+                    lblStatus.Refresh();
+                    Application.DoEvents();
+                    var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
+                    MessageBox.Show(message, "Merge tags.xml");
+                    File.Delete(TAGS_FILENAME + ".merge");
+                }
+
+                DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
+                lblStatus.Text = "Status: Download complete.";
+                if (chkAutoClose.Checked)
+                {
+                    this.Close();
+                }
             }
         }
 
@@ -64,8 +90,40 @@ namespace DanbooruDownloader3
             {
                 btnDownload.Enabled = false;
                 lblStatus.Text = "Status: Download starting...";
-                if (File.Exists(filename + ".!tmp")) File.Delete(filename + ".!tmp");
-                client.DownloadFileAsync(new Uri(txtUrl.Text), filename + ".!tmp");
+                lblStatus.Invalidate();
+                lblStatus.Update();
+                lblStatus.Refresh();
+                Application.DoEvents();
+                
+                // Delete temp file
+                if (File.Exists(TAGS_FILENAME + ".!tmp")) File.Delete(TAGS_FILENAME + ".!tmp");
+
+                // Merge preparation
+                if (chkMerge.Checked)
+                {
+                    if (File.Exists(TAGS_FILENAME))
+                    {
+                        if (File.Exists(TAGS_FILENAME + ".merge")) File.Delete(TAGS_FILENAME + ".merge");
+                        File.Copy(TAGS_FILENAME, TAGS_FILENAME + ".merge");
+                    }
+                    else
+                    {
+                        chkMerge.Checked = false;
+                    }
+                }
+
+                // Backup
+                if (chkBackup.Checked)
+                {
+                    if (File.Exists(TAGS_FILENAME))
+                    {
+                        if (File.Exists(TAGS_FILENAME + ".bak")) File.Delete(TAGS_FILENAME + ".bak");
+                        File.Move(TAGS_FILENAME, TAGS_FILENAME + ".bak");
+                    }
+                }
+
+                client.DownloadFileAsync(new Uri(txtUrl.Text), TAGS_FILENAME + ".!tmp");
+                
             }
         }
 
