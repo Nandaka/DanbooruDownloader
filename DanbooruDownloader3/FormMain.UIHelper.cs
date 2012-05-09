@@ -16,6 +16,75 @@ namespace DanbooruDownloader3
     public partial class FormMain : Form
     {
         /// <summary>
+        /// Enable/Disable colored tags.
+        /// </summary>
+        private void ToggleTagsColor()
+        {
+            if (chkUseTagColor.Checked)
+            {
+                dgvList.Columns["colTagsE"].Visible = true;
+                dgvList.Columns["colTags"].Visible = false;
+            }
+            else
+            {
+                dgvList.Columns["colTagsE"].Visible = false;
+                dgvList.Columns["colTags"].Visible = true;
+            }
+            dgvList.Refresh();
+        }
+
+        /// <summary>
+        /// Set color for tags.
+        /// </summary>
+        private void SetTagColors()
+        {
+            Helper.ColorGeneral = lblColorGeneral.ForeColor;
+            Helper.ColorArtist = lblColorArtist.ForeColor;
+            Helper.ColorCopyright = lblColorCopy.ForeColor;
+            Helper.ColorCharacter = lblColorChara.ForeColor;
+            Helper.ColorCircle = lblColorCircle.ForeColor;
+            Helper.ColorFaults = lblColorFaults.ForeColor;
+            Helper.ColorBlacklisted = lblColorBlacklistedTag.ForeColor;
+        }
+
+        /// <summary>
+        /// Enable/disable txtProxyUsername and password
+        /// </summary>
+        private void CheckProxyLogin()
+        {
+            if (chkProxyLogin.Checked)
+            {
+                txtProxyPassword.Enabled = true;
+                txtProxyUsername.Enabled = true;
+            }
+            else
+            {
+                txtProxyPassword.Enabled = false;
+                txtProxyUsername.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Enable/Disable Main group box
+        /// </summary>
+        /// <param name="enabled"></param>
+        private void EnableControls(bool enabled)
+        {
+            gbxSearch.Enabled = enabled;
+            gbxList.Enabled = enabled;
+            gbxDanbooru.Enabled = enabled;
+        }
+
+        /// <summary>
+        /// Update status label with the query url
+        /// </summary>
+        private void UpdateStatus()
+        {
+            tsStatus.Text = "Query URL: " + GetQueryUrl();
+        }
+
+
+        /// <summary>
         /// print flags for debug.
         /// </summary>
         public void PrintFlags()

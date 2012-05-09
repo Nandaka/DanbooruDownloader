@@ -146,6 +146,16 @@ namespace DanbooruDownloader3
             Program.Logger.Debug(this.Text + " loaded.");
         }
 
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            foreach (TabPage tp in tabControl1.TabPages)
+            {
+                tp.Show();
+            }
+            if (chkMinimizeTray.Checked) notifyIcon1.Visible = true;
+            else notifyIcon1.Visible = false;
+        }
+
         #region method
         /// <summary>
         /// Populate the provider List
@@ -194,6 +204,9 @@ namespace DanbooruDownloader3
             }
         }
 
+        /// <summary>
+        /// Copy checked row from dgvList to _downloadList
+        /// </summary>
         public void TransferDownloadRows()
         {
             if (CheckListGrid())
@@ -261,9 +274,13 @@ namespace DanbooruDownloader3
 
                         try
                         {
-                            DownloadRows(dgvDownload.Rows[row.Index + 1]);//dgvDownload.Rows.GetNextRow(row.Index,DataGridViewElementStates.None)]);
+                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
                         }
-                        catch (Exception ex) { txtLog.Text += "[DownloadRow] no file_url, " + ex.Message; }
+                        catch (Exception ex) 
+                        { 
+                            txtLog.Text += "[DownloadRow] no file_url, " + ex.Message;
+                            Program.Logger.Error("[DownloadRow] no file_url", ex);
+                        }
                         _isDownloading = false;
                         return;
                     }
@@ -292,9 +309,13 @@ namespace DanbooruDownloader3
 
                         try
                         {
-                            DownloadRows(dgvDownload.Rows[row.Index + 1]);//dgvDownload.Rows.GetNextRow(row.Index,DataGridViewElementStates.None)]);
+                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
                         }
-                        catch (Exception ex) { txtLog.Text += "[DownloadRow] overwrite = false, " + ex.Message; }
+                        catch (Exception ex) 
+                        { 
+                            txtLog.Text += "[DownloadRow] overwrite = false, " + ex.Message;
+                            Program.Logger.Error("[DownloadRow] overwrite = false", ex);
+                        }
                     }
                     else
                     {
@@ -312,6 +333,8 @@ namespace DanbooruDownloader3
                         // the actual download
                         _clientFile.Referer = _downloadList[row.Index].Referer;
                         if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
+                        Program.Logger.Info("[DownloadRow] Downloading " + url);
+                        Program.Logger.Info("[DownloadRow] Saved to    " + filename2);
                         _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
                     }
                 }
@@ -322,6 +345,10 @@ namespace DanbooruDownloader3
             }
         }
 
+        /// <summary>
+        /// Append post from given DanbooruPostDao to the current _postsDao
+        /// </summary>
+        /// <param name="newPostDao"></param>
         public void LoadNextList(DanbooruPostDao newPostDao)
         {
             try
@@ -367,6 +394,11 @@ namespace DanbooruDownloader3
 
         }
 
+        /// <summary>
+        /// Load post from given DanbooruPostDao to _postsDao
+        /// if chkAppendList, the post will be appended to current _postsDao
+        /// </summary>
+        /// <param name="postDao"></param>
         private void LoadList(DanbooruPostDao postDao)
         {
             if (postDao.Posts.Count > 0)
@@ -405,12 +437,11 @@ namespace DanbooruDownloader3
                 MessageBox.Show("No Posts!","Listing");
             }
         }
-
-        private void UpdateStatus()
-        {
-            tsStatus.Text = "Query URL: " + GetQueryUrl();
-        }
-
+                
+        /// <summary>
+        /// Load thumbnails
+        /// </summary>
+        /// <param name="i"></param>
         private void LoadThumbnailLater(int i)
         {
             if (this.IsDisposed || this.Disposing) return;
@@ -441,6 +472,9 @@ namespace DanbooruDownloader3
             }
         }
 
+        /// <summary>
+        /// Download posts list 
+        /// </summary>
         private void GetList()
         {
             string authString = "";
@@ -448,6 +482,8 @@ namespace DanbooruDownloader3
             {
                 authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
             }
+            var queryUrl = GetQueryUrl(authString);
+            Program.Logger.Info("Getting list: " + queryUrl);
 
             if (chkSaveQuery.Checked)
             {
@@ -462,7 +498,7 @@ namespace DanbooruDownloader3
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                    _clientList.DownloadFileAsync(new Uri(GetQueryUrl(authString)), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
+                    _clientList.DownloadFileAsync(new Uri(queryUrl), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
                     tsProgressBar.Visible = true;
                 }
             }
@@ -475,13 +511,17 @@ namespace DanbooruDownloader3
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                    _clientList.DownloadDataAsync(new Uri(GetQueryUrl(authString)), GetQueryUrl(authString));
+                    _clientList.DownloadDataAsync(new Uri(queryUrl), queryUrl);
                     tsProgressBar.Visible = true;
                     if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy ) _resetLoadedThumbnail = true;
                 }
             }
         }
 
+        /// <summary>
+        /// Increase txtPage and get the list.
+        /// </summary>
+        /// <param name="currRowIndex"></param>
         private void LoadNextPage(int currRowIndex)
         {
             if (_postsDao != null && _isMorePost && chkAutoLoadNext.Checked)
@@ -508,20 +548,7 @@ namespace DanbooruDownloader3
                 }
             }
         }
-
-        private void CheckProxyLogin()
-        {
-            if (chkProxyLogin.Checked)
-            {
-                txtProxyPassword.Enabled = true;
-                txtProxyUsername.Enabled = true;
-            }
-            else
-            {
-                txtProxyPassword.Enabled = false;
-                txtProxyUsername.Enabled = false;
-            }
-        }
+                
         #endregion
 
         #region batch job helper
@@ -1246,23 +1273,6 @@ namespace DanbooruDownloader3
             }
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            foreach (TabPage tp in tabControl1.TabPages)
-            {
-                tp.Show();
-            }
-            if (chkMinimizeTray.Checked) notifyIcon1.Visible = true;
-            else notifyIcon1.Visible = false;
-        }
-
-        private void EnableControls(bool enabled)
-        {
-            gbxSearch.Enabled = enabled;
-            gbxList.Enabled = enabled;
-            gbxDanbooru.Enabled = enabled;
-        }
-
         private void dgvDownload_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             dgvDownload.Rows[e.RowIndex].Cells["colIndex"].Value = e.RowIndex + 1;
@@ -1465,7 +1475,6 @@ namespace DanbooruDownloader3
         {
             CheckProxyLogin();
         }
-        #endregion        
 
         private void btnBrowseFolder_Click_1(object sender, EventArgs e)
         {
@@ -1546,21 +1555,6 @@ namespace DanbooruDownloader3
             ToggleTagsColor();
         }
 
-        private void ToggleTagsColor()
-        {
-            if (chkUseTagColor.Checked)
-            {
-                dgvList.Columns["colTagsE"].Visible = true;
-                dgvList.Columns["colTags"].Visible = false;
-            }
-            else
-            {
-                dgvList.Columns["colTagsE"].Visible = false;
-                dgvList.Columns["colTags"].Visible = true;
-            }
-            dgvList.Refresh();
-        }
-
         private void lblColorGeneral_DoubleClick(object sender, EventArgs e)
         {
             colorDialog1.Color = lblColorGeneral.ForeColor;
@@ -1621,17 +1615,6 @@ namespace DanbooruDownloader3
             }
         }
 
-        private void SetTagColors()
-        {
-            Helper.ColorGeneral = lblColorGeneral.ForeColor;
-            Helper.ColorArtist = lblColorArtist.ForeColor;
-            Helper.ColorCopyright = lblColorCopy.ForeColor;
-            Helper.ColorCharacter = lblColorChara.ForeColor;
-            Helper.ColorCircle = lblColorCircle.ForeColor;
-            Helper.ColorFaults = lblColorFaults.ForeColor;
-            Helper.ColorBlacklisted = lblColorBlacklistedTag.ForeColor;
-        }
-
         private void chkTagAutoComplete_CheckedChanged(object sender, EventArgs e)
         {
             SetTagAutoComplete();
@@ -1663,5 +1646,6 @@ namespace DanbooruDownloader3
         {
             tsStatus.Text = "Query URL: " + _currProvider.Url + txtQuery.Text;
         }
+        #endregion
     }
 }
