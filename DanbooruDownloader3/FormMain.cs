@@ -60,8 +60,9 @@ namespace DanbooruDownloader3
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             this.Text += fvi.ProductVersion;
+            Program.Logger.Info("Starting up " + this.Text);
 
-            // init webclients
+            #region init webclients
             _clientList = new ExtendedWebClient();
             _clientList.Headers.Add("user-agent", txtUserAgent.Text);
             try
@@ -102,14 +103,9 @@ namespace DanbooruDownloader3
             catch (Exception) { _clientBatch.Timeout = 60000; }
             //_clientBatch.DownloadProgressChanged += new DownloadProgressChangedEventHandler(_clientBatch_DownloadProgressChanged);
             //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
-                
-
-            // Auto populate the provider List
-            _dao = new DanbooruProviderDao();
-            _listProvider = _dao.Read();
-            LoadProvider();
-            cbxProvider.SelectedIndex = 0;
-            // end auto populate
+            #endregion
+            
+            LoadProviderList();
 
             //Auto populate Order and Rating
             cbxOrder.DataSource = new BindingSource(Constants.OrderBy, null);
@@ -144,6 +140,21 @@ namespace DanbooruDownloader3
             SetTagAutoComplete();
 
             ParseTagBlacklist();
+
+            Program.Logger.Debug(this.Text + " loaded.");
+        }
+
+        /// <summary>
+        /// Populate the provider List
+        /// </summary>
+        private void LoadProviderList()
+        {
+            Program.Logger.Info("Loading provider list.");
+            _dao = new DanbooruProviderDao();
+            _listProvider = _dao.Read();
+            LoadProvider();
+            cbxProvider.SelectedIndex = 0;
+            Program.Logger.Debug("Provider list loaded.");
         }
 
         private void ParseTagBlacklist()
