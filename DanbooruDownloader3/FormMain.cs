@@ -352,6 +352,7 @@ namespace DanbooruDownloader3
         /// <param name="postDao"></param>
         private void LoadList(DanbooruPostDao postDao)
         {
+            Program.Logger.Info("Loading list");
             if (postDao.Posts.Count > 0)
             {
                 _isLoadingList = true;

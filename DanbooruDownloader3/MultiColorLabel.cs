@@ -21,7 +21,7 @@ namespace DanbooruDownloader3
             }
             set
             {
-                // Ensure that the cell used for the template is a CalendarCell.
+                // Ensure that the cell used for the template is a TagsCell.
                 if (value != null &&
                     !value.GetType().IsAssignableFrom(typeof(TagsCell)))
                 {
@@ -46,12 +46,15 @@ namespace DanbooruDownloader3
                 ctl.Text = tags;
             }
         }
+        
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
             this.DataGridView.SuspendLayout();
             if (value != null && value.GetType() == typeof(List<DanbooruDownloader3.Entity.DanbooruTag>))
             {
+                List<DanbooruDownloader3.Entity.DanbooruTag> tags = value as List<DanbooruDownloader3.Entity.DanbooruTag>;
+
                 //Rectangle newRect = new Rectangle(cellBounds.X + 1, cellBounds.Y + 1, cellBounds.Width - 4, cellBounds.Height - 4);
                 
                 using (Brush backColorBrush = new SolidBrush(cellStyle.BackColor), selectedBrush = new SolidBrush(cellStyle.SelectionBackColor))
@@ -77,7 +80,7 @@ namespace DanbooruDownloader3
                     // check the total height for wrapping
                     var limitX = cellBounds.X + 1 + cellBounds.Width - 4;
                     var limitY = cellBounds.Y + 1 + cellBounds.Height - 4;
-                    foreach (var item in (List<DanbooruDownloader3.Entity.DanbooruTag>)value)
+                    foreach (var item in tags)
                     {
                         var temp = item.Name + " ";
                         strSize = graphics.MeasureString(temp, cellStyle.Font);
@@ -117,7 +120,7 @@ namespace DanbooruDownloader3
                               FaultsBrush = new SolidBrush(Helper.ColorFaults))
                     {
                         graphics.SetClip(cellBounds, System.Drawing.Drawing2D.CombineMode.Replace);
-                        foreach (var item in (List<DanbooruDownloader3.Entity.DanbooruTag>)value)
+                        foreach (var item in tags)
                         {
                             var temp = item.Name + " ";
                             var brush = GeneralBrush;
@@ -153,6 +156,16 @@ namespace DanbooruDownloader3
                 }
             }
         }
+
+        public override object ParseFormattedValue(object formattedValue, DataGridViewCellStyle cellStyle, System.ComponentModel.TypeConverter formattedValueTypeConverter, System.ComponentModel.TypeConverter valueTypeConverter)
+        {
+            if (formattedValue.GetType() == typeof(String))
+            {
+                return DanbooruDownloader3.DAO.DanbooruTagsDao.Instance.ParseTagsString(formattedValue as string);
+            }
+            else return base.ParseFormattedValue(formattedValue, cellStyle, formattedValueTypeConverter, valueTypeConverter);
+        }
+
     }
 
 }

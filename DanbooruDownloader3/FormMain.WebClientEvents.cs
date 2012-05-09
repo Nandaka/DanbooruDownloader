@@ -18,20 +18,18 @@ namespace DanbooruDownloader3
         //int currFileRetry = 0;
 
         #region clientList event handler
-        
-
         void clientList_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             try
             {
+                Program.Logger.Info("Download list completed");
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
 
                 DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked, TagBlacklist);
 
                 LoadList(newPosts);
-                //if (chkAutoLoadNext.Checked) LoadNextList(newPosts);
-                //else LoadList(newPosts);
+
             }
             catch (Exception ex)
             {
@@ -57,6 +55,7 @@ namespace DanbooruDownloader3
                 }
                 
                 MessageBox.Show(message, "Download List");
+                Program.Logger.Error(message, ex);
 
                 txtLog.Text += "clientList_DownloadDataCompleted(): " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message);
                 txtLog.Text += _clientList.Referer + Environment.NewLine;
@@ -202,26 +201,42 @@ namespace DanbooruDownloader3
         void clientFile_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (!CheckDownloadGrid()) return;
-
-            txtLog.AppendText("[clientFileDownload]" + e.UserState + "    Completed, Status: " + e.Error + Environment.NewLine);
-            txtLog.AppendText("ref: " + _clientFile.Referer);
             DataGridViewRow row = (DataGridViewRow)e.UserState;
-            row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: " + (e.Error == null ? "OK" : e.Error.Message);
 
+            txtLog.AppendText("[clientFileDownload]" + row.Cells["colUrl2"] + " Completed, Status: " + e.Error + Environment.NewLine);
+            txtLog.AppendText("[clientFileDownload] Ref: " + _clientFile.Referer);
+            
             if (e.Error == null)
             {
+                Program.Logger.Info("[clientFileDownload] Download complete: " + row.Cells["colUrl2"].Value.ToString());
                 _downloadList[row.Index].Completed = true;
+
                 string filename = row.Cells["colFilename"].Value.ToString();
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(filename)) File.Move(filename + ".!tmp", filename);
+                    if (!String.IsNullOrWhiteSpace(filename))
+                    {
+                        File.Move(filename + ".!tmp", filename);
+                    }
+                    row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: OK";
                 }
                 catch (IOException ex)
                 {
                     txtLog.AppendText("[clientFileDownload] Cannot rename completed file: " + ex.Message);
+                    row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: Cannot rename completed file";
+                    Program.Logger.Error("Cannot rename completed file", ex);
                 }
             }
-            if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None)) DownloadRows(dgvDownload.Rows[row.Index + 1]);
+            else
+            {
+                row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.Message;
+                Program.Logger.Info("Download Error: " + row.Cells["colUrl2"], e.Error);
+            }
+
+            if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
+            {
+                DownloadRows(dgvDownload.Rows[row.Index + 1]);
+            }
             else
             {
                 _isPaused = false;

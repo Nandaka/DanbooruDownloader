@@ -116,8 +116,7 @@ namespace DanbooruDownloader3.DAO
             using (XmlTextReader reader = new XmlTextReader(input))
             {
                 ProcessXML(reader);
-            }
-                       
+            }                       
         }
 
         private void ProcessXML(XmlTextReader reader)
