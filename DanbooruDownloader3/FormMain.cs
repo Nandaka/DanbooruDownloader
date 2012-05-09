@@ -23,6 +23,7 @@ namespace DanbooruDownloader3
 {
     public partial class FormMain : Form
     {
+        #region property
         public static bool Debug = false;
 
         List<DanbooruProvider> _listProvider;
@@ -51,6 +52,7 @@ namespace DanbooruDownloader3
         public const int MAX_FILENAME_LENGTH = 255;
 
         List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
+        #endregion
 
         public FormMain()
         {
@@ -144,6 +146,7 @@ namespace DanbooruDownloader3
             Program.Logger.Debug(this.Text + " loaded.");
         }
 
+        #region method
         /// <summary>
         /// Populate the provider List
         /// </summary>
@@ -152,11 +155,19 @@ namespace DanbooruDownloader3
             Program.Logger.Info("Loading provider list.");
             _dao = new DanbooruProviderDao();
             _listProvider = _dao.Read();
-            LoadProvider();
-            cbxProvider.SelectedIndex = 0;
+
+            cbxProvider.DataSource = null;
+            cbxProvider.DataSource = _listProvider;
+            cbxProvider.DisplayMember = "Name";
+            cbxProvider.ValueMember = "Preferred";
+            cbxProvider.SelectedIndex = -1;
+
             Program.Logger.Debug("Provider list loaded.");
         }
 
+        /// <summary>
+        /// Parse blacklisted tags
+        /// </summary>
         private void ParseTagBlacklist()
         {
             var tagStr = txtTagBlacklist.Text.Trim();
@@ -170,25 +181,17 @@ namespace DanbooruDownloader3
             }
         }
 
+        /// <summary>
+        /// Load list of tags for auto-complete
+        /// </summary>
         private void SetTagAutoComplete()
         {
+            txtTags.AutoCompleteCustomSource.Clear();
             if (chkTagAutoComplete.Checked)
             {
                 var tagAutoComplete = DanbooruTagsDao.Instance.Tags.Tag.Select(x => x.Name).ToArray<String>();
                 txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
             }
-            else
-            {
-                txtTags.AutoCompleteCustomSource.Clear();
-            }
-        }
-
-        private void LoadProvider()
-        {
-            cbxProvider.DataSource = null;
-            cbxProvider.DataSource = _listProvider;
-            cbxProvider.DisplayMember = "Name";
-            cbxProvider.ValueMember = "Preferred";
         }
 
         public void TransferDownloadRows()
@@ -519,6 +522,7 @@ namespace DanbooruDownloader3
                 txtProxyUsername.Enabled = false;
             }
         }
+        #endregion
 
         #region batch job helper
         Thread batchJobThread;
@@ -1523,9 +1527,8 @@ namespace DanbooruDownloader3
                 {
                     if (form.IsModified)
                     {
-                        _listProvider = form.Providers;
-                        LoadProvider();
-                        _dao.Save(_listProvider);
+                        _dao.Save(form.Providers);
+                        LoadProviderList();                        
                     }
                     cbxProvider.SelectedIndex = form.SelectedIndex;
                     _currProvider = _listProvider[cbxProvider.SelectedIndex];
@@ -1638,6 +1641,7 @@ namespace DanbooruDownloader3
         {
             DownloadTagsForm form = new DownloadTagsForm();
             form.ShowDialog();
+            SetTagAutoComplete();
         }
 
         private void txtTagBlacklist_TextChanged(object sender, EventArgs e)
