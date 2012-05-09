@@ -18,6 +18,8 @@ namespace DanbooruDownloader3
         //int currFileRetry = 0;
 
         #region clientList event handler
+        
+
         void clientList_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             try
@@ -26,9 +28,10 @@ namespace DanbooruDownloader3
                 MemoryStream ms = new MemoryStream(e.Result);
 
                 DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked, TagBlacklist);
-                
-                if (chkAutoLoadNext.Checked) LoadNextList(newPosts);
-                else LoadList(newPosts);
+
+                LoadList(newPosts);
+                //if (chkAutoLoadNext.Checked) LoadNextList(newPosts);
+                //else LoadList(newPosts);
             }
             catch (Exception ex)
             {
@@ -64,7 +67,6 @@ namespace DanbooruDownloader3
             btnGet.Enabled = true;
             btnListCancel.Enabled = false;
             _isLoadingList = false;
-            //PrintFlags();
         }
 
         void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)

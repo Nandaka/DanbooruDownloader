@@ -221,5 +221,27 @@ namespace DanbooruDownloader3
             return _currProvider.Url + query;
         }
 
+        public DanbooruSearchParam GetSearchParams()
+        {
+            DanbooruSearchParam searchParam = new DanbooruSearchParam();
+
+            searchParam.Provider = _currProvider;
+            searchParam.Tag = txtTags.Text;
+            searchParam.Source = txtSource.Text;
+
+            int tempPage = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
+            if(!String.IsNullOrWhiteSpace(txtPage.Text)) 
+            {
+                tempPage = Convert.ToInt32(txtPage.Text);
+            }
+            searchParam.Page = tempPage;
+            searchParam.OrderBy = cbxOrder.SelectedValue.ToString();
+            searchParam.Rating = cbxRating.SelectedValue.ToString();
+            searchParam.IsNotRating = chkNotRating.Checked;
+            searchParam.IsXML = rbXml.Checked;
+            searchParam.BlacklistedTag = TagBlacklist;
+
+            return searchParam;
+        }
     }
 }

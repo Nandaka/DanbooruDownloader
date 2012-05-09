@@ -346,55 +346,6 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Append post from given DanbooruPostDao to the current _postsDao
-        /// </summary>
-        /// <param name="newPostDao"></param>
-        public void LoadNextList(DanbooruPostDao newPostDao)
-        {
-            try
-            {
-                if (newPostDao.Posts.Count > 0)
-                {
-                    if (_postsDao == null)
-                    {
-                        LoadList(newPostDao);
-                        return;
-                    }
-
-                    _isLoadingList = true;
-
-                    txtLog.AppendText("Loading next page..." + Environment.NewLine);
-
-                    int oldCount = _postsDao.Posts.Count;
-
-                    foreach (DanbooruPost po in newPostDao.Posts)
-                    {
-                        _postsDao.Posts.Add(po);
-                    }
-                    dgvList.DataSource = _postsDao.Posts;
-
-                    if (chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb) LoadThumbnailLater(oldCount);
-
-                    tsCount.Text = "| Count = " + _postsDao.Posts.Count;
-                    tsTotalCount.Text = "| Total Count = " + newPostDao.PostCount;
-                    //isLoadingList = false;
-                }
-                else
-                {
-                    _isMorePost = false;
-                    _isLoadingList = false;
-                    MessageBox.Show("No more posts!","Listing");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("LoadNextList" + Environment.NewLine + ex.Message + Environment.NewLine + ex.InnerException.Message, "Listing");
-                throw;
-            }
-
-        }
-
-        /// <summary>
         /// Load post from given DanbooruPostDao to _postsDao
         /// if chkAppendList, the post will be appended to current _postsDao
         /// </summary>
@@ -405,19 +356,28 @@ namespace DanbooruDownloader3
             {
                 _isLoadingList = true;
 
-                if (chkAppendList.Checked && _postsDao != null)
+                if (_postsDao != null)
                 {
-                    txtLog.AppendText("Appending..." + Environment.NewLine);
-
-                    int oldCount = _postsDao.Posts.Count;
-
-                    foreach (DanbooruPost po in postDao.Posts)
+                    if (chkAppendList.Checked || chkAutoLoadNext.Checked)
                     {
-                        _postsDao.Posts.Add(po);
-                    }
-                    dgvList.DataSource = _postsDao.Posts;
+                        txtLog.AppendText("Appending..." + Environment.NewLine);
 
-                    if(chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb) LoadThumbnailLater(oldCount);
+                        int oldCount = _postsDao.Posts.Count;
+
+                        foreach (DanbooruPost po in postDao.Posts)
+                        {
+                            _postsDao.Posts.Add(po);
+                        }
+                        dgvList.DataSource = _postsDao.Posts;
+
+                        if (chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb) LoadThumbnailLater(oldCount);
+
+                        if (chkAutoLoadNext.Checked)
+                        {
+                            tsCount.Text = "| Count = " + (oldCount + _postsDao.Posts.Count);
+                            tsTotalCount.Text = "| Total Count = " + _postsDao.PostCount;
+                        }
+                    }
                 }
                 else
                 {
