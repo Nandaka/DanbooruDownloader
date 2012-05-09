@@ -839,8 +839,8 @@ namespace DanbooruDownloader3
                                                         UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
                                                         File.Delete(filename2);                                                        
                                                     }
-                                                    //_clientBatch.DownloadFile(post.FileUrl, filename2);
-                                                    //File.Move(filename2, filename);
+                                                    _clientBatch.DownloadFile(post.FileUrl, filename2);
+                                                    File.Move(filename2, filename);
                                                     UpdateLog("DoBatchJob", "Saved To: " + filename);
                                                     break;
                                                 }
