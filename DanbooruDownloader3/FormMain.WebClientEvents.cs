@@ -22,7 +22,7 @@ namespace DanbooruDownloader3
         {
             try
             {
-                Program.Logger.Info("Download list completed");
+                Program.Logger.Debug("Download list completed");
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
 

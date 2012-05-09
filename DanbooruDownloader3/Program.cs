@@ -15,7 +15,7 @@ namespace DanbooruDownloader3
         [STAThread]
         static void Main()
         {
-            log4net.GlobalContext.Properties["Date"] = DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss");
+            log4net.GlobalContext.Properties["Date"] = DateTime.Now.ToString("yyyy-MM-dd");
             log4net.Config.XmlConfigurator.Configure();
             if (Logger == null)
             {
@@ -33,7 +33,7 @@ namespace DanbooruDownloader3
                 throw;
             }
             Logger.Info("Closing down Danbooru Downloader.");
-
+            Logger.Info("############################################################################");
         }
     }
 }

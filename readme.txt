@@ -18,6 +18,7 @@ Changelog:
   - Add option to backup the tags.xml before updating.
   - Add option to merge the tags.xml after updating (slow!).
   - Clear the page number text box if provider selection is changed.
+  - Add logging using log4net.
 
 - DanbooruDownloader20120505
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.

@@ -158,7 +158,9 @@ namespace DanbooruDownloader3
             else
             {
                 if (IsDisposed) return;
+                if (txtLog.TextLength > Int32.MaxValue / 2) txtLog.Clear();
                 txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
+                Program.Logger.Info("[" + source + "] " + message);
             }
         }
 

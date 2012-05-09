@@ -162,7 +162,7 @@ namespace DanbooruDownloader3
         /// </summary>
         private void LoadProviderList()
         {
-            Program.Logger.Info("Loading provider list.");
+            Program.Logger.Debug("Loading provider list.");
             _dao = new DanbooruProviderDao();
             _listProvider = _dao.Read();
 
@@ -306,10 +306,13 @@ namespace DanbooruDownloader3
                     if ((!chkOverwrite.Checked && File.Exists(filename)))
                     {
                         row.Cells["colProgress2"].Value = "File exists!";
-
+                        _isDownloading = false;
                         try
                         {
-                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
+                            if (dgvDownload.Rows.Count < row.Index + 1)
+                            {
+                                DownloadRows(dgvDownload.Rows[row.Index + 1]);
+                            }
                         }
                         catch (Exception ex) 
                         { 
@@ -334,13 +337,16 @@ namespace DanbooruDownloader3
                         _clientFile.Referer = _downloadList[row.Index].Referer;
                         if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                         Program.Logger.Info("[DownloadRow] Downloading " + url);
-                        Program.Logger.Info("[DownloadRow] Saved to    " + filename2);
+                        Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                         _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
                     }
                 }
                 else
                 {
-                    DownloadRows(dgvDownload.Rows[row.Index + 1]);
+                    if (dgvDownload.Rows.Count < row.Index + 1)
+                    {
+                        DownloadRows(dgvDownload.Rows[row.Index + 1]);
+                    }
                 }
             }
         }
@@ -352,7 +358,7 @@ namespace DanbooruDownloader3
         /// <param name="postDao"></param>
         private void LoadList(DanbooruPostDao postDao)
         {
-            Program.Logger.Info("Loading list");
+            Program.Logger.Debug("Loading list");
             if (postDao.Posts.Count > 0)
             {
                 _isLoadingList = true;
@@ -520,16 +526,19 @@ namespace DanbooruDownloader3
         
         public void PauseBatchJobs()
         {
+            Program.Logger.Debug("[Batch Job] Pausing");
             _pauseEvent.Reset();
         }
 
         public void ResumeBatchJobs()
         {
+            Program.Logger.Debug("[Batch Job] Resuming");
             _pauseEvent.Set();
         }
 
         public void StopBatchJobs()
         {
+            Program.Logger.Debug("[Batch Job] Stopping");
             // Signal the shutdown event
             _shutdownEvent.Set();
 
@@ -538,6 +547,7 @@ namespace DanbooruDownloader3
 
             // Wait for the thread to exit
             batchJobThread.Join();
+            Program.Logger.Debug("[Batch Job] Stopped");
         }
 
         FormAddBatchJob f;
@@ -565,6 +575,7 @@ namespace DanbooruDownloader3
             batchJobThread.Start(batchJob);
             ToggleBatchJobButton(false);
         }
+        
         private void btnPauseBatchJob_Click(object sender, EventArgs e)
         {
             if (btnPauseBatchJob.Text == "Pause Batch Job")
@@ -578,6 +589,7 @@ namespace DanbooruDownloader3
                 ResumeBatchJobs();
             }
         }
+        
         private void btnStopBatchJob_Click(object sender, EventArgs e)
         {
             if (batchJobThread != null && batchJobThread.IsAlive)
@@ -598,6 +610,7 @@ namespace DanbooruDownloader3
         {
             if (batchJob != null)
             {
+                Program.Logger.Debug("Starting Batch Job");
                 string progressStatus = "Starting...";
                 string providerStatus = "";
                 UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
@@ -606,6 +619,7 @@ namespace DanbooruDownloader3
                 {
                     if (!batchJob[i].isCompleted)
                     {
+                        Program.Logger.Debug("Processing Batch Job#" + i);
                         string logMessage = "";
 
                         //get the list from each provider
@@ -822,6 +836,7 @@ namespace DanbooruDownloader3
                                                     }
                                                     _clientBatch.DownloadFile(post.FileUrl, filename2);
                                                     File.Move(filename2, filename);
+                                                    UpdateLog("DoBatchJob", "Saved To: " + filename);
                                                     break;
                                                 }
                                                 catch (System.Net.WebException ex)
