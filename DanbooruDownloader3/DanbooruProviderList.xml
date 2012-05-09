@@ -17,7 +17,7 @@
   <DanbooruProvider>
     <Name>Sankaku Complex</Name>
     <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
+    <HardLimit>1000</HardLimit>
     <Preferred>Json</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>

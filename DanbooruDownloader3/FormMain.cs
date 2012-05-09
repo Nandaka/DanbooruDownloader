@@ -170,7 +170,6 @@ namespace DanbooruDownloader3
             cbxProvider.DataSource = _listProvider;
             cbxProvider.DisplayMember = "Name";
             cbxProvider.ValueMember = "Preferred";
-            cbxProvider.SelectedIndex = -1;
 
             Program.Logger.Debug("Provider list loaded.");
         }
@@ -645,12 +644,14 @@ namespace DanbooruDownloader3
                                 string url;
                                 string query = "";
 
+                                // no limit is given, use the default limit
                                 if (batchJob[i].Limit <= 0)
                                 {
                                     batchJob[i].Limit = p.DefaultLimit;
-                                    limit = p.DefaultLimit;
                                 }
-                                else if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
+
+                                // check if given limit is more than the hard limit
+                                if (batchJob[i].Limit > p.HardLimit) limit = p.HardLimit;
                                 else limit = batchJob[i].Limit;
 
                                 if (p.BoardType == BoardType.Shimmie2)
@@ -769,27 +770,31 @@ namespace DanbooruDownloader3
                                             batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + " ==> " + Environment.NewLine + "Aborted";
                                             return;
                                         }
-
+                                        
                                         progressStatus = "Downloading: ";
                                         batchJob[i].Status = providerStatus + "Downloaded:" + totalImgCount + " Skipped:" + totalSkipCount + Environment.NewLine + progressStatus + post.FileUrl;
                                         BeginInvoke(del);
                                         if (post.Provider == null) post.Provider = cbxProvider.Text;
                                         if (post.Query == null) post.Query = txtQuery.Text;
                                         if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-                                        var format = new DanbooruFilenameFormat()
+                                        
+                                        string filename = "";
+                                        if (!string.IsNullOrWhiteSpace(post.FileUrl))
                                         {
-                                            FilenameFormat = batchJob[i].SaveFolder,
-                                            Limit = Convert.ToInt32(txtFilenameLength.Text),
-                                            BaseFolder = txtSaveFolder.Text,
-                                            MissingTagReplacement = txtTagReplacement.Text
-                                        };
-                                        string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
-                                        if (chkRenameJpeg.Checked)
-                                        {
-                                            if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                                            var format = new DanbooruFilenameFormat()
+                                            {
+                                                FilenameFormat = batchJob[i].SaveFolder,
+                                                Limit = Convert.ToInt32(txtFilenameLength.Text),
+                                                BaseFolder = txtSaveFolder.Text,
+                                                MissingTagReplacement = txtTagReplacement.Text
+                                            };
+                                            string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                            if (chkRenameJpeg.Checked)
+                                            {
+                                                if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                                            }
+                                            filename = Helper.MakeFilename(format, post) + extension;
                                         }
-                                        string filename = Helper.MakeFilename(format, post) + extension;
-
                                         bool download = true;
                                         // check if exist
                                         if (!chkOverwrite.Checked)
@@ -834,8 +839,8 @@ namespace DanbooruDownloader3
                                                         UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
                                                         File.Delete(filename2);                                                        
                                                     }
-                                                    _clientBatch.DownloadFile(post.FileUrl, filename2);
-                                                    File.Move(filename2, filename);
+                                                    //_clientBatch.DownloadFile(post.FileUrl, filename2);
+                                                    //File.Move(filename2, filename);
                                                     UpdateLog("DoBatchJob", "Saved To: " + filename);
                                                     break;
                                                 }
@@ -895,21 +900,31 @@ namespace DanbooruDownloader3
                                     {
                                         System.Net.WebException wex = (System.Net.WebException)ex;
 
-                                        var e = new DanbooruPostDao(wex.Response.GetResponseStream(), p, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
-                                        wex.Response.GetResponseStream().Close();
-                                        if (!e.Success)
+                                        if (wex.Status == WebExceptionStatus.ProtocolError && 
+                                            wex.Response.Headers.AllKeys.Contains("Status") && 
+                                            wex.Response.Headers["Status"].ToString() == "500")
                                         {
-                                            responseMessage = e.ResponseMessage;
-                                            flag = false;
+                                            using (var response = wex.Response.GetResponseStream())
+                                            {
+                                                if (response != null)
+                                                {
+                                                    var resp = new DanbooruPostDao(response, _currProvider, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
+                                                    responseMessage = resp.ResponseMessage;
+                                                    flag = false;
+                                                }
+                                            }
                                         }
+                                        
                                     }
-                                    if (ex.Message.Contains("(403)") || ex.Message.Contains("(500)") || ex.Message.Contains("resolved"))
+                                    if (ex.Message.Contains("(400)") ||
+                                        ex.Message.Contains("(403)") || 
+                                        ex.Message.Contains("(500)") || 
+                                        ex.Message.Contains("resolved"))
                                     {
                                         flag = false;
                                     }
-
-                                    providerStatus += " Error: " + (responseMessage.Length == 0 ? ex.Message : responseMessage) + Environment.NewLine;
-                                    UpdateLog("DoBatchJob", "Error: " + message);
+                                    providerStatus += " Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
+                                    UpdateLog("DoBatchJob", "Error: " + message, ex);
 
                                     if (cbxAbortOnError.Checked)
                                     {
@@ -1504,7 +1519,6 @@ namespace DanbooruDownloader3
         {
             using (FormProvider form = new FormProvider())
             {
-
                 form.Providers = _listProvider.ToList<DanbooruProvider>();
                 form.SelectedIndex = cbxProvider.SelectedIndex;
                 DialogResult result = form.ShowDialog();

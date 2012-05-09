@@ -141,26 +141,28 @@ namespace DanbooruDownloader3
             else _clientFile.Proxy = _clientList.Proxy = _clientThumb.Proxy = _clientBatch.Proxy = null;
         }
 
-        delegate void SetUpdateLogCallback(string source, string message);
+        delegate void SetUpdateLogCallback(string source, string message, Exception ex);
 
         /// <summary>
         /// Update Log text box.
         /// </summary>
         /// <param name="source"></param>
         /// <param name="message"></param>
-        private void UpdateLog(string source, string message)
+        private void UpdateLog(string source, string message, Exception ex = null)
         {
             if (txtLog.InvokeRequired)
             {
                 SetUpdateLogCallback d = new SetUpdateLogCallback(UpdateLog);
-                this.Invoke(d, new object[] { source, message });
+                this.Invoke(d, new object[] { source, message, ex });
             }
             else
             {
                 if (IsDisposed) return;
                 if (txtLog.TextLength > Int32.MaxValue / 2) txtLog.Clear();
                 txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
-                Program.Logger.Info("[" + source + "] " + message);
+
+                if(ex == null) Program.Logger.Info("[" + source + "] " + message);
+                else           Program.Logger.Error("[" + source + "] " + message, ex);
             }
         }
 

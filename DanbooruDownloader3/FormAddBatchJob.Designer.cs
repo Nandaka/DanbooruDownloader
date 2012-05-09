@@ -44,7 +44,6 @@
             this.chkNotRating = new System.Windows.Forms.CheckBox();
             this.cbxRating = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.pnlProvider.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -86,17 +85,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlProvider.AutoScroll = true;
             this.pnlProvider.AutoSize = true;
-            this.pnlProvider.Controls.Add(this.btnSelectAll);
             this.pnlProvider.Location = new System.Drawing.Point(82, 64);
             this.pnlProvider.Name = "pnlProvider";
             this.pnlProvider.Size = new System.Drawing.Size(600, 90);
             this.pnlProvider.TabIndex = 4;
+            this.pnlProvider.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlProvider_ControlAdded);
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(3, 3);
+            this.btnSelectAll.Location = new System.Drawing.Point(12, 84);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(64, 70);
             this.btnSelectAll.TabIndex = 0;
             this.btnSelectAll.Text = "Select All";
             this.btnSelectAll.UseVisualStyleBackColor = true;
@@ -202,6 +201,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(695, 225);
+            this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.chkNotRating);
             this.Controls.Add(this.cbxRating);
             this.Controls.Add(this.label7);
@@ -219,7 +219,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FormAddBatchJob";
             this.Text = "FormAddBatchJob";
-            this.pnlProvider.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.FormAddBatchJob_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

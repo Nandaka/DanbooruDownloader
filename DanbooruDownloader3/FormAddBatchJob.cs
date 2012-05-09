@@ -21,13 +21,14 @@ namespace DanbooruDownloader3
         public FormAddBatchJob()
         {
             InitializeComponent();
-            FillProvider();
-
+            
             //Auto populate Rating
             cbxRating.DataSource = new BindingSource(Constants.Rating, null);
             cbxRating.DisplayMember = "Key";
             cbxRating.ValueMember = "Value";
             cbxRating.SelectedIndex = 0;
+
+            chkList = new List<CheckBox>();
         }
 
         private void FillProvider()
@@ -35,13 +36,17 @@ namespace DanbooruDownloader3
             DanbooruProviderDao dao = new DanbooruProviderDao();
             providerList = dao.Read();
 
-            chkList = new List<CheckBox>();
             foreach (DanbooruProvider p in providerList)
             {
-                CheckBox chk = new CheckBox();
-                chk.Text = p.Name;
-                chk.AutoSize = true;
-                chkList.Add(chk);
+                var controls = pnlProvider.Controls.Find(p.Name, true);
+                if (controls.Length == 0)
+                {
+                    CheckBox chk = new CheckBox();
+                    chk.Name = p.Name;
+                    chk.Text = p.Name;
+                    chk.AutoSize = true;
+                    chkList.Add(chk);
+                }
             }
 
             foreach (CheckBox c in chkList)
@@ -133,6 +138,19 @@ namespace DanbooruDownloader3
             foreach (CheckBox chk in chkList)
             {
                 chk.Checked = chk.Checked == true ? false : true;
+            }
+        }
+
+        private void FormAddBatchJob_Load(object sender, EventArgs e)
+        {
+            FillProvider();
+        }
+
+        private void pnlProvider_ControlAdded(object sender, ControlEventArgs e)
+        {
+            if (txtSave.Top < pnlProvider.Top + pnlProvider.Height)
+            {
+                this.Height = this.Height + pnlProvider.Top + pnlProvider.Height - txtSave.Top;
             }
         }
     }

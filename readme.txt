@@ -19,6 +19,8 @@ Changelog:
   - Add option to merge the tags.xml after updating (slow!).
   - Clear the page number text box if provider selection is changed.
   - Add logging using log4net.
+  - Fix hard limit and default limit bug, now always use the hard limit if given limit is over the hard limit.
+  - Some UI updates.
 
 - DanbooruDownloader20120505
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.

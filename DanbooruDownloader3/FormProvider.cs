@@ -182,9 +182,9 @@ namespace DanbooruDownloader3
 
         private void cbxProviders_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbxProviders.SelectedIndex != -1)
+            if (cbxProviders.SelectedIndex > -1)
             {
-                if(cbxProviders.SelectedIndex!= lastSelectedIndex) GetValues(lastSelectedIndex);
+                if (cbxProviders.SelectedIndex != lastSelectedIndex) GetValues(lastSelectedIndex);
                 Fill(cbxProviders.SelectedIndex);
                 lastSelectedIndex = cbxProviders.SelectedIndex;
             }
