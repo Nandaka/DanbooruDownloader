@@ -449,7 +449,7 @@ namespace DanbooruDownloader3
                 authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
             }
             var queryUrl = GetQueryUrl(authString);
-            Program.Logger.Info("Getting list: " + queryUrl);
+            Program.Logger.Info("Getting list: " + Helper.RemoveAuthInfo(queryUrl));
 
             if (chkSaveQuery.Checked)
             {

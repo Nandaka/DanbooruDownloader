@@ -151,5 +151,33 @@ namespace DanbooruDownloader3
                     return ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString();
                 });
         }
+
+        /// <summary>
+        /// Replace password_hash param with '*'
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string RemoveAuthInfo(string url)
+        {
+            string result = "";
+            if (!string.IsNullOrWhiteSpace(url) && url.Contains("password_hash="))
+            {
+                var splitted = url.Split('&');
+                for (int i = 0; i < splitted.Length; ++i)
+                {
+                    if (splitted[i].StartsWith("password_hash="))
+                    {
+                        var passSplit = splitted[i].Split('=');
+                        if (passSplit.Length == 2)
+                        {
+                            passSplit[1] = "".PadLeft(passSplit[1].Length, '*');
+                        }
+                        splitted[i] = String.Join("=", passSplit);
+                    }
+                }
+                result = String.Join("&", splitted);
+            }
+            return result;
+        }
     }
 }

@@ -161,6 +161,7 @@ namespace DanbooruDownloader3
                 if (txtLog.TextLength > Int32.MaxValue / 2) txtLog.Clear();
                 txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
 
+                message = Helper.RemoveAuthInfo(message);
                 if(ex == null) Program.Logger.Info("[" + source + "] " + message);
                 else           Program.Logger.Error("[" + source + "] " + message, ex);
             }
