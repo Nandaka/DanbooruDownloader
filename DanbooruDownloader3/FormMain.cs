@@ -804,6 +804,7 @@ namespace DanbooruDownloader3
                                                 ++skipCount;
                                                 ++totalSkipCount;
                                                 download = false;
+                                                UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
                                             }
                                         }
                                         if (post.Hidden)
@@ -869,11 +870,13 @@ namespace DanbooruDownloader3
                                             // check if more than available post
                                             if (totalSkipCount + totalImgCount >= d.PostCount && d.PostCount != 0)
                                             {
+                                                UpdateLog("DoBatchJob", "No more post.");
                                                 flag = false;
                                             }
                                             // check if over given limit
                                             if (totalSkipCount + totalImgCount >= batchJob[i].Limit)
                                             {
+                                                UpdateLog("DoBatchJob", "Limit Reached.");
                                                 flag = false;
                                             }
                                             break;
@@ -924,7 +927,8 @@ namespace DanbooruDownloader3
                                         flag = false;
                                     }
                                     providerStatus += " Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
-                                    UpdateLog("DoBatchJob", "Error: " + message, ex);
+                                    if (string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
+                                    else UpdateLog("DoBatchJob", "Error: " + message, ex);
 
                                     if (cbxAbortOnError.Checked)
                                     {
