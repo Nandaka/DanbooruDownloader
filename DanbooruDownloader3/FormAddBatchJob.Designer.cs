@@ -218,6 +218,7 @@
             this.Controls.Add(this.txtTagQuery);
             this.Controls.Add(this.label1);
             this.Name = "FormAddBatchJob";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormAddBatchJob";
             this.Load += new System.EventHandler(this.FormAddBatchJob_Load);
             this.ResumeLayout(false);

@@ -17,8 +17,8 @@
             {
                 components.Dispose();
             }
-            _pauseEvent.Dispose();
-            _shutdownEvent.Dispose();
+            if (_pauseEvent != null) _pauseEvent.Dispose();
+            if (_shutdownEvent!= null) _shutdownEvent.Dispose();
             base.Dispose(disposing);
         }
 

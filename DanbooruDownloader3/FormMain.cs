@@ -519,8 +519,8 @@ namespace DanbooruDownloader3
 
         #region batch job helper
         Thread batchJobThread;
-        ManualResetEvent _shutdownEvent;// = new ManualResetEvent(false);
-        ManualResetEvent _pauseEvent;// = new ManualResetEvent(true);
+        ManualResetEvent _shutdownEvent = null;// = new ManualResetEvent(false);
+        ManualResetEvent _pauseEvent = null;// = new ManualResetEvent(true);
         BindingList<DanbooruBatchJob> batchJob;
         
         public void PauseBatchJobs()
@@ -574,11 +574,12 @@ namespace DanbooruDownloader3
 
         private void btnStartBatchJob_Click(object sender, EventArgs e)
         {
-            batchJobThread = new Thread(DoBatchJob);
-            batchJobThread.Start(batchJob);
-            ToggleBatchJobButton(false);
             _shutdownEvent = new ManualResetEvent(false);
             _pauseEvent = new ManualResetEvent(true);
+
+            batchJobThread = new Thread(DoBatchJob);
+            batchJobThread.Start(batchJob);
+            ToggleBatchJobButton(false);            
         }
         
         private void btnPauseBatchJob_Click(object sender, EventArgs e)
