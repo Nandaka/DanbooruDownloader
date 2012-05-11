@@ -635,6 +635,18 @@ namespace DanbooruDownloader3
                         int currPage = 0;
                         do
                         {
+                            // stop/pause event handling outside
+                            _pauseEvent.WaitOne(Timeout.Infinite);
+                            if (_shutdownEvent.WaitOne(0))
+                            {
+                                batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + " ==> " + Environment.NewLine + "Stopped.";
+                                // toggle button
+                                BeginInvoke(bjd, new object[] { true });
+                                UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                                UpdateStatus("Batch Job Stopped.");
+                                return;
+                            }
+
                             DanbooruPostDao d = null;
                             int imgCount = 0;
                             int skipCount = 0;
@@ -644,6 +656,7 @@ namespace DanbooruDownloader3
                             string query = "";
 
                             #region Construct the query
+
                             // check if given limit is more than the hard limit
                             if (batchJob[i].Limit > batchJob[i].Provider.HardLimit) currLimit = batchJob[i].Provider.HardLimit;
                             else currLimit = batchJob[i].Limit;
@@ -712,175 +725,183 @@ namespace DanbooruDownloader3
                                     }
                                     catch (System.Net.WebException ex)
                                     {
-                                        if (currRetry < Convert.ToInt32(txtRetry.Text)) throw;
+                                        ++currRetry;
+                                        if (currRetry >= Convert.ToInt32(txtRetry.Text)) break; 
+                                            //throw new Exception("Cannot load list.", ex);
                                         else
                                         {
                                             UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + ex.Message, ex);
-                                        }
-                                        ++currRetry;
+                                        }                                        
                                     }
                                 }
 
                                 if (d == null)
                                 {
                                     // Cannot get list.
-                                    UpdateLog("DoBatchJob", "List is null!");
+                                    UpdateLog("DoBatchJob", "Cannot load list");
+                                    batchJob[i].Status = "Cannot load list.";
+                                    batchJob[i].isCompleted = false;
+                                    batchJob[i].isError = true;
                                     flag = false;
                                 }
                                 else if (d.Posts == null || d.Posts.Count == 0)
                                 {
                                     // No more image
                                     UpdateLog("DoBatchJob", "No more image.");
+                                    batchJob[i].Status = "No more image.";
                                     flag = false;
                                     //break;
                                 }
-
-                                if (prevDao != null)
+                                else
                                 {
-                                    // identical data returned, probably no more new image.
-                                    if (prevDao.RawData.Equals(d.RawData))
+                                    if (prevDao != null)
                                     {
-                                        UpdateLog("DoBatchJob", "Identical list, probably last page.");
-                                        flag = false;
-                                        //break;
+                                        // identical data returned, probably no more new image.
+                                        if (prevDao.RawData.Equals(d.RawData))
+                                        {
+                                            UpdateLog("DoBatchJob", "Identical list, probably last page.");
+                                            batchJob[i].Status = "Identical list, probably last page.";
+                                            flag = false;
+                                            //break;
+                                        }
                                     }
-                                }
-                                prevDao = d;
+                                    prevDao = d;
 
-                                batchJob[i].Total = d.PostCount;
-                                batchJob[i].CurrentPageTotal = d.Posts.Count;
-                                batchJob[i].CurrentPageOffset = d.Offset;
+                                    batchJob[i].Total = d.PostCount;
+                                    batchJob[i].CurrentPageTotal = d.Posts.Count;
+                                    batchJob[i].CurrentPageOffset = d.Offset;
                                 #endregion
 
-                                foreach (DanbooruPost post in d.Posts)
-                                {
-                                    // Update progress bar
-                                    object[] myArray = new object[2];
-                                    myArray[0] = batchJob[i].ProcessedTotal;
-                                    myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
-                                    BeginInvoke(del2, myArray);
-
-                                    // thread handling
-                                    _pauseEvent.WaitOne(Timeout.Infinite);
-
-                                    if (_shutdownEvent.WaitOne(0))
+                                    foreach (DanbooruPost post in d.Posts)
                                     {
-                                        batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + " ==> " + Environment.NewLine + "Stopped.";
-                                        // toggle button
-                                        BeginInvoke(bjd, new object[] { true });
-                                        UpdateLog("DoBatchJob", "Batch Job Stopped.");
-                                        UpdateStatus("Batch Job Stopped.");
-                                        return;
-                                    }
+                                        // Update progress bar
+                                        object[] myArray = new object[2];
+                                        myArray[0] = batchJob[i].ProcessedTotal;
+                                        myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                                        BeginInvoke(del2, myArray);
 
-                                    batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + Environment.NewLine + "Downloading: " + post.FileUrl;
-                                    BeginInvoke(del);
-                                    //if (post.Provider == null) post.Provider = cbxProvider.Text;
-                                    //if (post.Query == null) post.Query = txtQuery.Text;
-                                    //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+                                        // thread handling
+                                        _pauseEvent.WaitOne(Timeout.Infinite);
 
-                                    string filename = "";
-                                    if (!string.IsNullOrWhiteSpace(post.FileUrl))
-                                    {
-                                        var format = new DanbooruFilenameFormat()
+                                        if (_shutdownEvent.WaitOne(0))
                                         {
-                                            FilenameFormat = batchJob[i].SaveFolder,
-                                            Limit = Convert.ToInt32(txtFilenameLength.Text),
-                                            BaseFolder = txtSaveFolder.Text,
-                                            MissingTagReplacement = txtTagReplacement.Text
-                                        };
-                                        string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
-                                        if (chkRenameJpeg.Checked)
-                                        {
-                                            if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                                            batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + " ==> " + Environment.NewLine + "Stopped.";
+                                            // toggle button
+                                            BeginInvoke(bjd, new object[] { true });
+                                            UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                                            UpdateStatus("Batch Job Stopped.");
+                                            return;
                                         }
-                                        filename = Helper.MakeFilename(format, post) + extension;
-                                    }
-                                    bool download = true;
-                                    // check if exist
-                                    if (!chkOverwrite.Checked)
-                                    {
-                                        if (File.Exists(filename))
+
+                                        batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + Environment.NewLine + "Downloading: " + post.FileUrl;
+                                        BeginInvoke(del);
+                                        //if (post.Provider == null) post.Provider = cbxProvider.Text;
+                                        //if (post.Query == null) post.Query = txtQuery.Text;
+                                        //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+
+                                        string filename = "";
+                                        if (!string.IsNullOrWhiteSpace(post.FileUrl))
+                                        {
+                                            var format = new DanbooruFilenameFormat()
+                                            {
+                                                FilenameFormat = batchJob[i].SaveFolder,
+                                                Limit = Convert.ToInt32(txtFilenameLength.Text),
+                                                BaseFolder = txtSaveFolder.Text,
+                                                MissingTagReplacement = txtTagReplacement.Text
+                                            };
+                                            string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                            if (chkRenameJpeg.Checked)
+                                            {
+                                                if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                                            }
+                                            filename = Helper.MakeFilename(format, post) + extension;
+                                        }
+                                        bool download = true;
+                                        // check if exist
+                                        if (!chkOverwrite.Checked)
+                                        {
+                                            if (File.Exists(filename))
+                                            {
+                                                ++skipCount;
+                                                ++batchJob[i].Skipped;
+                                                download = false;
+                                                UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                                            }
+                                        }
+                                        if (post.Hidden)
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
                                             download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + post.FileUrl);
                                         }
-                                    }
-                                    if (post.Hidden)
-                                    {
-                                        ++skipCount;
-                                        ++batchJob[i].Skipped;
-                                        download = false;
-                                        UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + post.FileUrl);
-                                    }
-                                    if (String.IsNullOrWhiteSpace(post.FileUrl))
-                                    {
-                                        ++skipCount;
-                                        ++batchJob[i].Skipped;
-                                        download = false;
-                                        UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
-                                    }
-
-                                    #region download
-                                    if (download)
-                                    {
-                                        if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                                        UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
-                                        _clientBatch.Referer = post.Referer;
-
-                                        currRetry = 0;
-                                        while (currRetry < Convert.ToInt32(txtRetry.Text))
+                                        if (String.IsNullOrWhiteSpace(post.FileUrl))
                                         {
-                                            try
+                                            ++skipCount;
+                                            ++batchJob[i].Skipped;
+                                            download = false;
+                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
+                                        }
+
+                                        #region download
+                                        if (download)
+                                        {
+                                            if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
+                                            UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
+                                            _clientBatch.Referer = post.Referer;
+
+                                            currRetry = 0;
+                                            while (currRetry <= Convert.ToInt32(txtRetry.Text))
                                             {
-                                                var filename2 = filename + ".!tmp";
-                                                if (File.Exists(filename2))
+                                                try
                                                 {
-                                                    UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
-                                                    File.Delete(filename2);
+                                                    var filename2 = filename + ".!tmp";
+                                                    if (File.Exists(filename2))
+                                                    {
+                                                        UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
+                                                        File.Delete(filename2);
+                                                    }
+                                                    _clientBatch.DownloadFile(post.FileUrl, filename2);
+                                                    File.Move(filename2, filename);
+                                                    UpdateLog("DoBatchJob", "Saved To: " + filename);
+
+                                                    ++imgCount;
+                                                    ++batchJob[i].Downloaded;
+                                                    break;
                                                 }
-                                                _clientBatch.DownloadFile(post.FileUrl, filename2);
-                                                File.Move(filename2, filename);
-                                                UpdateLog("DoBatchJob", "Saved To: " + filename);
-                                                break;
-                                            }
-                                            catch (System.Net.WebException ex)
-                                            {
-                                                if (currRetry > Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
-                                                else
+                                                catch (System.Net.WebException ex)
                                                 {
-                                                    var message = ex.Message;
-                                                    if (ex.InnerException != null) message = ex.InnerException.Message;
-                                                    UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + message, ex);
+                                                    if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
+                                                    else
+                                                    {
+                                                        var message = ex.Message;
+                                                        if (ex.InnerException != null) message = ex.InnerException.Message;
+                                                        UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + message, ex);
+                                                    }
+                                                    ++currRetry;
+                                                    if (currRetry > Convert.ToInt32(txtRetry.Text)) ++batchJob[i].Error;
                                                 }
-                                                ++currRetry;
-                                                if (currRetry > Convert.ToInt32(txtRetry.Text)) ++batchJob[i].Error;
                                             }
                                         }
-                                        ++imgCount;
-                                        ++batchJob[i].Downloaded;                                        
-                                    }
-                                    #endregion
+                                        #endregion
 
-                                    // check if more than available post
-                                    if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
-                                    {
-                                        UpdateLog("DoBatchJob", "No more post.");
-                                        flag = false;
-                                        break;
+                                        // check if more than available post
+                                        if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
+                                        {
+                                            UpdateLog("DoBatchJob", "No more post.");
+                                            flag = false;
+                                            break;
+                                        }
+                                        // check if over given limit
+                                        if (batchJob[i].ProcessedTotal >= batchJob[i].Limit)
+                                        {
+                                            UpdateLog("DoBatchJob", "Limit Reached.");
+                                            flag = false;
+                                            break;
+                                        }
                                     }
-                                    // check if over given limit
-                                    if (batchJob[i].ProcessedTotal >= batchJob[i].Limit)
-                                    {
-                                        UpdateLog("DoBatchJob", "Limit Reached.");
-                                        flag = false;
-                                        break;
-                                    }                                    
                                 }
-                                batchJob[i].Status = "Done.";
-
+                                batchJob[i].Status += Environment.NewLine + "Done.";
                             }
                             catch (Exception ex)
                             {
@@ -939,7 +960,14 @@ namespace DanbooruDownloader3
                                     // Update progress bar
                                     object[] myArray = new object[2];
                                     myArray[0] = batchJob[i].ProcessedTotal;
-                                    myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                                    if (d != null)
+                                    {
+                                        myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                                    }
+                                    else
+                                    {
+                                        myArray[1] = -1;
+                                    }
                                     BeginInvoke(del2, myArray);
                                 }
                             }
