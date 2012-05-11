@@ -158,8 +158,7 @@ namespace DanbooruDownloader3
         /// <param name="url"></param>
         /// <returns></returns>
         public static string RemoveAuthInfo(string url)
-        {
-            string result = "";
+        {            
             if (!string.IsNullOrWhiteSpace(url) && url.Contains("password_hash="))
             {
                 var splitted = url.Split('&');
@@ -175,9 +174,9 @@ namespace DanbooruDownloader3
                         splitted[i] = String.Join("=", passSplit);
                     }
                 }
-                result = String.Join("&", splitted);
+                return String.Join("&", splitted);
             }
-            return result;
+            else return url;
         }
     }
 }
