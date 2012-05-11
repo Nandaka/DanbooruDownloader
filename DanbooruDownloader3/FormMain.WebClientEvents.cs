@@ -229,8 +229,15 @@ namespace DanbooruDownloader3
             }
             else
             {
-                row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.Message;
-                Program.Logger.Info("Download Error: " + row.Cells["colUrl2"], e.Error);
+                if (e.Error.InnerException != null)
+                {
+                    row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.InnerException.Message;
+                }
+                else
+                {
+                    row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.Message;
+                }
+                Program.Logger.Error("Download Error: " + row.Cells["colUrl2"].Value.ToString(), e.Error);
             }
 
             if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))

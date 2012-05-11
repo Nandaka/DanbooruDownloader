@@ -59,7 +59,7 @@
             // 
             this.txtTagQuery.Location = new System.Drawing.Point(82, 12);
             this.txtTagQuery.Name = "txtTagQuery";
-            this.txtTagQuery.Size = new System.Drawing.Size(385, 20);
+            this.txtTagQuery.Size = new System.Drawing.Size(414, 20);
             this.txtTagQuery.TabIndex = 1;
             // 
             // txtLimit
@@ -155,7 +155,7 @@
             // 
             // txtPage
             // 
-            this.txtPage.Location = new System.Drawing.Point(197, 38);
+            this.txtPage.Location = new System.Drawing.Point(226, 38);
             this.txtPage.Name = "txtPage";
             this.txtPage.Size = new System.Drawing.Size(75, 20);
             this.txtPage.TabIndex = 11;
@@ -165,14 +165,14 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(163, 41);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 10;
-            this.label5.Text = "Page";
+            this.label5.Text = "Start Page";
             // 
             // chkNotRating
             // 
             this.chkNotRating.AutoSize = true;
-            this.chkNotRating.Location = new System.Drawing.Point(424, 40);
+            this.chkNotRating.Location = new System.Drawing.Point(453, 40);
             this.chkNotRating.Name = "chkNotRating";
             this.chkNotRating.Size = new System.Drawing.Size(43, 17);
             this.chkNotRating.TabIndex = 19;
@@ -182,7 +182,7 @@
             // cbxRating
             // 
             this.cbxRating.FormattingEnabled = true;
-            this.cbxRating.Location = new System.Drawing.Point(322, 38);
+            this.cbxRating.Location = new System.Drawing.Point(351, 38);
             this.cbxRating.Name = "cbxRating";
             this.cbxRating.Size = new System.Drawing.Size(96, 21);
             this.cbxRating.TabIndex = 18;
@@ -190,7 +190,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(278, 41);
+            this.label7.Location = new System.Drawing.Point(307, 41);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(38, 13);
             this.label7.TabIndex = 17;

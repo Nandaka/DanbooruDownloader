@@ -21,6 +21,7 @@ Changelog:
   - Add logging using log4net.
   - Fix hard limit and default limit bug, now always use the hard limit if given limit is over the hard limit.
   - Some UI updates.
+  - Change Add Batch Download behaviour, each provider as separate job.
 
 - DanbooruDownloader20120505
   - Fix SubString error in MakeFilename if there is no '/' in the filename format or save folder.

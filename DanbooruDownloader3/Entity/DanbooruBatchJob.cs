@@ -9,27 +9,36 @@ namespace DanbooruDownloader3.Entity
     public class DanbooruBatchJob
     {
         [Browsable(false)]
-        public List<DanbooruProvider> ProviderList { get; set; }
+        public DanbooruProvider Provider { get; set; }
 
-        private string providerListString;
-        public string ProviderListString
+        public string ProviderName
         {
             get
             {
-                this.providerListString = "";
-                foreach (DanbooruProvider p in ProviderList) this.providerListString += p.Name + Environment.NewLine;
-                this.providerListString = this.providerListString.Substring(0, providerListString.Length -2);
-                return this.providerListString;
+                return Provider.Name;
             }
-            set
-            {
-                providerListString = value;
-            }
+            private set { }
         }
             
         public string SaveFolder { get; set; }
         public string TagQuery { get; set; }
-        public int Limit { get; set; }
+
+        private int _Limit = -1;
+        public int Limit
+        {
+            get
+            {
+                if (_Limit == -1)
+                {
+                    _Limit = Provider.DefaultLimit < Provider.HardLimit ? Provider.DefaultLimit : Provider.HardLimit;
+                }
+                return _Limit;
+            }
+            set
+            {
+                _Limit = value;
+            }
+        }
 
         public string Status { get; set; }
 
@@ -40,6 +49,49 @@ namespace DanbooruDownloader3.Entity
         public bool isError { get; set; }
 
         public string Rating { get; set; }
-        public int Page { get; set; }
+
+        private int _Page = -1;
+        public int StartPage
+        {
+            get
+            {
+                if (_Page == -1)
+                {
+                    if (Provider.BoardType == BoardType.Gelbooru)
+                    {
+                        _Page = 0;
+                    }
+                    else _Page = 1;
+                }
+                return _Page;
+            }
+            set
+            {
+                _Page = value;
+            }
+        }
+
+        public int Downloaded { get; set; }
+        public int Skipped { get; set; }
+        public int Error { get; set; }
+        
+        [Browsable(false)]
+        public int Total { get; set; }
+        
+        public int ProcessedTotal
+        {
+            get
+            {
+                return Downloaded + Skipped + Error;
+            }
+            private set { }
+        }
+
+        [Browsable(false)]
+        public int CurrentPage { get; set; }
+        [Browsable(false)]
+        public int CurrentPageTotal { get; set; }
+        [Browsable(false)]
+        public int CurrentPageOffset { get; set; }
     }
 }

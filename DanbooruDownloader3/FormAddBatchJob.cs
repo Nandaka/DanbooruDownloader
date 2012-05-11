@@ -13,7 +13,7 @@ namespace DanbooruDownloader3
 {
     public partial class FormAddBatchJob : Form
     {
-        public DanbooruBatchJob Job { get; set; }
+        public List<DanbooruBatchJob> Jobs { get; set; }
 
         private List<CheckBox> chkList;
         private List<DanbooruProvider> providerList;
@@ -57,61 +57,59 @@ namespace DanbooruDownloader3
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            Job = new DanbooruBatchJob();
-            
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show("Error at Limit." + Environment.NewLine + ex.Message);
-                txtLimit.Focus();
-                txtLimit.SelectAll();
-                return;
-            }
-
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(txtPage.Text)) Job.Page = Convert.ToInt16(txtPage.Text);
-                else Job.Page = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error at Page." + Environment.NewLine + ex.Message);
-                txtPage.Focus();
-                txtPage.SelectAll();
-                return;
-            }
-
-            if (cbxRating.SelectedValue != null && chkNotRating.Checked) Job.Rating = "-" + cbxRating.SelectedValue;
-            else Job.Rating = (string) cbxRating.SelectedValue;
-
-            Job.TagQuery = txtTagQuery.Text.Replace(" ","_");
-
-            if (string.IsNullOrWhiteSpace(txtSave.Text))
-            {
-                MessageBox.Show("Save destination is empty!");
-                txtSave.Focus();
-                return;
-            }
-            Job.SaveFolder = txtSave.Text;
-
-            Job.ProviderList = new List<DanbooruProvider>();
             bool providerFlag = false;
+            this.DialogResult = DialogResult.OK;
+            Jobs = new List<DanbooruBatchJob>();
+
             foreach (CheckBox c in chkList)
             {
                 if (c.Checked)
                 {
-                    foreach (DanbooruProvider p in providerList)
+                    var p = providerList.Where(x => x.Name == c.Text).FirstOrDefault();
+                    if (p != null)
                     {
-                        if(c.Text.Equals(p.Name))
+                        providerFlag = true;
+                        DanbooruBatchJob Job = new DanbooruBatchJob();
+                        Job.Provider = p;
+                        
+                        try
                         {
-                            Job.ProviderList.Add(p);
-                            providerFlag = true;
-                            break;
+                            if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
                         }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error at Limit." + Environment.NewLine + ex.Message);
+                            txtLimit.Focus();
+                            txtLimit.SelectAll();
+                            return;
+                        }
+
+                        try
+                        {
+                            if (!string.IsNullOrWhiteSpace(txtPage.Text)) Job.StartPage = Convert.ToInt32(txtPage.Text);
+                            else Job.StartPage = -1;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error at StartPage." + Environment.NewLine + ex.Message);
+                            txtPage.Focus();
+                            txtPage.SelectAll();
+                            return;
+                        }
+
+                        if (cbxRating.SelectedValue != null && chkNotRating.Checked) Job.Rating = "-" + cbxRating.SelectedValue;
+                        else Job.Rating = (string)cbxRating.SelectedValue;
+
+                        Job.TagQuery = txtTagQuery.Text.Replace(" ", "+");
+
+                        if (string.IsNullOrWhiteSpace(txtSave.Text))
+                        {
+                            MessageBox.Show("Save destination is empty!");
+                            txtSave.Focus();
+                            return;
+                        }
+                        Job.SaveFolder = txtSave.Text;
+                        Jobs.Add(Job);
                     }
                 }
             }
@@ -120,15 +118,14 @@ namespace DanbooruDownloader3
                 MessageBox.Show("Please select at least 1 provider.");
                 pnlProvider.Focus();
                 this.DialogResult = DialogResult.None;
-                //this.Job = null;
-                //this.btnCancel_Click(sender, e);
+                this.Jobs = null;
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Job = null;
+            this.Jobs = null;
             //this.Close();
             this.Hide();
         }

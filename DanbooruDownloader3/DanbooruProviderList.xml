@@ -46,7 +46,7 @@
     <Name>Konachan</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
-    <Preferred>Json</Preferred>
+    <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <Url>http://konachan.com</Url>

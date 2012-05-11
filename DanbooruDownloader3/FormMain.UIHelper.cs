@@ -206,7 +206,7 @@ namespace DanbooruDownloader3
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtLimit.Text.Length > 0 ? "&" : "";
                     txtQuery.Text += txtLimit.Text.Length > 0 ? "limit=" + txtLimit.Text : "";
 
-                    //Page
+                    //StartPage
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtPage.Text.Length > 0 ? "&" : "";
                     if (_currProvider.BoardType == BoardType.Danbooru)
                     {

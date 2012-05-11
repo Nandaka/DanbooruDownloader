@@ -47,12 +47,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -145,12 +145,6 @@
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
             this.dgvBatchJob = new System.Windows.Forms.DataGridView();
-            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
@@ -248,6 +242,14 @@
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStartPage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -326,9 +328,9 @@
             this.chkAutoLoadNext.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadNextPage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.chkAutoLoadNext.Location = new System.Drawing.Point(94, 37);
             this.chkAutoLoadNext.Name = "chkAutoLoadNext";
-            this.chkAutoLoadNext.Size = new System.Drawing.Size(128, 17);
+            this.chkAutoLoadNext.Size = new System.Drawing.Size(150, 17);
             this.chkAutoLoadNext.TabIndex = 12;
-            this.chkAutoLoadNext.Text = "Auto Load Next Page";
+            this.chkAutoLoadNext.Text = "Auto Load Next StartPage";
             this.chkAutoLoadNext.UseVisualStyleBackColor = true;
             // 
             // chkAppendList
@@ -1389,6 +1391,8 @@
             this.colBatchId,
             this.colBatchTagQuery,
             this.colBatchLimit,
+            this.colBatchRating,
+            this.colBatchStartPage,
             this.colBatchProviders,
             this.colBatchSaveFolder,
             this.colBatchStatus});
@@ -1411,6 +1415,7 @@
             dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvBatchJob.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgvBatchJob.RowHeadersVisible = false;
             this.dgvBatchJob.ShowCellErrors = false;
             this.dgvBatchJob.ShowCellToolTips = false;
             this.dgvBatchJob.ShowEditingIcon = false;
@@ -1418,61 +1423,6 @@
             this.dgvBatchJob.Size = new System.Drawing.Size(918, 311);
             this.dgvBatchJob.TabIndex = 0;
             this.dgvBatchJob.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvBatchJob_MouseDown);
-            // 
-            // colBatchId
-            // 
-            this.colBatchId.FillWeight = 25F;
-            this.colBatchId.Frozen = true;
-            this.colBatchId.HeaderText = "#";
-            this.colBatchId.MinimumWidth = 25;
-            this.colBatchId.Name = "colBatchId";
-            this.colBatchId.ReadOnly = true;
-            this.colBatchId.Width = 25;
-            // 
-            // colBatchTagQuery
-            // 
-            this.colBatchTagQuery.DataPropertyName = "TagQuery";
-            this.colBatchTagQuery.HeaderText = "Tags Query";
-            this.colBatchTagQuery.Name = "colBatchTagQuery";
-            this.colBatchTagQuery.ReadOnly = true;
-            // 
-            // colBatchLimit
-            // 
-            this.colBatchLimit.DataPropertyName = "Limit";
-            this.colBatchLimit.HeaderText = "Limit";
-            this.colBatchLimit.Name = "colBatchLimit";
-            this.colBatchLimit.ReadOnly = true;
-            // 
-            // colBatchProviders
-            // 
-            this.colBatchProviders.DataPropertyName = "ProviderListString";
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
-            this.colBatchProviders.FillWeight = 150F;
-            this.colBatchProviders.HeaderText = "Providers";
-            this.colBatchProviders.MinimumWidth = 150;
-            this.colBatchProviders.Name = "colBatchProviders";
-            this.colBatchProviders.ReadOnly = true;
-            this.colBatchProviders.Width = 150;
-            // 
-            // colBatchSaveFolder
-            // 
-            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
-            this.colBatchSaveFolder.HeaderText = "Save Folder";
-            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
-            this.colBatchSaveFolder.ReadOnly = true;
-            // 
-            // colBatchStatus
-            // 
-            this.colBatchStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
-            this.colBatchStatus.FillWeight = 300F;
-            this.colBatchStatus.HeaderText = "Status";
-            this.colBatchStatus.MinimumWidth = 300;
-            this.colBatchStatus.Name = "colBatchStatus";
-            this.colBatchStatus.ReadOnly = true;
             // 
             // contextMenuStrip5
             // 
@@ -2393,7 +2343,7 @@
             // 
             // dataGridViewTextBoxColumn19
             // 
-            this.dataGridViewTextBoxColumn19.DataPropertyName = "ProviderListString";
+            this.dataGridViewTextBoxColumn19.DataPropertyName = "ProviderName";
             dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn19.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridViewTextBoxColumn19.FillWeight = 150F;
@@ -2421,6 +2371,80 @@
             this.dataGridViewTextBoxColumn21.MinimumWidth = 300;
             this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             this.dataGridViewTextBoxColumn21.ReadOnly = true;
+            // 
+            // colBatchId
+            // 
+            this.colBatchId.FillWeight = 25F;
+            this.colBatchId.Frozen = true;
+            this.colBatchId.HeaderText = "#";
+            this.colBatchId.MinimumWidth = 25;
+            this.colBatchId.Name = "colBatchId";
+            this.colBatchId.ReadOnly = true;
+            this.colBatchId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colBatchId.Width = 25;
+            // 
+            // colBatchTagQuery
+            // 
+            this.colBatchTagQuery.DataPropertyName = "TagQuery";
+            this.colBatchTagQuery.HeaderText = "Tags Query";
+            this.colBatchTagQuery.Name = "colBatchTagQuery";
+            this.colBatchTagQuery.ReadOnly = true;
+            // 
+            // colBatchLimit
+            // 
+            this.colBatchLimit.DataPropertyName = "Limit";
+            this.colBatchLimit.FillWeight = 50F;
+            this.colBatchLimit.HeaderText = "Limit";
+            this.colBatchLimit.Name = "colBatchLimit";
+            this.colBatchLimit.ReadOnly = true;
+            this.colBatchLimit.Width = 50;
+            // 
+            // colBatchRating
+            // 
+            this.colBatchRating.DataPropertyName = "Rating";
+            this.colBatchRating.FillWeight = 75F;
+            this.colBatchRating.HeaderText = "Rating";
+            this.colBatchRating.Name = "colBatchRating";
+            this.colBatchRating.Width = 75;
+            // 
+            // colBatchStartPage
+            // 
+            this.colBatchStartPage.DataPropertyName = "StartPage";
+            this.colBatchStartPage.FillWeight = 50F;
+            this.colBatchStartPage.HeaderText = "Start Page";
+            this.colBatchStartPage.Name = "colBatchStartPage";
+            this.colBatchStartPage.Width = 50;
+            // 
+            // colBatchProviders
+            // 
+            this.colBatchProviders.DataPropertyName = "ProviderName";
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
+            this.colBatchProviders.FillWeight = 150F;
+            this.colBatchProviders.HeaderText = "Providers";
+            this.colBatchProviders.MinimumWidth = 150;
+            this.colBatchProviders.Name = "colBatchProviders";
+            this.colBatchProviders.ReadOnly = true;
+            this.colBatchProviders.Width = 150;
+            // 
+            // colBatchSaveFolder
+            // 
+            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
+            this.colBatchSaveFolder.HeaderText = "Save Folder";
+            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
+            this.colBatchSaveFolder.ReadOnly = true;
+            // 
+            // colBatchStatus
+            // 
+            this.colBatchStatus.DataPropertyName = "Status";
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
+            this.colBatchStatus.FillWeight = 300F;
+            this.colBatchStatus.HeaderText = "Status";
+            this.colBatchStatus.MinimumWidth = 300;
+            this.colBatchStatus.Name = "colBatchStatus";
+            this.colBatchStatus.ReadOnly = true;
+            this.colBatchStatus.Width = 351;
             // 
             // FormMain
             // 
@@ -2593,12 +2617,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtProxyUsername;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchTagQuery;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchLimit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchProviders;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchSaveFolder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchStatus;
         private System.Windows.Forms.CheckBox cbxAbortOnError;
         private System.Windows.Forms.Button btnPauseBatchJob;
         private System.Windows.Forms.Button btnClearCompleted;
@@ -2669,6 +2687,14 @@
         private System.Windows.Forms.TextBox txtTagBlacklist;
         private System.Windows.Forms.Label lblColorBlacklistedTag;
         private System.Windows.Forms.CheckBox chkRenameJpeg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchTagQuery;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchLimit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchStartPage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchProviders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchSaveFolder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBatchStatus;
     }
 }
 
