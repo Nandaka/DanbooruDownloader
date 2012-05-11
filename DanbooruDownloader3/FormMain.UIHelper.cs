@@ -167,6 +167,21 @@ namespace DanbooruDownloader3
             }
         }
 
+        delegate void SetUpdateStatusCallback(string message);
+        private void UpdateStatus(string message)
+        {
+            if (tsStatus.GetCurrentParent().InvokeRequired)
+            {
+                SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus);
+                this.Invoke(d, new object[] { message });
+            }
+            else
+            {
+                if (IsDisposed) return;
+                tsStatus.Text = message;
+            }
+        }
+
         /// <summary>
         /// Generate query url from text boxes.
         /// </summary>

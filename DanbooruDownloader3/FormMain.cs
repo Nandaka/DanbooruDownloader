@@ -525,13 +525,15 @@ namespace DanbooruDownloader3
         
         public void PauseBatchJobs()
         {
-            Program.Logger.Debug("[Batch Job] Pausing");
+            UpdateLog("[Batch Job]","Pausing");
+            UpdateStatus("Pausing...");
             _pauseEvent.Reset();
         }
 
         public void ResumeBatchJobs()
         {
-            Program.Logger.Debug("[Batch Job] Resuming");
+            UpdateLog("[Batch Job]", "Resuming");
+            UpdateStatus("Resuming...");
             _pauseEvent.Set();
         }
 
@@ -614,11 +616,13 @@ namespace DanbooruDownloader3
         public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
         {
             ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
+            UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
+
             if (batchJob != null)
             {
-                Program.Logger.Debug("Starting Batch Job");
-                UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
-                UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
+                UpdateStatus("Starting Batch Job");
+                
                 for (int i = 0; i < batchJob.Count; i++)
                 {
                     if (!batchJob[i].isCompleted)
@@ -749,6 +753,12 @@ namespace DanbooruDownloader3
 
                                 foreach (DanbooruPost post in d.Posts)
                                 {
+                                    // Update progress bar
+                                    object[] myArray = new object[2];
+                                    myArray[0] = batchJob[i].ProcessedTotal;
+                                    myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                                    BeginInvoke(del2, myArray);
+
                                     // thread handling
                                     _pauseEvent.WaitOne(Timeout.Infinite);
 
@@ -758,6 +768,7 @@ namespace DanbooruDownloader3
                                         // toggle button
                                         BeginInvoke(bjd, new object[] { true });
                                         UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                                        UpdateStatus("Batch Job Stopped.");
                                         return;
                                     }
 
@@ -811,7 +822,7 @@ namespace DanbooruDownloader3
                                         UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
                                     }
 
-                                    // download
+                                    #region download
                                     if (download)
                                     {
                                         if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
@@ -848,15 +859,10 @@ namespace DanbooruDownloader3
                                             }
                                         }
                                         ++imgCount;
-                                        ++batchJob[i].Downloaded;
-
-                                        // Update progress bar
-                                        object[] myArray = new object[2];
-                                        myArray[0] = batchJob[i].ProcessedTotal;
-                                        myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
-                                        BeginInvoke(del2, myArray);
+                                        ++batchJob[i].Downloaded;                                        
                                     }
-                                    
+                                    #endregion
+
                                     // check if more than available post
                                     if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
                                     {
@@ -927,12 +933,12 @@ namespace DanbooruDownloader3
                             }
                             finally
                             {
-                                // hide the progress bar
                                 BeginInvoke(del);
                                 {
+                                    // Update progress bar
                                     object[] myArray = new object[2];
-                                    myArray[0] = -1;
-                                    myArray[1] = -1;
+                                    myArray[0] = batchJob[i].ProcessedTotal;
+                                    myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
                                     BeginInvoke(del2, myArray);
                                 }
                             }
@@ -953,6 +959,14 @@ namespace DanbooruDownloader3
                 }
             }
             BeginInvoke(bjd, new object[] { true });
+            UpdateStatus("Batch Job Completed");
+            {
+                // hide progress bar
+                object[] myArray = new object[2];
+                myArray[0] = -1;
+                myArray[1] = -1;
+                BeginInvoke(del2, myArray);
+            }
         }
 
         public delegate void UpdateUiDelegate();
@@ -979,7 +993,7 @@ namespace DanbooruDownloader3
                     tsProgressBar.Style = ProgressBarStyle.Continuous;
                     tsProgressBar.Maximum = total;
                     tsProgressBar.Value = current >= total ? total : current;
-                    
+
                 }
                 else
                 {
@@ -990,6 +1004,7 @@ namespace DanbooruDownloader3
             {
                 tsProgressBar.Visible = false;
             }
+
             statusStrip1.Refresh();
             dgvBatchJob.Refresh();
         }
@@ -1006,12 +1021,7 @@ namespace DanbooruDownloader3
             if (enabled)
             {
                 btnPauseBatchJob.Text = "Pause Batch Job";
-                try
-                {
-                    ResumeBatchJobs();
-                }catch(Exception) {};
             }
-            tsStatus.Text = "Batch Job Complete.";
         }
 
         #endregion
@@ -1147,7 +1157,6 @@ namespace DanbooruDownloader3
                     dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorBlacklisted;
                 }
             }
-
         }
 
         // http://img14.pixiv.net/img/leucojum-aest/17661193_p3.jpg
