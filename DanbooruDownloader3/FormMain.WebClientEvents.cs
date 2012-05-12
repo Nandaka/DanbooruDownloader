@@ -203,8 +203,9 @@ namespace DanbooruDownloader3
             if (!CheckDownloadGrid()) return;
             DataGridViewRow row = (DataGridViewRow)e.UserState;
 
-            txtLog.AppendText("[clientFileDownload]" + row.Cells["colUrl2"] + " Completed, Status: " + e.Error + Environment.NewLine);
-            txtLog.AppendText("[clientFileDownload] Ref: " + _clientFile.Referer);
+            var status = e.Error == null ? "OK" : e.Error.InnerException == null ? e.Error.Message : e.Error.InnerException.Message;
+            txtLog.AppendText("[clientFileDownload] Url: " + row.Cells["colUrl2"].Value.ToString() + " Completed, Status: " + status + Environment.NewLine);
+            txtLog.AppendText("[clientFileDownload] Ref: " + _clientFile.Referer + Environment.NewLine);
             
             if (e.Error == null)
             {
@@ -229,14 +230,7 @@ namespace DanbooruDownloader3
             }
             else
             {
-                if (e.Error.InnerException != null)
-                {
-                    row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.InnerException.Message;
-                }
-                else
-                {
-                    row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + e.Error.Message;
-                }
+                row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + status;                
                 Program.Logger.Error("Download Error: " + row.Cells["colUrl2"].Value.ToString(), e.Error);
             }
 
