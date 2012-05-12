@@ -57,6 +57,7 @@ namespace DanbooruDownloader3
 
         public FormMain()
         {
+            ToggleLogging(Properties.Settings.Default.EnableLogging);
             InitializeComponent();
             
             // Get assembly version
@@ -395,6 +396,12 @@ namespace DanbooruDownloader3
                             tsCount.Text = "| Count = " + (oldCount + _postsDao.Posts.Count);
                             tsTotalCount.Text = "| Total Count = " + _postsDao.PostCount;
                         }
+                    }
+                    else
+                    {
+                        _postsDao = postDao;
+                        dgvList.DataSource = _postsDao.Posts;
+                        if (chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb) LoadThumbnailLater(0);
                     }
                 }
                 else
@@ -1678,8 +1685,12 @@ namespace DanbooruDownloader3
         private void txtQuery_TextChanged(object sender, EventArgs e)
         {
             tsStatus.Text = "Query URL: " + _currProvider.Url + txtQuery.Text;
-        }        
+        } 
 
+        private void chkLogging_CheckedChanged(object sender, EventArgs e)
+        {
+            ToggleLogging(chkLogging.Checked);
+        }
         #endregion
     }
 }

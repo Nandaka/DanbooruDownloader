@@ -14,6 +14,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201205xx
+  - Fix Cancel/Pause button on Download tab.
+  - Add option to enable/disable logging.
+
 - DanbooruDownloader20120512
   - Add option to backup the tags.xml before updating.
   - Add option to merge the tags.xml after updating (slow!).

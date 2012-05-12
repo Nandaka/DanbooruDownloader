@@ -277,5 +277,19 @@ namespace DanbooruDownloader3
 
             return searchParam;
         }
+
+        public void ToggleLogging(bool enable)
+        {
+            if (enable)
+            {
+                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.All;
+                Program.Logger.Info("Turning on logging");
+            }
+            else
+            {
+                Program.Logger.Info("Turning off logging");
+                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.Off;
+            }
+        }
     }
 }

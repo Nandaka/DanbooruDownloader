@@ -160,6 +160,7 @@
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkLogging = new System.Windows.Forms.CheckBox();
             this.lblColorBlacklistedTag = new System.Windows.Forms.Label();
             this.chkTagAutoComplete = new System.Windows.Forms.CheckBox();
             this.lblColorFaults = new System.Windows.Forms.Label();
@@ -1547,6 +1548,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkLogging);
             this.groupBox2.Controls.Add(this.lblColorBlacklistedTag);
             this.groupBox2.Controls.Add(this.chkTagAutoComplete);
             this.groupBox2.Controls.Add(this.lblColorFaults);
@@ -1564,6 +1566,20 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Application Settings";
+            // 
+            // chkLogging
+            // 
+            this.chkLogging.AutoSize = true;
+            this.chkLogging.Checked = global::DanbooruDownloader3.Properties.Settings.Default.EnableLogging;
+            this.chkLogging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogging.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "EnableLogging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkLogging.Location = new System.Drawing.Point(521, 19);
+            this.chkLogging.Name = "chkLogging";
+            this.chkLogging.Size = new System.Drawing.Size(100, 17);
+            this.chkLogging.TabIndex = 17;
+            this.chkLogging.Text = "Enable Logging";
+            this.chkLogging.UseVisualStyleBackColor = true;
+            this.chkLogging.CheckedChanged += new System.EventHandler(this.chkLogging_CheckedChanged);
             // 
             // lblColorBlacklistedTag
             // 
@@ -2757,6 +2773,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn22;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
+        private System.Windows.Forms.CheckBox chkLogging;
     }
 }
 
