@@ -47,12 +47,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
@@ -145,6 +147,14 @@
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
             this.dgvBatchJob = new System.Windows.Forms.DataGridView();
+            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStartPage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
@@ -219,12 +229,14 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.tagsColumn1 = new DanbooruDownloader3.TagsColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tagsColumn1 = new DanbooruDownloader3.TagsColumn();
+            this.tagsColumn2 = new DanbooruDownloader3.TagsColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -241,15 +253,9 @@
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStartPage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxDanbooru.SuspendLayout();
@@ -329,7 +335,7 @@
             this.chkAutoLoadNext.Location = new System.Drawing.Point(94, 37);
             this.chkAutoLoadNext.Name = "chkAutoLoadNext";
             this.chkAutoLoadNext.Size = new System.Drawing.Size(150, 17);
-            this.chkAutoLoadNext.TabIndex = 12;
+            this.chkAutoLoadNext.TabIndex = 21;
             this.chkAutoLoadNext.Text = "Auto Load Next StartPage";
             this.chkAutoLoadNext.UseVisualStyleBackColor = true;
             // 
@@ -341,7 +347,7 @@
             this.chkAppendList.Location = new System.Drawing.Point(184, 15);
             this.chkAppendList.Name = "chkAppendList";
             this.chkAppendList.Size = new System.Drawing.Size(82, 17);
-            this.chkAppendList.TabIndex = 10;
+            this.chkAppendList.TabIndex = 19;
             this.chkAppendList.Text = "Append List";
             this.chkAppendList.UseVisualStyleBackColor = true;
             // 
@@ -362,7 +368,7 @@
             this.chkSaveQuery.Location = new System.Drawing.Point(6, 16);
             this.chkSaveQuery.Name = "chkSaveQuery";
             this.chkSaveQuery.Size = new System.Drawing.Size(82, 17);
-            this.chkSaveQuery.TabIndex = 9;
+            this.chkSaveQuery.TabIndex = 17;
             this.chkSaveQuery.Text = "Save Query";
             this.chkSaveQuery.UseVisualStyleBackColor = true;
             // 
@@ -374,7 +380,7 @@
             this.chkAutoLoadList.Location = new System.Drawing.Point(94, 16);
             this.chkAutoLoadList.Name = "chkAutoLoadList";
             this.chkAutoLoadList.Size = new System.Drawing.Size(94, 17);
-            this.chkAutoLoadList.TabIndex = 8;
+            this.chkAutoLoadList.TabIndex = 18;
             this.chkAutoLoadList.Text = "Auto Load List";
             this.chkAutoLoadList.UseVisualStyleBackColor = true;
             // 
@@ -386,7 +392,7 @@
             this.chkLoadPreview.Location = new System.Drawing.Point(6, 37);
             this.chkLoadPreview.Name = "chkLoadPreview";
             this.chkLoadPreview.Size = new System.Drawing.Size(91, 17);
-            this.chkLoadPreview.TabIndex = 6;
+            this.chkLoadPreview.TabIndex = 20;
             this.chkLoadPreview.Text = "Load Preview";
             this.chkLoadPreview.UseVisualStyleBackColor = true;
             // 
@@ -736,7 +742,7 @@
             this.btnEdit.Location = new System.Drawing.Point(559, 17);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 21;
+            this.btnEdit.TabIndex = 13;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -747,7 +753,7 @@
             this.btnSearchHelp.Location = new System.Drawing.Point(559, 70);
             this.btnSearchHelp.Name = "btnSearchHelp";
             this.btnSearchHelp.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchHelp.TabIndex = 20;
+            this.btnSearchHelp.TabIndex = 14;
             this.btnSearchHelp.Text = "Search Help";
             this.btnSearchHelp.UseVisualStyleBackColor = true;
             this.btnSearchHelp.Click += new System.EventHandler(this.btnSearchHelp_Click);
@@ -758,7 +764,7 @@
             this.btnListCancel.Location = new System.Drawing.Point(432, 122);
             this.btnListCancel.Name = "btnListCancel";
             this.btnListCancel.Size = new System.Drawing.Size(67, 23);
-            this.btnListCancel.TabIndex = 19;
+            this.btnListCancel.TabIndex = 15;
             this.btnListCancel.Text = "Cancel";
             this.btnListCancel.UseVisualStyleBackColor = true;
             this.btnListCancel.Click += new System.EventHandler(this.btnListCancel_Click);
@@ -783,7 +789,7 @@
             this.rbJson.Location = new System.Drawing.Point(383, 20);
             this.rbJson.Name = "rbJson";
             this.rbJson.Size = new System.Drawing.Size(47, 17);
-            this.rbJson.TabIndex = 2;
+            this.rbJson.TabIndex = 10;
             this.rbJson.TabStop = true;
             this.rbJson.Text = "Json";
             this.rbJson.UseVisualStyleBackColor = true;
@@ -795,7 +801,7 @@
             this.btnGet.Location = new System.Drawing.Point(505, 122);
             this.btnGet.Name = "btnGet";
             this.btnGet.Size = new System.Drawing.Size(129, 23);
-            this.btnGet.TabIndex = 17;
+            this.btnGet.TabIndex = 16;
             this.btnGet.Text = "Get";
             this.btnGet.UseVisualStyleBackColor = true;
             this.btnGet.Click += new System.EventHandler(this.btnGet_Click);
@@ -815,7 +821,7 @@
             this.chkNotRating.Location = new System.Drawing.Point(383, 126);
             this.chkNotRating.Name = "chkNotRating";
             this.chkNotRating.Size = new System.Drawing.Size(43, 17);
-            this.chkNotRating.TabIndex = 16;
+            this.chkNotRating.TabIndex = 9;
             this.chkNotRating.Text = "Not";
             this.chkNotRating.UseVisualStyleBackColor = true;
             this.chkNotRating.CheckedChanged += new System.EventHandler(this.chkRating_CheckedChanged);
@@ -826,7 +832,7 @@
             this.cbxRating.Location = new System.Drawing.Point(281, 124);
             this.cbxRating.Name = "cbxRating";
             this.cbxRating.Size = new System.Drawing.Size(96, 21);
-            this.cbxRating.TabIndex = 15;
+            this.cbxRating.TabIndex = 8;
             this.cbxRating.SelectedIndexChanged += new System.EventHandler(this.cbxRating_SelectedIndexChanged);
             // 
             // cbxProvider
@@ -849,7 +855,7 @@
             this.rbXml.Location = new System.Drawing.Point(436, 20);
             this.rbXml.Name = "rbXml";
             this.rbXml.Size = new System.Drawing.Size(42, 17);
-            this.rbXml.TabIndex = 3;
+            this.rbXml.TabIndex = 11;
             this.rbXml.TabStop = true;
             this.rbXml.Text = "Xml";
             this.rbXml.UseVisualStyleBackColor = true;
@@ -860,7 +866,7 @@
             this.cbxOrder.Location = new System.Drawing.Point(135, 124);
             this.cbxOrder.Name = "cbxOrder";
             this.cbxOrder.Size = new System.Drawing.Size(96, 21);
-            this.cbxOrder.TabIndex = 4;
+            this.cbxOrder.TabIndex = 7;
             this.cbxOrder.SelectedIndexChanged += new System.EventHandler(this.cbxOrder_SelectedIndexChanged);
             // 
             // txtSource
@@ -870,7 +876,7 @@
             this.txtSource.Location = new System.Drawing.Point(135, 98);
             this.txtSource.Name = "txtSource";
             this.txtSource.Size = new System.Drawing.Size(499, 20);
-            this.txtSource.TabIndex = 14;
+            this.txtSource.TabIndex = 5;
             this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
             // 
             // label8
@@ -905,7 +911,7 @@
             this.txtPage.Location = new System.Drawing.Point(42, 124);
             this.txtPage.Name = "txtPage";
             this.txtPage.Size = new System.Drawing.Size(40, 20);
-            this.txtPage.TabIndex = 8;
+            this.txtPage.TabIndex = 6;
             this.txtPage.TextChanged += new System.EventHandler(this.txtPage_TextChanged);
             // 
             // label5
@@ -922,7 +928,7 @@
             this.txtLimit.Location = new System.Drawing.Point(42, 98);
             this.txtLimit.Name = "txtLimit";
             this.txtLimit.Size = new System.Drawing.Size(40, 20);
-            this.txtLimit.TabIndex = 6;
+            this.txtLimit.TabIndex = 4;
             this.txtLimit.TextChanged += new System.EventHandler(this.txtLimit_TextChanged);
             // 
             // label4
@@ -943,7 +949,7 @@
             this.txtTags.Location = new System.Drawing.Point(42, 72);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(511, 20);
-            this.txtTags.TabIndex = 4;
+            this.txtTags.TabIndex = 3;
             this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
             // 
             // label3
@@ -964,7 +970,7 @@
             this.chkGenerate.Location = new System.Drawing.Point(484, 21);
             this.chkGenerate.Name = "chkGenerate";
             this.chkGenerate.Size = new System.Drawing.Size(76, 17);
-            this.chkGenerate.TabIndex = 2;
+            this.chkGenerate.TabIndex = 12;
             this.chkGenerate.Text = "Generated";
             this.chkGenerate.UseVisualStyleBackColor = true;
             this.chkGenerate.CheckedChanged += new System.EventHandler(this.chkGenerate_CheckedChanged);
@@ -986,7 +992,7 @@
             this.txtQuery.Location = new System.Drawing.Point(58, 46);
             this.txtQuery.Name = "txtQuery";
             this.txtQuery.Size = new System.Drawing.Size(460, 20);
-            this.txtQuery.TabIndex = 0;
+            this.txtQuery.TabIndex = 2;
             this.txtQuery.TextChanged += new System.EventHandler(this.txtQuery_TextChanged);
             // 
             // tabPage4
@@ -1015,7 +1021,7 @@
             this.btnBrowseFolder.Location = new System.Drawing.Point(546, 6);
             this.btnBrowseFolder.Name = "btnBrowseFolder";
             this.btnBrowseFolder.Size = new System.Drawing.Size(60, 23);
-            this.btnBrowseFolder.TabIndex = 16;
+            this.btnBrowseFolder.TabIndex = 5;
             this.btnBrowseFolder.Text = "Browse";
             this.btnBrowseFolder.UseVisualStyleBackColor = true;
             this.btnBrowseFolder.Click += new System.EventHandler(this.btnBrowseFolder_Click_1);
@@ -1034,7 +1040,7 @@
             this.btnLoadDownloadList.Location = new System.Drawing.Point(170, 6);
             this.btnLoadDownloadList.Name = "btnLoadDownloadList";
             this.btnLoadDownloadList.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadDownloadList.TabIndex = 13;
+            this.btnLoadDownloadList.TabIndex = 3;
             this.btnLoadDownloadList.Text = "Load List";
             this.btnLoadDownloadList.UseVisualStyleBackColor = true;
             this.btnLoadDownloadList.Click += new System.EventHandler(this.btnLoadDownloadList_Click);
@@ -1044,7 +1050,7 @@
             this.btnSaveDownloadList.Location = new System.Drawing.Point(89, 6);
             this.btnSaveDownloadList.Name = "btnSaveDownloadList";
             this.btnSaveDownloadList.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveDownloadList.TabIndex = 12;
+            this.btnSaveDownloadList.TabIndex = 2;
             this.btnSaveDownloadList.Text = "Save List";
             this.btnSaveDownloadList.UseVisualStyleBackColor = true;
             this.btnSaveDownloadList.Click += new System.EventHandler(this.btnSaveDownloadList_Click);
@@ -1052,10 +1058,11 @@
             // btnCancelDownload
             // 
             this.btnCancelDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelDownload.Enabled = false;
             this.btnCancelDownload.Location = new System.Drawing.Point(612, 6);
             this.btnCancelDownload.Name = "btnCancelDownload";
             this.btnCancelDownload.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelDownload.TabIndex = 11;
+            this.btnCancelDownload.TabIndex = 6;
             this.btnCancelDownload.Text = "Cancel";
             this.btnCancelDownload.UseVisualStyleBackColor = true;
             this.btnCancelDownload.Click += new System.EventHandler(this.btnCancelDownload_Click);
@@ -1065,7 +1072,7 @@
             this.btnClearDownloadList.Location = new System.Drawing.Point(8, 6);
             this.btnClearDownloadList.Name = "btnClearDownloadList";
             this.btnClearDownloadList.Size = new System.Drawing.Size(75, 23);
-            this.btnClearDownloadList.TabIndex = 10;
+            this.btnClearDownloadList.TabIndex = 1;
             this.btnClearDownloadList.Text = "Clear List";
             this.btnClearDownloadList.UseVisualStyleBackColor = true;
             this.btnClearDownloadList.Click += new System.EventHandler(this.btnClearDownloadList_Click);
@@ -1077,7 +1084,7 @@
             this.btnPauseDownload.Location = new System.Drawing.Point(693, 6);
             this.btnPauseDownload.Name = "btnPauseDownload";
             this.btnPauseDownload.Size = new System.Drawing.Size(75, 23);
-            this.btnPauseDownload.TabIndex = 9;
+            this.btnPauseDownload.TabIndex = 7;
             this.btnPauseDownload.Text = "Pause";
             this.btnPauseDownload.UseVisualStyleBackColor = true;
             this.btnPauseDownload.Click += new System.EventHandler(this.btnPauseDownload_Click);
@@ -1085,7 +1092,7 @@
             // btnDownloadFiles
             // 
             this.btnDownloadFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloadFiles.Location = new System.Drawing.Point(774, 6);
+            this.btnDownloadFiles.Location = new System.Drawing.Point(851, 6);
             this.btnDownloadFiles.Name = "btnDownloadFiles";
             this.btnDownloadFiles.Size = new System.Drawing.Size(75, 23);
             this.btnDownloadFiles.TabIndex = 8;
@@ -1285,7 +1292,7 @@
             this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
             this.txtSaveFolder.Name = "txtSaveFolder";
             this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
-            this.txtSaveFolder.TabIndex = 14;
+            this.txtSaveFolder.TabIndex = 4;
             this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
             // tabPage5
@@ -1423,6 +1430,80 @@
             this.dgvBatchJob.Size = new System.Drawing.Size(918, 311);
             this.dgvBatchJob.TabIndex = 0;
             this.dgvBatchJob.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvBatchJob_MouseDown);
+            // 
+            // colBatchId
+            // 
+            this.colBatchId.FillWeight = 25F;
+            this.colBatchId.Frozen = true;
+            this.colBatchId.HeaderText = "#";
+            this.colBatchId.MinimumWidth = 25;
+            this.colBatchId.Name = "colBatchId";
+            this.colBatchId.ReadOnly = true;
+            this.colBatchId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colBatchId.Width = 25;
+            // 
+            // colBatchTagQuery
+            // 
+            this.colBatchTagQuery.DataPropertyName = "TagQuery";
+            this.colBatchTagQuery.HeaderText = "Tags Query";
+            this.colBatchTagQuery.Name = "colBatchTagQuery";
+            this.colBatchTagQuery.ReadOnly = true;
+            // 
+            // colBatchLimit
+            // 
+            this.colBatchLimit.DataPropertyName = "Limit";
+            this.colBatchLimit.FillWeight = 50F;
+            this.colBatchLimit.HeaderText = "Limit";
+            this.colBatchLimit.Name = "colBatchLimit";
+            this.colBatchLimit.ReadOnly = true;
+            this.colBatchLimit.Width = 50;
+            // 
+            // colBatchRating
+            // 
+            this.colBatchRating.DataPropertyName = "Rating";
+            this.colBatchRating.FillWeight = 75F;
+            this.colBatchRating.HeaderText = "Rating";
+            this.colBatchRating.Name = "colBatchRating";
+            this.colBatchRating.Width = 75;
+            // 
+            // colBatchStartPage
+            // 
+            this.colBatchStartPage.DataPropertyName = "StartPage";
+            this.colBatchStartPage.FillWeight = 50F;
+            this.colBatchStartPage.HeaderText = "Start Page";
+            this.colBatchStartPage.Name = "colBatchStartPage";
+            this.colBatchStartPage.Width = 50;
+            // 
+            // colBatchProviders
+            // 
+            this.colBatchProviders.DataPropertyName = "ProviderName";
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
+            this.colBatchProviders.FillWeight = 150F;
+            this.colBatchProviders.HeaderText = "Providers";
+            this.colBatchProviders.MinimumWidth = 150;
+            this.colBatchProviders.Name = "colBatchProviders";
+            this.colBatchProviders.ReadOnly = true;
+            this.colBatchProviders.Width = 150;
+            // 
+            // colBatchSaveFolder
+            // 
+            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
+            this.colBatchSaveFolder.HeaderText = "Save Folder";
+            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
+            this.colBatchSaveFolder.ReadOnly = true;
+            // 
+            // colBatchStatus
+            // 
+            this.colBatchStatus.DataPropertyName = "Status";
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
+            this.colBatchStatus.FillWeight = 300F;
+            this.colBatchStatus.HeaderText = "Status";
+            this.colBatchStatus.MinimumWidth = 300;
+            this.colBatchStatus.Name = "colBatchStatus";
+            this.colBatchStatus.ReadOnly = true;
+            this.colBatchStatus.Width = 351;
             // 
             // contextMenuStrip5
             // 
@@ -2170,6 +2251,18 @@
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 150;
             // 
+            // tagsColumn1
+            // 
+            this.tagsColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.tagsColumn1.DataPropertyName = "TagsEntity";
+            this.tagsColumn1.FillWeight = 300F;
+            this.tagsColumn1.HeaderText = "Tags";
+            this.tagsColumn1.MinimumWidth = 100;
+            this.tagsColumn1.Name = "tagsColumn1";
+            this.tagsColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tagsColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.tagsColumn1.Width = 300;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -2218,17 +2311,17 @@
             this.dataGridViewTextBoxColumn5.Visible = false;
             this.dataGridViewTextBoxColumn5.Width = 300;
             // 
-            // tagsColumn1
+            // tagsColumn2
             // 
-            this.tagsColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.tagsColumn1.DataPropertyName = "TagsEntity";
-            this.tagsColumn1.FillWeight = 300F;
-            this.tagsColumn1.HeaderText = "Tags Color";
-            this.tagsColumn1.MinimumWidth = 100;
-            this.tagsColumn1.Name = "tagsColumn1";
-            this.tagsColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tagsColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.tagsColumn1.Width = 300;
+            this.tagsColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.tagsColumn2.DataPropertyName = "TagsEntity";
+            this.tagsColumn2.FillWeight = 300F;
+            this.tagsColumn2.HeaderText = "Tags";
+            this.tagsColumn2.MinimumWidth = 100;
+            this.tagsColumn2.Name = "tagsColumn2";
+            this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.tagsColumn2.Width = 300;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -2319,6 +2412,7 @@
             // 
             // dataGridViewTextBoxColumn16
             // 
+            this.dataGridViewTextBoxColumn16.DataPropertyName = "Filename";
             this.dataGridViewTextBoxColumn16.FillWeight = 25F;
             this.dataGridViewTextBoxColumn16.Frozen = true;
             this.dataGridViewTextBoxColumn16.HeaderText = "#";
@@ -2330,9 +2424,14 @@
             // dataGridViewTextBoxColumn17
             // 
             this.dataGridViewTextBoxColumn17.DataPropertyName = "TagQuery";
+            this.dataGridViewTextBoxColumn17.FillWeight = 25F;
+            this.dataGridViewTextBoxColumn17.Frozen = true;
             this.dataGridViewTextBoxColumn17.HeaderText = "Tags Query";
+            this.dataGridViewTextBoxColumn17.MinimumWidth = 25;
             this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
             this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            this.dataGridViewTextBoxColumn17.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn17.Width = 25;
             // 
             // dataGridViewTextBoxColumn18
             // 
@@ -2356,9 +2455,11 @@
             // dataGridViewTextBoxColumn20
             // 
             this.dataGridViewTextBoxColumn20.DataPropertyName = "SaveFolder";
+            this.dataGridViewTextBoxColumn20.FillWeight = 75F;
             this.dataGridViewTextBoxColumn20.HeaderText = "Save Folder";
             this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
             this.dataGridViewTextBoxColumn20.ReadOnly = true;
+            this.dataGridViewTextBoxColumn20.Width = 75;
             // 
             // dataGridViewTextBoxColumn21
             // 
@@ -2372,79 +2473,36 @@
             this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             this.dataGridViewTextBoxColumn21.ReadOnly = true;
             // 
-            // colBatchId
+            // dataGridViewTextBoxColumn22
             // 
-            this.colBatchId.FillWeight = 25F;
-            this.colBatchId.Frozen = true;
-            this.colBatchId.HeaderText = "#";
-            this.colBatchId.MinimumWidth = 25;
-            this.colBatchId.Name = "colBatchId";
-            this.colBatchId.ReadOnly = true;
-            this.colBatchId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colBatchId.Width = 25;
+            this.dataGridViewTextBoxColumn22.DataPropertyName = "ProviderName";
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn22.DefaultCellStyle = dataGridViewCellStyle22;
+            this.dataGridViewTextBoxColumn22.FillWeight = 150F;
+            this.dataGridViewTextBoxColumn22.HeaderText = "Providers";
+            this.dataGridViewTextBoxColumn22.MinimumWidth = 150;
+            this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
+            this.dataGridViewTextBoxColumn22.ReadOnly = true;
+            this.dataGridViewTextBoxColumn22.Width = 150;
             // 
-            // colBatchTagQuery
+            // dataGridViewTextBoxColumn23
             // 
-            this.colBatchTagQuery.DataPropertyName = "TagQuery";
-            this.colBatchTagQuery.HeaderText = "Tags Query";
-            this.colBatchTagQuery.Name = "colBatchTagQuery";
-            this.colBatchTagQuery.ReadOnly = true;
+            this.dataGridViewTextBoxColumn23.DataPropertyName = "SaveFolder";
+            this.dataGridViewTextBoxColumn23.HeaderText = "Save Folder";
+            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            this.dataGridViewTextBoxColumn23.ReadOnly = true;
             // 
-            // colBatchLimit
+            // dataGridViewTextBoxColumn24
             // 
-            this.colBatchLimit.DataPropertyName = "Limit";
-            this.colBatchLimit.FillWeight = 50F;
-            this.colBatchLimit.HeaderText = "Limit";
-            this.colBatchLimit.Name = "colBatchLimit";
-            this.colBatchLimit.ReadOnly = true;
-            this.colBatchLimit.Width = 50;
-            // 
-            // colBatchRating
-            // 
-            this.colBatchRating.DataPropertyName = "Rating";
-            this.colBatchRating.FillWeight = 75F;
-            this.colBatchRating.HeaderText = "Rating";
-            this.colBatchRating.Name = "colBatchRating";
-            this.colBatchRating.Width = 75;
-            // 
-            // colBatchStartPage
-            // 
-            this.colBatchStartPage.DataPropertyName = "StartPage";
-            this.colBatchStartPage.FillWeight = 50F;
-            this.colBatchStartPage.HeaderText = "Start Page";
-            this.colBatchStartPage.Name = "colBatchStartPage";
-            this.colBatchStartPage.Width = 50;
-            // 
-            // colBatchProviders
-            // 
-            this.colBatchProviders.DataPropertyName = "ProviderName";
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
-            this.colBatchProviders.FillWeight = 150F;
-            this.colBatchProviders.HeaderText = "Providers";
-            this.colBatchProviders.MinimumWidth = 150;
-            this.colBatchProviders.Name = "colBatchProviders";
-            this.colBatchProviders.ReadOnly = true;
-            this.colBatchProviders.Width = 150;
-            // 
-            // colBatchSaveFolder
-            // 
-            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
-            this.colBatchSaveFolder.HeaderText = "Save Folder";
-            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
-            this.colBatchSaveFolder.ReadOnly = true;
-            // 
-            // colBatchStatus
-            // 
-            this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
-            this.colBatchStatus.FillWeight = 300F;
-            this.colBatchStatus.HeaderText = "Status";
-            this.colBatchStatus.MinimumWidth = 300;
-            this.colBatchStatus.Name = "colBatchStatus";
-            this.colBatchStatus.ReadOnly = true;
-            this.colBatchStatus.Width = 351;
+            this.dataGridViewTextBoxColumn24.DataPropertyName = "Status";
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle23;
+            this.dataGridViewTextBoxColumn24.FillWeight = 300F;
+            this.dataGridViewTextBoxColumn24.HeaderText = "Status";
+            this.dataGridViewTextBoxColumn24.MinimumWidth = 300;
+            this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
+            this.dataGridViewTextBoxColumn24.ReadOnly = true;
+            this.dataGridViewTextBoxColumn24.Width = 351;
             // 
             // FormMain
             // 
@@ -2695,6 +2753,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchProviders;
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchSaveFolder;
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchStatus;
+        private TagsColumn tagsColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn22;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
     }
 }
 

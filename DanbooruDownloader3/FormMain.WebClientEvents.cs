@@ -95,7 +95,14 @@ namespace DanbooruDownloader3
             if (e.TotalBytesToReceive > 0)
             {
                 tsProgressBar.Style = ProgressBarStyle.Continuous;
-                tsProgressBar.Value = e.ProgressPercentage;
+                if (tsProgressBar.Maximum < e.ProgressPercentage)
+                {
+                    tsProgressBar.Value = tsProgressBar.Maximum;
+                }
+                else
+                {
+                    tsProgressBar.Value = e.ProgressPercentage;
+                }
             }
             else tsProgressBar.Style = ProgressBarStyle.Marquee;
         }
@@ -200,7 +207,6 @@ namespace DanbooruDownloader3
 
         void clientFile_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (!CheckDownloadGrid()) return;
             DataGridViewRow row = (DataGridViewRow)e.UserState;
 
             var status = e.Error == null ? "OK" : e.Error.InnerException == null ? e.Error.Message : e.Error.InnerException.Message;
@@ -234,6 +240,7 @@ namespace DanbooruDownloader3
                 Program.Logger.Error("Download Error: " + row.Cells["colUrl2"].Value.ToString(), e.Error);
             }
 
+            // check if the last row
             if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
             {
                 DownloadRows(dgvDownload.Rows[row.Index + 1]);
@@ -243,6 +250,7 @@ namespace DanbooruDownloader3
                 _isPaused = false;
                 _isDownloading = false;
                 MessageBox.Show("Complete!", "Download Files");
+                EnableDownloadControls(true);
             }
         }
         #endregion

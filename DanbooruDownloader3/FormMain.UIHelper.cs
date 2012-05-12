@@ -76,6 +76,20 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
+        /// Enable/Disable Download tab buttons
+        /// </summary>
+        /// <param name="enabled"></param>
+        private void EnableDownloadControls(bool enabled)
+        {
+            btnClearDownloadList.Enabled = enabled;
+            btnLoadDownloadList.Enabled = enabled;            
+            btnDownloadFiles.Enabled = enabled;
+
+            btnCancelDownload.Enabled = !enabled;
+            btnPauseDownload.Enabled = !enabled;
+        }
+
+        /// <summary>
         /// Update status label with the query url
         /// </summary>
         private void UpdateStatus()

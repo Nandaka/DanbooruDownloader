@@ -42,6 +42,7 @@ namespace DanbooruDownloader3
         bool _isLoadingList = false;
         bool _isLoadingThumb = false;
         bool _isDownloading = false;
+        bool _isCanceled = false;
 
         bool _isMorePost = true;
 
@@ -238,19 +239,21 @@ namespace DanbooruDownloader3
         /// <param name="i"> downloadList index</param>
         public void DownloadRows(DataGridViewRow row)
         {
-            _isDownloading = true;
+            if (_isCanceled) return;
 
             if (CheckDownloadGrid())
             {
+                _isDownloading = true;
+
                 if (_isPaused)
                 {
                     DialogResult result =  MessageBox.Show("Paused." + Environment.NewLine + "Click OK to continue.","Download",MessageBoxButtons.OKCancel);
                     _isPaused = false;
-
-                    EnableControls(true);
+                    btnPauseDownload.Enabled = true;
 
                     if (result.Equals(DialogResult.Cancel))
                     {
+                        EnableDownloadControls(true);
                         tsStatus.Text = "Canceled.";
                         _isDownloading = false;
                         return;
@@ -261,29 +264,33 @@ namespace DanbooruDownloader3
                 
                 if (!_downloadList[row.Index].Completed)
                 {
+                    #region download file
                     row.Selected = true;
 
                     if (chkAutoFocus.Checked) dgvDownload.FirstDisplayedScrollingRowIndex = row.Index;
 
                     string url = (string)row.Cells["colUrl2"].Value;
 
+                    // no url given
                     if (string.IsNullOrWhiteSpace(url))
                     {
                         row.Cells["colProgress2"].Value = "No file_url, probably deleted.";
+                        txtLog.Text += "[DownloadRow] no file_url for row: " + row.Index;
+                        Program.Logger.Info("[DownloadRow] no file_url for row: " + row.Index);
 
-                        try
+                        if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
                         {
                             DownloadRows(dgvDownload.Rows[row.Index + 1]);
                         }
-                        catch (Exception ex) 
-                        { 
-                            txtLog.Text += "[DownloadRow] no file_url, " + ex.Message;
-                            Program.Logger.Error("[DownloadRow] no file_url", ex);
+                        else
+                        {
+                            // no more row
+                            _isDownloading = false;
+                            _isPaused = false;
+                            EnableDownloadControls(true);
                         }
-                        _isDownloading = false;
                         return;
                     }
-
 
                     if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
                     if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
@@ -300,24 +307,23 @@ namespace DanbooruDownloader3
                         if (extension.EndsWith(".jpeg")) extension = ".jpg";
                     }
                     string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + extension;
-
-                    
+                                        
                     if ((!chkOverwrite.Checked && File.Exists(filename)))
                     {
                         row.Cells["colProgress2"].Value = "File exists!";
-                        _isDownloading = false;
-                        try
+                        txtLog.Text += "[DownloadRow] File exists: " + filename;
+                        Program.Logger.Info("[DownloadRow] File exists: " + filename);
+                        if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
                         {
-                            if (dgvDownload.Rows.Count < row.Index + 1)
-                            {
-                                DownloadRows(dgvDownload.Rows[row.Index + 1]);
-                            }
+                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
                         }
-                        catch (Exception ex) 
-                        { 
-                            txtLog.Text += "[DownloadRow] overwrite = false, " + ex.Message;
-                            Program.Logger.Error("[DownloadRow] overwrite = false", ex);
-                        }
+                        else
+                        {
+                            // no more row
+                            _isDownloading = false;
+                            _isPaused = false;
+                            EnableDownloadControls(true);
+                        }                        
                     }
                     else
                     {
@@ -339,13 +345,19 @@ namespace DanbooruDownloader3
                         Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                         _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
                     }
+                    #endregion
+                }
+                else if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
+                {
+                    // do the next row
+                    DownloadRows(dgvDownload.Rows[row.Index + 1]);
                 }
                 else
                 {
-                    if (dgvDownload.Rows.Count < row.Index + 1)
-                    {
-                        DownloadRows(dgvDownload.Rows[row.Index + 1]);
-                    }
+                    // no more row
+                    _isDownloading = false;
+                    _isPaused = false;
+                    EnableDownloadControls(true);
                 }
             }
         }
@@ -1305,6 +1317,7 @@ namespace DanbooruDownloader3
 
         private void btnDownloadFiles_Click(object sender, EventArgs e)
         {
+            _isCanceled = false;
             if (!_clientFile.IsBusy)
             {
                 if (txtSaveFolder.Text.Length == 0)
@@ -1323,7 +1336,7 @@ namespace DanbooruDownloader3
                 if (txtSaveFolder.Text.Length > 0)
                 {
                     DownloadRows(dgvDownload.Rows[0]);
-                    btnPauseDownload.Enabled = true;
+                    EnableDownloadControls(false);
                 }
             }
         }
@@ -1331,8 +1344,8 @@ namespace DanbooruDownloader3
         private void btnPauseDownload_Click(object sender, EventArgs e)
         {
             _isPaused = true;
-            EnableControls(false);
-
+            _isDownloading = false;
+            EnableDownloadControls(false);
             btnPauseDownload.Enabled = false;
             tsStatus.Text = "Pausing...";
         }
@@ -1343,6 +1356,8 @@ namespace DanbooruDownloader3
             {
                 _clientFile.CancelAsync();
             }
+            EnableDownloadControls(true);
+            _isCanceled = true;
         }
 
         private void btnSaveDownloadList_Click(object sender, EventArgs e)
@@ -1663,7 +1678,8 @@ namespace DanbooruDownloader3
         private void txtQuery_TextChanged(object sender, EventArgs e)
         {
             tsStatus.Text = "Query URL: " + _currProvider.Url + txtQuery.Text;
-        }
+        }        
+
         #endregion
     }
 }
