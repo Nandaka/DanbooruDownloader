@@ -36,6 +36,8 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.pbIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -105,7 +107,7 @@
             this.cbxProviders.FormattingEnabled = true;
             this.cbxProviders.Location = new System.Drawing.Point(77, 10);
             this.cbxProviders.Name = "cbxProviders";
-            this.cbxProviders.Size = new System.Drawing.Size(331, 21);
+            this.cbxProviders.Size = new System.Drawing.Size(312, 21);
             this.cbxProviders.TabIndex = 4;
             this.cbxProviders.SelectedIndexChanged += new System.EventHandler(this.cbxProviders_SelectedIndexChanged);
             // 
@@ -142,12 +144,22 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // pbIcon
+            // 
+            this.pbIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbIcon.Location = new System.Drawing.Point(395, 12);
+            this.pbIcon.Name = "pbIcon";
+            this.pbIcon.Size = new System.Drawing.Size(16, 16);
+            this.pbIcon.TabIndex = 8;
+            this.pbIcon.TabStop = false;
+            // 
             // FormProvider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(501, 399);
+            this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnAdd);
@@ -160,6 +172,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormProvider";
             this.Load += new System.EventHandler(this.FormProvider_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,5 +188,6 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.PictureBox pbIcon;
     }
 }

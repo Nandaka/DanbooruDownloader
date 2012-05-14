@@ -1084,6 +1084,11 @@ namespace DanbooruDownloader3
             txtPage.Text = "";
             _currProvider = _listProvider[cbxProvider.SelectedIndex];
             UpdateStatus();
+
+            if (_currProvider.BoardType == BoardType.Danbooru) pbIcon.Image = Properties.Resources.Danbooru;
+            else if (_currProvider.BoardType == BoardType.Gelbooru) pbIcon.Image = Properties.Resources.Gelbooru;
+            else if (_currProvider.BoardType == BoardType.Shimmie2) pbIcon.Image = Properties.Resources.Shimmie2;
+            else pbIcon.Image = null;
         }
 
         private void chkGenerate_CheckedChanged(object sender, EventArgs e)

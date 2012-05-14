@@ -187,6 +187,11 @@ namespace DanbooruDownloader3
                 if (cbxProviders.SelectedIndex != lastSelectedIndex) GetValues(lastSelectedIndex);
                 Fill(cbxProviders.SelectedIndex);
                 lastSelectedIndex = cbxProviders.SelectedIndex;
+
+                if (Providers[cbxProviders.SelectedIndex].BoardType == BoardType.Danbooru) pbIcon.Image = Properties.Resources.Danbooru;
+                else if (Providers[cbxProviders.SelectedIndex].BoardType == BoardType.Gelbooru) pbIcon.Image = Properties.Resources.Gelbooru;
+                else if (Providers[cbxProviders.SelectedIndex].BoardType == BoardType.Shimmie2) pbIcon.Image = Properties.Resources.Shimmie2;
+                else pbIcon.Image = null;
             }
         }
 

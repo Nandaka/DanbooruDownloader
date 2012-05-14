@@ -67,9 +67,30 @@ namespace DanbooruDownloader3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Danbooru {
+            get {
+                object obj = ResourceManager.GetObject("Danbooru", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Gelbooru {
+            get {
+                object obj = ResourceManager.GetObject("Gelbooru", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NOT_AVAILABLE {
             get {
                 object obj = ResourceManager.GetObject("NOT_AVAILABLE", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Shimmie2 {
+            get {
+                object obj = ResourceManager.GetObject("Shimmie2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

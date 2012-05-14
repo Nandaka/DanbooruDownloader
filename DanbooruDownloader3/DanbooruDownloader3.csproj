@@ -137,9 +137,11 @@
       <DependentUpon>FormCheatSheet.cs</DependentUpon>
     </Compile>
     <Compile Include="FormMain.UIHelper.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.WebClientEvents.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormProvider.cs">
@@ -209,6 +211,9 @@
     </Content>
     <Content Include="icon.ico" />
     <Content Include="lib\log4net.dll" />
+    <None Include="Resources\Danbooru.png" />
+    <None Include="Resources\Gelbooru.png" />
+    <None Include="Resources\Shimmie2.png" />
     <Content Include="tags.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
