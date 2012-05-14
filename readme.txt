@@ -17,6 +17,7 @@ Changelog:
 - DanbooruDownloader201205xx
   - Fix Cancel/Pause button on Download tab.
   - Add option to enable/disable logging.
+  - Add download tags.xml for gelbooru.
 
 - DanbooruDownloader20120512
   - Add option to backup the tags.xml before updating.

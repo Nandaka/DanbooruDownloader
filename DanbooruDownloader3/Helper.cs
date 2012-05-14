@@ -101,23 +101,23 @@ namespace DanbooruDownloader3
 
             var artist = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name));
             if (string.IsNullOrWhiteSpace(artist)) artist = format.MissingTagReplacement;
-            filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist));
+            filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist).Trim());
 
             var copyright = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Copyright).Select(x => x.Name));
             if (string.IsNullOrWhiteSpace(copyright)) copyright = format.MissingTagReplacement;
-            filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright));
+            filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright.Trim()));
 
             var character = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name));
-            if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement; 
-            filename = filename.Replace("%character%", Helper.SanitizeFilename(character));
+            if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement;
+            filename = filename.Replace("%character%", Helper.SanitizeFilename(character.Trim()));
             
             var circle = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name));
-            if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement; 
-            filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle));
+            if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement;
+            filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle.Trim()));
             
             var faults = string.Join(" ", post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name));
             if (string.IsNullOrWhiteSpace(faults)) faults = format.MissingTagReplacement;
-            filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults));
+            filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults.Trim()));
 
             // append base folder from Save Folder text box
             if (format.BaseFolder.EndsWith(@"\")) filename = format.BaseFolder + filename;
