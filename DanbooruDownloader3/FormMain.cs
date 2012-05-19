@@ -1332,23 +1332,30 @@ namespace DanbooruDownloader3
             _isCanceled = false;
             if (!_clientFile.IsBusy)
             {
-                if (txtSaveFolder.Text.Length == 0)
+                if (CheckDownloadGrid())
                 {
-                    if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    if (txtSaveFolder.Text.Length == 0)
                     {
-                        txtSaveFolder.Text = folderBrowserDialog1.SelectedPath;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please select save folder!", "Save Folder");
-                        return;
-                    }
+                        if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            txtSaveFolder.Text = folderBrowserDialog1.SelectedPath;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select save folder!", "Save Folder");
+                            return;
+                        }
 
+                    }
+                    if (txtSaveFolder.Text.Length > 0)
+                    {
+                        DownloadRows(dgvDownload.Rows[0]);
+                        EnableDownloadControls(false);
+                    }
                 }
-                if (txtSaveFolder.Text.Length > 0)
+                else
                 {
-                    DownloadRows(dgvDownload.Rows[0]);
-                    EnableDownloadControls(false);
+                    MessageBox.Show("No image to download!", "Download List");
                 }
             }
         }
