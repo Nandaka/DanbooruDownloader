@@ -90,15 +90,6 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Update status label with the query url
-        /// </summary>
-        private void UpdateStatus()
-        {
-            tsStatus.Text = "Query URL: " + GetQueryUrl();
-        }
-
-
-        /// <summary>
         /// print flags for debug.
         /// </summary>
         public void PrintFlags()
@@ -164,7 +155,7 @@ namespace DanbooruDownloader3
         /// <param name="message"></param>
         private void UpdateLog(string source, string message, Exception ex = null)
         {
-            if (txtLog.InvokeRequired)
+            if (txtLog.InvokeRequired && txtLog.IsHandleCreated)
             {
                 SetUpdateLogCallback d = new SetUpdateLogCallback(UpdateLog);
                 this.Invoke(d, new object[] { source, message, ex });
@@ -181,12 +172,20 @@ namespace DanbooruDownloader3
             }
         }
 
-        delegate void SetUpdateStatusCallback(string message);
-        private void UpdateStatus(string message)
+        /// <summary>
+        /// Update status label with the query url
+        /// </summary>
+        private void UpdateStatus()
         {
-            if (tsStatus.GetCurrentParent().InvokeRequired)
+            tsStatus.Text = "Query URL: " + GetQueryUrl();
+        }
+
+        delegate void SetUpdateStatusCallback(string message);
+        private void UpdateStatus2(string message)
+        {
+            if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated) 
             {
-                SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus);
+                SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus2);
                 this.Invoke(d, new object[] { message });
             }
             else

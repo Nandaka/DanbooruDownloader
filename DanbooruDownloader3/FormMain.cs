@@ -545,14 +545,14 @@ namespace DanbooruDownloader3
         public void PauseBatchJobs()
         {
             UpdateLog("[Batch Job]","Pausing");
-            UpdateStatus("Pausing...");
+            UpdateStatus2("Pausing...");
             _pauseEvent.Reset();
         }
 
         public void ResumeBatchJobs()
         {
             UpdateLog("[Batch Job]", "Resuming");
-            UpdateStatus("Resuming...");
+            UpdateStatus2("Resuming...");
             _pauseEvent.Set();
         }
 
@@ -641,7 +641,7 @@ namespace DanbooruDownloader3
 
             if (batchJob != null)
             {
-                UpdateStatus("Starting Batch Job");
+                UpdateStatus2("Starting Batch Job");
                 
                 for (int i = 0; i < batchJob.Count; i++)
                 {
@@ -662,7 +662,7 @@ namespace DanbooruDownloader3
                                 // toggle button
                                 BeginInvoke(bjd, new object[] { true });
                                 UpdateLog("DoBatchJob", "Batch Job Stopped.");
-                                UpdateStatus("Batch Job Stopped.");
+                                UpdateStatus2("Batch Job Stopped.");
                                 return;
                             }
 
@@ -808,7 +808,7 @@ namespace DanbooruDownloader3
                                             // toggle button
                                             BeginInvoke(bjd, new object[] { true });
                                             UpdateLog("DoBatchJob", "Batch Job Stopped.");
-                                            UpdateStatus("Batch Job Stopped.");
+                                            UpdateStatus2("Batch Job Stopped.");
                                             return;
                                         }
 
@@ -1007,7 +1007,7 @@ namespace DanbooruDownloader3
                 }
             }
             BeginInvoke(bjd, new object[] { true });
-            UpdateStatus("Batch Job Completed");
+            UpdateStatus2("Batch Job Completed");
             {
                 // hide progress bar
                 object[] myArray = new object[2];
