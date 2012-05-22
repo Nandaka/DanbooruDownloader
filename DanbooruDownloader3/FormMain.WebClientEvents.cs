@@ -95,12 +95,13 @@ namespace DanbooruDownloader3
             if (e.TotalBytesToReceive > 0)
             {
                 tsProgressBar.Style = ProgressBarStyle.Continuous;
-                if (tsProgressBar.Maximum < e.ProgressPercentage)
+                if (tsProgressBar.Maximum <= e.ProgressPercentage)
                 {
                     tsProgressBar.Value = tsProgressBar.Maximum;
                 }
                 else
                 {
+                    tsProgressBar.Maximum = 100;
                     tsProgressBar.Value = e.ProgressPercentage;
                 }
             }
@@ -118,6 +119,7 @@ namespace DanbooruDownloader3
                 if (e.TotalBytesToReceive > 0)
                 {
                     tsProgress2.Style = ProgressBarStyle.Continuous;
+                    tsProgress2.Maximum = 100;
                     tsProgress2.Value = e.ProgressPercentage;
                 }
                 else tsProgress2.Style = ProgressBarStyle.Marquee;
@@ -200,6 +202,7 @@ namespace DanbooruDownloader3
             if (e.TotalBytesToReceive > 0)
             {
                 tsProgressBar.Style = ProgressBarStyle.Continuous;
+                tsProgressBar.Maximum = 100;
                 tsProgressBar.Value = e.ProgressPercentage;
             }
             else tsProgressBar.Style = ProgressBarStyle.Marquee;
