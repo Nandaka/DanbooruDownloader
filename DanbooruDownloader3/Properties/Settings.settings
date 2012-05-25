@@ -107,5 +107,8 @@
     <Setting Name="EnableLogging" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ImageSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Full</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

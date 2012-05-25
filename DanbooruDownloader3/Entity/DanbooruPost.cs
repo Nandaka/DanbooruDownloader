@@ -58,75 +58,6 @@ namespace DanbooruDownloader3.Entity
             set { this._rating = value; }
         }
         
-        private string _file_url;
-        public string FileUrl
-        {
-            get { return _file_url; }
-            set { this._file_url = value; }
-        }
-
-        private int _width;
-        public int Width
-        {
-            get { return _width; }
-            set { this._width = value; }
-        }
-
-        private int _height;
-        public int Height
-        {
-            get { return _height; }
-            set { this._height = value; }
-        }
-        
-        private string _preview_url;
-        [Browsable(false)]
-        public string PreviewUrl
-        {
-            get { return _preview_url; }
-            set { this._preview_url = value; }
-        }
-
-        private int _preview_width;
-        [Browsable(false)]
-        public int PreviewWidth
-        {
-            get { return _preview_width; }
-            set { this._preview_width = value; }
-        }
-        
-        private int _preview_height;
-        [Browsable(false)]
-        public int PreviewHeight
-        {
-            get { return _preview_height; }
-            set { this._preview_height = value; }
-        }
-
-        private string _sample_url;
-        [Browsable(false)]
-        public string SampleUrl
-        {
-            get { return _sample_url; }
-            set { this._sample_url = value; }
-        }
-
-        private int _sample_width;
-        [Browsable(false)]
-        public int SampleWidth
-        {
-            get { return _sample_width; }
-            set { this._sample_width = value; }
-        }
-
-        private int _sample_height;
-        [Browsable(false)]
-        public int SampleHeight
-        {
-            get { return _sample_height; }
-            set { this._sample_height = value; }
-        }
-
         private string _status = "-";
         public string Status
         {
@@ -207,5 +138,142 @@ namespace DanbooruDownloader3.Entity
 
         [Browsable(false)]
         public bool Hidden { get; set; }
+
+        #region image/thumbnail url related
+        /* if jpeg_url not exist, then the url will be taken from sample_url
+         * if sample_url not exist, then the url will be taken from file_url
+         */
+        private string _file_url;
+        public string FileUrl
+        {
+            get { return _file_url; }
+            set { this._file_url = value; }
+        }
+
+        private int _width;
+        public int Width
+        {
+            get { return _width; }
+            set { this._width = value; }
+        }
+
+        private int _height;
+        public int Height
+        {
+            get { return _height; }
+            set { this._height = value; }
+        }
+
+        private string _preview_url;
+        public string PreviewUrl
+        {
+            get { return _preview_url; }
+            set { this._preview_url = value; }
+        }
+
+        private int _preview_width;
+        [Browsable(false)]
+        public int PreviewWidth
+        {
+            get { return _preview_width; }
+            set { this._preview_width = value; }
+        }
+
+        private int _preview_height;
+        [Browsable(false)]
+        public int PreviewHeight
+        {
+            get { return _preview_height; }
+            set { this._preview_height = value; }
+        }
+
+        private string _sample_url;
+        public string SampleUrl
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(_sample_url))
+                {
+                    _sample_url = FileUrl;
+                }
+                return _sample_url;
+            }
+            set { this._sample_url = value; }
+        }
+
+        private int _sample_width;
+        [Browsable(false)]
+        public int SampleWidth
+        {
+            get
+            {
+                if (_sample_width == 0)
+                {
+                    _sample_width = Width;
+                }
+                return _sample_width;
+            }
+            set { this._sample_width = value; }
+        }
+
+        private int _sample_height;
+        [Browsable(false)]
+        public int SampleHeight
+        {
+            get
+            {
+                if (_sample_height == 0)
+                {
+                    _sample_height = Height;
+                }
+                return _sample_height;
+            }
+            set { this._sample_height = value; }
+        }
+
+        private string _jpeg_url;
+        public string JpegUrl
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(_jpeg_url))
+                {
+                    _jpeg_url = SampleUrl;
+                }
+                return _jpeg_url;
+            }
+            set { this._jpeg_url = value; }
+        }
+
+        private int _jpeg_width;
+        [Browsable(false)]
+        public int JpegWidth
+        {
+            get
+            {
+                if (_jpeg_width == 0)
+                {
+                    _jpeg_width = Width;
+                }
+                return _jpeg_width;
+            }
+            set { this._jpeg_width = value; }
+        }
+
+        private int _jpeg_height;
+        [Browsable(false)]
+        public int JpegHeight
+        {
+            get
+            {
+                if (_jpeg_height == 0)
+                {
+                    _jpeg_height = Height;
+                }
+                return _jpeg_height;
+            }
+            set { this._jpeg_height = value; }
+        }
+        #endregion
     }
 }

@@ -254,6 +254,21 @@ namespace DanbooruDownloader3.DAO
                                             }
                                             catch (Exception) { if (FormMain.Debug) throw; }
                                             break;
+                                        case "jpeg_url": post.JpegUrl = AppendHttp(reader.Value); break;
+                                        case "jpeg_width": post.JpegWidth = -1;
+                                            try
+                                            {
+                                                post.JpegWidth = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
+                                        case "jpeg_height": post.JpegHeight = -1;
+                                            try
+                                            {
+                                                post.JpegHeight = Int32.Parse(reader.Value);
+                                            }
+                                            catch (Exception) { if (FormMain.Debug) throw; }
+                                            break;
                                     }
                                 }
                                 post.Hidden = CheckBlacklisted(post);
@@ -475,6 +490,25 @@ namespace DanbooruDownloader3.DAO
                             case "\"sample_url\"":
                                 post.SampleUrl = AppendHttp(val[1].Replace("\"", ""));
                                 break;
+                            case "\"jpeg_width\"":
+                                post.JpegWidth = -1;
+                                try
+                                {
+                                    post.JpegWidth = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"jpeg_height\"":
+                                post.JpegHeight = -1;
+                                try
+                                {
+                                    post.JpegHeight = Convert.ToInt32(val[1]);
+                                }
+                                catch (Exception) { if (FormMain.Debug) throw; }
+                                break;
+                            case "\"jpeg_url\"":
+                                post.JpegUrl = AppendHttp(val[1].Replace("\"", ""));
+                                break;
                             default: break;
                         }
                     }
@@ -491,6 +525,7 @@ namespace DanbooruDownloader3.DAO
 
         private string AppendHttp(string url)
         {
+            if (String.IsNullOrWhiteSpace(url)) return url;
             if (!url.StartsWith("http"))
             {
                 return Provider.Url + url;

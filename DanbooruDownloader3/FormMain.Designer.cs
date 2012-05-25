@@ -174,6 +174,8 @@
             this.chkUseTagColor = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.cbxImageSize = new System.Windows.Forms.ComboBox();
             this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txtTagBlacklist = new System.Windows.Forms.TextBox();
@@ -1746,6 +1748,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label22);
+            this.groupBox3.Controls.Add(this.cbxImageSize);
             this.groupBox3.Controls.Add(this.chkRenameJpeg);
             this.groupBox3.Controls.Add(this.label21);
             this.groupBox3.Controls.Add(this.txtTagBlacklist);
@@ -1766,6 +1770,31 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Download";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(242, 96);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(59, 13);
+            this.label22.TabIndex = 16;
+            this.label22.Text = "Image Size";
+            // 
+            // cbxImageSize
+            // 
+            this.cbxImageSize.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ImageSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxImageSize.FormattingEnabled = true;
+            this.cbxImageSize.Items.AddRange(new object[] {
+            "Full",
+            "Sample",
+            "Jpeg",
+            "Thumb"});
+            this.cbxImageSize.Location = new System.Drawing.Point(316, 93);
+            this.cbxImageSize.Name = "cbxImageSize";
+            this.cbxImageSize.Size = new System.Drawing.Size(121, 21);
+            this.cbxImageSize.TabIndex = 15;
+            this.cbxImageSize.Text = global::DanbooruDownloader3.Properties.Settings.Default.ImageSize;
+            this.cbxImageSize.TextChanged += new System.EventHandler(this.cbxImageSize_TextChanged);
             // 
             // chkRenameJpeg
             // 
@@ -2796,6 +2825,8 @@
         private System.Windows.Forms.CheckBox chkLogging;
         private System.Windows.Forms.PictureBox pbIcon;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ComboBox cbxImageSize;
     }
 }
 

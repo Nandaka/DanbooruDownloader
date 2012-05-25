@@ -14,6 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201205xx
+  - Add option to download the full/resized/jpeg/thumb image size.
+
 - DanbooruDownloader20120519
   - Fix Cancel/Pause button on Download tab.
   - Add option to enable/disable logging.

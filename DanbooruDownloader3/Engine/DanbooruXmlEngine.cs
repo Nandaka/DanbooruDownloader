@@ -61,7 +61,7 @@ namespace DanbooruDownloader3.Engine
                 p.Height = Convert.ToInt32(post.Attribute("height").Value);
 
                 p.PreviewUrl = AppendHttp(post.Attribute("preview_url").Value.ToString(), query.Provider);
-                if (post.Attribute("actual_preview_width") != null &&           // yande.re extensions
+                if (post.Attribute("actual_preview_width") != null &&           // moebooru extension
                     post.Attribute("actual_preview_height") != null)
                 {
                     p.PreviewWidth = Convert.ToInt32(post.Attribute("actual_preview_width").Value);
@@ -76,6 +76,11 @@ namespace DanbooruDownloader3.Engine
                 p.SampleUrl = AppendHttp(post.Attribute("sample_url").Value.ToString(), query.Provider);
                 p.SampleWidth = Convert.ToInt32(post.Attribute("sample_width").Value);
                 p.SampleHeight = Convert.ToInt32(post.Attribute("sample_height").Value);
+
+                // moebooru extension
+                p.JpegUrl = AppendHttp(post.Attribute("jpeg_url").Value.ToString(), query.Provider);
+                p.JpegWidth = Convert.ToInt32(post.Attribute("jpeg_width").Value);
+                p.JpegHeight = Convert.ToInt32(post.Attribute("jpeg_height").Value);
 
                 p.Filesize = Convert.ToInt32(post.Attribute("file_size").Value);
                 p.Status = post.Attribute("status").Value.ToString();
@@ -158,6 +163,7 @@ namespace DanbooruDownloader3.Engine
 
         private string AppendHttp(string url, DanbooruProvider provider)
         {
+            if (String.IsNullOrWhiteSpace(url)) return url;
             if (!url.StartsWith("http"))
             {
                 return provider.Url + url;

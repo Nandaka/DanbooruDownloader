@@ -146,6 +146,8 @@ namespace DanbooruDownloader3
             ParseTagBlacklist();
 
             Program.Logger.Debug(this.Text + " loaded.");
+
+            dgvList.AutoGenerateColumns = false;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -1704,5 +1706,32 @@ namespace DanbooruDownloader3
             ToggleLogging(chkLogging.Checked);
         }
         #endregion
+
+        private void cbxImageSize_TextChanged(object sender, EventArgs e)
+        {
+            if (cbxImageSize.Text == "Thumb")
+            {
+                dgvList.Columns["colUrl"].DataPropertyName = "PreviewUrl";
+                dgvDownload.Columns["colUrl2"].DataPropertyName = "PreviewUrl";
+            }
+            else if (cbxImageSize.Text == "Jpeg")
+            {
+                dgvList.Columns["colUrl"].DataPropertyName = "JpegUrl";
+                dgvDownload.Columns["colUrl2"].DataPropertyName = "JpegUrl";
+            }
+            else if (cbxImageSize.Text == "Sample")
+            {
+                dgvList.Columns["colUrl"].DataPropertyName = "SampleUrl";
+                dgvDownload.Columns["colUrl2"].DataPropertyName = "SampleUrl";
+            }
+            else
+            {
+                dgvList.Columns["colUrl"].DataPropertyName = "FileUrl";
+                dgvDownload.Columns["colUrl2"].DataPropertyName = "FileUrl";
+            }
+            dgvList.Refresh();
+            dgvDownload.Refresh();
+        }
+
     }
 }
