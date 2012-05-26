@@ -40,7 +40,20 @@ namespace DanbooruDownloader3.Entity
             }
         }
 
-        public string Status { get; set; }
+        private string _status;
+        public string Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                _status = "Downloaded: " + Downloaded + " Skipped: " + Skipped + " Processed Total: " + ProcessedTotal + " Total Available: " + Total + Environment.NewLine;
+                _status += "Current Page: " + CurrentPage + " Current Page Total: " + CurrentPageTotal + " Offset: " + CurrentPageOffset + Environment.NewLine;
+                _status += value;
+            }
+        }
 
         [Browsable(false)]
         public bool isCompleted { get; set; }

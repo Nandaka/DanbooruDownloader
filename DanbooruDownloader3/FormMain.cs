@@ -148,6 +148,7 @@ namespace DanbooruDownloader3
             Program.Logger.Debug(this.Text + " loaded.");
 
             dgvList.AutoGenerateColumns = false;
+            _ImageSize = cbxImageSize.Text;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -660,7 +661,7 @@ namespace DanbooruDownloader3
                             _pauseEvent.WaitOne(Timeout.Infinite);
                             if (_shutdownEvent.WaitOne(0))
                             {
-                                batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + " ==> " + Environment.NewLine + "Stopped.";
+                                batchJob[i].Status = " ==> Stopped.";
                                 // toggle button
                                 BeginInvoke(bjd, new object[] { true });
                                 UpdateLog("DoBatchJob", "Batch Job Stopped.");
@@ -806,7 +807,7 @@ namespace DanbooruDownloader3
 
                                         if (_shutdownEvent.WaitOne(0))
                                         {
-                                            batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + " ==> " + Environment.NewLine + "Stopped.";
+                                            batchJob[i].Status =" ==> Stopped.";
                                             // toggle button
                                             BeginInvoke(bjd, new object[] { true });
                                             UpdateLog("DoBatchJob", "Batch Job Stopped.");
@@ -814,14 +815,29 @@ namespace DanbooruDownloader3
                                             return;
                                         }
 
-                                        batchJob[i].Status = "Downloaded:" + batchJob[i].Downloaded + " Skipped:" + batchJob[i].Skipped + Environment.NewLine + "Downloading: " + post.FileUrl;
+                                        //Choose the correct urls
+                                        var targetUrl = post.FileUrl;
+                                        if (_ImageSize == "Thumb")
+                                        {
+                                            targetUrl = post.PreviewUrl;
+                                        }
+                                        else if (_ImageSize == "Jpeg")
+                                        {
+                                           targetUrl = post.JpegUrl;
+                                        }
+                                        else if (_ImageSize == "Sample")
+                                        {
+                                            targetUrl = post.SampleUrl;
+                                        }
+
+                                        batchJob[i].Status = "Downloading: " + targetUrl;
                                         BeginInvoke(del);
                                         //if (post.Provider == null) post.Provider = cbxProvider.Text;
                                         //if (post.Query == null) post.Query = txtQuery.Text;
                                         //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
 
                                         string filename = "";
-                                        if (!string.IsNullOrWhiteSpace(post.FileUrl))
+                                        if (!string.IsNullOrWhiteSpace(targetUrl))
                                         {
                                             var format = new DanbooruFilenameFormat()
                                             {
@@ -830,7 +846,7 @@ namespace DanbooruDownloader3
                                                 BaseFolder = txtSaveFolder.Text,
                                                 MissingTagReplacement = txtTagReplacement.Text
                                             };
-                                            string extension = post.FileUrl.Substring(post.FileUrl.LastIndexOf('.'));
+                                            string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
                                             if (chkRenameJpeg.Checked)
                                             {
                                                 if (extension.EndsWith(".jpeg")) extension = ".jpg";
@@ -854,9 +870,9 @@ namespace DanbooruDownloader3
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
                                             download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + post.FileUrl);
+                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
                                         }
-                                        if (String.IsNullOrWhiteSpace(post.FileUrl))
+                                        if (String.IsNullOrWhiteSpace(targetUrl))
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
@@ -868,7 +884,7 @@ namespace DanbooruDownloader3
                                         if (download)
                                         {
                                             if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                                            UpdateLog("DoBatchJob", "Download: " + post.FileUrl);
+                                            UpdateLog("DoBatchJob", "Download: " + targetUrl);
                                             _clientBatch.Referer = post.Referer;
 
                                             currRetry = 0;
@@ -882,7 +898,7 @@ namespace DanbooruDownloader3
                                                         UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
                                                         File.Delete(filename2);
                                                     }
-                                                    _clientBatch.DownloadFile(post.FileUrl, filename2);
+                                                    _clientBatch.DownloadFile(targetUrl, filename2);
                                                     File.Move(filename2, filename);
                                                     UpdateLog("DoBatchJob", "Saved To: " + filename);
 
@@ -922,7 +938,7 @@ namespace DanbooruDownloader3
                                         }
                                     }
                                 }
-                                batchJob[i].Status += Environment.NewLine + "Done.";
+                                batchJob[i].Status = " ==> Done.";
                             }
                             catch (Exception ex)
                             {
@@ -964,8 +980,8 @@ namespace DanbooruDownloader3
                                 {
                                     flag = false;
                                 }
-                                batchJob[i].Status += " Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
-                                if (string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
+                                batchJob[i].Status = " ==> Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
+                                if (!string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
                                 else UpdateLog("DoBatchJob", "Error: " + message, ex);
 
                                 if (cbxAbortOnError.Checked)
@@ -1707,6 +1723,7 @@ namespace DanbooruDownloader3
         }
         #endregion
 
+        private string _ImageSize;
         private void cbxImageSize_TextChanged(object sender, EventArgs e)
         {
             if (cbxImageSize.Text == "Thumb")
@@ -1729,6 +1746,7 @@ namespace DanbooruDownloader3
                 dgvList.Columns["colUrl"].DataPropertyName = "FileUrl";
                 dgvDownload.Columns["colUrl2"].DataPropertyName = "FileUrl";
             }
+            _ImageSize = cbxImageSize.Text;
             dgvList.Refresh();
             dgvDownload.Refresh();
         }
