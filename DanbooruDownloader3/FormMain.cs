@@ -249,6 +249,12 @@ namespace DanbooruDownloader3
             {
                 _isDownloading = true;
 
+                // Update the progress bar
+                tsProgress2.Visible = true;
+                tsProgress2.Maximum = row.DataGridView.Rows.Count;
+                tsProgress2.Value = row.Index > tsProgress2.Maximum ? tsProgress2.Maximum : row.Index + 1;
+                tsProgressBar.Style = ProgressBarStyle.Continuous;
+
                 if (_isPaused)
                 {
                     DialogResult result =  MessageBox.Show("Paused." + Environment.NewLine + "Click OK to continue.","Download",MessageBoxButtons.OKCancel);
@@ -267,101 +273,88 @@ namespace DanbooruDownloader3
                 tsStatus.Text = "Downloading Post #" + row.Index;
                 
                 if (!_downloadList[row.Index].Completed)
-                {
-                    #region download file
+                {                    
                     row.Selected = true;
 
                     if (chkAutoFocus.Checked) dgvDownload.FirstDisplayedScrollingRowIndex = row.Index;
 
                     string url = (string)row.Cells["colUrl2"].Value;
 
-                    // no url given
-                    if (string.IsNullOrWhiteSpace(url))
+                    // check if url valid
+                    if (!string.IsNullOrWhiteSpace(url))
                     {
-                        row.Cells["colProgress2"].Value = "No file_url, probably deleted.";
-                        txtLog.Text += "[DownloadRow] no file_url for row: " + row.Index;
-                        Program.Logger.Info("[DownloadRow] no file_url for row: " + row.Index);
+                        if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
+                        if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
+                        if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
 
-                        if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
+                        var format = new DanbooruFilenameFormat()
                         {
-                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
+                            FilenameFormat = txtFilenameFormat.Text,
+                            Limit = Convert.ToInt32(txtFilenameLength.Text),
+                            BaseFolder = txtSaveFolder.Text,
+                            MissingTagReplacement = txtTagReplacement.Text
+                        };
+                        string extension = url.Substring(url.LastIndexOf('.'));
+                        if (chkRenameJpeg.Checked)
+                        {
+                            if (extension.EndsWith(".jpeg")) extension = ".jpg";
+                        }
+                        string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + extension;
+
+                        if (chkOverwrite.Checked || !File.Exists(filename))
+                        {
+                            string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+                            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
+                            row.Cells["colFilename"].Value = filename;
+                            var filename2 = filename + ".!tmp";
+                            if (File.Exists(filename2))
+                            {
+                                row.Cells["colProgress2"].Value = "Deleting temporary file: " + filename2;
+                                File.Delete(filename2);
+                            }
+
+                            // the actual download
+                            _clientFile.Referer = _downloadList[row.Index].Referer;
+                            if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
+                            Program.Logger.Info("[DownloadRow] Downloading " + url);
+                            Program.Logger.Info("[DownloadRow] Saved to    " + filename);
+                            row.Cells["colDownloadStart2"].Value = DateTime.Now;
+                            _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
+
+                            return;
                         }
                         else
-                        {
-                            // no more row
-                            _isDownloading = false;
-                            _isPaused = false;
-                            EnableDownloadControls(true);
+                        {   
+                            // File exist and overwrite is no checked.
+                            row.Cells["colProgress2"].Value = "File exists!";
+                            txtLog.Text += "[DownloadRow] File exists: " + filename;
+                            Program.Logger.Info("[DownloadRow] File exists: " + filename);
                         }
-                        return;
-                    }
-
-                    if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
-                    if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
-                    if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
-
-                    var format = new DanbooruFilenameFormat() {
-                        FilenameFormat = txtFilenameFormat.Text,
-                        Limit = Convert.ToInt32(txtFilenameLength.Text),
-                        BaseFolder = txtSaveFolder.Text,
-                        MissingTagReplacement = txtTagReplacement.Text};
-                    string extension = url.Substring(url.LastIndexOf('.'));
-                    if (chkRenameJpeg.Checked)
-                    {
-                        if (extension.EndsWith(".jpeg")) extension = ".jpg";
-                    }
-                    string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + extension;
-                                        
-                    if ((!chkOverwrite.Checked && File.Exists(filename)))
-                    {
-                        row.Cells["colProgress2"].Value = "File exists!";
-                        txtLog.Text += "[DownloadRow] File exists: " + filename;
-                        Program.Logger.Info("[DownloadRow] File exists: " + filename);
-                        if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
-                        {
-                            DownloadRows(dgvDownload.Rows[row.Index + 1]);
-                        }
-                        else
-                        {
-                            // no more row
-                            _isDownloading = false;
-                            _isPaused = false;
-                            EnableDownloadControls(true);
-                        }                        
                     }
                     else
                     {
-                        string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-                        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-
-                        row.Cells["colFilename"].Value = filename;
-                        var filename2 = filename + ".!tmp";
-                        if (File.Exists(filename2))
-                        {
-                            row.Cells["colProgress2"].Value = "Deleting temporary file: " + filename2;
-                            File.Delete(filename2);
-                        }
-
-                        // the actual download
-                        _clientFile.Referer = _downloadList[row.Index].Referer;
-                        if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
-                        Program.Logger.Info("[DownloadRow] Downloading " + url);
-                        Program.Logger.Info("[DownloadRow] Saved to    " + filename);
-                        _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
+                        // no valid url
+                        row.Cells["colProgress2"].Value = "No file_url, probably deleted.";
+                        txtLog.Text += "[DownloadRow] no file_url for row: " + row.Index;
+                        Program.Logger.Info("[DownloadRow] no file_url for row: " + row.Index);
                     }
-                    #endregion
+                    
                 }
-                else if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
-                {
-                    // do the next row
+
+                // proceed with the next row
+                if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
+                {                    
                     DownloadRows(dgvDownload.Rows[row.Index + 1]);
                 }
                 else
                 {
                     // no more row
-                    _isDownloading = false;
                     _isPaused = false;
+                    _isDownloading = false;
+                    ShowMessage("Download List", "Download Complete!");
                     EnableDownloadControls(true);
+                    tsProgress2.Visible = false;
                 }
             }
         }
@@ -422,7 +415,7 @@ namespace DanbooruDownloader3
             {
                 _isMorePost = false;
                 _isLoadingList = false;
-                MessageBox.Show("No Posts!","Listing");
+                ShowMessage("Main", "No Posts!");
             }
         }
                 
@@ -1313,7 +1306,7 @@ namespace DanbooruDownloader3
 
                 if (i > MAX_FILENAME_LENGTH)
                 {
-                    MessageBox.Show("Maximum " + MAX_FILENAME_LENGTH.ToString() + "!", "Filename Length Limit");
+                    ShowMessage("Filename Length Limit", "Maximum " + MAX_FILENAME_LENGTH.ToString() + "!");
                     txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
                 }
 
@@ -1360,20 +1353,20 @@ namespace DanbooruDownloader3
                         }
                         else
                         {
-                            MessageBox.Show("Please select save folder!", "Save Folder");
+                            ShowMessage("Save Folder", "Please select save folder!");
                             return;
                         }
 
                     }
                     if (txtSaveFolder.Text.Length > 0)
                     {
-                        DownloadRows(dgvDownload.Rows[0]);
                         EnableDownloadControls(false);
+                        DownloadRows(dgvDownload.Rows[0]);                        
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No image to download!", "Download List");
+                    ShowMessage("Download List", "No image to download!");
                 }
             }
         }

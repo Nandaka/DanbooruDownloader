@@ -321,8 +321,8 @@ namespace DanbooruDownloader3
             }
             else
             {
-                FlashWindow(this.Handle, true);
-                MessageBox.Show(text, title);
+                if(this.WindowState == FormWindowState.Minimized || !this.Focused) FlashWindow(this.Handle, true);
+                MessageBox.Show(this, text, title, MessageBoxButtons.OK);
             }
         }
     }
