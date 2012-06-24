@@ -178,6 +178,7 @@ namespace DanbooruDownloader3
         private void UpdateStatus()
         {
             tsStatus.Text = "Query URL: " + GetQueryUrl();
+            tsStatus.Text = tsStatus.Text.Replace("&", "&&");
         }
 
         delegate void SetUpdateStatusCallback(string message);
@@ -202,6 +203,7 @@ namespace DanbooruDownloader3
         /// <returns></returns>
         public string GetQueryUrl(string authString = "")
         {
+            if (_currProvider == null) return "";
             if (chkGenerate.Checked)
             {
                 txtQuery.Text = "";
@@ -219,16 +221,22 @@ namespace DanbooruDownloader3
                     txtQuery.Text += txtTags.Text.Length > 0 ? "tags=" + txtTags.Text.Replace(' ', '+') : "";
 
                     //Rating
-                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxRating.SelectedIndex > 0 ? "+" : cbxRating.SelectedIndex > 0 ? "tags=" : "";
-                    txtQuery.Text += chkNotRating.Checked && cbxRating.SelectedIndex > 0 ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue;
+                    if (cbxRating.SelectedIndex > 0)
+                    {
+                        txtQuery.Text += txtQuery.Text.Length > 0 ? "+" : "tags=";
+                        txtQuery.Text += chkNotRating.Checked ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue;
+                    }
 
                     //Source
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtSource.Text.Length > 0 ? "+" : txtSource.Text.Length > 0 ? "tags=" : "";
                     txtQuery.Text += txtSource.Text.Length > 0 ? "source:" + txtSource.Text : "";
 
                     //Order
-                    txtQuery.Text += txtQuery.Text.Length > 0 && cbxOrder.SelectedIndex > 0 ? "+" : cbxOrder.SelectedIndex > 0 ? "tags=" : "";
-                    txtQuery.Text += cbxOrder.SelectedValue;
+                    if (cbxOrder.SelectedIndex > 0)
+                    {
+                        txtQuery.Text += txtQuery.Text.Length > 0 ? "+" : "tags=";
+                        txtQuery.Text += cbxOrder.SelectedValue;
+                    }
 
                     //Limit
                     txtQuery.Text += txtQuery.Text.Length > 0 && txtLimit.Text.Length > 0 ? "&" : "";

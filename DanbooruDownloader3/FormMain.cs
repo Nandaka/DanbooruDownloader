@@ -1712,9 +1712,15 @@ namespace DanbooruDownloader3
             }
         }
 
+        /// <summary>
+        /// Manual query string
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtQuery_TextChanged(object sender, EventArgs e)
         {
-            tsStatus.Text = "Query URL: " + _currProvider.Url + txtQuery.Text;
+            tsStatus.Text = "Query URL: " + _currProvider.Url + "?" + txtQuery.Text;
+            tsStatus.Text = tsStatus.Text.Replace("&", "&&");
         } 
 
         private void chkLogging_CheckedChanged(object sender, EventArgs e)
