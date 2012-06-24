@@ -1757,5 +1757,26 @@ namespace DanbooruDownloader3
             dgvDownload.Refresh();
         }
 
+        private void dgvDownload_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvDownload.Columns["colUrl2"].Index//||
+                //e.ColumnIndex == dgvDownload.Columns["colSourceUrl"].Index ||
+                //e.ColumnIndex == dgvDownload.Columns["colReferer"].Index
+                 )
+            {
+                if (e.RowIndex == -1) return;
+                // Load web browser to the image url
+                string url = dgvDownload.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                // preprocess Pixiv Url
+                var match = pixivUrl.Match(url);
+                if (match.Success)
+                {
+                    url = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + match.Groups[1].Value;
+                }
+
+                Process.Start(url);
+            }
+
+        }
     }
 }
