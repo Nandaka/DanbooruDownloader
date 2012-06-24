@@ -7,6 +7,7 @@ using DanbooruDownloader3.Entity;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
 
 namespace DanbooruDownloader3
 {
@@ -181,8 +182,8 @@ namespace DanbooruDownloader3
             tsStatus.Text = tsStatus.Text.Replace("&", "&&");
         }
 
-        delegate void SetUpdateStatusCallback(string message);
-        private void UpdateStatus2(string message)
+        delegate void SetUpdateStatusCallback(string message, bool showDialogBox);
+        private void UpdateStatus2(string message, bool showDialogBox = false)
         {
             if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated) 
             {
@@ -191,8 +192,12 @@ namespace DanbooruDownloader3
             }
             else
             {
-                if (IsDisposed) return;
+                if (IsDisposed && IsHandleCreated) return;
                 tsStatus.Text = message;
+                if (showDialogBox)
+                {
+                    ShowMessage("Batch Download", message);
+                }
             }
         }
 
@@ -296,6 +301,28 @@ namespace DanbooruDownloader3
             {
                 Program.Logger.Info("Turning off logging");
                 Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.Off;
+            }
+        }
+
+        /// <summary>
+        /// Flash the taskbar, see: http://social.msdn.microsoft.com/forums/en-US/Vsexpressvcs/thread/237b1d13-d2a5-467b-abc5-d793ce472076
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="bInvert"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
+
+        public void ShowMessage(string title, string text)
+        {
+            if (notifyIcon1.Visible)
+            {
+                notifyIcon1.ShowBalloonTip(5000, title, text, ToolTipIcon.Info);
+            }
+            else
+            {
+                FlashWindow(this.Handle, true);
+                MessageBox.Show(text, title);
             }
         }
     }

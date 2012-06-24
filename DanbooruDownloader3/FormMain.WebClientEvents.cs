@@ -252,7 +252,7 @@ namespace DanbooruDownloader3
             {
                 _isPaused = false;
                 _isDownloading = false;
-                MessageBox.Show("Complete!", "Download Files");
+                ShowMessage("Download List", "Download Complete!");
                 EnableDownloadControls(true);
             }
         }

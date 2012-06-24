@@ -1025,7 +1025,7 @@ namespace DanbooruDownloader3
                 }
             }
             BeginInvoke(bjd, new object[] { true });
-            UpdateStatus2("Batch Job Completed");
+            UpdateStatus2("Batch Job Completed!", true);
             {
                 // hide progress bar
                 object[] myArray = new object[2];
