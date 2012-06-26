@@ -455,5 +455,17 @@ namespace DanbooruDownloader3.Properties {
                 this["ImageSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public string AutoCompleteLimit {
+            get {
+                return ((string)(this["AutoCompleteLimit"]));
+            }
+            set {
+                this["AutoCompleteLimit"] = value;
+            }
+        }
     }
 }

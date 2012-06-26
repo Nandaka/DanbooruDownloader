@@ -14,6 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader20120626
+  - 
+
 - DanbooruDownloader20120526
   - Add option to download the full/resized/jpeg/thumb image size.
   - Update message for batch download.

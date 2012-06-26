@@ -1785,8 +1785,17 @@ namespace DanbooruDownloader3
                 string keyword = txtTags.Text.Split(' ').LastOrDefault();
                 if (!String.IsNullOrWhiteSpace(keyword))
                 {
+                    int limit = 200;
+                    try
+                    {
+                        limit = Convert.ToInt32(txtAutoCompleteLimit.Text);
+
+                    } catch (Exception)
+                    {
+                        txtAutoCompleteLimit.Text = limit.ToString();
+                    }
                     // get the autocomplete candidate
-                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(200).ToArray();
+                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToArray();
                     if (candidate.Length > 1)
                     {
                         lbxAutoComplete.DataSource = candidate;
