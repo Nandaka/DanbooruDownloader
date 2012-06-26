@@ -31,13 +31,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -55,8 +55,38 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.gbxSearch = new System.Windows.Forms.GroupBox();
+            this.lbxAutoComplete = new System.Windows.Forms.ListBox();
+            this.pbIcon = new System.Windows.Forms.PictureBox();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnSearchHelp = new System.Windows.Forms.Button();
+            this.btnListCancel = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.rbJson = new System.Windows.Forms.RadioButton();
+            this.btnGet = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chkNotRating = new System.Windows.Forms.CheckBox();
+            this.cbxRating = new System.Windows.Forms.ComboBox();
+            this.cbxProvider = new System.Windows.Forms.ComboBox();
+            this.rbXml = new System.Windows.Forms.RadioButton();
+            this.cbxOrder = new System.Windows.Forms.ComboBox();
+            this.txtSource = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtPage = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtLimit = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtTags = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.chkGenerate = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtQuery = new System.Windows.Forms.TextBox();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
             this.chkAutoLoadNext = new System.Windows.Forms.CheckBox();
             this.chkAppendList = new System.Windows.Forms.CheckBox();
@@ -89,33 +119,6 @@
             this.btnBrowseListFile = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtListFile = new System.Windows.Forms.TextBox();
-            this.gbxSearch = new System.Windows.Forms.GroupBox();
-            this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnSearchHelp = new System.Windows.Forms.Button();
-            this.btnListCancel = new System.Windows.Forms.Button();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.rbJson = new System.Windows.Forms.RadioButton();
-            this.btnGet = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkNotRating = new System.Windows.Forms.CheckBox();
-            this.cbxRating = new System.Windows.Forms.ComboBox();
-            this.cbxProvider = new System.Windows.Forms.ComboBox();
-            this.rbXml = new System.Windows.Forms.RadioButton();
-            this.cbxOrder = new System.Windows.Forms.ComboBox();
-            this.txtSource = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtPage = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtLimit = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTags = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.chkGenerate = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtQuery = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btnBrowseFolder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -245,13 +248,13 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.tagsColumn1 = new DanbooruDownloader3.TagsColumn();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tagsColumn2 = new DanbooruDownloader3.TagsColumn();
+            this.tagsColumn1 = new DanbooruDownloader3.TagsColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -271,16 +274,17 @@
             this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tagsColumn2 = new DanbooruDownloader3.TagsColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.gbxSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.gbxDanbooru.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.contextMenuStrip3.SuspendLayout();
             this.gbxList.SuspendLayout();
-            this.gbxSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDownload)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -317,10 +321,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.gbxSearch);
             this.tabPage1.Controls.Add(this.gbxDanbooru);
             this.tabPage1.Controls.Add(this.dgvList);
             this.tabPage1.Controls.Add(this.gbxList);
-            this.tabPage1.Controls.Add(this.gbxSearch);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -328,6 +332,327 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // gbxSearch
+            // 
+            this.gbxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxSearch.Controls.Add(this.lbxAutoComplete);
+            this.gbxSearch.Controls.Add(this.pbIcon);
+            this.gbxSearch.Controls.Add(this.btnEdit);
+            this.gbxSearch.Controls.Add(this.btnSearchHelp);
+            this.gbxSearch.Controls.Add(this.btnListCancel);
+            this.gbxSearch.Controls.Add(this.linkLabel1);
+            this.gbxSearch.Controls.Add(this.rbJson);
+            this.gbxSearch.Controls.Add(this.btnGet);
+            this.gbxSearch.Controls.Add(this.label1);
+            this.gbxSearch.Controls.Add(this.chkNotRating);
+            this.gbxSearch.Controls.Add(this.cbxRating);
+            this.gbxSearch.Controls.Add(this.cbxProvider);
+            this.gbxSearch.Controls.Add(this.rbXml);
+            this.gbxSearch.Controls.Add(this.cbxOrder);
+            this.gbxSearch.Controls.Add(this.txtSource);
+            this.gbxSearch.Controls.Add(this.label8);
+            this.gbxSearch.Controls.Add(this.label7);
+            this.gbxSearch.Controls.Add(this.label6);
+            this.gbxSearch.Controls.Add(this.txtPage);
+            this.gbxSearch.Controls.Add(this.label5);
+            this.gbxSearch.Controls.Add(this.txtLimit);
+            this.gbxSearch.Controls.Add(this.label4);
+            this.gbxSearch.Controls.Add(this.txtTags);
+            this.gbxSearch.Controls.Add(this.label3);
+            this.gbxSearch.Controls.Add(this.chkGenerate);
+            this.gbxSearch.Controls.Add(this.label2);
+            this.gbxSearch.Controls.Add(this.txtQuery);
+            this.gbxSearch.Location = new System.Drawing.Point(8, 6);
+            this.gbxSearch.Name = "gbxSearch";
+            this.gbxSearch.Size = new System.Drawing.Size(640, 158);
+            this.gbxSearch.TabIndex = 0;
+            this.gbxSearch.TabStop = false;
+            this.gbxSearch.Text = "1. Search";
+            // 
+            // lbxAutoComplete
+            // 
+            this.lbxAutoComplete.FormattingEnabled = true;
+            this.lbxAutoComplete.Location = new System.Drawing.Point(42, 93);
+            this.lbxAutoComplete.Name = "lbxAutoComplete";
+            this.lbxAutoComplete.Size = new System.Drawing.Size(238, 69);
+            this.lbxAutoComplete.TabIndex = 10;
+            this.lbxAutoComplete.Visible = false;
+            this.lbxAutoComplete.DataSourceChanged += new System.EventHandler(this.lbxAutoComplete_DataSourceChanged);
+            this.lbxAutoComplete.DoubleClick += new System.EventHandler(this.lbxAutoComplete_DoubleClick);
+            this.lbxAutoComplete.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbxAutoComplete_KeyDown);
+            this.lbxAutoComplete.Leave += new System.EventHandler(this.lbxAutoComplete_Leave);
+            // 
+            // pbIcon
+            // 
+            this.pbIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbIcon.Location = new System.Drawing.Point(361, 21);
+            this.pbIcon.Name = "pbIcon";
+            this.pbIcon.Size = new System.Drawing.Size(16, 16);
+            this.pbIcon.TabIndex = 19;
+            this.pbIcon.TabStop = false;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEdit.Location = new System.Drawing.Point(559, 17);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 13;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnSearchHelp
+            // 
+            this.btnSearchHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearchHelp.Location = new System.Drawing.Point(559, 70);
+            this.btnSearchHelp.Name = "btnSearchHelp";
+            this.btnSearchHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnSearchHelp.TabIndex = 14;
+            this.btnSearchHelp.Text = "Search Help";
+            this.btnSearchHelp.UseVisualStyleBackColor = true;
+            this.btnSearchHelp.Click += new System.EventHandler(this.btnSearchHelp_Click);
+            // 
+            // btnListCancel
+            // 
+            this.btnListCancel.Enabled = false;
+            this.btnListCancel.Location = new System.Drawing.Point(432, 122);
+            this.btnListCancel.Name = "btnListCancel";
+            this.btnListCancel.Size = new System.Drawing.Size(67, 23);
+            this.btnListCancel.TabIndex = 15;
+            this.btnListCancel.Text = "Cancel";
+            this.btnListCancel.UseVisualStyleBackColor = true;
+            this.btnListCancel.Click += new System.EventHandler(this.btnListCancel_Click);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel1.Location = new System.Drawing.Point(524, 44);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(110, 23);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "                                          ";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // rbJson
+            // 
+            this.rbJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbJson.AutoSize = true;
+            this.rbJson.Location = new System.Drawing.Point(383, 20);
+            this.rbJson.Name = "rbJson";
+            this.rbJson.Size = new System.Drawing.Size(47, 17);
+            this.rbJson.TabIndex = 10;
+            this.rbJson.TabStop = true;
+            this.rbJson.Text = "Json";
+            this.rbJson.UseVisualStyleBackColor = true;
+            // 
+            // btnGet
+            // 
+            this.btnGet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGet.Location = new System.Drawing.Point(505, 122);
+            this.btnGet.Name = "btnGet";
+            this.btnGet.Size = new System.Drawing.Size(129, 23);
+            this.btnGet.TabIndex = 16;
+            this.btnGet.Text = "Get";
+            this.btnGet.UseVisualStyleBackColor = true;
+            this.btnGet.Click += new System.EventHandler(this.btnGet_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Provider";
+            // 
+            // chkNotRating
+            // 
+            this.chkNotRating.AutoSize = true;
+            this.chkNotRating.Location = new System.Drawing.Point(383, 126);
+            this.chkNotRating.Name = "chkNotRating";
+            this.chkNotRating.Size = new System.Drawing.Size(43, 17);
+            this.chkNotRating.TabIndex = 9;
+            this.chkNotRating.Text = "Not";
+            this.chkNotRating.UseVisualStyleBackColor = true;
+            this.chkNotRating.CheckedChanged += new System.EventHandler(this.chkRating_CheckedChanged);
+            // 
+            // cbxRating
+            // 
+            this.cbxRating.FormattingEnabled = true;
+            this.cbxRating.Location = new System.Drawing.Point(281, 124);
+            this.cbxRating.Name = "cbxRating";
+            this.cbxRating.Size = new System.Drawing.Size(96, 21);
+            this.cbxRating.TabIndex = 8;
+            this.cbxRating.SelectedIndexChanged += new System.EventHandler(this.cbxRating_SelectedIndexChanged);
+            // 
+            // cbxProvider
+            // 
+            this.cbxProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxProvider.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbxProvider.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxProvider.FormattingEnabled = true;
+            this.cbxProvider.Location = new System.Drawing.Point(58, 19);
+            this.cbxProvider.Name = "cbxProvider";
+            this.cbxProvider.Size = new System.Drawing.Size(297, 21);
+            this.cbxProvider.TabIndex = 0;
+            this.cbxProvider.SelectedIndexChanged += new System.EventHandler(this.cbxProvider_SelectedIndexChanged);
+            // 
+            // rbXml
+            // 
+            this.rbXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbXml.AutoSize = true;
+            this.rbXml.Location = new System.Drawing.Point(436, 20);
+            this.rbXml.Name = "rbXml";
+            this.rbXml.Size = new System.Drawing.Size(42, 17);
+            this.rbXml.TabIndex = 11;
+            this.rbXml.TabStop = true;
+            this.rbXml.Text = "Xml";
+            this.rbXml.UseVisualStyleBackColor = true;
+            // 
+            // cbxOrder
+            // 
+            this.cbxOrder.FormattingEnabled = true;
+            this.cbxOrder.Location = new System.Drawing.Point(135, 124);
+            this.cbxOrder.Name = "cbxOrder";
+            this.cbxOrder.Size = new System.Drawing.Size(96, 21);
+            this.cbxOrder.TabIndex = 7;
+            this.cbxOrder.SelectedIndexChanged += new System.EventHandler(this.cbxOrder_SelectedIndexChanged);
+            // 
+            // txtSource
+            // 
+            this.txtSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSource.Location = new System.Drawing.Point(135, 98);
+            this.txtSource.Name = "txtSource";
+            this.txtSource.Size = new System.Drawing.Size(499, 20);
+            this.txtSource.TabIndex = 5;
+            this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(88, 101);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 13);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Source";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(237, 127);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(38, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Rating";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(88, 127);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Order by";
+            // 
+            // txtPage
+            // 
+            this.txtPage.Location = new System.Drawing.Point(42, 124);
+            this.txtPage.Name = "txtPage";
+            this.txtPage.Size = new System.Drawing.Size(40, 20);
+            this.txtPage.TabIndex = 6;
+            this.txtPage.TextChanged += new System.EventHandler(this.txtPage_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 127);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Page";
+            // 
+            // txtLimit
+            // 
+            this.txtLimit.Location = new System.Drawing.Point(42, 98);
+            this.txtLimit.Name = "txtLimit";
+            this.txtLimit.Size = new System.Drawing.Size(40, 20);
+            this.txtLimit.TabIndex = 4;
+            this.txtLimit.TextChanged += new System.EventHandler(this.txtLimit_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Limit";
+            // 
+            // txtTags
+            // 
+            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTags.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtTags.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txtTags.Location = new System.Drawing.Point(42, 72);
+            this.txtTags.Name = "txtTags";
+            this.txtTags.Size = new System.Drawing.Size(511, 20);
+            this.txtTags.TabIndex = 3;
+            this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
+            this.txtTags.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTags_KeyDown);
+            this.txtTags.Leave += new System.EventHandler(this.txtTags_Leave);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 75);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Tag";
+            // 
+            // chkGenerate
+            // 
+            this.chkGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkGenerate.AutoSize = true;
+            this.chkGenerate.Checked = true;
+            this.chkGenerate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkGenerate.Location = new System.Drawing.Point(484, 21);
+            this.chkGenerate.Name = "chkGenerate";
+            this.chkGenerate.Size = new System.Drawing.Size(76, 17);
+            this.chkGenerate.TabIndex = 12;
+            this.chkGenerate.Text = "Generated";
+            this.chkGenerate.UseVisualStyleBackColor = true;
+            this.chkGenerate.CheckedChanged += new System.EventHandler(this.chkGenerate_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Query";
+            // 
+            // txtQuery
+            // 
+            this.txtQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtQuery.Enabled = false;
+            this.txtQuery.Location = new System.Drawing.Point(58, 46);
+            this.txtQuery.Name = "txtQuery";
+            this.txtQuery.Size = new System.Drawing.Size(460, 20);
+            this.txtQuery.TabIndex = 2;
+            this.txtQuery.TextChanged += new System.EventHandler(this.txtQuery_TextChanged);
             // 
             // gbxDanbooru
             // 
@@ -718,311 +1043,6 @@
             this.txtListFile.Name = "txtListFile";
             this.txtListFile.Size = new System.Drawing.Size(146, 20);
             this.txtListFile.TabIndex = 2;
-            // 
-            // gbxSearch
-            // 
-            this.gbxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxSearch.Controls.Add(this.pbIcon);
-            this.gbxSearch.Controls.Add(this.btnEdit);
-            this.gbxSearch.Controls.Add(this.btnSearchHelp);
-            this.gbxSearch.Controls.Add(this.btnListCancel);
-            this.gbxSearch.Controls.Add(this.linkLabel1);
-            this.gbxSearch.Controls.Add(this.rbJson);
-            this.gbxSearch.Controls.Add(this.btnGet);
-            this.gbxSearch.Controls.Add(this.label1);
-            this.gbxSearch.Controls.Add(this.chkNotRating);
-            this.gbxSearch.Controls.Add(this.cbxRating);
-            this.gbxSearch.Controls.Add(this.cbxProvider);
-            this.gbxSearch.Controls.Add(this.rbXml);
-            this.gbxSearch.Controls.Add(this.cbxOrder);
-            this.gbxSearch.Controls.Add(this.txtSource);
-            this.gbxSearch.Controls.Add(this.label8);
-            this.gbxSearch.Controls.Add(this.label7);
-            this.gbxSearch.Controls.Add(this.label6);
-            this.gbxSearch.Controls.Add(this.txtPage);
-            this.gbxSearch.Controls.Add(this.label5);
-            this.gbxSearch.Controls.Add(this.txtLimit);
-            this.gbxSearch.Controls.Add(this.label4);
-            this.gbxSearch.Controls.Add(this.txtTags);
-            this.gbxSearch.Controls.Add(this.label3);
-            this.gbxSearch.Controls.Add(this.chkGenerate);
-            this.gbxSearch.Controls.Add(this.label2);
-            this.gbxSearch.Controls.Add(this.txtQuery);
-            this.gbxSearch.Location = new System.Drawing.Point(8, 6);
-            this.gbxSearch.Name = "gbxSearch";
-            this.gbxSearch.Size = new System.Drawing.Size(640, 158);
-            this.gbxSearch.TabIndex = 0;
-            this.gbxSearch.TabStop = false;
-            this.gbxSearch.Text = "1. Search";
-            // 
-            // pbIcon
-            // 
-            this.pbIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbIcon.Location = new System.Drawing.Point(361, 21);
-            this.pbIcon.Name = "pbIcon";
-            this.pbIcon.Size = new System.Drawing.Size(16, 16);
-            this.pbIcon.TabIndex = 19;
-            this.pbIcon.TabStop = false;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(559, 17);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 13;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnSearchHelp
-            // 
-            this.btnSearchHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearchHelp.Location = new System.Drawing.Point(559, 70);
-            this.btnSearchHelp.Name = "btnSearchHelp";
-            this.btnSearchHelp.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchHelp.TabIndex = 14;
-            this.btnSearchHelp.Text = "Search Help";
-            this.btnSearchHelp.UseVisualStyleBackColor = true;
-            this.btnSearchHelp.Click += new System.EventHandler(this.btnSearchHelp_Click);
-            // 
-            // btnListCancel
-            // 
-            this.btnListCancel.Enabled = false;
-            this.btnListCancel.Location = new System.Drawing.Point(432, 122);
-            this.btnListCancel.Name = "btnListCancel";
-            this.btnListCancel.Size = new System.Drawing.Size(67, 23);
-            this.btnListCancel.TabIndex = 15;
-            this.btnListCancel.Text = "Cancel";
-            this.btnListCancel.UseVisualStyleBackColor = true;
-            this.btnListCancel.Click += new System.EventHandler(this.btnListCancel_Click);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(524, 44);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(110, 23);
-            this.linkLabel1.TabIndex = 18;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "                                          ";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // rbJson
-            // 
-            this.rbJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rbJson.AutoSize = true;
-            this.rbJson.Location = new System.Drawing.Point(383, 20);
-            this.rbJson.Name = "rbJson";
-            this.rbJson.Size = new System.Drawing.Size(47, 17);
-            this.rbJson.TabIndex = 10;
-            this.rbJson.TabStop = true;
-            this.rbJson.Text = "Json";
-            this.rbJson.UseVisualStyleBackColor = true;
-            // 
-            // btnGet
-            // 
-            this.btnGet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGet.Location = new System.Drawing.Point(505, 122);
-            this.btnGet.Name = "btnGet";
-            this.btnGet.Size = new System.Drawing.Size(129, 23);
-            this.btnGet.TabIndex = 16;
-            this.btnGet.Text = "Get";
-            this.btnGet.UseVisualStyleBackColor = true;
-            this.btnGet.Click += new System.EventHandler(this.btnGet_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Provider";
-            // 
-            // chkNotRating
-            // 
-            this.chkNotRating.AutoSize = true;
-            this.chkNotRating.Location = new System.Drawing.Point(383, 126);
-            this.chkNotRating.Name = "chkNotRating";
-            this.chkNotRating.Size = new System.Drawing.Size(43, 17);
-            this.chkNotRating.TabIndex = 9;
-            this.chkNotRating.Text = "Not";
-            this.chkNotRating.UseVisualStyleBackColor = true;
-            this.chkNotRating.CheckedChanged += new System.EventHandler(this.chkRating_CheckedChanged);
-            // 
-            // cbxRating
-            // 
-            this.cbxRating.FormattingEnabled = true;
-            this.cbxRating.Location = new System.Drawing.Point(281, 124);
-            this.cbxRating.Name = "cbxRating";
-            this.cbxRating.Size = new System.Drawing.Size(96, 21);
-            this.cbxRating.TabIndex = 8;
-            this.cbxRating.SelectedIndexChanged += new System.EventHandler(this.cbxRating_SelectedIndexChanged);
-            // 
-            // cbxProvider
-            // 
-            this.cbxProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbxProvider.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbxProvider.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbxProvider.FormattingEnabled = true;
-            this.cbxProvider.Location = new System.Drawing.Point(58, 19);
-            this.cbxProvider.Name = "cbxProvider";
-            this.cbxProvider.Size = new System.Drawing.Size(297, 21);
-            this.cbxProvider.TabIndex = 0;
-            this.cbxProvider.SelectedIndexChanged += new System.EventHandler(this.cbxProvider_SelectedIndexChanged);
-            // 
-            // rbXml
-            // 
-            this.rbXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rbXml.AutoSize = true;
-            this.rbXml.Location = new System.Drawing.Point(436, 20);
-            this.rbXml.Name = "rbXml";
-            this.rbXml.Size = new System.Drawing.Size(42, 17);
-            this.rbXml.TabIndex = 11;
-            this.rbXml.TabStop = true;
-            this.rbXml.Text = "Xml";
-            this.rbXml.UseVisualStyleBackColor = true;
-            // 
-            // cbxOrder
-            // 
-            this.cbxOrder.FormattingEnabled = true;
-            this.cbxOrder.Location = new System.Drawing.Point(135, 124);
-            this.cbxOrder.Name = "cbxOrder";
-            this.cbxOrder.Size = new System.Drawing.Size(96, 21);
-            this.cbxOrder.TabIndex = 7;
-            this.cbxOrder.SelectedIndexChanged += new System.EventHandler(this.cbxOrder_SelectedIndexChanged);
-            // 
-            // txtSource
-            // 
-            this.txtSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSource.Location = new System.Drawing.Point(135, 98);
-            this.txtSource.Name = "txtSource";
-            this.txtSource.Size = new System.Drawing.Size(499, 20);
-            this.txtSource.TabIndex = 5;
-            this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(88, 101);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 13);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Source";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(237, 127);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Rating";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(88, 127);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Order by";
-            // 
-            // txtPage
-            // 
-            this.txtPage.Location = new System.Drawing.Point(42, 124);
-            this.txtPage.Name = "txtPage";
-            this.txtPage.Size = new System.Drawing.Size(40, 20);
-            this.txtPage.TabIndex = 6;
-            this.txtPage.TextChanged += new System.EventHandler(this.txtPage_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 127);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Page";
-            // 
-            // txtLimit
-            // 
-            this.txtLimit.Location = new System.Drawing.Point(42, 98);
-            this.txtLimit.Name = "txtLimit";
-            this.txtLimit.Size = new System.Drawing.Size(40, 20);
-            this.txtLimit.TabIndex = 4;
-            this.txtLimit.TextChanged += new System.EventHandler(this.txtLimit_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 101);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Limit";
-            // 
-            // txtTags
-            // 
-            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.txtTags.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtTags.Location = new System.Drawing.Point(42, 72);
-            this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(511, 20);
-            this.txtTags.TabIndex = 3;
-            this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 75);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Tag";
-            // 
-            // chkGenerate
-            // 
-            this.chkGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkGenerate.AutoSize = true;
-            this.chkGenerate.Checked = true;
-            this.chkGenerate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGenerate.Location = new System.Drawing.Point(484, 21);
-            this.chkGenerate.Name = "chkGenerate";
-            this.chkGenerate.Size = new System.Drawing.Size(76, 17);
-            this.chkGenerate.TabIndex = 12;
-            this.chkGenerate.Text = "Generated";
-            this.chkGenerate.UseVisualStyleBackColor = true;
-            this.chkGenerate.CheckedChanged += new System.EventHandler(this.chkGenerate_CheckedChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 49);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Query";
-            // 
-            // txtQuery
-            // 
-            this.txtQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtQuery.Enabled = false;
-            this.txtQuery.Location = new System.Drawing.Point(58, 46);
-            this.txtQuery.Name = "txtQuery";
-            this.txtQuery.Size = new System.Drawing.Size(460, 20);
-            this.txtQuery.TabIndex = 2;
-            this.txtQuery.TextChanged += new System.EventHandler(this.txtQuery_TextChanged);
             // 
             // tabPage4
             // 
@@ -1729,7 +1749,6 @@
             this.chkTagAutoComplete.TabIndex = 15;
             this.chkTagAutoComplete.Text = "Use Tags Auto Complete";
             this.chkTagAutoComplete.UseVisualStyleBackColor = true;
-            this.chkTagAutoComplete.CheckedChanged += new System.EventHandler(this.chkTagAutoComplete_CheckedChanged);
             // 
             // lblColorFaults
             // 
@@ -2292,7 +2311,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(928, 346);
+            this.txtLog.Size = new System.Drawing.Size(928, 413);
             this.txtLog.TabIndex = 0;
             // 
             // contextMenuStrip2
@@ -2451,17 +2470,11 @@
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 150;
             // 
-            // tagsColumn1
+            // toolStripStatusLabel1
             // 
-            this.tagsColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.tagsColumn1.DataPropertyName = "TagsEntity";
-            this.tagsColumn1.FillWeight = 300F;
-            this.tagsColumn1.HeaderText = "Tags";
-            this.tagsColumn1.MinimumWidth = 100;
-            this.tagsColumn1.Name = "tagsColumn1";
-            this.tagsColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tagsColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.tagsColumn1.Width = 300;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -2511,17 +2524,17 @@
             this.dataGridViewTextBoxColumn5.Visible = false;
             this.dataGridViewTextBoxColumn5.Width = 300;
             // 
-            // tagsColumn2
+            // tagsColumn1
             // 
-            this.tagsColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.tagsColumn2.DataPropertyName = "TagsEntity";
-            this.tagsColumn2.FillWeight = 300F;
-            this.tagsColumn2.HeaderText = "Tags";
-            this.tagsColumn2.MinimumWidth = 100;
-            this.tagsColumn2.Name = "tagsColumn2";
-            this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.tagsColumn2.Width = 300;
+            this.tagsColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.tagsColumn1.DataPropertyName = "TagsEntity";
+            this.tagsColumn1.FillWeight = 300F;
+            this.tagsColumn1.HeaderText = "Tags";
+            this.tagsColumn1.MinimumWidth = 100;
+            this.tagsColumn1.Name = "tagsColumn1";
+            this.tagsColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tagsColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.tagsColumn1.Width = 300;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -2636,9 +2649,14 @@
             // dataGridViewTextBoxColumn18
             // 
             this.dataGridViewTextBoxColumn18.DataPropertyName = "Limit";
+            this.dataGridViewTextBoxColumn18.FillWeight = 25F;
+            this.dataGridViewTextBoxColumn18.Frozen = true;
             this.dataGridViewTextBoxColumn18.HeaderText = "Limit";
+            this.dataGridViewTextBoxColumn18.MinimumWidth = 25;
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             this.dataGridViewTextBoxColumn18.ReadOnly = true;
+            this.dataGridViewTextBoxColumn18.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn18.Width = 25;
             // 
             // dataGridViewTextBoxColumn19
             // 
@@ -2688,15 +2706,20 @@
             // dataGridViewTextBoxColumn23
             // 
             this.dataGridViewTextBoxColumn23.DataPropertyName = "SaveFolder";
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn23.DefaultCellStyle = dataGridViewCellStyle23;
+            this.dataGridViewTextBoxColumn23.FillWeight = 150F;
             this.dataGridViewTextBoxColumn23.HeaderText = "Save Folder";
+            this.dataGridViewTextBoxColumn23.MinimumWidth = 150;
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.ReadOnly = true;
+            this.dataGridViewTextBoxColumn23.Width = 150;
             // 
             // dataGridViewTextBoxColumn24
             // 
             this.dataGridViewTextBoxColumn24.DataPropertyName = "Status";
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle24;
             this.dataGridViewTextBoxColumn24.FillWeight = 300F;
             this.dataGridViewTextBoxColumn24.HeaderText = "Status";
             this.dataGridViewTextBoxColumn24.MinimumWidth = 300;
@@ -2704,11 +2727,29 @@
             this.dataGridViewTextBoxColumn24.ReadOnly = true;
             this.dataGridViewTextBoxColumn24.Width = 351;
             // 
-            // toolStripStatusLabel1
+            // dataGridViewTextBoxColumn25
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.dataGridViewTextBoxColumn25.DataPropertyName = "Status";
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn25.DefaultCellStyle = dataGridViewCellStyle25;
+            this.dataGridViewTextBoxColumn25.FillWeight = 300F;
+            this.dataGridViewTextBoxColumn25.HeaderText = "Status";
+            this.dataGridViewTextBoxColumn25.MinimumWidth = 300;
+            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
+            this.dataGridViewTextBoxColumn25.ReadOnly = true;
+            this.dataGridViewTextBoxColumn25.Width = 351;
+            // 
+            // tagsColumn2
+            // 
+            this.tagsColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.tagsColumn2.DataPropertyName = "TagsEntity";
+            this.tagsColumn2.FillWeight = 300F;
+            this.tagsColumn2.HeaderText = "Tags";
+            this.tagsColumn2.MinimumWidth = 100;
+            this.tagsColumn2.Name = "tagsColumn2";
+            this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.tagsColumn2.Width = 300;
             // 
             // FormMain
             // 
@@ -2725,6 +2766,9 @@
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.gbxSearch.ResumeLayout(false);
+            this.gbxSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.gbxDanbooru.ResumeLayout(false);
             this.gbxDanbooru.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
@@ -2732,9 +2776,6 @@
             this.contextMenuStrip3.ResumeLayout(false);
             this.gbxList.ResumeLayout(false);
             this.gbxList.PerformLayout();
-            this.gbxSearch.ResumeLayout(false);
-            this.gbxSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDownload)).EndInit();
@@ -2983,6 +3024,8 @@
         private System.Windows.Forms.Button btnBrowseDefaultSave;
         private System.Windows.Forms.TextBox txtDefaultSaveFolder;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ListBox lbxAutoComplete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
     }
 }
 

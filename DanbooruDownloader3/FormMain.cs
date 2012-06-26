@@ -141,7 +141,7 @@ namespace DanbooruDownloader3
             SetTagColors();
             ToggleTagsColor();
 
-            SetTagAutoComplete();
+            //SetTagAutoComplete();
 
             ParseTagBlacklist();
 
@@ -195,18 +195,18 @@ namespace DanbooruDownloader3
             }
         }
 
-        /// <summary>
-        /// Load list of tags for auto-complete
-        /// </summary>
-        private void SetTagAutoComplete()
-        {
-            txtTags.AutoCompleteCustomSource.Clear();
-            if (chkTagAutoComplete.Checked)
-            {
-                var tagAutoComplete = DanbooruTagsDao.Instance.Tags.Tag.Select(x => x.Name).ToArray<String>();
-                txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
-            }
-        }
+        ///// <summary>
+        ///// Load list of tags for auto-complete
+        ///// </summary>
+        //private void SetTagAutoComplete()
+        //{
+        //    //txtTags.AutoCompleteCustomSource.Clear();            
+        //    //if (chkTagAutoComplete.Checked)
+        //    //{
+        //    //    var tagAutoComplete = DanbooruTagsDao.Instance.Tags.Tag.Select(x => x.Name).ToArray<String>();
+        //    //    txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
+        //    //}
+        //}
 
         /// <summary>
         /// Copy checked row from dgvList to _downloadList
@@ -1118,8 +1118,12 @@ namespace DanbooruDownloader3
         {
             UpdateStatus();
             txtPage.Text = "";
+            if (chkTagAutoComplete.Checked)
+            {
+                DoAutoComplete();
+            }
         }
-
+                
         private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateStatus();
@@ -1678,16 +1682,16 @@ namespace DanbooruDownloader3
             }
         }
 
-        private void chkTagAutoComplete_CheckedChanged(object sender, EventArgs e)
-        {
-            SetTagAutoComplete();
-        }
+        //private void chkTagAutoComplete_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    SetTagAutoComplete();
+        //}
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             DownloadTagsForm form = new DownloadTagsForm();
             form.ShowDialog();
-            SetTagAutoComplete();
+            //SetTagAutoComplete();
         }
 
         private void txtTagBlacklist_TextChanged(object sender, EventArgs e)
@@ -1772,6 +1776,28 @@ namespace DanbooruDownloader3
 
         }
 
+        #region Auto Complete Logic
+        private void DoAutoComplete()
+        {
+            // get the last word
+            if (!String.IsNullOrWhiteSpace(txtTags.Text))
+            {
+                string keyword = txtTags.Text.Split(' ').LastOrDefault();
+                if (!String.IsNullOrWhiteSpace(keyword))
+                {
+                    // get the autocomplete candidate
+                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(200).ToArray();
+                    if (candidate.Length > 1)
+                    {
+                        lbxAutoComplete.DataSource = candidate;
+                        lbxAutoComplete.SelectedIndex = -1;
+                        return;
+                    }
+                }
+            }
+            lbxAutoComplete.DataSource = null;
+        }
+
         private void btnBrowseDefaultSave_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -1779,5 +1805,102 @@ namespace DanbooruDownloader3
                 txtDefaultSaveFolder.Text = folderBrowserDialog1.SelectedPath;
             }
         }
+
+        private void lbxAutoComplete_DoubleClick(object sender, EventArgs e)
+        {
+            ReplaceKeyword();
+        }
+
+        private string ReplaceKeyword()
+        {
+            var keyword = "";
+            if (lbxAutoComplete.SelectedIndex > -1)
+            {
+                keyword = lbxAutoComplete.SelectedValue.ToString();
+                var lastSpaceIndex = txtTags.Text.LastIndexOf(' ');
+                if (lastSpaceIndex > -1)
+                {
+                    txtTags.Text = txtTags.Text.Substring(0, lastSpaceIndex + 1) + keyword;
+                }
+                else
+                {
+                    txtTags.Text = keyword;
+                }
+            }
+            return keyword;
+        }
+
+        private void txtTags_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (lbxAutoComplete.Visible)
+            {
+                if (e.KeyCode == Keys.Down)
+                {
+                    lbxAutoComplete.Focus();
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    lbxAutoComplete.DataSource = null;
+                }
+            }
+        }
+
+        private void lbxAutoComplete_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ReplaceKeyword();
+                txtTags.Focus();
+                txtTags.SelectionStart = txtTags.Text.LastIndexOf(' ') + 1;
+            }
+            else if (e.KeyCode == Keys.Back)
+            {
+                txtTags.Focus();
+                txtTags.SelectionStart = txtTags.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                lbxAutoComplete.DataSource = null;
+            }
+        }
+
+        /// <summary>
+        /// show the listbox if have item > 1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbxAutoComplete_DataSourceChanged(object sender, EventArgs e)
+        {
+            if (lbxAutoComplete.DataSource != null)
+            {
+                var ds = lbxAutoComplete.DataSource as Array;
+                if (ds.Length > 1)
+                {
+                    var location = txtTags.GetPositionFromCharIndex(txtTags.Text.LastIndexOf(' '));
+                    lbxAutoComplete.Left = location.X + txtTags.Left;
+
+                    lbxAutoComplete.Visible = true;
+                    return;
+                }
+            }
+            lbxAutoComplete.Visible = false;
+        }
+
+        private void txtTags_Leave(object sender, EventArgs e)
+        {
+            if (lbxAutoComplete.Visible && !lbxAutoComplete.Focused)
+            {
+                lbxAutoComplete.Visible = false;
+            }
+        }
+
+        private void lbxAutoComplete_Leave(object sender, EventArgs e)
+        {
+            if (!txtTags.Focused)
+            {
+                lbxAutoComplete.Visible = false;
+            }
+        }
+        #endregion
     }
 }
