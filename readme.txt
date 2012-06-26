@@ -15,7 +15,12 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 Changelog:
 =============================
 - DanbooruDownloader20120626
-  - 
+  - Add custom autocomplete for tags.
+  - Add progress bar for completed download in download list tab.
+  - Add average download speed in download list tab.
+  - Flash the windows/show notification ballon if download complete.
+  - Fix url in Download List tab
+  - Update query string generation and fix & in status bar.
 
 - DanbooruDownloader20120526
   - Add option to download the full/resized/jpeg/thumb image size.
