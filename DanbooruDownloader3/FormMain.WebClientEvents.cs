@@ -201,7 +201,7 @@ namespace DanbooruDownloader3
                 var startTime = (DateTime)row.Cells["colDownloadStart2"].Value;
                 double speed = e.BytesReceived / (TimeSpan.FromTicks(DateTime.Now.AddTicks(-startTime.Ticks).Ticks).TotalSeconds * 1024);
                 txtLog.AppendText("[clientFileDownload]" + row.Index + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
-                row.Cells["colProgress2"].Value = String.Format("Downloading: {0:0.00} of {1:0.00} Kb ({2:0.00} Kb/s)", e.BytesReceived / 1024, e.TotalBytesToReceive / 1024, speed);
+                row.Cells["colProgress2"].Value = String.Format("Downloading: {0:0.00} of {1:0.00} KB ({2:0.00} KB/s)", e.BytesReceived / 1024, e.TotalBytesToReceive / 1024, speed);
             }
             if (e.TotalBytesToReceive > 0)
             {
