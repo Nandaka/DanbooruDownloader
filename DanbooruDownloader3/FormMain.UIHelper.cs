@@ -188,7 +188,7 @@ namespace DanbooruDownloader3
             if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated) 
             {
                 SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus2);
-                this.Invoke(d, new object[] { message });
+                this.Invoke(d, new object[] { message, showDialogBox });
             }
             else
             {
