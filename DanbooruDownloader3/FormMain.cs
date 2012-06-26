@@ -1771,5 +1771,13 @@ namespace DanbooruDownloader3
             }
 
         }
+
+        private void btnBrowseDefaultSave_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtDefaultSaveFolder.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
     }
 }
