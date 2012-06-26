@@ -21,6 +21,7 @@ Changelog:
   - Flash the windows/show notification ballon if download complete.
   - Fix url in Download List tab
   - Update query string generation and fix & in status bar.
+  - Fix app crash when do batch download (v20120627)
 
 - DanbooruDownloader20120526
   - Add option to download the full/resized/jpeg/thumb image size.
