@@ -14,6 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader201207xx
+  - Add option to remember the save folder when exit.
+
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.
   - Add progress bar for completed download in download list tab.

@@ -1517,6 +1517,18 @@ namespace DanbooruDownloader3
         {
             if (_isDownloading)
                 if (MessageBox.Show("Still Downloading!", "Close Warning!", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.Cancel) e.Cancel = true;
+
+            if (chkSaveFolderWhenExit.Checked)
+            {
+                // save the contents of the folder
+                string saveFolder = txtDefaultSaveFolder.Text;
+                // reload the last setting
+                Properties.Settings.Default.Reload();
+                // Update the save folder
+                Properties.Settings.Default.SaveFolder = saveFolder;
+                // Save the setting
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void addSelectedRowsToolStripMenuItem_Click(object sender, EventArgs e)

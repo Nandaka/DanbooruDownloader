@@ -467,5 +467,17 @@ namespace DanbooruDownloader3.Properties {
                 this["AutoCompleteLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveFolderWhenExit {
+            get {
+                return ((bool)(this["SaveFolderWhenExit"]));
+            }
+            set {
+                this["SaveFolderWhenExit"] = value;
+            }
+        }
     }
 }

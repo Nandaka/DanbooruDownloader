@@ -160,6 +160,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnBrowseDefaultSave = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
@@ -234,7 +235,6 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.TagsColumn();
-            this.label24 = new System.Windows.Forms.Label();
             this.chkAutoLoadNext = new System.Windows.Forms.CheckBox();
             this.chkAppendList = new System.Windows.Forms.CheckBox();
             this.chkSaveQuery = new System.Windows.Forms.CheckBox();
@@ -260,6 +260,7 @@
             this.lblColorGeneral = new System.Windows.Forms.Label();
             this.chkUseTagColor = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
+            this.chkSaveFolderWhenExit = new System.Windows.Forms.CheckBox();
             this.txtDefaultSaveFolder = new System.Windows.Forms.TextBox();
             this.cbxImageSize = new System.Windows.Forms.ComboBox();
             this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
@@ -1568,8 +1569,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Application Settings";
             // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(491, 39);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(86, 13);
+            this.label24.TabIndex = 18;
+            this.label24.Text = "Auto Complete #";
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkSaveFolderWhenExit);
             this.groupBox3.Controls.Add(this.btnBrowseDefaultSave);
             this.groupBox3.Controls.Add(this.txtDefaultSaveFolder);
             this.groupBox3.Controls.Add(this.label22);
@@ -1599,7 +1610,7 @@
             // btnBrowseDefaultSave
             // 
             this.btnBrowseDefaultSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowseDefaultSave.Location = new System.Drawing.Point(487, 17);
+            this.btnBrowseDefaultSave.Location = new System.Drawing.Point(378, 17);
             this.btnBrowseDefaultSave.Name = "btnBrowseDefaultSave";
             this.btnBrowseDefaultSave.Size = new System.Drawing.Size(66, 23);
             this.btnBrowseDefaultSave.TabIndex = 19;
@@ -2251,15 +2262,6 @@
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
             // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(491, 39);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(86, 13);
-            this.label24.TabIndex = 18;
-            this.label24.Text = "Auto Complete #";
-            // 
             // chkAutoLoadNext
             // 
             this.chkAutoLoadNext.AutoSize = true;
@@ -2577,6 +2579,18 @@
             this.chkMinimizeTray.UseVisualStyleBackColor = true;
             this.chkMinimizeTray.CheckedChanged += new System.EventHandler(this.chkMinimizeTray_CheckedChanged);
             // 
+            // chkSaveFolderWhenExit
+            // 
+            this.chkSaveFolderWhenExit.AutoSize = true;
+            this.chkSaveFolderWhenExit.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolderWhenExit;
+            this.chkSaveFolderWhenExit.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolderWhenExit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkSaveFolderWhenExit.Location = new System.Drawing.Point(450, 21);
+            this.chkSaveFolderWhenExit.Name = "chkSaveFolderWhenExit";
+            this.chkSaveFolderWhenExit.Size = new System.Drawing.Size(103, 17);
+            this.chkSaveFolderWhenExit.TabIndex = 20;
+            this.chkSaveFolderWhenExit.Text = "Save When Exit";
+            this.chkSaveFolderWhenExit.UseVisualStyleBackColor = true;
+            // 
             // txtDefaultSaveFolder
             // 
             this.txtDefaultSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -2584,7 +2598,7 @@
             this.txtDefaultSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtDefaultSaveFolder.Location = new System.Drawing.Point(110, 19);
             this.txtDefaultSaveFolder.Name = "txtDefaultSaveFolder";
-            this.txtDefaultSaveFolder.Size = new System.Drawing.Size(371, 20);
+            this.txtDefaultSaveFolder.Size = new System.Drawing.Size(262, 20);
             this.txtDefaultSaveFolder.TabIndex = 17;
             this.txtDefaultSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
@@ -3049,6 +3063,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
         private System.Windows.Forms.TextBox txtAutoCompleteLimit;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox chkSaveFolderWhenExit;
     }
 }
 
