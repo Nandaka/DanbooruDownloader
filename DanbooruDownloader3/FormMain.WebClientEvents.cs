@@ -40,7 +40,8 @@ namespace DanbooruDownloader3
                     if (ex.InnerException.GetType() == typeof(System.Net.WebException))
                     {
                         var wex = (System.Net.WebException)ex.InnerException;
-                        if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response.Headers["Status"].ToString() != "403")
+                        var status = wex.Response != null? wex.Response.Headers["Status"] : null;
+                        if (wex.Status == WebExceptionStatus.ProtocolError && status != "403")
                         {
                             using (var response = wex.Response.GetResponseStream())
                             {

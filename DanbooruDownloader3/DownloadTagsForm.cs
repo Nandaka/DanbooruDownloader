@@ -10,6 +10,7 @@ using DanbooruDownloader3.Utils;
 using System.IO;
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Entity;
+using System.Net;
 
 namespace DanbooruDownloader3
 {
@@ -23,6 +24,15 @@ namespace DanbooruDownloader3
         {
             InitializeComponent();
             client = new ExtendedWebClient();
+            if (Properties.Settings.Default.UseProxy)
+            {
+                WebProxy proxy = new WebProxy(Properties.Settings.Default.ProxyAddress, Convert.ToInt32(Properties.Settings.Default.ProxyPort));
+                if (Properties.Settings.Default.UseProxyLogin)
+                {
+                    proxy.Credentials = new NetworkCredential(Properties.Settings.Default.ProxyUsername, Properties.Settings.Default.ProxyPassword);
+                }
+                client.Proxy = proxy;
+            }
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
         }

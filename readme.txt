@@ -23,6 +23,7 @@ Changelog:
     - You still can edit using notepad to add the password, this will be used 
       for calculating the hash and will be cleared when fetching the list for 
       the first time.
+  - DownloadTagsForm: Fix the proxy setting.
 
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.
