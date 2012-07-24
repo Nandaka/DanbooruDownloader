@@ -24,6 +24,12 @@ Changelog:
       for calculating the hash and will be cleared when fetching the list for 
       the first time.
   - DownloadTagsForm: Fix the proxy setting.
+  - Update AutoComplete behaviour.
+    - Enter = Append and select the keyword
+    - Space = Append and add space
+    - Backspace  = Delete 1 character from keyword
+    - Escape = Clear the append box
+    - Double Click = identical with Enter.
 
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.

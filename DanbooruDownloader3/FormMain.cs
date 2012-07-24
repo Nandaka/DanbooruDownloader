@@ -1801,12 +1801,14 @@ namespace DanbooruDownloader3
         }
 
         #region Auto Complete Logic
+        private string keyword;
+
         private void DoAutoComplete()
         {
             // get the last word
             if (!String.IsNullOrWhiteSpace(txtTags.Text))
             {
-                string keyword = txtTags.Text.Split(' ').LastOrDefault();
+                keyword = txtTags.Text.Split(' ').LastOrDefault();
                 if (!String.IsNullOrWhiteSpace(keyword))
                 {
                     int limit = 200;
@@ -1819,8 +1821,8 @@ namespace DanbooruDownloader3
                         txtAutoCompleteLimit.Text = limit.ToString();
                     }
                     // get the autocomplete candidate
-                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToArray();
-                    if (candidate.Length > 1)
+                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
+                    if (candidate.Count > 0)
                     {
                         lbxAutoComplete.DataSource = candidate;
                         lbxAutoComplete.SelectedIndex = -1;
@@ -1842,6 +1844,8 @@ namespace DanbooruDownloader3
         private void lbxAutoComplete_DoubleClick(object sender, EventArgs e)
         {
             ReplaceKeyword();
+            txtTags.Focus();
+            txtTags.SelectionStart = txtTags.Text.LastIndexOf(' ') + 1;
         }
 
         private string ReplaceKeyword()
@@ -1886,6 +1890,13 @@ namespace DanbooruDownloader3
                 txtTags.Focus();
                 txtTags.SelectionStart = txtTags.Text.LastIndexOf(' ') + 1;
             }
+            else if (e.KeyCode == Keys.Space)
+            {
+                ReplaceKeyword();
+                txtTags.Focus();
+                txtTags.Text += " ";
+                txtTags.SelectionStart = txtTags.Text.Length;
+            }
             else if (e.KeyCode == Keys.Back)
             {
                 txtTags.Focus();
@@ -1898,7 +1909,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// show the listbox if have item > 1
+        /// show the listbox if have item
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1906,14 +1917,17 @@ namespace DanbooruDownloader3
         {
             if (lbxAutoComplete.DataSource != null)
             {
-                var ds = lbxAutoComplete.DataSource as Array;
-                if (ds.Length > 1)
+                var ds = lbxAutoComplete.DataSource as List<String>;
+                if (ds.Count > 0)
                 {
-                    var location = txtTags.GetPositionFromCharIndex(txtTags.Text.LastIndexOf(' '));
-                    lbxAutoComplete.Left = location.X + txtTags.Left;
+                    if (ds.Count != 1 || ds[0] != keyword)
+                    {
+                        var location = txtTags.GetPositionFromCharIndex(txtTags.Text.LastIndexOf(' '));
+                        lbxAutoComplete.Left = location.X + txtTags.Left;
 
-                    lbxAutoComplete.Visible = true;
-                    return;
+                        lbxAutoComplete.Visible = true;
+                        return;
+                    }
                 }
             }
             lbxAutoComplete.Visible = false;
