@@ -119,6 +119,8 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchByParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSelectedRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.reloadThumbnailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btnBrowseFolder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -1029,23 +1031,38 @@
             // 
             this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.searchByParentToolStripMenuItem,
-            this.addSelectedRowsToolStripMenuItem});
+            this.addSelectedRowsToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.reloadThumbnailToolStripMenuItem});
             this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(171, 48);
+            this.contextMenuStrip3.Size = new System.Drawing.Size(172, 98);
+            this.contextMenuStrip3.Text = "ListGrid Menu";
             // 
             // searchByParentToolStripMenuItem
             // 
             this.searchByParentToolStripMenuItem.Name = "searchByParentToolStripMenuItem";
-            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.searchByParentToolStripMenuItem.Text = "Search by parent";
             this.searchByParentToolStripMenuItem.Click += new System.EventHandler(this.searchByParentToolStripMenuItem_Click);
             // 
             // addSelectedRowsToolStripMenuItem
             // 
             this.addSelectedRowsToolStripMenuItem.Name = "addSelectedRowsToolStripMenuItem";
-            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.addSelectedRowsToolStripMenuItem.Text = "Add selected rows";
             this.addSelectedRowsToolStripMenuItem.Click += new System.EventHandler(this.addSelectedRowsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(168, 6);
+            // 
+            // reloadThumbnailToolStripMenuItem
+            // 
+            this.reloadThumbnailToolStripMenuItem.Name = "reloadThumbnailToolStripMenuItem";
+            this.reloadThumbnailToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.reloadThumbnailToolStripMenuItem.Text = "Reload Thumbnail";
+            this.reloadThumbnailToolStripMenuItem.Click += new System.EventHandler(this.reloadThumbnailToolStripMenuItem_Click);
             // 
             // tabPage4
             // 
@@ -3064,6 +3081,8 @@
         private System.Windows.Forms.TextBox txtAutoCompleteLimit;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox chkSaveFolderWhenExit;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem reloadThumbnailToolStripMenuItem;
     }
 }
 

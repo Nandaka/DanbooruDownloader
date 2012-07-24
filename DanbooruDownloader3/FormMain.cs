@@ -1970,5 +1970,13 @@ namespace DanbooruDownloader3
             }
         }
         #endregion
+
+        private void reloadThumbnailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvList.Rows.Count > 0)
+            {
+                LoadThumbnailLater(dgvList.CurrentRow.Index);
+            }
+        }
     }
 }
