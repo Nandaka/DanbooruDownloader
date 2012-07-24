@@ -461,7 +461,13 @@ namespace DanbooruDownloader3
             string authString = "";
             if (_currProvider.UseAuth)
             {
-                authString = "login=" + _currProvider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                var hash = _currProvider.PasswordHash;
+                if (String.IsNullOrWhiteSpace(hash))
+                {
+                    hash = Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
+                    _currProvider.PasswordHash = hash;
+                }
+                authString = "login=" + _currProvider.UserName + "&password_hash=" + hash;
             }
             var queryUrl = GetQueryUrl(authString);
             Program.Logger.Info("Getting list: " + Helper.RemoveAuthInfo(queryUrl));
@@ -714,7 +720,13 @@ namespace DanbooruDownloader3
 
                             if (batchJob[i].Provider.UseAuth)
                             {
-                                string authString = "login=" + batchJob[i].Provider.UserName + "&password_hash=" + Helper.GeneratePasswordHash(batchJob[i].Provider.Password, batchJob[i].Provider.PasswordSalt);
+                                var hash = batchJob[i].Provider.PasswordHash;
+                                if (String.IsNullOrWhiteSpace(hash))
+                                {
+                                    hash = Helper.GeneratePasswordHash(batchJob[i].Provider.Password, batchJob[i].Provider.PasswordSalt);
+                                    batchJob[i].Provider.PasswordHash = hash;
+                                }
+                                string authString = "login=" + batchJob[i].Provider.UserName + "&password_hash=" + hash;
                                 url = url + "&" + authString;
                             }
                             #endregion

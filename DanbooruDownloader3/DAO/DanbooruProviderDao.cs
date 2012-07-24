@@ -47,6 +47,7 @@ namespace DanbooruDownloader3.DAO
                                             case "Password": newProvider.Password = reader.ReadElementContentAsString(); break;
                                             case "UseAuth": newProvider.UseAuth = reader.ReadElementContentAsBoolean(); break;
                                             case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
+                                            case "PasswordHash": newProvider.PasswordHash = reader.ReadElementContentAsString(); break;
                                             case "BoardType":
                                                 string type = reader.ReadElementContentAsString();
                                                 newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
@@ -81,13 +82,17 @@ namespace DanbooruDownloader3.DAO
                     propertyInfos = typeof(DanbooruProvider).GetProperties();
                     foreach (PropertyInfo info in propertyInfos)
                     {
+                        var value = info.GetValue(p, null);
+                        if(value == null) value = "";
+                        if (info.Name == "Password") value = ""; //Blank the password.
+
                         if (info.PropertyType.Name == "Boolean")
                         {
-                            writer.WriteElementString(info.Name, info.GetValue(p, null).ToString().ToLowerInvariant());
+                            writer.WriteElementString(info.Name, value.ToString().ToLowerInvariant());
                         }
                         else
                         {
-                            writer.WriteElementString(info.Name, info.GetValue(p, null).ToString());
+                            writer.WriteElementString(info.Name, value.ToString());
                         }
                     }
 

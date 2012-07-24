@@ -43,7 +43,7 @@ namespace DanbooruDownloader3
         {
             PropertyInfo[] propertyInfos;
             propertyInfos = typeof(DanbooruProvider).GetProperties();
-            tableLayoutPanel1.RowCount = propertyInfos.Length;
+            tableLayoutPanel1.RowCount = propertyInfos.Length + 1;
 
             foreach (var info in propertyInfos)
             {
@@ -56,7 +56,7 @@ namespace DanbooruDownloader3
                     ComboBox _cbx = new ComboBox();
                     _cbx.Name = info.Name;
                     _cbx.Items.AddRange(new object[] { true, false });
-                    
+
                     tableLayoutPanel1.Controls.Add(_cbx);
                 }
                 else if (info.PropertyType.IsEnum)
@@ -75,10 +75,22 @@ namespace DanbooruDownloader3
                     TextBox _txt = new TextBox();
                     _txt.Name = info.Name;
                     _txt.Dock = DockStyle.Fill;
-                    if (info.Name.ToLowerInvariant().Contains("password")) _txt.UseSystemPasswordChar = true;
+                    if (info.Name == "Password")
+                    {
+                        _txt.UseSystemPasswordChar = true;
+                        _txt.TextChanged += new EventHandler(_txt_TextChanged);
+                    }
                     tableLayoutPanel1.Controls.Add(_txt);
                 }
             }
+        }
+
+        void _txt_TextChanged(object sender, EventArgs e)
+        {
+            TextBox _txtPasswordHash = (TextBox)tableLayoutPanel1.Controls.Find("PasswordHash", true)[0];
+            TextBox _txtPassword = (TextBox)tableLayoutPanel1.Controls.Find("Password", true)[0];
+            TextBox _txtPasswordSalt = (TextBox)tableLayoutPanel1.Controls.Find("PasswordSalt", true)[0];
+            _txtPasswordHash.Text = Helper.GeneratePasswordHash(_txtPassword.Text, _txtPasswordSalt.Text);
         }
 
         void _cbx_SelectedIndexChanged(object sender, EventArgs e)

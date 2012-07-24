@@ -12,6 +12,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -26,6 +27,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -40,6 +42,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -54,6 +57,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -68,6 +72,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -82,6 +87,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -96,6 +102,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -110,6 +117,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -124,6 +132,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -138,6 +147,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -152,6 +162,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -166,6 +177,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -180,6 +192,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -194,6 +207,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -208,6 +222,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -222,6 +237,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash></PasswordHash>
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -236,6 +252,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt />
+    <PasswordHash></PasswordHash>
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -250,6 +267,7 @@
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt />
+    <PasswordHash></PasswordHash>
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
 </DanbooruProviderList>

@@ -17,6 +17,12 @@ Changelog:
 - DanbooruDownloader20120724
   - Add option to remember the save folder when exit.
   - FormProvider: OK button will always save the Provider settings.
+  - Add PasswordHash field in DanbooruProvider.xml
+    - This field is calculated based on the password and salt.
+  - Clear the Password field everytime the provider is saved.
+    - You still can edit using notepad to add the password, this will be used 
+      for calculating the hash and will be cleared when fetching the list for 
+      the first time.
 
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.

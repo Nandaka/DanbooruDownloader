@@ -31,6 +31,7 @@ namespace DanbooruDownloader3.Entity
         public string Password { get; set; }
         public bool UseAuth { get; set; }
         public string PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
         public BoardType BoardType { get; set; }
 
         public override string ToString()
