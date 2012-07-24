@@ -30,6 +30,8 @@ Changelog:
     - Backspace  = Delete 1 character from keyword
     - Escape = Clear the append box
     - Double Click = identical with Enter.
+  - Add validation for image limit and starting page.
+  - Trim the tag and source text box data (only in the query).
 
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.

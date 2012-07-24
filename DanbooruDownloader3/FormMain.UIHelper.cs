@@ -212,18 +212,33 @@ namespace DanbooruDownloader3
             if (chkGenerate.Checked)
             {
                 txtQuery.Text = "";
+
+                // Clean up txtTags
+                var tags = txtTags.Text;
+                tags = tags.Trim();
+                while (tags.Contains("  "))
+                {
+                    tags = tags.Replace("  ", " ");
+                }
+
                 if (_currProvider.BoardType == BoardType.Shimmie2 )
                 {
-                    txtQuery.Text += txtTags.Text;
-                    if (!String.IsNullOrWhiteSpace(txtTags.Text)) txtQuery.Text += "/";
+                    var page = txtPage.Text;
+                    if (String.IsNullOrWhiteSpace(page))
+                    {
+                        txtPage.Text = "1";
+                        page = "1";
+                    }
 
-                    if (String.IsNullOrWhiteSpace(txtPage.Text)) txtPage.Text = "1";
-                    txtQuery.Text += txtPage.Text;
+                    txtQuery.Text = tags;
+                    if (!String.IsNullOrWhiteSpace(tags)) txtQuery.Text += "/";
+                                        
+                    txtQuery.Text += page;
                 }
                 else
                 {                    
                     //Tags
-                    txtQuery.Text += txtTags.Text.Length > 0 ? "tags=" + txtTags.Text.Replace(' ', '+') : "";
+                    txtQuery.Text += tags.Length > 0 ? "tags=" + tags.Replace(' ', '+') : "";
 
                     //Rating
                     if (cbxRating.SelectedIndex > 0)
@@ -233,8 +248,9 @@ namespace DanbooruDownloader3
                     }
 
                     //Source
-                    txtQuery.Text += txtQuery.Text.Length > 0 && txtSource.Text.Length > 0 ? "+" : txtSource.Text.Length > 0 ? "tags=" : "";
-                    txtQuery.Text += txtSource.Text.Length > 0 ? "source:" + txtSource.Text : "";
+                    var source = txtSource.Text.Trim();
+                    txtQuery.Text += txtQuery.Text.Length > 0 && source.Length > 0 ? "+" : source.Length > 0 ? "tags=" : "";
+                    txtQuery.Text += source.Length > 0 ? "source:" + source : "";
 
                     //Order
                     if (cbxOrder.SelectedIndex > 0)

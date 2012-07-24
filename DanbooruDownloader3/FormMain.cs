@@ -1127,13 +1127,13 @@ namespace DanbooruDownloader3
         }
 
         private void txtTags_TextChanged(object sender, EventArgs e)
-        {
-            UpdateStatus();
+        {            
             txtPage.Text = "";
             if (chkTagAutoComplete.Checked)
             {
                 DoAutoComplete();
             }
+            UpdateStatus();
         }
                 
         private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)
@@ -1153,11 +1153,32 @@ namespace DanbooruDownloader3
 
         private void txtLimit_TextChanged(object sender, EventArgs e)
         {
+            uint res = 0;
+            if (!String.IsNullOrWhiteSpace(txtLimit.Text) && !UInt32.TryParse(txtLimit.Text, out res))
+            {
+                MessageBox.Show("Invalid limit value = " + txtLimit.Text, "Image Limit");
+                txtLimit.Text = "";
+            }
+            if (res > _currProvider.HardLimit)
+            {
+                MessageBox.Show("Image limit too high! Setting back to " + _currProvider.HardLimit);
+                txtLimit.Text = _currProvider.HardLimit.ToString();
+            }
             UpdateStatus();
         }
 
         private void txtPage_TextChanged(object sender, EventArgs e)
         {
+            uint res = 0;
+            if (!UInt32.TryParse(txtPage.Text, out res))
+            {
+                MessageBox.Show("Invalid page value = " + txtPage.Text, "List Page");
+                if (_currProvider.BoardType == BoardType.Gelbooru)
+                {
+                    txtLimit.Text = "0";
+                }
+                else txtLimit.Text = "1";
+            }
             UpdateStatus();
         }
 
