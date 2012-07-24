@@ -1613,11 +1613,11 @@ namespace DanbooruDownloader3
                 DialogResult result = form.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    if (form.IsModified)
-                    {
+                    //if (form.IsModified)
+                    //{
                         _dao.Save(form.Providers);
                         LoadProviderList();                        
-                    }
+                    //}
                     cbxProvider.SelectedIndex = form.SelectedIndex;
                     _currProvider = _listProvider[cbxProvider.SelectedIndex];
                 }

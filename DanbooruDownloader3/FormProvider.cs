@@ -16,13 +16,13 @@ namespace DanbooruDownloader3
         public List<DanbooruProvider> Providers { get; set; }
         public int SelectedIndex { get; set; }
         private int lastSelectedIndex = -1;
-        public bool IsModified { get; set; }
+        //public bool IsModified { get; set; }
 
         public FormProvider()
         {
             InitializeComponent();
             CreateControls();
-            IsModified = false;
+            //IsModified = false;
         }
 
         private void FormProvider_Load(object sender, EventArgs e)
@@ -195,11 +195,11 @@ namespace DanbooruDownloader3
             }
         }
 
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             GetValues(cbxProviders.SelectedIndex);
-            LoadProviders();
-            IsModified = true;
+            //IsModified = true;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -228,6 +228,8 @@ namespace DanbooruDownloader3
         private void btnOK_Click(object sender, EventArgs e)
         {
             SelectedIndex = cbxProviders.SelectedIndex;
+            GetValues(cbxProviders.SelectedIndex);
+            cbxProviders.SelectedIndex = -1;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

@@ -14,8 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
-- DanbooruDownloader201207xx
+- DanbooruDownloader20120724
   - Add option to remember the save folder when exit.
+  - FormProvider: OK button will always save the Provider settings.
 
 - DanbooruDownloader20120626
   - Add custom autocomplete for tags.
