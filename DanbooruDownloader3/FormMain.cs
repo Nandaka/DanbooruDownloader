@@ -1175,9 +1175,9 @@ namespace DanbooruDownloader3
                 MessageBox.Show("Invalid page value = " + txtPage.Text, "List Page");
                 if (_currProvider.BoardType == BoardType.Gelbooru)
                 {
-                    txtLimit.Text = "0";
+                    txtPage.Text = "0";
                 }
-                else txtLimit.Text = "1";
+                else txtPage.Text = "1";
             }
             UpdateStatus();
         }
