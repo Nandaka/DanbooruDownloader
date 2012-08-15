@@ -153,6 +153,14 @@ namespace DanbooruDownloader3
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            if (!Helper.IsTagsXmlExist())
+            {
+                string message = "No tags.xml, need to download!";
+                MessageBox.Show(message, "No tags.xml Error");
+                Program.Logger.Warn(message);
+                btnUpdate_Click(sender, e);
+            }
+
             foreach (TabPage tp in tabControl1.TabPages)
             {
                 tp.Show();

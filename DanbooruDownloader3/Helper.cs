@@ -178,5 +178,10 @@ namespace DanbooruDownloader3
             }
             else return url;
         }
+
+        public static bool IsTagsXmlExist()
+        {
+            return File.Exists("tags.xml");
+        }
     }
 }
