@@ -1179,7 +1179,7 @@ namespace DanbooruDownloader3
         private void txtPage_TextChanged(object sender, EventArgs e)
         {
             uint res = 0;
-            if (!UInt32.TryParse(txtPage.Text, out res))
+            if (!String.IsNullOrWhiteSpace(txtPage.Text) && !UInt32.TryParse(txtPage.Text, out res))
             {
                 MessageBox.Show("Invalid page value = " + txtPage.Text, "List Page");
                 if (_currProvider.BoardType == BoardType.Gelbooru)
@@ -1743,7 +1743,7 @@ namespace DanbooruDownloader3
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DownloadTagsForm form = new DownloadTagsForm();
+            FormDownloadTags form = new FormDownloadTags();
             form.ShowDialog();
             //SetTagAutoComplete();
         }

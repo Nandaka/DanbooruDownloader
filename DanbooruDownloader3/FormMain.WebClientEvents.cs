@@ -41,14 +41,21 @@ namespace DanbooruDownloader3
                     {
                         var wex = (System.Net.WebException)ex.InnerException;
                         var status = wex.Response != null? wex.Response.Headers["Status"] : null;
-                        if (wex.Status == WebExceptionStatus.ProtocolError && status != "403")
+                        if (wex.Status == WebExceptionStatus.ProtocolError)
                         {
-                            using (var response = wex.Response.GetResponseStream())
+                            if (status == "403")
                             {
-                                if (response != null)
+                                message += Environment.NewLine + "Please check your login information.";
+                            }
+                            else
+                            {
+                                using (var response = wex.Response.GetResponseStream())
                                 {
-                                    var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
-                                    message = "Server Message: " + resp.ResponseMessage;
+                                    if (response != null)
+                                    {
+                                        var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
+                                        message = "Server Message: " + resp.ResponseMessage;
+                                    }
                                 }
                             }
                         }

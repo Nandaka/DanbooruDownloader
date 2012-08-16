@@ -1,6 +1,6 @@
 ﻿namespace DanbooruDownloader3
 {
-    partial class DownloadTagsForm
+    partial class FormDownloadTags
     {
         /// <summary>
         /// Required designer variable.
@@ -140,7 +140,7 @@
             this.pbIcon.TabIndex = 9;
             this.pbIcon.TabStop = false;
             // 
-            // DownloadTagsForm
+            // Download Tags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -157,10 +157,10 @@
             this.Controls.Add(this.btnDownload);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "DownloadTagsForm";
+            this.Name = "Download Tags";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "DownloadTagsForm";
-            this.Load += new System.EventHandler(this.DownloadTagsForm_Load);
+            this.Text = "Download Tags";
+            this.Load += new System.EventHandler(this.FormDownloadTags_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

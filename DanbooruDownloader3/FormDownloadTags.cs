@@ -14,13 +14,13 @@ using System.Net;
 
 namespace DanbooruDownloader3
 {
-    public partial class DownloadTagsForm : Form
+    public partial class FormDownloadTags : Form
     {
         private const string TAGS_FILENAME = "tags.xml";
         private ExtendedWebClient client;
         private List<DanbooruProvider> list;
 
-        public DownloadTagsForm()
+        public FormDownloadTags()
         {
             InitializeComponent();
             client = new ExtendedWebClient();
@@ -48,7 +48,7 @@ namespace DanbooruDownloader3
                     message += "," + Environment.NewLine + "Restoring backup.";
                     File.Move(TAGS_FILENAME + ".bak", TAGS_FILENAME);
                 }
-                Program.Logger.Error("[DownloadTagsForm] " + message, e.Error);
+                Program.Logger.Error("[Download Tags] " + message, e.Error);
                 MessageBox.Show(message);
             }
             else
@@ -62,20 +62,20 @@ namespace DanbooruDownloader3
                 // merge operation
                 if (chkMerge.Checked)
                 {
-                    Program.Logger.Debug("[DownloadTagsForm] Merging...");
-                    lblStatus.Text = "Status: Merging...";
+                    Program.Logger.Debug("[Download Tags] Merging...");
+                    lblStatus.Text = "Status: Merging..., this might take some times.";
                     lblStatus.Invalidate();
                     lblStatus.Update();
                     lblStatus.Refresh();
                     Application.DoEvents();
                     var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
-                    Program.Logger.Info("[DownloadTagsForm] " + message);
+                    Program.Logger.Info("[Download Tags] " + message);
                     MessageBox.Show(message, "Merge tags.xml");
                     File.Delete(TAGS_FILENAME + ".merge");
                 }
 
                 DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
-                Program.Logger.Info("[DownloadTagsForm] Complete.");
+                Program.Logger.Info("[Download Tags] Complete.");
                 lblStatus.Text = "Status: Download complete.";
                 if (chkAutoClose.Checked)
                 {
@@ -116,7 +116,7 @@ namespace DanbooruDownloader3
                 // Merge preparation
                 if (chkMerge.Checked)
                 {
-                    Program.Logger.Info("[DownloadTagsForm] Merge checked.");
+                    Program.Logger.Info("[Download Tags] Merge checked.");
                     if (File.Exists(TAGS_FILENAME))
                     {
                         if (File.Exists(TAGS_FILENAME + ".merge")) File.Delete(TAGS_FILENAME + ".merge");
@@ -131,7 +131,7 @@ namespace DanbooruDownloader3
                 // Backup
                 if (chkBackup.Checked)
                 {
-                    Program.Logger.Info("[DownloadTagsForm] Backup checked.");
+                    Program.Logger.Info("[Download Tags] Backup checked.");
                     if (File.Exists(TAGS_FILENAME))
                     {
                         if (File.Exists(TAGS_FILENAME + ".bak")) File.Delete(TAGS_FILENAME + ".bak");
@@ -139,12 +139,12 @@ namespace DanbooruDownloader3
                     }
                 }
 
-                Program.Logger.Info("[DownloadTagsForm] Start downloading...");
+                Program.Logger.Info("[Download Tags] Start downloading...");
                 client.DownloadFileAsync(new Uri(txtUrl.Text), TAGS_FILENAME + ".!tmp");                
             }
         }
 
-        private void DownloadTagsForm_Load(object sender, EventArgs e)
+        private void FormDownloadTags_Load(object sender, EventArgs e)
         {
             DanbooruProviderDao provider = new DanbooruProviderDao();
             list = provider.Read().Where<DanbooruProvider>(x => x.BoardType == Entity.BoardType.Danbooru || x.BoardType == Entity.BoardType.Gelbooru).ToList<DanbooruProvider>();

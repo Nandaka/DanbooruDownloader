@@ -16,6 +16,9 @@ Changelog:
 =============================
 - DanbooruDownloader20120816
   - Disable AutoGenerateColumn for DataGridView.
+  - Fix validation for start page.
+  - Update error message for 403 Forbidden.
+  - Update tags.xmll merging status message.
 
 - DanbooruDownloader20120815
   - Add start-up check for missing tags.xml
@@ -177,7 +180,7 @@ The contents structure are:
              	    For gelbooru based, use:/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%
 - Preferred   : Xml/Json.
 - DefaultLimit: Number of limit if not given.
-- HardLimit   : Hard limit from server for each request.
+- HardLimit   : Hard limit defined by server for each request.
 - PasswordSalt: choujin-steiner--%PASSWORD%-- for danbooru.donmai.us.
 - UserName    : Your username.
 - Password    : Your password, in plain text.
