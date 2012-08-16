@@ -148,6 +148,8 @@ namespace DanbooruDownloader3
             Program.Logger.Debug(this.Text + " loaded.");
 
             dgvList.AutoGenerateColumns = false;
+            dgvDownload.AutoGenerateColumns = false;
+
             _ImageSize = cbxImageSize.Text;
         }
 
@@ -238,8 +240,7 @@ namespace DanbooruDownloader3
                             _downloadList.Add(_postsDao.Posts[row.Index]);
                             row.Cells["colCheck"].Value = false;
                         }
-                    }
-                    dgvDownload.AutoGenerateColumns = false;
+                    }                    
                     dgvDownload.DataSource = _downloadList;
                 }
             }

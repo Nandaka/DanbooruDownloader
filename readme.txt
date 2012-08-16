@@ -14,6 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader20120816
+  - Disable AutoGenerateColumn for DataGridView.
+
 - DanbooruDownloader20120815
   - Add start-up check for missing tags.xml
 
