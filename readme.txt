@@ -14,6 +14,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader20120826
+  - Auto save column order.
+
 - DanbooruDownloader20120816
   - Disable AutoGenerateColumn for DataGridView.
   - Fix validation for start page.
