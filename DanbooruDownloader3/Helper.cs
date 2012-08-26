@@ -111,7 +111,7 @@ namespace DanbooruDownloader3
             if (string.IsNullOrWhiteSpace(copyright)) copyright = format.MissingTagReplacement;
             filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright.Trim()));
 
-            var characterSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name)
+            var characterSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name);
             var character = "";
             if(characterSelection != null) character = string.Join(" ", characterSelection);
             if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement;

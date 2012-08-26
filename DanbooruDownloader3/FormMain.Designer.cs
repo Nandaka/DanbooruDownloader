@@ -102,7 +102,7 @@
             this.btnBrowseListFile = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtListFile = new System.Windows.Forms.TextBox();
-            this.dgvList = new System.Windows.Forms.DataGridView();
+            this.dgvList = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colPreview = new System.Windows.Forms.DataGridViewImageColumn();
@@ -110,7 +110,7 @@
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTagsE = new DanbooruDownloader3.TagsColumn();
+            this.colTagsE = new DanbooruDownloader3.CustomControl.TagsColumn();
             this.colUrl = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colMD5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -130,7 +130,7 @@
             this.btnClearDownloadList = new System.Windows.Forms.Button();
             this.btnPauseDownload = new System.Windows.Forms.Button();
             this.btnDownloadFiles = new System.Windows.Forms.Button();
-            this.dgvDownload = new System.Windows.Forms.DataGridView();
+            this.dgvDownload = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.colProgress2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -153,7 +153,7 @@
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
-            this.dgvBatchJob = new System.Windows.Forms.DataGridView();
+            this.dgvBatchJob = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -259,7 +259,7 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tagsColumn1 = new DanbooruDownloader3.TagsColumn();
+            this.tagsColumn1 = new DanbooruDownloader3.CustomControl.TagsColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -280,7 +280,7 @@
             this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tagsColumn2 = new DanbooruDownloader3.TagsColumn();
+            this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -2984,7 +2984,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private TagsColumn tagsColumn1;
+        private DanbooruDownloader3.CustomControl.TagsColumn tagsColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
@@ -3016,7 +3016,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
-        private TagsColumn colTagsE;
+        private DanbooruDownloader3.CustomControl.TagsColumn colTagsE;
         private System.Windows.Forms.DataGridViewLinkColumn colUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
@@ -3038,7 +3038,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchProviders;
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchSaveFolder;
         private System.Windows.Forms.DataGridViewTextBoxColumn colBatchStatus;
-        private TagsColumn tagsColumn2;
+        private DanbooruDownloader3.CustomControl.TagsColumn tagsColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn22;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace DanbooruDownloader3
+namespace DanbooruDownloader3.CustomControl
 {
     public class TagsColumn : DataGridViewColumn
     {

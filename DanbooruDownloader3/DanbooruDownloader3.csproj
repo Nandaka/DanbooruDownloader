@@ -107,6 +107,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomControl\gfDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControl\MultiColorLabel.cs" />
     <Compile Include="DAO\DanbooruPostDao.cs" />
     <Compile Include="DAO\DanbooruTagsDao.cs" />
     <Compile Include="FormDownloadTags.cs">
@@ -151,7 +155,6 @@
       <DependentUpon>FormProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="MultiColorLabel.cs" />
     <Compile Include="Utils\ExtendedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -210,7 +213,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icon.ico" />
-    <Content Include="lib\log4net.dll" />
+    <None Include="lib\log4net.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Danbooru.png" />
     <None Include="Resources\Gelbooru.png" />
     <None Include="Resources\Shimmie2.png" />
