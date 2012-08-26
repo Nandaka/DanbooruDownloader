@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using DanbooruDownloader3.CustomControl;
 
 namespace DanbooruDownloader3
 {
@@ -138,8 +139,7 @@ namespace DanbooruDownloader3
             CheckProxyLogin();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
 
-            SetTagColors();
-            ToggleTagsColor();
+            SetTagColors();            
 
             //SetTagAutoComplete();
 
@@ -151,6 +151,8 @@ namespace DanbooruDownloader3
             dgvDownload.AutoGenerateColumns = false;
 
             _ImageSize = cbxImageSize.Text;
+
+            ToggleTagsColor();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -1986,6 +1988,11 @@ namespace DanbooruDownloader3
             {
                 LoadThumbnailLater(dgvList.CurrentRow.Index);
             }
+        }
+
+        private void resetColumnOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dgvList.ResetColumnOrder();
         }
     }
 }

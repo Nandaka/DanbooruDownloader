@@ -55,27 +55,28 @@ namespace DanbooruDownloader3.CustomControl
             if (!gfDataGridViewSetting.Default.ColumnOrder.ContainsKey(this.Name))
                 return;
 
-            List<ColumnOrderItem> columnOrder =
-                gfDataGridViewSetting.Default.ColumnOrder[this.Name];
+            List<ColumnOrderItem> columnOrder = gfDataGridViewSetting.Default.ColumnOrder[this.Name];
 
             if (columnOrder != null)
             {
                 var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
                 foreach (var item in sorted)
                 {
-                    this.Columns[item.ColumnIndex].DisplayIndex =
-                                        item.DisplayIndex;
+                    this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
                     this.Columns[item.ColumnIndex].Visible = item.Visible;
                     this.Columns[item.ColumnIndex].Width = item.Width;
                 }
             }
         }
 
+        public void ResetColumnOrder()
+        {
+            SetColumnOrder();
+        }
+
         internal sealed class gfDataGridViewSetting : ApplicationSettingsBase
         {
-            private static gfDataGridViewSetting _defaultInstace =
-                (gfDataGridViewSetting)ApplicationSettingsBase
-                .Synchronized(new gfDataGridViewSetting());
+            private static gfDataGridViewSetting _defaultInstace = (gfDataGridViewSetting)ApplicationSettingsBase.Synchronized(new gfDataGridViewSetting());
             //---------------------------------------------------------------------
             public static gfDataGridViewSetting Default
             {
@@ -92,8 +93,7 @@ namespace DanbooruDownloader3.CustomControl
             {
                 get
                 {
-                    return this["ColumnOrder"] as Dictionary<string,
-                             List<ColumnOrderItem>>;
+                    return this["ColumnOrder"] as Dictionary<string, List<ColumnOrderItem>>;
                 }
                 set { this["ColumnOrder"] = value; }
             }

@@ -109,6 +109,7 @@
             this.colProvider = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colScore = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTagsE = new DanbooruDownloader3.CustomControl.TagsColumn();
             this.colUrl = new System.Windows.Forms.DataGridViewLinkColumn();
@@ -116,11 +117,13 @@
             this.colQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSourceUrl = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colReferer = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxMenuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchByParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSelectedRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.reloadThumbnailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.resetColumnOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btnBrowseFolder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -130,6 +133,7 @@
             this.btnClearDownloadList = new System.Windows.Forms.Button();
             this.btnPauseDownload = new System.Windows.Forms.Button();
             this.btnDownloadFiles = new System.Windows.Forms.Button();
+            this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.dgvDownload = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -143,9 +147,8 @@
             this.colQuery2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDownloadStart2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxMenuDownload = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnClearCompleted = new System.Windows.Forms.Button();
@@ -153,6 +156,7 @@
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
+            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.dgvBatchJob = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -162,9 +166,8 @@
             this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxMenuBatch = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -229,7 +232,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxMenuLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -246,7 +249,7 @@
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxMenuSysTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -289,13 +292,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             this.gbxList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
-            this.contextMenuStrip3.SuspendLayout();
+            this.ctxMenuList.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDownload)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.ctxMenuDownload.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBatchJob)).BeginInit();
-            this.contextMenuStrip5.SuspendLayout();
+            this.ctxMenuBatch.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -303,9 +306,9 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
+            this.ctxMenuLog.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.contextMenuStrip4.SuspendLayout();
+            this.ctxMenuSysTray.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -859,6 +862,7 @@
             this.colProvider,
             this.colId,
             this.colRating,
+            this.colScore,
             this.colTags,
             this.colTagsE,
             this.colUrl,
@@ -866,7 +870,7 @@
             this.colQuery,
             this.colSourceUrl,
             this.colReferer});
-            this.dgvList.ContextMenuStrip = this.contextMenuStrip3;
+            this.dgvList.ContextMenuStrip = this.ctxMenuList;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -905,6 +909,7 @@
             this.colNumber.HeaderText = "#";
             this.colNumber.MinimumWidth = 25;
             this.colNumber.Name = "colNumber";
+            this.colNumber.ReadOnly = true;
             this.colNumber.Width = 25;
             // 
             // colCheck
@@ -932,6 +937,7 @@
             this.colPreview.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
             this.colPreview.MinimumWidth = 150;
             this.colPreview.Name = "colPreview";
+            this.colPreview.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colPreview.Width = 150;
             // 
             // colProvider
@@ -949,8 +955,7 @@
             this.colId.HeaderText = "Id";
             this.colId.Name = "colId";
             this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId.Width = 22;
+            this.colId.Width = 41;
             // 
             // colRating
             // 
@@ -961,6 +966,13 @@
             this.colRating.MinimumWidth = 25;
             this.colRating.Name = "colRating";
             this.colRating.Width = 25;
+            // 
+            // colScore
+            // 
+            this.colScore.DataPropertyName = "Score";
+            this.colScore.HeaderText = "Score";
+            this.colScore.Name = "colScore";
+            this.colScore.Width = 60;
             // 
             // colTags
             // 
@@ -1017,7 +1029,8 @@
             this.colSourceUrl.HeaderText = "Source";
             this.colSourceUrl.MinimumWidth = 25;
             this.colSourceUrl.Name = "colSourceUrl";
-            this.colSourceUrl.Width = 47;
+            this.colSourceUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSourceUrl.Width = 66;
             // 
             // colReferer
             // 
@@ -1025,44 +1038,59 @@
             this.colReferer.HeaderText = "Referer";
             this.colReferer.Name = "colReferer";
             this.colReferer.ReadOnly = true;
-            this.colReferer.Width = 48;
+            this.colReferer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colReferer.Width = 67;
             // 
-            // contextMenuStrip3
+            // ctxMenuList
             // 
-            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxMenuList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.searchByParentToolStripMenuItem,
             this.addSelectedRowsToolStripMenuItem,
             this.toolStripMenuItem3,
-            this.reloadThumbnailToolStripMenuItem});
-            this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(172, 98);
-            this.contextMenuStrip3.Text = "ListGrid Menu";
+            this.reloadThumbnailToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.resetColumnOrderToolStripMenuItem});
+            this.ctxMenuList.Name = "contextMenuStrip3";
+            this.ctxMenuList.Size = new System.Drawing.Size(182, 104);
+            this.ctxMenuList.Text = "ListGrid Menu";
             // 
             // searchByParentToolStripMenuItem
             // 
             this.searchByParentToolStripMenuItem.Name = "searchByParentToolStripMenuItem";
-            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.searchByParentToolStripMenuItem.Text = "Search by parent";
             this.searchByParentToolStripMenuItem.Click += new System.EventHandler(this.searchByParentToolStripMenuItem_Click);
             // 
             // addSelectedRowsToolStripMenuItem
             // 
             this.addSelectedRowsToolStripMenuItem.Name = "addSelectedRowsToolStripMenuItem";
-            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.addSelectedRowsToolStripMenuItem.Text = "Add selected rows";
             this.addSelectedRowsToolStripMenuItem.Click += new System.EventHandler(this.addSelectedRowsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(168, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(178, 6);
             // 
             // reloadThumbnailToolStripMenuItem
             // 
             this.reloadThumbnailToolStripMenuItem.Name = "reloadThumbnailToolStripMenuItem";
-            this.reloadThumbnailToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.reloadThumbnailToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.reloadThumbnailToolStripMenuItem.Text = "Reload Thumbnail";
             this.reloadThumbnailToolStripMenuItem.Click += new System.EventHandler(this.reloadThumbnailToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(178, 6);
+            // 
+            // resetColumnOrderToolStripMenuItem
+            // 
+            this.resetColumnOrderToolStripMenuItem.Name = "resetColumnOrderToolStripMenuItem";
+            this.resetColumnOrderToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.resetColumnOrderToolStripMenuItem.Text = "Reset Column Order";
+            this.resetColumnOrderToolStripMenuItem.Click += new System.EventHandler(this.resetColumnOrderToolStripMenuItem_Click);
             // 
             // tabPage4
             // 
@@ -1074,8 +1102,8 @@
             this.tabPage4.Controls.Add(this.btnClearDownloadList);
             this.tabPage4.Controls.Add(this.btnPauseDownload);
             this.tabPage4.Controls.Add(this.btnDownloadFiles);
-            this.tabPage4.Controls.Add(this.dgvDownload);
             this.tabPage4.Controls.Add(this.txtSaveFolder);
+            this.tabPage4.Controls.Add(this.dgvDownload);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -1169,6 +1197,17 @@
             this.btnDownloadFiles.UseVisualStyleBackColor = true;
             this.btnDownloadFiles.Click += new System.EventHandler(this.btnDownloadFiles_Click);
             // 
+            // txtSaveFolder
+            // 
+            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
+            this.txtSaveFolder.Name = "txtSaveFolder";
+            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
+            this.txtSaveFolder.TabIndex = 4;
+            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
+            // 
             // dgvDownload
             // 
             this.dgvDownload.AllowUserToAddRows = false;
@@ -1203,7 +1242,7 @@
             this.colQuery2,
             this.colFilename,
             this.colDownloadStart2});
-            this.dgvDownload.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgvDownload.ContextMenuStrip = this.ctxMenuDownload;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1347,12 +1386,12 @@
             this.colDownloadStart2.Name = "colDownloadStart2";
             this.colDownloadStart2.Width = 97;
             // 
-            // contextMenuStrip1
+            // ctxMenuDownload
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxMenuDownload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 26);
+            this.ctxMenuDownload.Name = "contextMenuStrip1";
+            this.ctxMenuDownload.Size = new System.Drawing.Size(194, 26);
             // 
             // deleteToolStripMenuItem
             // 
@@ -1360,17 +1399,6 @@
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.deleteToolStripMenuItem.Text = "&Delete Selected Row(s)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // txtSaveFolder
-            // 
-            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
-            this.txtSaveFolder.Name = "txtSaveFolder";
-            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
-            this.txtSaveFolder.TabIndex = 4;
-            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
             // tabPage5
             // 
@@ -1380,8 +1408,8 @@
             this.tabPage5.Controls.Add(this.btnStopBatchJob);
             this.tabPage5.Controls.Add(this.btnStartBatchJob);
             this.tabPage5.Controls.Add(this.btnAddBatchJob);
-            this.tabPage5.Controls.Add(this.dgvBatchJob);
             this.tabPage5.Controls.Add(this.cbxAbortOnError);
+            this.tabPage5.Controls.Add(this.dgvBatchJob);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1454,6 +1482,18 @@
             this.btnAddBatchJob.UseVisualStyleBackColor = true;
             this.btnAddBatchJob.Click += new System.EventHandler(this.btnAddBatchJob_Click);
             // 
+            // cbxAbortOnError
+            // 
+            this.cbxAbortOnError.AutoSize = true;
+            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
+            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
+            this.cbxAbortOnError.Name = "cbxAbortOnError";
+            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
+            this.cbxAbortOnError.TabIndex = 4;
+            this.cbxAbortOnError.Text = "Abort On Error";
+            this.cbxAbortOnError.UseVisualStyleBackColor = true;
+            // 
             // dgvBatchJob
             // 
             this.dgvBatchJob.AllowUserToAddRows = false;
@@ -1480,7 +1520,7 @@
             this.colBatchProviders,
             this.colBatchSaveFolder,
             this.colBatchStatus});
-            this.dgvBatchJob.ContextMenuStrip = this.contextMenuStrip5;
+            this.dgvBatchJob.ContextMenuStrip = this.ctxMenuBatch;
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1582,31 +1622,19 @@
             this.colBatchStatus.ReadOnly = true;
             this.colBatchStatus.Width = 351;
             // 
-            // contextMenuStrip5
+            // ctxMenuBatch
             // 
-            this.contextMenuStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxMenuBatch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem1});
-            this.contextMenuStrip5.Name = "contextMenuStrip5";
-            this.contextMenuStrip5.Size = new System.Drawing.Size(108, 26);
+            this.ctxMenuBatch.Name = "contextMenuStrip5";
+            this.ctxMenuBatch.Size = new System.Drawing.Size(129, 26);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.deleteToolStripMenuItem1.Text = "Delete";
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.deleteToolStripMenuItem1.Text = "Delete Job";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
-            // 
-            // cbxAbortOnError
-            // 
-            this.cbxAbortOnError.AutoSize = true;
-            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
-            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
-            this.cbxAbortOnError.Name = "cbxAbortOnError";
-            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
-            this.cbxAbortOnError.TabIndex = 4;
-            this.cbxAbortOnError.Text = "Abort On Error";
-            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -2356,7 +2384,7 @@
             // 
             // txtLog
             // 
-            this.txtLog.ContextMenuStrip = this.contextMenuStrip2;
+            this.txtLog.ContextMenuStrip = this.ctxMenuLog;
             this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtLog.Location = new System.Drawing.Point(3, 3);
             this.txtLog.Multiline = true;
@@ -2366,12 +2394,12 @@
             this.txtLog.Size = new System.Drawing.Size(928, 413);
             this.txtLog.TabIndex = 0;
             // 
-            // contextMenuStrip2
+            // ctxMenuLog
             // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxMenuLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearLogToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 26);
+            this.ctxMenuLog.Name = "contextMenuStrip2";
+            this.ctxMenuLog.Size = new System.Drawing.Size(125, 26);
             // 
             // clearLogToolStripMenuItem
             // 
@@ -2460,20 +2488,20 @@
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip4;
+            this.notifyIcon1.ContextMenuStrip = this.ctxMenuSysTray;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "Danbooru Downloader";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
-            // contextMenuStrip4
+            // ctxMenuSysTray
             // 
-            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxMenuSysTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripSeparator1,
             this.toolStripMenuItem2});
-            this.contextMenuStrip4.Name = "contextMenuStrip4";
-            this.contextMenuStrip4.Size = new System.Drawing.Size(104, 54);
+            this.ctxMenuSysTray.Name = "contextMenuStrip4";
+            this.ctxMenuSysTray.Size = new System.Drawing.Size(104, 54);
             // 
             // toolStripMenuItem1
             // 
@@ -2827,15 +2855,15 @@
             this.gbxList.ResumeLayout(false);
             this.gbxList.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
-            this.contextMenuStrip3.ResumeLayout(false);
+            this.ctxMenuList.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDownload)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.ctxMenuDownload.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBatchJob)).EndInit();
-            this.contextMenuStrip5.ResumeLayout(false);
+            this.ctxMenuBatch.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -2848,10 +2876,10 @@
             this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.contextMenuStrip2.ResumeLayout(false);
+            this.ctxMenuLog.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.contextMenuStrip4.ResumeLayout(false);
+            this.ctxMenuSysTray.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2893,7 +2921,6 @@
         private System.Windows.Forms.TextBox txtListFile;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.DataGridView dgvList;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkUseProxy;
         private System.Windows.Forms.Label label12;
@@ -2921,7 +2948,6 @@
         private System.Windows.Forms.CheckBox chkAutoFocus;
         private System.Windows.Forms.Button btnListCancel;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.DataGridView dgvDownload;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsStatus;
         private System.Windows.Forms.ToolStripStatusLabel tsCount;
@@ -2944,26 +2970,25 @@
         private System.Windows.Forms.Button btnBrowseFolder;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtSaveFolder;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuDownload;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar tsProgress2;
         private System.Windows.Forms.TextBox txtRetry;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkPadUserAgent;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuLog;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private System.Windows.Forms.Button btnSearchHelp;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuList;
         private System.Windows.Forms.ToolStripMenuItem searchByParentToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip4;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuSysTray;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem addSelectedRowsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Button btnAddBatchJob;
-        private System.Windows.Forms.DataGridView dgvBatchJob;
         private System.Windows.Forms.Button btnStartBatchJob;
         private System.Windows.Forms.Button btnStopBatchJob;
         private System.Windows.Forms.CheckBox chkProxyLogin;
@@ -2975,7 +3000,7 @@
         private System.Windows.Forms.Button btnPauseBatchJob;
         private System.Windows.Forms.Button btnClearCompleted;
         private System.Windows.Forms.Button btnClearAll;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuBatch;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.LinkLabel linkUrl;
@@ -3009,19 +3034,6 @@
         private System.Windows.Forms.Label lblColorCircle;
         private System.Windows.Forms.Label lblColorFaults;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
-        private System.Windows.Forms.DataGridViewImageColumn colPreview;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
-        private DanbooruDownloader3.CustomControl.TagsColumn colTagsE;
-        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
-        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
-        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
         private System.Windows.Forms.CheckBox chkTagAutoComplete;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.TextBox txtTagReplacement;
@@ -3083,6 +3095,25 @@
         private System.Windows.Forms.CheckBox chkSaveFolderWhenExit;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem reloadThumbnailToolStripMenuItem;
+        private CustomControl.gfDataGridView dgvList;
+        private CustomControl.gfDataGridView dgvDownload;
+        private CustomControl.gfDataGridView dgvBatchJob;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem resetColumnOrderToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
+        private System.Windows.Forms.DataGridViewImageColumn colPreview;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colScore;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
+        private CustomControl.TagsColumn colTagsE;
+        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
+        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
+        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
     }
 }
 
