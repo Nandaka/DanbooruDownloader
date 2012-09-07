@@ -3,6 +3,7 @@ Requirement:
 - Windows XP or later.
 - .Net Framework 4.0
 - log4net 1.2.11 (newkey)
+- HtmlAgilityPack 
 
 For linux/Mac, you can try to compile the source code using:
 - Mono (http://www.mono-project.com/Main_Page)
@@ -14,6 +15,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Changelog:
 =============================
+- DanbooruDownloader20120908
+  - HTML parser for SankakuComplex (post containing flash is not parsed)
+
 - DanbooruDownloader20120826
   - Auto save column order.
 

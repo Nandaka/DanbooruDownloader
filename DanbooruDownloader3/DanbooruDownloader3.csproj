@@ -90,6 +90,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\log4net.dll</HintPath>
@@ -113,6 +116,7 @@
     <Compile Include="CustomControl\MultiColorLabel.cs" />
     <Compile Include="DAO\DanbooruPostDao.cs" />
     <Compile Include="DAO\DanbooruTagsDao.cs" />
+    <Compile Include="Engine\SankakuComplexParser.cs" />
     <Compile Include="FormDownloadTags.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +202,7 @@
     </Compile>
     <None Include="app.config" />
     <None Include="DanbooruDownloader3_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

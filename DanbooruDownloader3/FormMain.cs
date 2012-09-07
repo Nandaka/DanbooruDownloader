@@ -19,6 +19,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.Engine;
 
 namespace DanbooruDownloader3
 {
@@ -239,13 +240,34 @@ namespace DanbooruDownloader3
                     {
                         if (_downloadList.IndexOf(_postsDao.Posts[row.Index]) < 0)
                         {
-                            _downloadList.Add(_postsDao.Posts[row.Index]);
+                            var post = _postsDao.Posts[row.Index];
+                            // try to get the file url if empty
+                            if (string.IsNullOrWhiteSpace(post.FileUrl))
+                            {
+                                if (!string.IsNullOrWhiteSpace(post.Referer))
+                                {
+                                    ExtendedWebClient _clientPost = new ExtendedWebClient();
+                                    _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
+                                    _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
+                                    post.FileUrl = "Loading...";
+                                }
+                            }
+                            _downloadList.Add(post);
                             row.Cells["colCheck"].Value = false;
                         }
                     }                    
                     dgvDownload.DataSource = _downloadList;
                 }
             }
+        }
+
+        void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            DanbooruPost post = (DanbooruPost) e.UserState;
+            string html = e.Result;
+            if (post.Provider == "Sankaku Complex")
+                post = SankakuComplexParser.ParsePost(post, html);
+            dgvDownload.Refresh();
         }
 
         /// <summary>
@@ -651,7 +673,7 @@ namespace DanbooruDownloader3
             ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
             UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
             UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
-
+            ExtendedWebClient _clientPost = new ExtendedWebClient();
             if (batchJob != null)
             {
                 UpdateStatus2("Starting Batch Job");
@@ -829,6 +851,22 @@ namespace DanbooruDownloader3
                                             UpdateLog("DoBatchJob", "Batch Job Stopped.");
                                             UpdateStatus2("Batch Job Stopped.");
                                             return;
+                                        }
+
+                                        // check if have url
+                                        if (string.IsNullOrWhiteSpace(post.FileUrl))
+                                        {
+                                            if (!string.IsNullOrWhiteSpace(post.Referer))
+                                            {
+                                                string html = _clientPost.DownloadString(post.Referer);
+                                                _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
+                                                if (post.Provider == "Sankaku Complex")
+                                                { 
+                                                    var tempPost = SankakuComplexParser.ParsePost(post, html);
+                                                    post.FileUrl = tempPost.FileUrl;
+                                                    post.PreviewUrl = tempPost.PreviewUrl;
+                                                }
+                                            }
                                         }
 
                                         //Choose the correct urls
