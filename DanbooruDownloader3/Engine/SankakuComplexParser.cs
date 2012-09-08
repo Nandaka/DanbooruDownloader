@@ -11,26 +11,49 @@ namespace DanbooruDownloader3.Engine
     {
         public static DanbooruPost ParsePost(DanbooruPost post, string postHtml)
         {
-            string file_url = "";
-            string preview_url = "";
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(postHtml);
-            var lowresElement = doc.DocumentNode.SelectSingleNode("//a[@id='lowres']");
-            if (lowresElement != null)
+            string file_url = "";
+            string sample_url = "";
+
+            // Flash Game or bmp
+            if (post.PreviewUrl == "http://chan.sankakucomplex.com/download-preview.png")
             {
-                preview_url = lowresElement.GetAttributeValue("href", "");
+                var links = doc.DocumentNode.SelectNodes("//a");
+                foreach (var link in links)
+                {
+                    // flash
+                    if (link.InnerText == "Save this flash (right click and save)")
+                    {
+                        file_url = link.GetAttributeValue("href", "");
+                        break;
+                    }
+                    // bmp
+                    if (link.InnerText == "Download")
+                    {
+                        file_url = link.GetAttributeValue("href", "");
+                        break;
+                    }
+                }
             }
-            var highresElement = doc.DocumentNode.SelectSingleNode("//a[@id='highres']");
-            if (highresElement != null)
+            else
             {
-                file_url = highresElement.GetAttributeValue("href", "");
+                var lowresElement = doc.DocumentNode.SelectSingleNode("//a[@id='lowres']");
+                if (lowresElement != null)
+                {
+                    sample_url = lowresElement.GetAttributeValue("href", "");
+                }
+                var highresElement = doc.DocumentNode.SelectSingleNode("//a[@id='highres']");
+                if (highresElement != null)
+                {
+                    file_url = highresElement.GetAttributeValue("href", "");
+                }                
             }
 
             post.FileUrl = file_url;
-            if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(preview_url)) 
-                preview_url = file_url;
-            post.PreviewUrl = preview_url;
-
+            if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(sample_url))
+                sample_url = file_url;
+            post.SampleUrl = sample_url;
             return post;
         }
     }

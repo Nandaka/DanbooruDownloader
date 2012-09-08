@@ -16,7 +16,7 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 Changelog:
 =============================
 - DanbooruDownloader20120908
-  - HTML parser for SankakuComplex (post containing flash is not parsed)
+  - HTML parser for SankakuComplex.
 
 - DanbooruDownloader20120826
   - Auto save column order.
