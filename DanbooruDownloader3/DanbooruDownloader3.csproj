@@ -218,9 +218,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icon.ico" />
-    <None Include="lib\log4net.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="lib\log4net.dll" />
     <None Include="Resources\Danbooru.png" />
     <None Include="Resources\Gelbooru.png" />
     <None Include="Resources\Shimmie2.png" />

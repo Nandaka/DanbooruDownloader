@@ -272,6 +272,8 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
+            this.resolveFileUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.colProgress2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -1278,9 +1280,11 @@
             // ctxMenuDownload
             // 
             this.ctxMenuDownload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resolveFileUrlToolStripMenuItem,
+            this.toolStripMenuItem5,
             this.deleteToolStripMenuItem});
             this.ctxMenuDownload.Name = "contextMenuStrip1";
-            this.ctxMenuDownload.Size = new System.Drawing.Size(194, 26);
+            this.ctxMenuDownload.Size = new System.Drawing.Size(194, 54);
             // 
             // deleteToolStripMenuItem
             // 
@@ -2720,6 +2724,18 @@
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
             // 
+            // resolveFileUrlToolStripMenuItem
+            // 
+            this.resolveFileUrlToolStripMenuItem.Name = "resolveFileUrlToolStripMenuItem";
+            this.resolveFileUrlToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.resolveFileUrlToolStripMenuItem.Text = "Resolve File Url";
+            this.resolveFileUrlToolStripMenuItem.Click += new System.EventHandler(this.resolveFileUrlToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(190, 6);
+            // 
             // colIndex
             // 
             this.colIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -3113,6 +3129,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
         private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
         private System.Windows.Forms.DataGridViewLinkColumn colReferer;
+        private System.Windows.Forms.ToolStripMenuItem resolveFileUrlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIndex;
         private System.Windows.Forms.DataGridViewImageColumn colPreview2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgress2;

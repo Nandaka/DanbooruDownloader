@@ -246,10 +246,7 @@ namespace DanbooruDownloader3
                             {
                                 if (!string.IsNullOrWhiteSpace(post.Referer))
                                 {
-                                    ExtendedWebClient _clientPost = new ExtendedWebClient();
-                                    _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
-                                    _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
-                                    post.FileUrl = Constants.LOADING_URL;
+                                    ResolveFileUrl(post);
                                 }
                             }
                             _downloadList.Add(post);
@@ -261,12 +258,33 @@ namespace DanbooruDownloader3
             }
         }
 
+        private void ResolveFileUrl(DanbooruPost post)
+        {
+            ExtendedWebClient _clientPost = new ExtendedWebClient();
+            _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
+            _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
+            post.FileUrl = Constants.LOADING_URL;
+        }
+
         void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            DanbooruPost post = (DanbooruPost) e.UserState;
-            string html = e.Result;
-            if (post.Provider == "Sankaku Complex")
-                post = SankakuComplexParser.ParsePost(post, html);
+            DanbooruPost post = (DanbooruPost)e.UserState;
+            if (post.Provider.Contains("Sankaku Complex"))
+            {
+                if (e.Error == null)
+                {
+                    string html = e.Result;
+                    post = SankakuComplexParser.ParsePost(post, html);
+                }
+                else
+                {
+                    post.Status = e.Error.Message;
+                }
+            }
+            else
+            {
+                post.FileUrl = Constants.NO_POST_PARSER;
+            }
             dgvDownload.Refresh();
         }
 
@@ -371,6 +389,13 @@ namespace DanbooruDownloader3
                         row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
                         txtLog.Text += "[DownloadRow] Still loading post url, try again later.: " + row.Index;
                         Program.Logger.Info("[DownloadRow] Still loading post url, try again later.: " + row.Index);
+                    }
+                    else if (url == Constants.NO_POST_PARSER)
+                    {
+                        // no parser post url
+                        row.Cells["colProgress2"].Value = "No post parser for provider: " + _downloadList[row.Index].Provider;
+                        txtLog.Text += "[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index;
+                        Program.Logger.Info("[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
                     }
                     else
                     {
@@ -865,13 +890,34 @@ namespace DanbooruDownloader3
                                         {
                                             if (!string.IsNullOrWhiteSpace(post.Referer))
                                             {
-                                                string html = _clientPost.DownloadString(post.Referer);
-                                                _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
-                                                if (post.Provider == "Sankaku Complex")
-                                                { 
-                                                    var tempPost = SankakuComplexParser.ParsePost(post, html);
-                                                    post.FileUrl = tempPost.FileUrl;
-                                                    post.PreviewUrl = tempPost.PreviewUrl;
+                                                UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
+                                                while (true)
+                                                {
+                                                    int retry = 0;
+                                                    try
+                                                    {
+                                                        string html = _clientPost.DownloadString(post.Referer);
+                                                        _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
+                                                        if (post.Provider.Contains("Sankaku Complex"))
+                                                        {
+                                                            var tempPost = SankakuComplexParser.ParsePost(post, html);
+                                                            post.FileUrl = tempPost.FileUrl;
+                                                            post.PreviewUrl = tempPost.PreviewUrl;
+                                                        }
+                                                        break;
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        ++retry;
+                                                        if (retry > _retry)
+                                                        {
+                                                            UpdateLog("DoBatchJob", "Error: " + ex.StackTrace);
+                                                            post.FileUrl = "";
+                                                            post.JpegUrl = "";
+                                                            post.SampleUrl = "";
+                                                            break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -2038,6 +2084,16 @@ namespace DanbooruDownloader3
         private void resetColumnOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dgvList.ResetColumnOrder();
+        }
+
+        private void resolveFileUrlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvDownload.SelectedRows)
+            {
+                _downloadList[row.Index].FileUrl = Constants.LOADING_URL;
+                ResolveFileUrl(_downloadList[row.Index]);
+                dgvDownload.Refresh();
+            }
         }
     }
 }

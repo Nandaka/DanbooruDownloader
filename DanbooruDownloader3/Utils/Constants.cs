@@ -28,7 +28,6 @@ namespace DanbooruDownloader3
                                                                 {"Landscape", "order:landscape"},
                                                                 {"Portrait", "order:portrait"},
                                                                 {"Popularity", "order:popular"},
-                                                                {"No. of Favorites", "order:favcount"},
                                                                 {"Filesize (Descending)", "order:filesize"}
                                                             };
 
@@ -40,5 +39,6 @@ namespace DanbooruDownloader3
                                                             {"Explicit", "rating:explicit"}
                                                         };
         public static string LOADING_URL = "Loading...";
+        public static string NO_POST_PARSER = "No parser available...";
     }
 }
