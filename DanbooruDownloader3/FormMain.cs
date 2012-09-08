@@ -249,7 +249,7 @@ namespace DanbooruDownloader3
                                     ExtendedWebClient _clientPost = new ExtendedWebClient();
                                     _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
                                     _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
-                                    post.FileUrl = "Loading...";
+                                    post.FileUrl = Constants.LOADING_URL;
                                 }
                             }
                             _downloadList.Add(post);
@@ -364,6 +364,13 @@ namespace DanbooruDownloader3
                             txtLog.Text += "[DownloadRow] File exists: " + filename;
                             Program.Logger.Info("[DownloadRow] File exists: " + filename);
                         }
+                    }
+                    else if (url == Constants.LOADING_URL)
+                    {
+                        // still loading post url
+                        row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
+                        txtLog.Text += "[DownloadRow] Still loading post url, try again later.: " + row.Index;
+                        Program.Logger.Info("[DownloadRow] Still loading post url, try again later.: " + row.Index);
                     }
                     else
                     {

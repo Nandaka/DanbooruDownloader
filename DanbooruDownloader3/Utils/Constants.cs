@@ -39,5 +39,6 @@ namespace DanbooruDownloader3
                                                             {"Questionable", "rating:questionable"},
                                                             {"Explicit", "rating:explicit"}
                                                         };
+        public static string LOADING_URL = "Loading...";
     }
 }

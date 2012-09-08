@@ -16,7 +16,8 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 Changelog:
 =============================
 - DanbooruDownloader20120908
-  - HTML parser for SankakuComplex.
+  - HTML parser for SankakuComplex to get the file_url.
+    The parser will run when the post is add to the download list (lazy loading).
 
 - DanbooruDownloader20120826
   - Auto save column order.
