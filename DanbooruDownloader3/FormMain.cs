@@ -343,7 +343,12 @@ namespace DanbooruDownloader3
                             FilenameFormat = txtFilenameFormat.Text,
                             Limit = Convert.ToInt32(txtFilenameLength.Text),
                             BaseFolder = txtSaveFolder.Text,
-                            MissingTagReplacement = txtTagReplacement.Text
+                            MissingTagReplacement = txtTagReplacement.Text,
+                            ArtistGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                            CharacterGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                            CopyrightGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                            CircleGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                            FaultsGroupLimit = Convert.ToInt32(txtTagGrouping.Text)
                         };
                         string extension = url.Substring(url.LastIndexOf('.'));
                         if (chkRenameJpeg.Checked)
@@ -951,7 +956,12 @@ namespace DanbooruDownloader3
                                                 FilenameFormat = batchJob[i].SaveFolder,
                                                 Limit = Convert.ToInt32(txtFilenameLength.Text),
                                                 BaseFolder = txtSaveFolder.Text,
-                                                MissingTagReplacement = txtTagReplacement.Text
+                                                MissingTagReplacement = txtTagReplacement.Text,
+                                                ArtistGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                                                CharacterGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                                                CopyrightGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                                                CircleGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
+                                                FaultsGroupLimit = Convert.ToInt32(txtTagGrouping.Text)
                                             };
                                             string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
                                             if (chkRenameJpeg.Checked)

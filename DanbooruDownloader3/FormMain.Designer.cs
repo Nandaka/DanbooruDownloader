@@ -43,6 +43,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,7 +57,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lbxAutoComplete = new System.Windows.Forms.ListBox();
@@ -88,12 +88,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtQuery = new System.Windows.Forms.TextBox();
             this.gbxDanbooru = new System.Windows.Forms.GroupBox();
-            this.chkAutoLoadNext = new System.Windows.Forms.CheckBox();
-            this.chkAppendList = new System.Windows.Forms.CheckBox();
             this.pbLoading = new System.Windows.Forms.PictureBox();
-            this.chkSaveQuery = new System.Windows.Forms.CheckBox();
-            this.chkAutoLoadList = new System.Windows.Forms.CheckBox();
-            this.chkLoadPreview = new System.Windows.Forms.CheckBox();
             this.gbxList = new System.Windows.Forms.GroupBox();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -133,9 +128,23 @@
             this.btnClearDownloadList = new System.Windows.Forms.Button();
             this.btnPauseDownload = new System.Windows.Forms.Button();
             this.btnDownloadFiles = new System.Windows.Forms.Button();
-            this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.dgvDownload = new DanbooruDownloader3.CustomControl.gfDataGridView();
+            this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colProgress2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProvider2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colId2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRating2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTags2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUrl2 = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colReferer2 = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colMD52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuery2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDownloadStart2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ctxMenuDownload = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resolveFileUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.btnClearAll = new System.Windows.Forms.Button();
@@ -144,7 +153,6 @@
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
-            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.dgvBatchJob = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -158,65 +166,28 @@
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtAutoCompleteLimit = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.chkLogging = new System.Windows.Forms.CheckBox();
-            this.lblColorBlacklistedTag = new System.Windows.Forms.Label();
-            this.chkTagAutoComplete = new System.Windows.Forms.CheckBox();
-            this.lblColorFaults = new System.Windows.Forms.Label();
-            this.lblColorCircle = new System.Windows.Forms.Label();
-            this.lblColorChara = new System.Windows.Forms.Label();
-            this.lblColorCopy = new System.Windows.Forms.Label();
-            this.chkAutoFocus = new System.Windows.Forms.CheckBox();
-            this.lblColorArtist = new System.Windows.Forms.Label();
-            this.lblColorGeneral = new System.Windows.Forms.Label();
-            this.chkUseTagColor = new System.Windows.Forms.CheckBox();
-            this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.chkSaveFolderWhenExit = new System.Windows.Forms.CheckBox();
             this.btnBrowseDefaultSave = new System.Windows.Forms.Button();
-            this.txtDefaultSaveFolder = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.cbxImageSize = new System.Windows.Forms.ComboBox();
-            this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
-            this.txtTagBlacklist = new System.Windows.Forms.TextBox();
-            this.txtTagReplacement = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.txtRetry = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.txtFilenameLength = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.chkOverwrite = new System.Windows.Forms.CheckBox();
             this.txtFilenameHelp = new System.Windows.Forms.TextBox();
-            this.txtFilenameFormat = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.linkUrl = new System.Windows.Forms.LinkLabel();
-            this.chkProxyLogin = new System.Windows.Forms.CheckBox();
-            this.txtProxyPassword = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.txtProxyUsername = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.chkPadUserAgent = new System.Windows.Forms.CheckBox();
-            this.txtTimeout = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.txtUserAgent = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.chkUseProxy = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.txtProxyPort = new System.Windows.Forms.TextBox();
-            this.txtProxyAddress = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtLog = new System.Windows.Forms.TextBox();
@@ -272,21 +243,52 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
-            this.resolveFileUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colProgress2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProvider2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colId2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRating2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTags2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUrl2 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.colReferer2 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.colMD52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuery2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDownloadStart2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label25 = new System.Windows.Forms.Label();
+            this.chkAutoLoadNext = new System.Windows.Forms.CheckBox();
+            this.chkAppendList = new System.Windows.Forms.CheckBox();
+            this.chkSaveQuery = new System.Windows.Forms.CheckBox();
+            this.chkAutoLoadList = new System.Windows.Forms.CheckBox();
+            this.chkLoadPreview = new System.Windows.Forms.CheckBox();
+            this.txtSaveFolder = new System.Windows.Forms.TextBox();
+            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.txtAutoCompleteLimit = new System.Windows.Forms.TextBox();
+            this.chkLogging = new System.Windows.Forms.CheckBox();
+            this.lblColorBlacklistedTag = new System.Windows.Forms.Label();
+            this.chkTagAutoComplete = new System.Windows.Forms.CheckBox();
+            this.lblColorFaults = new System.Windows.Forms.Label();
+            this.lblColorCircle = new System.Windows.Forms.Label();
+            this.lblColorChara = new System.Windows.Forms.Label();
+            this.lblColorCopy = new System.Windows.Forms.Label();
+            this.chkAutoFocus = new System.Windows.Forms.CheckBox();
+            this.lblColorArtist = new System.Windows.Forms.Label();
+            this.lblColorGeneral = new System.Windows.Forms.Label();
+            this.chkUseTagColor = new System.Windows.Forms.CheckBox();
+            this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
+            this.chkSaveFolderWhenExit = new System.Windows.Forms.CheckBox();
+            this.txtDefaultSaveFolder = new System.Windows.Forms.TextBox();
+            this.cbxImageSize = new System.Windows.Forms.ComboBox();
+            this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
+            this.txtTagBlacklist = new System.Windows.Forms.TextBox();
+            this.txtTagReplacement = new System.Windows.Forms.TextBox();
+            this.txtRetry = new System.Windows.Forms.TextBox();
+            this.txtFilenameLength = new System.Windows.Forms.TextBox();
+            this.chkOverwrite = new System.Windows.Forms.CheckBox();
+            this.txtFilenameFormat = new System.Windows.Forms.TextBox();
+            this.txtTagGrouping = new System.Windows.Forms.TextBox();
+            this.chkProxyLogin = new System.Windows.Forms.CheckBox();
+            this.txtProxyPassword = new System.Windows.Forms.TextBox();
+            this.txtProxyUsername = new System.Windows.Forms.TextBox();
+            this.chkPadUserAgent = new System.Windows.Forms.CheckBox();
+            this.txtTimeout = new System.Windows.Forms.TextBox();
+            this.txtUserAgent = new System.Windows.Forms.TextBox();
+            this.chkUseProxy = new System.Windows.Forms.CheckBox();
+            this.txtProxyPort = new System.Windows.Forms.TextBox();
+            this.txtProxyAddress = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -681,31 +683,6 @@
             this.gbxDanbooru.TabStop = false;
             this.gbxDanbooru.Text = "Danbooru Listing";
             // 
-            // chkAutoLoadNext
-            // 
-            this.chkAutoLoadNext.AutoSize = true;
-            this.chkAutoLoadNext.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadNextPage;
-            this.chkAutoLoadNext.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoLoadNext.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadNextPage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAutoLoadNext.Location = new System.Drawing.Point(94, 37);
-            this.chkAutoLoadNext.Name = "chkAutoLoadNext";
-            this.chkAutoLoadNext.Size = new System.Drawing.Size(150, 17);
-            this.chkAutoLoadNext.TabIndex = 21;
-            this.chkAutoLoadNext.Text = "Auto Load Next StartPage";
-            this.chkAutoLoadNext.UseVisualStyleBackColor = true;
-            // 
-            // chkAppendList
-            // 
-            this.chkAppendList.AutoSize = true;
-            this.chkAppendList.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AppendList;
-            this.chkAppendList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AppendList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAppendList.Location = new System.Drawing.Point(184, 15);
-            this.chkAppendList.Name = "chkAppendList";
-            this.chkAppendList.Size = new System.Drawing.Size(82, 17);
-            this.chkAppendList.TabIndex = 19;
-            this.chkAppendList.Text = "Append List";
-            this.chkAppendList.UseVisualStyleBackColor = true;
-            // 
             // pbLoading
             // 
             this.pbLoading.InitialImage = null;
@@ -714,42 +691,6 @@
             this.pbLoading.Size = new System.Drawing.Size(1, 1);
             this.pbLoading.TabIndex = 11;
             this.pbLoading.TabStop = false;
-            // 
-            // chkSaveQuery
-            // 
-            this.chkSaveQuery.AutoSize = true;
-            this.chkSaveQuery.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveQuery;
-            this.chkSaveQuery.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveQuery", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkSaveQuery.Location = new System.Drawing.Point(6, 16);
-            this.chkSaveQuery.Name = "chkSaveQuery";
-            this.chkSaveQuery.Size = new System.Drawing.Size(82, 17);
-            this.chkSaveQuery.TabIndex = 17;
-            this.chkSaveQuery.Text = "Save Query";
-            this.chkSaveQuery.UseVisualStyleBackColor = true;
-            // 
-            // chkAutoLoadList
-            // 
-            this.chkAutoLoadList.AutoSize = true;
-            this.chkAutoLoadList.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadList;
-            this.chkAutoLoadList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAutoLoadList.Location = new System.Drawing.Point(94, 16);
-            this.chkAutoLoadList.Name = "chkAutoLoadList";
-            this.chkAutoLoadList.Size = new System.Drawing.Size(94, 17);
-            this.chkAutoLoadList.TabIndex = 18;
-            this.chkAutoLoadList.Text = "Auto Load List";
-            this.chkAutoLoadList.UseVisualStyleBackColor = true;
-            // 
-            // chkLoadPreview
-            // 
-            this.chkLoadPreview.AutoSize = true;
-            this.chkLoadPreview.Checked = global::DanbooruDownloader3.Properties.Settings.Default.LoadPreview;
-            this.chkLoadPreview.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "LoadPreview", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkLoadPreview.Location = new System.Drawing.Point(6, 37);
-            this.chkLoadPreview.Name = "chkLoadPreview";
-            this.chkLoadPreview.Size = new System.Drawing.Size(91, 17);
-            this.chkLoadPreview.TabIndex = 20;
-            this.chkLoadPreview.Text = "Load Preview";
-            this.chkLoadPreview.UseVisualStyleBackColor = true;
             // 
             // gbxList
             // 
@@ -1105,8 +1046,8 @@
             this.tabPage4.Controls.Add(this.btnClearDownloadList);
             this.tabPage4.Controls.Add(this.btnPauseDownload);
             this.tabPage4.Controls.Add(this.btnDownloadFiles);
-            this.tabPage4.Controls.Add(this.txtSaveFolder);
             this.tabPage4.Controls.Add(this.dgvDownload);
+            this.tabPage4.Controls.Add(this.txtSaveFolder);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -1200,17 +1141,6 @@
             this.btnDownloadFiles.UseVisualStyleBackColor = true;
             this.btnDownloadFiles.Click += new System.EventHandler(this.btnDownloadFiles_Click);
             // 
-            // txtSaveFolder
-            // 
-            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
-            this.txtSaveFolder.Name = "txtSaveFolder";
-            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
-            this.txtSaveFolder.TabIndex = 4;
-            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
-            // 
             // dgvDownload
             // 
             this.dgvDownload.AllowUserToAddRows = false;
@@ -1277,6 +1207,128 @@
             this.dgvDownload.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvDownload_RowsAdded);
             this.dgvDownload.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvDownload_MouseClick);
             // 
+            // colIndex
+            // 
+            this.colIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colIndex.FillWeight = 35F;
+            this.colIndex.Frozen = true;
+            this.colIndex.HeaderText = "#";
+            this.colIndex.MinimumWidth = 25;
+            this.colIndex.Name = "colIndex";
+            this.colIndex.Width = 25;
+            // 
+            // colPreview2
+            // 
+            this.colPreview2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.colPreview2.DataPropertyName = "ThumbnailImage";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle9;
+            this.colPreview2.FillWeight = 300F;
+            this.colPreview2.Frozen = true;
+            this.colPreview2.HeaderText = "Preview";
+            this.colPreview2.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
+            this.colPreview2.MinimumWidth = 150;
+            this.colPreview2.Name = "colPreview2";
+            this.colPreview2.Width = 150;
+            // 
+            // colProgress2
+            // 
+            this.colProgress2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colProgress2.FillWeight = 200F;
+            this.colProgress2.Frozen = true;
+            this.colProgress2.HeaderText = "Progress";
+            this.colProgress2.MinimumWidth = 150;
+            this.colProgress2.Name = "colProgress2";
+            this.colProgress2.Width = 150;
+            // 
+            // colProvider2
+            // 
+            this.colProvider2.DataPropertyName = "provider";
+            this.colProvider2.Frozen = true;
+            this.colProvider2.HeaderText = "provider";
+            this.colProvider2.Name = "colProvider2";
+            this.colProvider2.Width = 70;
+            // 
+            // colId2
+            // 
+            this.colId2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colId2.DataPropertyName = "Id";
+            this.colId2.FillWeight = 75F;
+            this.colId2.HeaderText = "Id";
+            this.colId2.MinimumWidth = 75;
+            this.colId2.Name = "colId2";
+            this.colId2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colId2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colId2.Width = 75;
+            // 
+            // colRating2
+            // 
+            this.colRating2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colRating2.DataPropertyName = "Rating";
+            this.colRating2.FillWeight = 25F;
+            this.colRating2.HeaderText = "Rating";
+            this.colRating2.MinimumWidth = 25;
+            this.colRating2.Name = "colRating2";
+            this.colRating2.Width = 25;
+            // 
+            // colTags2
+            // 
+            this.colTags2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colTags2.DataPropertyName = "Tags";
+            this.colTags2.FillWeight = 300F;
+            this.colTags2.HeaderText = "Tags";
+            this.colTags2.MinimumWidth = 110;
+            this.colTags2.Name = "colTags2";
+            this.colTags2.Width = 300;
+            // 
+            // colUrl2
+            // 
+            this.colUrl2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colUrl2.DataPropertyName = "FileUrl";
+            this.colUrl2.FillWeight = 200F;
+            this.colUrl2.HeaderText = "Url";
+            this.colUrl2.MinimumWidth = 200;
+            this.colUrl2.Name = "colUrl2";
+            this.colUrl2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colUrl2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colUrl2.Width = 200;
+            // 
+            // colReferer2
+            // 
+            this.colReferer2.DataPropertyName = "Referer";
+            this.colReferer2.HeaderText = "Referer";
+            this.colReferer2.Name = "colReferer2";
+            this.colReferer2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colReferer2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colReferer2.Width = 67;
+            // 
+            // colMD52
+            // 
+            this.colMD52.DataPropertyName = "MD5";
+            this.colMD52.HeaderText = "MD5";
+            this.colMD52.Name = "colMD52";
+            this.colMD52.Width = 55;
+            // 
+            // colQuery2
+            // 
+            this.colQuery2.DataPropertyName = "Query";
+            this.colQuery2.HeaderText = "Query";
+            this.colQuery2.Name = "colQuery2";
+            this.colQuery2.Width = 60;
+            // 
+            // colFilename
+            // 
+            this.colFilename.DataPropertyName = "Filename";
+            this.colFilename.HeaderText = "Filename";
+            this.colFilename.Name = "colFilename";
+            this.colFilename.Width = 74;
+            // 
+            // colDownloadStart2
+            // 
+            this.colDownloadStart2.HeaderText = "Download Start";
+            this.colDownloadStart2.Name = "colDownloadStart2";
+            this.colDownloadStart2.Width = 97;
+            // 
             // ctxMenuDownload
             // 
             this.ctxMenuDownload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1285,6 +1337,18 @@
             this.deleteToolStripMenuItem});
             this.ctxMenuDownload.Name = "contextMenuStrip1";
             this.ctxMenuDownload.Size = new System.Drawing.Size(194, 54);
+            // 
+            // resolveFileUrlToolStripMenuItem
+            // 
+            this.resolveFileUrlToolStripMenuItem.Name = "resolveFileUrlToolStripMenuItem";
+            this.resolveFileUrlToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.resolveFileUrlToolStripMenuItem.Text = "Resolve File Url";
+            this.resolveFileUrlToolStripMenuItem.Click += new System.EventHandler(this.resolveFileUrlToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(190, 6);
             // 
             // deleteToolStripMenuItem
             // 
@@ -1301,8 +1365,8 @@
             this.tabPage5.Controls.Add(this.btnStopBatchJob);
             this.tabPage5.Controls.Add(this.btnStartBatchJob);
             this.tabPage5.Controls.Add(this.btnAddBatchJob);
-            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Controls.Add(this.dgvBatchJob);
+            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1374,18 +1438,6 @@
             this.btnAddBatchJob.Text = "Add Batch Job";
             this.btnAddBatchJob.UseVisualStyleBackColor = true;
             this.btnAddBatchJob.Click += new System.EventHandler(this.btnAddBatchJob_Click);
-            // 
-            // cbxAbortOnError
-            // 
-            this.cbxAbortOnError.AutoSize = true;
-            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
-            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
-            this.cbxAbortOnError.Name = "cbxAbortOnError";
-            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
-            this.cbxAbortOnError.TabIndex = 4;
-            this.cbxAbortOnError.Text = "Abort On Error";
-            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
             // dgvBatchJob
             // 
@@ -1559,31 +1611,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Danbooru Listing";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadNextPage;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadNextPage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.Location = new System.Drawing.Point(357, 15);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(150, 17);
-            this.checkBox1.TabIndex = 21;
-            this.checkBox1.Text = "Auto Load Next StartPage";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AppendList;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AppendList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(184, 15);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(82, 17);
-            this.checkBox2.TabIndex = 19;
-            this.checkBox2.Text = "Append List";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.InitialImage = null;
@@ -1592,42 +1619,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1, 1);
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveQuery;
-            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveQuery", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox3.Location = new System.Drawing.Point(6, 16);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(82, 17);
-            this.checkBox3.TabIndex = 17;
-            this.checkBox3.Text = "Save Query";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadList;
-            this.checkBox4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox4.Location = new System.Drawing.Point(94, 16);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(94, 17);
-            this.checkBox4.TabIndex = 18;
-            this.checkBox4.Text = "Auto Load List";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Checked = global::DanbooruDownloader3.Properties.Settings.Default.LoadPreview;
-            this.checkBox5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "LoadPreview", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox5.Location = new System.Drawing.Point(269, 15);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(91, 17);
-            this.checkBox5.TabIndex = 20;
-            this.checkBox5.Text = "Load Preview";
-            this.checkBox5.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -1652,15 +1643,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Application Settings";
             // 
-            // txtAutoCompleteLimit
-            // 
-            this.txtAutoCompleteLimit.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "AutoCompleteLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtAutoCompleteLimit.Location = new System.Drawing.Point(583, 36);
-            this.txtAutoCompleteLimit.Name = "txtAutoCompleteLimit";
-            this.txtAutoCompleteLimit.Size = new System.Drawing.Size(55, 20);
-            this.txtAutoCompleteLimit.TabIndex = 19;
-            this.txtAutoCompleteLimit.Text = global::DanbooruDownloader3.Properties.Settings.Default.AutoCompleteLimit;
-            // 
             // label24
             // 
             this.label24.AutoSize = true;
@@ -1669,169 +1651,6 @@
             this.label24.Size = new System.Drawing.Size(86, 13);
             this.label24.TabIndex = 18;
             this.label24.Text = "Auto Complete #";
-            // 
-            // chkLogging
-            // 
-            this.chkLogging.AutoSize = true;
-            this.chkLogging.Checked = global::DanbooruDownloader3.Properties.Settings.Default.EnableLogging;
-            this.chkLogging.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLogging.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "EnableLogging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkLogging.Location = new System.Drawing.Point(344, 19);
-            this.chkLogging.Name = "chkLogging";
-            this.chkLogging.Size = new System.Drawing.Size(100, 17);
-            this.chkLogging.TabIndex = 17;
-            this.chkLogging.Text = "Enable Logging";
-            this.chkLogging.UseVisualStyleBackColor = true;
-            this.chkLogging.CheckedChanged += new System.EventHandler(this.chkLogging_CheckedChanged);
-            // 
-            // lblColorBlacklistedTag
-            // 
-            this.lblColorBlacklistedTag.AutoSize = true;
-            this.lblColorBlacklistedTag.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorBlacklistedTag.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorBlacklistedTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorBlacklistedTag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorBlacklistedTag.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorBlacklistedTag;
-            this.lblColorBlacklistedTag.Location = new System.Drawing.Point(405, 39);
-            this.lblColorBlacklistedTag.Name = "lblColorBlacklistedTag";
-            this.lblColorBlacklistedTag.Size = new System.Drawing.Size(80, 13);
-            this.lblColorBlacklistedTag.TabIndex = 16;
-            this.lblColorBlacklistedTag.Text = "Blacklisted Tag";
-            this.lblColorBlacklistedTag.DoubleClick += new System.EventHandler(this.lblColorBlacklistedTag_DoubleClick);
-            // 
-            // chkTagAutoComplete
-            // 
-            this.chkTagAutoComplete.AutoSize = true;
-            this.chkTagAutoComplete.Checked = global::DanbooruDownloader3.Properties.Settings.Default.TagAutoComplete;
-            this.chkTagAutoComplete.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "TagAutoComplete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkTagAutoComplete.Location = new System.Drawing.Point(494, 19);
-            this.chkTagAutoComplete.Name = "chkTagAutoComplete";
-            this.chkTagAutoComplete.Size = new System.Drawing.Size(144, 17);
-            this.chkTagAutoComplete.TabIndex = 15;
-            this.chkTagAutoComplete.Text = "Use Tags Auto Complete";
-            this.chkTagAutoComplete.UseVisualStyleBackColor = true;
-            // 
-            // lblColorFaults
-            // 
-            this.lblColorFaults.AutoSize = true;
-            this.lblColorFaults.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorFaults.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorFaults", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorFaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorFaults.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorFaults;
-            this.lblColorFaults.Location = new System.Drawing.Point(364, 39);
-            this.lblColorFaults.Name = "lblColorFaults";
-            this.lblColorFaults.Size = new System.Drawing.Size(35, 13);
-            this.lblColorFaults.TabIndex = 14;
-            this.lblColorFaults.Text = "Faults";
-            this.lblColorFaults.DoubleClick += new System.EventHandler(this.lblColorFaults_DoubleClick);
-            // 
-            // lblColorCircle
-            // 
-            this.lblColorCircle.AutoSize = true;
-            this.lblColorCircle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorCircle.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCircle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorCircle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorCircle.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCircle;
-            this.lblColorCircle.Location = new System.Drawing.Point(325, 39);
-            this.lblColorCircle.Name = "lblColorCircle";
-            this.lblColorCircle.Size = new System.Drawing.Size(33, 13);
-            this.lblColorCircle.TabIndex = 13;
-            this.lblColorCircle.Text = "Circle";
-            this.lblColorCircle.DoubleClick += new System.EventHandler(this.lblColorCircle_DoubleClick);
-            // 
-            // lblColorChara
-            // 
-            this.lblColorChara.AutoSize = true;
-            this.lblColorChara.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorChara.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCharacter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorChara.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorChara.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCharacter;
-            this.lblColorChara.Location = new System.Drawing.Point(266, 39);
-            this.lblColorChara.Name = "lblColorChara";
-            this.lblColorChara.Size = new System.Drawing.Size(53, 13);
-            this.lblColorChara.TabIndex = 12;
-            this.lblColorChara.Text = "Character";
-            this.lblColorChara.DoubleClick += new System.EventHandler(this.lblColorChara_DoubleClick);
-            // 
-            // lblColorCopy
-            // 
-            this.lblColorCopy.AutoSize = true;
-            this.lblColorCopy.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorCopy.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCopyright", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorCopy.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCopyright;
-            this.lblColorCopy.Location = new System.Drawing.Point(209, 39);
-            this.lblColorCopy.Name = "lblColorCopy";
-            this.lblColorCopy.Size = new System.Drawing.Size(51, 13);
-            this.lblColorCopy.TabIndex = 11;
-            this.lblColorCopy.Text = "Copyright";
-            this.lblColorCopy.DoubleClick += new System.EventHandler(this.lblColorCopy_DoubleClick);
-            // 
-            // chkAutoFocus
-            // 
-            this.chkAutoFocus.AutoSize = true;
-            this.chkAutoFocus.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoFocusCurrent;
-            this.chkAutoFocus.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoFocus.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoFocusCurrent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAutoFocus.Location = new System.Drawing.Point(151, 19);
-            this.chkAutoFocus.Name = "chkAutoFocus";
-            this.chkAutoFocus.Size = new System.Drawing.Size(187, 17);
-            this.chkAutoFocus.TabIndex = 6;
-            this.chkAutoFocus.Text = "Auto Focus Currently Downloaded";
-            this.chkAutoFocus.UseVisualStyleBackColor = true;
-            // 
-            // lblColorArtist
-            // 
-            this.lblColorArtist.AutoSize = true;
-            this.lblColorArtist.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorArtist.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorArtist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorArtist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorArtist.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorArtist;
-            this.lblColorArtist.Location = new System.Drawing.Point(173, 39);
-            this.lblColorArtist.Name = "lblColorArtist";
-            this.lblColorArtist.Size = new System.Drawing.Size(30, 13);
-            this.lblColorArtist.TabIndex = 10;
-            this.lblColorArtist.Text = "Artist";
-            this.lblColorArtist.DoubleClick += new System.EventHandler(this.lblColorArtist_DoubleClick);
-            // 
-            // lblColorGeneral
-            // 
-            this.lblColorGeneral.AutoSize = true;
-            this.lblColorGeneral.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblColorGeneral.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorGeneral", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.lblColorGeneral.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorGeneral.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorGeneral;
-            this.lblColorGeneral.Location = new System.Drawing.Point(123, 39);
-            this.lblColorGeneral.Name = "lblColorGeneral";
-            this.lblColorGeneral.Size = new System.Drawing.Size(44, 13);
-            this.lblColorGeneral.TabIndex = 9;
-            this.lblColorGeneral.Text = "General";
-            this.lblColorGeneral.DoubleClick += new System.EventHandler(this.lblColorGeneral_DoubleClick);
-            // 
-            // chkUseTagColor
-            // 
-            this.chkUseTagColor.AutoSize = true;
-            this.chkUseTagColor.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseColoredTag;
-            this.chkUseTagColor.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseColoredTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkUseTagColor.Location = new System.Drawing.Point(6, 38);
-            this.chkUseTagColor.Name = "chkUseTagColor";
-            this.chkUseTagColor.Size = new System.Drawing.Size(111, 17);
-            this.chkUseTagColor.TabIndex = 8;
-            this.chkUseTagColor.Text = "Use Colored Tags";
-            this.chkUseTagColor.UseVisualStyleBackColor = true;
-            this.chkUseTagColor.CheckedChanged += new System.EventHandler(this.chkUseTagColor_CheckedChanged);
-            // 
-            // chkMinimizeTray
-            // 
-            this.chkMinimizeTray.AutoSize = true;
-            this.chkMinimizeTray.Checked = global::DanbooruDownloader3.Properties.Settings.Default.MinimizeToTray;
-            this.chkMinimizeTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "MinimizeToTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkMinimizeTray.Location = new System.Drawing.Point(6, 19);
-            this.chkMinimizeTray.Name = "chkMinimizeTray";
-            this.chkMinimizeTray.Size = new System.Drawing.Size(139, 17);
-            this.chkMinimizeTray.TabIndex = 7;
-            this.chkMinimizeTray.Text = "Minimize to System Tray";
-            this.chkMinimizeTray.UseVisualStyleBackColor = true;
-            this.chkMinimizeTray.CheckedChanged += new System.EventHandler(this.chkMinimizeTray_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -1862,18 +1681,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Download";
             // 
-            // chkSaveFolderWhenExit
-            // 
-            this.chkSaveFolderWhenExit.AutoSize = true;
-            this.chkSaveFolderWhenExit.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolderWhenExit;
-            this.chkSaveFolderWhenExit.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolderWhenExit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkSaveFolderWhenExit.Location = new System.Drawing.Point(450, 21);
-            this.chkSaveFolderWhenExit.Name = "chkSaveFolderWhenExit";
-            this.chkSaveFolderWhenExit.Size = new System.Drawing.Size(103, 17);
-            this.chkSaveFolderWhenExit.TabIndex = 20;
-            this.chkSaveFolderWhenExit.Text = "Save When Exit";
-            this.chkSaveFolderWhenExit.UseVisualStyleBackColor = true;
-            // 
             // btnBrowseDefaultSave
             // 
             this.btnBrowseDefaultSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1884,17 +1691,6 @@
             this.btnBrowseDefaultSave.Text = "Browse";
             this.btnBrowseDefaultSave.UseVisualStyleBackColor = true;
             this.btnBrowseDefaultSave.Click += new System.EventHandler(this.btnBrowseDefaultSave_Click);
-            // 
-            // txtDefaultSaveFolder
-            // 
-            this.txtDefaultSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDefaultSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtDefaultSaveFolder.Location = new System.Drawing.Point(110, 19);
-            this.txtDefaultSaveFolder.Name = "txtDefaultSaveFolder";
-            this.txtDefaultSaveFolder.Size = new System.Drawing.Size(262, 20);
-            this.txtDefaultSaveFolder.TabIndex = 17;
-            this.txtDefaultSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
             // label22
             // 
@@ -1913,34 +1709,6 @@
             this.label23.Size = new System.Drawing.Size(101, 13);
             this.label23.TabIndex = 18;
             this.label23.Text = "Default Save Folder";
-            // 
-            // cbxImageSize
-            // 
-            this.cbxImageSize.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ImageSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbxImageSize.FormattingEnabled = true;
-            this.cbxImageSize.Items.AddRange(new object[] {
-            "Full",
-            "Sample",
-            "Jpeg",
-            "Thumb"});
-            this.cbxImageSize.Location = new System.Drawing.Point(330, 97);
-            this.cbxImageSize.Name = "cbxImageSize";
-            this.cbxImageSize.Size = new System.Drawing.Size(70, 21);
-            this.cbxImageSize.TabIndex = 15;
-            this.cbxImageSize.Text = global::DanbooruDownloader3.Properties.Settings.Default.ImageSize;
-            this.cbxImageSize.TextChanged += new System.EventHandler(this.cbxImageSize_TextChanged);
-            // 
-            // chkRenameJpeg
-            // 
-            this.chkRenameJpeg.AutoSize = true;
-            this.chkRenameJpeg.Checked = global::DanbooruDownloader3.Properties.Settings.Default.RenameJpeg;
-            this.chkRenameJpeg.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "RenameJpeg", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkRenameJpeg.Location = new System.Drawing.Point(108, 119);
-            this.chkRenameJpeg.Name = "chkRenameJpeg";
-            this.chkRenameJpeg.Size = new System.Drawing.Size(124, 17);
-            this.chkRenameJpeg.TabIndex = 14;
-            this.chkRenameJpeg.Text = "Rename .jpeg to .jpg";
-            this.chkRenameJpeg.UseVisualStyleBackColor = true;
             // 
             // btnUpdate
             // 
@@ -1961,25 +1729,6 @@
             this.label21.TabIndex = 13;
             this.label21.Text = "Tag Blacklist";
             // 
-            // txtTagBlacklist
-            // 
-            this.txtTagBlacklist.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagBlacklist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTagBlacklist.Location = new System.Drawing.Point(330, 71);
-            this.txtTagBlacklist.Name = "txtTagBlacklist";
-            this.txtTagBlacklist.Size = new System.Drawing.Size(223, 20);
-            this.txtTagBlacklist.TabIndex = 12;
-            this.txtTagBlacklist.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagBlacklist;
-            this.txtTagBlacklist.TextChanged += new System.EventHandler(this.txtTagBlacklist_TextChanged);
-            // 
-            // txtTagReplacement
-            // 
-            this.txtTagReplacement.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "EmptyTagReplacement", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTagReplacement.Location = new System.Drawing.Point(139, 71);
-            this.txtTagReplacement.Name = "txtTagReplacement";
-            this.txtTagReplacement.Size = new System.Drawing.Size(117, 20);
-            this.txtTagReplacement.TabIndex = 11;
-            this.txtTagReplacement.Text = global::DanbooruDownloader3.Properties.Settings.Default.EmptyTagReplacement;
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -1988,16 +1737,6 @@
             this.label20.Size = new System.Drawing.Size(124, 13);
             this.label20.TabIndex = 10;
             this.label20.Text = "Empty Tag Replacement";
-            // 
-            // txtRetry
-            // 
-            this.txtRetry.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "retry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtRetry.Location = new System.Drawing.Point(224, 98);
-            this.txtRetry.Name = "txtRetry";
-            this.txtRetry.Size = new System.Drawing.Size(32, 20);
-            this.txtRetry.TabIndex = 8;
-            this.txtRetry.Text = global::DanbooruDownloader3.Properties.Settings.Default.retry;
-            this.txtRetry.TextChanged += new System.EventHandler(this.txtRetry_TextChanged);
             // 
             // label17
             // 
@@ -2008,16 +1747,6 @@
             this.label17.TabIndex = 7;
             this.label17.Text = "Retry";
             // 
-            // txtFilenameLength
-            // 
-            this.txtFilenameLength.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameLengthLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtFilenameLength.Location = new System.Drawing.Point(139, 98);
-            this.txtFilenameLength.Name = "txtFilenameLength";
-            this.txtFilenameLength.Size = new System.Drawing.Size(32, 20);
-            this.txtFilenameLength.TabIndex = 5;
-            this.txtFilenameLength.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameLengthLimit;
-            this.txtFilenameLength.TextChanged += new System.EventHandler(this.txtFilenameLength_TextChanged);
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -2026,18 +1755,6 @@
             this.label14.Size = new System.Drawing.Size(109, 13);
             this.label14.TabIndex = 4;
             this.label14.Text = "Filename Length Limit";
-            // 
-            // chkOverwrite
-            // 
-            this.chkOverwrite.AutoSize = true;
-            this.chkOverwrite.Checked = global::DanbooruDownloader3.Properties.Settings.Default.overwrite;
-            this.chkOverwrite.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkOverwrite.Location = new System.Drawing.Point(12, 119);
-            this.chkOverwrite.Name = "chkOverwrite";
-            this.chkOverwrite.Size = new System.Drawing.Size(90, 17);
-            this.chkOverwrite.TabIndex = 3;
-            this.chkOverwrite.Text = "Overwrite File";
-            this.chkOverwrite.UseVisualStyleBackColor = true;
             // 
             // txtFilenameHelp
             // 
@@ -2049,15 +1766,6 @@
             this.txtFilenameHelp.Size = new System.Drawing.Size(226, 123);
             this.txtFilenameHelp.TabIndex = 2;
             this.txtFilenameHelp.WordWrap = false;
-            // 
-            // txtFilenameFormat
-            // 
-            this.txtFilenameFormat.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtFilenameFormat.Location = new System.Drawing.Point(110, 45);
-            this.txtFilenameFormat.Name = "txtFilenameFormat";
-            this.txtFilenameFormat.Size = new System.Drawing.Size(443, 20);
-            this.txtFilenameFormat.TabIndex = 1;
-            this.txtFilenameFormat.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameFormat;
             // 
             // label13
             // 
@@ -2080,6 +1788,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtTagGrouping);
+            this.groupBox1.Controls.Add(this.label25);
             this.groupBox1.Controls.Add(this.linkUrl);
             this.groupBox1.Controls.Add(this.chkProxyLogin);
             this.groupBox1.Controls.Add(this.txtProxyPassword);
@@ -2114,30 +1824,6 @@
             this.linkUrl.Text = "http://nandaka.wordpress.com/tag/danbooru-batch-download/";
             this.linkUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkUrl_LinkClicked);
             // 
-            // chkProxyLogin
-            // 
-            this.chkProxyLogin.AutoSize = true;
-            this.chkProxyLogin.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseProxyLogin;
-            this.chkProxyLogin.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseProxyLogin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkProxyLogin.Location = new System.Drawing.Point(378, 50);
-            this.chkProxyLogin.Name = "chkProxyLogin";
-            this.chkProxyLogin.Size = new System.Drawing.Size(103, 17);
-            this.chkProxyLogin.TabIndex = 14;
-            this.chkProxyLogin.Text = "Use Proxy Login";
-            this.chkProxyLogin.UseVisualStyleBackColor = true;
-            this.chkProxyLogin.CheckedChanged += new System.EventHandler(this.chkProxyLogin_CheckedChanged);
-            // 
-            // txtProxyPassword
-            // 
-            this.txtProxyPassword.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyPassword", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtProxyPassword.Enabled = false;
-            this.txtProxyPassword.Location = new System.Drawing.Point(278, 48);
-            this.txtProxyPassword.Name = "txtProxyPassword";
-            this.txtProxyPassword.Size = new System.Drawing.Size(94, 20);
-            this.txtProxyPassword.TabIndex = 13;
-            this.txtProxyPassword.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPassword;
-            this.txtProxyPassword.UseSystemPasswordChar = true;
-            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -2146,16 +1832,6 @@
             this.label19.Size = new System.Drawing.Size(82, 13);
             this.label19.TabIndex = 12;
             this.label19.Text = "Proxy Password";
-            // 
-            // txtProxyUsername
-            // 
-            this.txtProxyUsername.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyUsername", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtProxyUsername.Enabled = false;
-            this.txtProxyUsername.Location = new System.Drawing.Point(96, 48);
-            this.txtProxyUsername.Name = "txtProxyUsername";
-            this.txtProxyUsername.Size = new System.Drawing.Size(94, 20);
-            this.txtProxyUsername.TabIndex = 11;
-            this.txtProxyUsername.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyUsername;
             // 
             // label18
             // 
@@ -2166,27 +1842,6 @@
             this.label18.TabIndex = 10;
             this.label18.Text = "Proxy Username";
             // 
-            // chkPadUserAgent
-            // 
-            this.chkPadUserAgent.AutoSize = true;
-            this.chkPadUserAgent.Checked = global::DanbooruDownloader3.Properties.Settings.Default.PadUserAgent;
-            this.chkPadUserAgent.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "PadUserAgent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkPadUserAgent.Location = new System.Drawing.Point(9, 100);
-            this.chkPadUserAgent.Name = "chkPadUserAgent";
-            this.chkPadUserAgent.Size = new System.Drawing.Size(101, 17);
-            this.chkPadUserAgent.TabIndex = 9;
-            this.chkPadUserAgent.Text = "Pad User Agent";
-            this.chkPadUserAgent.UseVisualStyleBackColor = true;
-            // 
-            // txtTimeout
-            // 
-            this.txtTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "Timeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTimeout.Location = new System.Drawing.Point(421, 19);
-            this.txtTimeout.Name = "txtTimeout";
-            this.txtTimeout.Size = new System.Drawing.Size(60, 20);
-            this.txtTimeout.TabIndex = 8;
-            this.txtTimeout.Text = global::DanbooruDownloader3.Properties.Settings.Default.Timeout;
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -2195,16 +1850,6 @@
             this.label16.Size = new System.Drawing.Size(67, 13);
             this.label16.TabIndex = 7;
             this.label16.Text = "Timeout (ms)";
-            // 
-            // txtUserAgent
-            // 
-            this.txtUserAgent.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "UserAgent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtUserAgent.Location = new System.Drawing.Point(86, 74);
-            this.txtUserAgent.Name = "txtUserAgent";
-            this.txtUserAgent.Size = new System.Drawing.Size(699, 20);
-            this.txtUserAgent.TabIndex = 7;
-            this.txtUserAgent.Text = global::DanbooruDownloader3.Properties.Settings.Default.UserAgent;
-            this.txtUserAgent.TextChanged += new System.EventHandler(this.txtUserAgent_TextChanged);
             // 
             // label15
             // 
@@ -2215,19 +1860,6 @@
             this.label15.TabIndex = 6;
             this.label15.Text = "User Agents";
             // 
-            // chkUseProxy
-            // 
-            this.chkUseProxy.AutoSize = true;
-            this.chkUseProxy.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseProxy;
-            this.chkUseProxy.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseProxy", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkUseProxy.Location = new System.Drawing.Point(268, 21);
-            this.chkUseProxy.Name = "chkUseProxy";
-            this.chkUseProxy.Size = new System.Drawing.Size(74, 17);
-            this.chkUseProxy.TabIndex = 2;
-            this.chkUseProxy.Text = "Use Proxy";
-            this.chkUseProxy.UseVisualStyleBackColor = true;
-            this.chkUseProxy.CheckedChanged += new System.EventHandler(this.chkUseProxy_CheckedChanged);
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -2236,24 +1868,6 @@
             this.label12.Size = new System.Drawing.Size(10, 13);
             this.label12.TabIndex = 5;
             this.label12.Text = ":";
-            // 
-            // txtProxyPort
-            // 
-            this.txtProxyPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtProxyPort.Location = new System.Drawing.Point(202, 19);
-            this.txtProxyPort.Name = "txtProxyPort";
-            this.txtProxyPort.Size = new System.Drawing.Size(60, 20);
-            this.txtProxyPort.TabIndex = 4;
-            this.txtProxyPort.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPort;
-            // 
-            // txtProxyAddress
-            // 
-            this.txtProxyAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyAddress", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtProxyAddress.Location = new System.Drawing.Point(86, 19);
-            this.txtProxyAddress.Name = "txtProxyAddress";
-            this.txtProxyAddress.Size = new System.Drawing.Size(94, 20);
-            this.txtProxyAddress.TabIndex = 3;
-            this.txtProxyAddress.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyAddress;
             // 
             // label11
             // 
@@ -2724,139 +2338,547 @@
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
             // 
-            // resolveFileUrlToolStripMenuItem
+            // label25
             // 
-            this.resolveFileUrlToolStripMenuItem.Name = "resolveFileUrlToolStripMenuItem";
-            this.resolveFileUrlToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.resolveFileUrlToolStripMenuItem.Text = "Resolve File Url";
-            this.resolveFileUrlToolStripMenuItem.Click += new System.EventHandler(this.resolveFileUrlToolStripMenuItem_Click);
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(116, 104);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(96, 13);
+            this.label25.TabIndex = 21;
+            this.label25.Text = "Tag Grouping Limit";
             // 
-            // toolStripMenuItem5
+            // chkAutoLoadNext
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(190, 6);
+            this.chkAutoLoadNext.AutoSize = true;
+            this.chkAutoLoadNext.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadNextPage;
+            this.chkAutoLoadNext.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoLoadNext.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadNextPage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkAutoLoadNext.Location = new System.Drawing.Point(94, 37);
+            this.chkAutoLoadNext.Name = "chkAutoLoadNext";
+            this.chkAutoLoadNext.Size = new System.Drawing.Size(150, 17);
+            this.chkAutoLoadNext.TabIndex = 21;
+            this.chkAutoLoadNext.Text = "Auto Load Next StartPage";
+            this.chkAutoLoadNext.UseVisualStyleBackColor = true;
             // 
-            // colIndex
+            // chkAppendList
             // 
-            this.colIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colIndex.FillWeight = 35F;
-            this.colIndex.Frozen = true;
-            this.colIndex.HeaderText = "#";
-            this.colIndex.MinimumWidth = 25;
-            this.colIndex.Name = "colIndex";
-            this.colIndex.Width = 25;
+            this.chkAppendList.AutoSize = true;
+            this.chkAppendList.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AppendList;
+            this.chkAppendList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AppendList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkAppendList.Location = new System.Drawing.Point(184, 15);
+            this.chkAppendList.Name = "chkAppendList";
+            this.chkAppendList.Size = new System.Drawing.Size(82, 17);
+            this.chkAppendList.TabIndex = 19;
+            this.chkAppendList.Text = "Append List";
+            this.chkAppendList.UseVisualStyleBackColor = true;
             // 
-            // colPreview2
+            // chkSaveQuery
             // 
-            this.colPreview2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.colPreview2.DataPropertyName = "ThumbnailImage";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPreview2.DefaultCellStyle = dataGridViewCellStyle9;
-            this.colPreview2.FillWeight = 300F;
-            this.colPreview2.Frozen = true;
-            this.colPreview2.HeaderText = "Preview";
-            this.colPreview2.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
-            this.colPreview2.MinimumWidth = 150;
-            this.colPreview2.Name = "colPreview2";
-            this.colPreview2.Width = 150;
+            this.chkSaveQuery.AutoSize = true;
+            this.chkSaveQuery.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveQuery;
+            this.chkSaveQuery.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveQuery", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkSaveQuery.Location = new System.Drawing.Point(6, 16);
+            this.chkSaveQuery.Name = "chkSaveQuery";
+            this.chkSaveQuery.Size = new System.Drawing.Size(82, 17);
+            this.chkSaveQuery.TabIndex = 17;
+            this.chkSaveQuery.Text = "Save Query";
+            this.chkSaveQuery.UseVisualStyleBackColor = true;
             // 
-            // colProgress2
+            // chkAutoLoadList
             // 
-            this.colProgress2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colProgress2.FillWeight = 200F;
-            this.colProgress2.Frozen = true;
-            this.colProgress2.HeaderText = "Progress";
-            this.colProgress2.MinimumWidth = 150;
-            this.colProgress2.Name = "colProgress2";
-            this.colProgress2.Width = 150;
+            this.chkAutoLoadList.AutoSize = true;
+            this.chkAutoLoadList.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadList;
+            this.chkAutoLoadList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkAutoLoadList.Location = new System.Drawing.Point(94, 16);
+            this.chkAutoLoadList.Name = "chkAutoLoadList";
+            this.chkAutoLoadList.Size = new System.Drawing.Size(94, 17);
+            this.chkAutoLoadList.TabIndex = 18;
+            this.chkAutoLoadList.Text = "Auto Load List";
+            this.chkAutoLoadList.UseVisualStyleBackColor = true;
             // 
-            // colProvider2
+            // chkLoadPreview
             // 
-            this.colProvider2.DataPropertyName = "provider";
-            this.colProvider2.Frozen = true;
-            this.colProvider2.HeaderText = "provider";
-            this.colProvider2.Name = "colProvider2";
-            this.colProvider2.Width = 70;
+            this.chkLoadPreview.AutoSize = true;
+            this.chkLoadPreview.Checked = global::DanbooruDownloader3.Properties.Settings.Default.LoadPreview;
+            this.chkLoadPreview.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "LoadPreview", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkLoadPreview.Location = new System.Drawing.Point(6, 37);
+            this.chkLoadPreview.Name = "chkLoadPreview";
+            this.chkLoadPreview.Size = new System.Drawing.Size(91, 17);
+            this.chkLoadPreview.TabIndex = 20;
+            this.chkLoadPreview.Text = "Load Preview";
+            this.chkLoadPreview.UseVisualStyleBackColor = true;
             // 
-            // colId2
+            // txtSaveFolder
             // 
-            this.colId2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colId2.DataPropertyName = "Id";
-            this.colId2.FillWeight = 75F;
-            this.colId2.HeaderText = "Id";
-            this.colId2.MinimumWidth = 75;
-            this.colId2.Name = "colId2";
-            this.colId2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colId2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId2.Width = 75;
+            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
+            this.txtSaveFolder.Name = "txtSaveFolder";
+            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
+            this.txtSaveFolder.TabIndex = 4;
+            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
-            // colRating2
+            // cbxAbortOnError
             // 
-            this.colRating2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colRating2.DataPropertyName = "Rating";
-            this.colRating2.FillWeight = 25F;
-            this.colRating2.HeaderText = "Rating";
-            this.colRating2.MinimumWidth = 25;
-            this.colRating2.Name = "colRating2";
-            this.colRating2.Width = 25;
+            this.cbxAbortOnError.AutoSize = true;
+            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
+            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
+            this.cbxAbortOnError.Name = "cbxAbortOnError";
+            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
+            this.cbxAbortOnError.TabIndex = 4;
+            this.cbxAbortOnError.Text = "Abort On Error";
+            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
-            // colTags2
+            // checkBox1
             // 
-            this.colTags2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colTags2.DataPropertyName = "Tags";
-            this.colTags2.FillWeight = 300F;
-            this.colTags2.HeaderText = "Tags";
-            this.colTags2.MinimumWidth = 110;
-            this.colTags2.Name = "colTags2";
-            this.colTags2.Width = 300;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadNextPage;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadNextPage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.Location = new System.Drawing.Point(357, 15);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(150, 17);
+            this.checkBox1.TabIndex = 21;
+            this.checkBox1.Text = "Auto Load Next StartPage";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // colUrl2
+            // checkBox2
             // 
-            this.colUrl2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colUrl2.DataPropertyName = "FileUrl";
-            this.colUrl2.FillWeight = 200F;
-            this.colUrl2.HeaderText = "Url";
-            this.colUrl2.MinimumWidth = 200;
-            this.colUrl2.Name = "colUrl2";
-            this.colUrl2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colUrl2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colUrl2.Width = 200;
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AppendList;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AppendList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Location = new System.Drawing.Point(184, 15);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(82, 17);
+            this.checkBox2.TabIndex = 19;
+            this.checkBox2.Text = "Append List";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // colReferer2
+            // checkBox3
             // 
-            this.colReferer2.DataPropertyName = "Referer";
-            this.colReferer2.HeaderText = "Referer";
-            this.colReferer2.Name = "colReferer2";
-            this.colReferer2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colReferer2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colReferer2.Width = 67;
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveQuery;
+            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveQuery", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox3.Location = new System.Drawing.Point(6, 16);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(82, 17);
+            this.checkBox3.TabIndex = 17;
+            this.checkBox3.Text = "Save Query";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // colMD52
+            // checkBox4
             // 
-            this.colMD52.DataPropertyName = "MD5";
-            this.colMD52.HeaderText = "MD5";
-            this.colMD52.Name = "colMD52";
-            this.colMD52.Width = 55;
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoLoadList;
+            this.checkBox4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoLoadList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox4.Location = new System.Drawing.Point(94, 16);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(94, 17);
+            this.checkBox4.TabIndex = 18;
+            this.checkBox4.Text = "Auto Load List";
+            this.checkBox4.UseVisualStyleBackColor = true;
             // 
-            // colQuery2
+            // checkBox5
             // 
-            this.colQuery2.DataPropertyName = "Query";
-            this.colQuery2.HeaderText = "Query";
-            this.colQuery2.Name = "colQuery2";
-            this.colQuery2.Width = 60;
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Checked = global::DanbooruDownloader3.Properties.Settings.Default.LoadPreview;
+            this.checkBox5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "LoadPreview", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox5.Location = new System.Drawing.Point(269, 15);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(91, 17);
+            this.checkBox5.TabIndex = 20;
+            this.checkBox5.Text = "Load Preview";
+            this.checkBox5.UseVisualStyleBackColor = true;
             // 
-            // colFilename
+            // txtAutoCompleteLimit
             // 
-            this.colFilename.DataPropertyName = "Filename";
-            this.colFilename.HeaderText = "Filename";
-            this.colFilename.Name = "colFilename";
-            this.colFilename.Width = 74;
+            this.txtAutoCompleteLimit.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "AutoCompleteLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtAutoCompleteLimit.Location = new System.Drawing.Point(583, 36);
+            this.txtAutoCompleteLimit.Name = "txtAutoCompleteLimit";
+            this.txtAutoCompleteLimit.Size = new System.Drawing.Size(55, 20);
+            this.txtAutoCompleteLimit.TabIndex = 19;
+            this.txtAutoCompleteLimit.Text = global::DanbooruDownloader3.Properties.Settings.Default.AutoCompleteLimit;
             // 
-            // colDownloadStart2
+            // chkLogging
             // 
-            this.colDownloadStart2.HeaderText = "Download Start";
-            this.colDownloadStart2.Name = "colDownloadStart2";
-            this.colDownloadStart2.Width = 97;
+            this.chkLogging.AutoSize = true;
+            this.chkLogging.Checked = global::DanbooruDownloader3.Properties.Settings.Default.EnableLogging;
+            this.chkLogging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogging.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "EnableLogging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkLogging.Location = new System.Drawing.Point(344, 19);
+            this.chkLogging.Name = "chkLogging";
+            this.chkLogging.Size = new System.Drawing.Size(100, 17);
+            this.chkLogging.TabIndex = 17;
+            this.chkLogging.Text = "Enable Logging";
+            this.chkLogging.UseVisualStyleBackColor = true;
+            this.chkLogging.CheckedChanged += new System.EventHandler(this.chkLogging_CheckedChanged);
+            // 
+            // lblColorBlacklistedTag
+            // 
+            this.lblColorBlacklistedTag.AutoSize = true;
+            this.lblColorBlacklistedTag.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorBlacklistedTag.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorBlacklistedTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorBlacklistedTag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorBlacklistedTag.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorBlacklistedTag;
+            this.lblColorBlacklistedTag.Location = new System.Drawing.Point(405, 39);
+            this.lblColorBlacklistedTag.Name = "lblColorBlacklistedTag";
+            this.lblColorBlacklistedTag.Size = new System.Drawing.Size(80, 13);
+            this.lblColorBlacklistedTag.TabIndex = 16;
+            this.lblColorBlacklistedTag.Text = "Blacklisted Tag";
+            this.lblColorBlacklistedTag.DoubleClick += new System.EventHandler(this.lblColorBlacklistedTag_DoubleClick);
+            // 
+            // chkTagAutoComplete
+            // 
+            this.chkTagAutoComplete.AutoSize = true;
+            this.chkTagAutoComplete.Checked = global::DanbooruDownloader3.Properties.Settings.Default.TagAutoComplete;
+            this.chkTagAutoComplete.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "TagAutoComplete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkTagAutoComplete.Location = new System.Drawing.Point(494, 19);
+            this.chkTagAutoComplete.Name = "chkTagAutoComplete";
+            this.chkTagAutoComplete.Size = new System.Drawing.Size(144, 17);
+            this.chkTagAutoComplete.TabIndex = 15;
+            this.chkTagAutoComplete.Text = "Use Tags Auto Complete";
+            this.chkTagAutoComplete.UseVisualStyleBackColor = true;
+            // 
+            // lblColorFaults
+            // 
+            this.lblColorFaults.AutoSize = true;
+            this.lblColorFaults.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorFaults.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorFaults", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorFaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorFaults.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorFaults;
+            this.lblColorFaults.Location = new System.Drawing.Point(364, 39);
+            this.lblColorFaults.Name = "lblColorFaults";
+            this.lblColorFaults.Size = new System.Drawing.Size(35, 13);
+            this.lblColorFaults.TabIndex = 14;
+            this.lblColorFaults.Text = "Faults";
+            this.lblColorFaults.DoubleClick += new System.EventHandler(this.lblColorFaults_DoubleClick);
+            // 
+            // lblColorCircle
+            // 
+            this.lblColorCircle.AutoSize = true;
+            this.lblColorCircle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorCircle.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCircle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorCircle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorCircle.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCircle;
+            this.lblColorCircle.Location = new System.Drawing.Point(325, 39);
+            this.lblColorCircle.Name = "lblColorCircle";
+            this.lblColorCircle.Size = new System.Drawing.Size(33, 13);
+            this.lblColorCircle.TabIndex = 13;
+            this.lblColorCircle.Text = "Circle";
+            this.lblColorCircle.DoubleClick += new System.EventHandler(this.lblColorCircle_DoubleClick);
+            // 
+            // lblColorChara
+            // 
+            this.lblColorChara.AutoSize = true;
+            this.lblColorChara.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorChara.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCharacter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorChara.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorChara.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCharacter;
+            this.lblColorChara.Location = new System.Drawing.Point(266, 39);
+            this.lblColorChara.Name = "lblColorChara";
+            this.lblColorChara.Size = new System.Drawing.Size(53, 13);
+            this.lblColorChara.TabIndex = 12;
+            this.lblColorChara.Text = "Character";
+            this.lblColorChara.DoubleClick += new System.EventHandler(this.lblColorChara_DoubleClick);
+            // 
+            // lblColorCopy
+            // 
+            this.lblColorCopy.AutoSize = true;
+            this.lblColorCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorCopy.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCopyright", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorCopy.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCopyright;
+            this.lblColorCopy.Location = new System.Drawing.Point(209, 39);
+            this.lblColorCopy.Name = "lblColorCopy";
+            this.lblColorCopy.Size = new System.Drawing.Size(51, 13);
+            this.lblColorCopy.TabIndex = 11;
+            this.lblColorCopy.Text = "Copyright";
+            this.lblColorCopy.DoubleClick += new System.EventHandler(this.lblColorCopy_DoubleClick);
+            // 
+            // chkAutoFocus
+            // 
+            this.chkAutoFocus.AutoSize = true;
+            this.chkAutoFocus.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoFocusCurrent;
+            this.chkAutoFocus.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoFocus.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoFocusCurrent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkAutoFocus.Location = new System.Drawing.Point(151, 19);
+            this.chkAutoFocus.Name = "chkAutoFocus";
+            this.chkAutoFocus.Size = new System.Drawing.Size(187, 17);
+            this.chkAutoFocus.TabIndex = 6;
+            this.chkAutoFocus.Text = "Auto Focus Currently Downloaded";
+            this.chkAutoFocus.UseVisualStyleBackColor = true;
+            // 
+            // lblColorArtist
+            // 
+            this.lblColorArtist.AutoSize = true;
+            this.lblColorArtist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorArtist.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorArtist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorArtist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorArtist.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorArtist;
+            this.lblColorArtist.Location = new System.Drawing.Point(173, 39);
+            this.lblColorArtist.Name = "lblColorArtist";
+            this.lblColorArtist.Size = new System.Drawing.Size(30, 13);
+            this.lblColorArtist.TabIndex = 10;
+            this.lblColorArtist.Text = "Artist";
+            this.lblColorArtist.DoubleClick += new System.EventHandler(this.lblColorArtist_DoubleClick);
+            // 
+            // lblColorGeneral
+            // 
+            this.lblColorGeneral.AutoSize = true;
+            this.lblColorGeneral.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblColorGeneral.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorGeneral", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.lblColorGeneral.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColorGeneral.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorGeneral;
+            this.lblColorGeneral.Location = new System.Drawing.Point(123, 39);
+            this.lblColorGeneral.Name = "lblColorGeneral";
+            this.lblColorGeneral.Size = new System.Drawing.Size(44, 13);
+            this.lblColorGeneral.TabIndex = 9;
+            this.lblColorGeneral.Text = "General";
+            this.lblColorGeneral.DoubleClick += new System.EventHandler(this.lblColorGeneral_DoubleClick);
+            // 
+            // chkUseTagColor
+            // 
+            this.chkUseTagColor.AutoSize = true;
+            this.chkUseTagColor.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseColoredTag;
+            this.chkUseTagColor.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseColoredTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkUseTagColor.Location = new System.Drawing.Point(6, 38);
+            this.chkUseTagColor.Name = "chkUseTagColor";
+            this.chkUseTagColor.Size = new System.Drawing.Size(111, 17);
+            this.chkUseTagColor.TabIndex = 8;
+            this.chkUseTagColor.Text = "Use Colored Tags";
+            this.chkUseTagColor.UseVisualStyleBackColor = true;
+            this.chkUseTagColor.CheckedChanged += new System.EventHandler(this.chkUseTagColor_CheckedChanged);
+            // 
+            // chkMinimizeTray
+            // 
+            this.chkMinimizeTray.AutoSize = true;
+            this.chkMinimizeTray.Checked = global::DanbooruDownloader3.Properties.Settings.Default.MinimizeToTray;
+            this.chkMinimizeTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "MinimizeToTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkMinimizeTray.Location = new System.Drawing.Point(6, 19);
+            this.chkMinimizeTray.Name = "chkMinimizeTray";
+            this.chkMinimizeTray.Size = new System.Drawing.Size(139, 17);
+            this.chkMinimizeTray.TabIndex = 7;
+            this.chkMinimizeTray.Text = "Minimize to System Tray";
+            this.chkMinimizeTray.UseVisualStyleBackColor = true;
+            this.chkMinimizeTray.CheckedChanged += new System.EventHandler(this.chkMinimizeTray_CheckedChanged);
+            // 
+            // chkSaveFolderWhenExit
+            // 
+            this.chkSaveFolderWhenExit.AutoSize = true;
+            this.chkSaveFolderWhenExit.Checked = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolderWhenExit;
+            this.chkSaveFolderWhenExit.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolderWhenExit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkSaveFolderWhenExit.Location = new System.Drawing.Point(450, 21);
+            this.chkSaveFolderWhenExit.Name = "chkSaveFolderWhenExit";
+            this.chkSaveFolderWhenExit.Size = new System.Drawing.Size(103, 17);
+            this.chkSaveFolderWhenExit.TabIndex = 20;
+            this.chkSaveFolderWhenExit.Text = "Save When Exit";
+            this.chkSaveFolderWhenExit.UseVisualStyleBackColor = true;
+            // 
+            // txtDefaultSaveFolder
+            // 
+            this.txtDefaultSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDefaultSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtDefaultSaveFolder.Location = new System.Drawing.Point(110, 19);
+            this.txtDefaultSaveFolder.Name = "txtDefaultSaveFolder";
+            this.txtDefaultSaveFolder.Size = new System.Drawing.Size(262, 20);
+            this.txtDefaultSaveFolder.TabIndex = 17;
+            this.txtDefaultSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
+            // 
+            // cbxImageSize
+            // 
+            this.cbxImageSize.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ImageSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxImageSize.FormattingEnabled = true;
+            this.cbxImageSize.Items.AddRange(new object[] {
+            "Full",
+            "Sample",
+            "Jpeg",
+            "Thumb"});
+            this.cbxImageSize.Location = new System.Drawing.Point(330, 97);
+            this.cbxImageSize.Name = "cbxImageSize";
+            this.cbxImageSize.Size = new System.Drawing.Size(70, 21);
+            this.cbxImageSize.TabIndex = 15;
+            this.cbxImageSize.Text = global::DanbooruDownloader3.Properties.Settings.Default.ImageSize;
+            this.cbxImageSize.TextChanged += new System.EventHandler(this.cbxImageSize_TextChanged);
+            // 
+            // chkRenameJpeg
+            // 
+            this.chkRenameJpeg.AutoSize = true;
+            this.chkRenameJpeg.Checked = global::DanbooruDownloader3.Properties.Settings.Default.RenameJpeg;
+            this.chkRenameJpeg.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "RenameJpeg", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkRenameJpeg.Location = new System.Drawing.Point(108, 119);
+            this.chkRenameJpeg.Name = "chkRenameJpeg";
+            this.chkRenameJpeg.Size = new System.Drawing.Size(124, 17);
+            this.chkRenameJpeg.TabIndex = 14;
+            this.chkRenameJpeg.Text = "Rename .jpeg to .jpg";
+            this.chkRenameJpeg.UseVisualStyleBackColor = true;
+            // 
+            // txtTagBlacklist
+            // 
+            this.txtTagBlacklist.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagBlacklist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTagBlacklist.Location = new System.Drawing.Point(330, 71);
+            this.txtTagBlacklist.Name = "txtTagBlacklist";
+            this.txtTagBlacklist.Size = new System.Drawing.Size(223, 20);
+            this.txtTagBlacklist.TabIndex = 12;
+            this.txtTagBlacklist.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagBlacklist;
+            this.txtTagBlacklist.TextChanged += new System.EventHandler(this.txtTagBlacklist_TextChanged);
+            // 
+            // txtTagReplacement
+            // 
+            this.txtTagReplacement.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "EmptyTagReplacement", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTagReplacement.Location = new System.Drawing.Point(139, 71);
+            this.txtTagReplacement.Name = "txtTagReplacement";
+            this.txtTagReplacement.Size = new System.Drawing.Size(117, 20);
+            this.txtTagReplacement.TabIndex = 11;
+            this.txtTagReplacement.Text = global::DanbooruDownloader3.Properties.Settings.Default.EmptyTagReplacement;
+            // 
+            // txtRetry
+            // 
+            this.txtRetry.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "retry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtRetry.Location = new System.Drawing.Point(224, 98);
+            this.txtRetry.Name = "txtRetry";
+            this.txtRetry.Size = new System.Drawing.Size(32, 20);
+            this.txtRetry.TabIndex = 8;
+            this.txtRetry.Text = global::DanbooruDownloader3.Properties.Settings.Default.retry;
+            this.txtRetry.TextChanged += new System.EventHandler(this.txtRetry_TextChanged);
+            // 
+            // txtFilenameLength
+            // 
+            this.txtFilenameLength.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameLengthLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtFilenameLength.Location = new System.Drawing.Point(139, 98);
+            this.txtFilenameLength.Name = "txtFilenameLength";
+            this.txtFilenameLength.Size = new System.Drawing.Size(32, 20);
+            this.txtFilenameLength.TabIndex = 5;
+            this.txtFilenameLength.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameLengthLimit;
+            this.txtFilenameLength.TextChanged += new System.EventHandler(this.txtFilenameLength_TextChanged);
+            // 
+            // chkOverwrite
+            // 
+            this.chkOverwrite.AutoSize = true;
+            this.chkOverwrite.Checked = global::DanbooruDownloader3.Properties.Settings.Default.overwrite;
+            this.chkOverwrite.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkOverwrite.Location = new System.Drawing.Point(12, 119);
+            this.chkOverwrite.Name = "chkOverwrite";
+            this.chkOverwrite.Size = new System.Drawing.Size(90, 17);
+            this.chkOverwrite.TabIndex = 3;
+            this.chkOverwrite.Text = "Overwrite File";
+            this.chkOverwrite.UseVisualStyleBackColor = true;
+            // 
+            // txtFilenameFormat
+            // 
+            this.txtFilenameFormat.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtFilenameFormat.Location = new System.Drawing.Point(110, 45);
+            this.txtFilenameFormat.Name = "txtFilenameFormat";
+            this.txtFilenameFormat.Size = new System.Drawing.Size(443, 20);
+            this.txtFilenameFormat.TabIndex = 1;
+            this.txtFilenameFormat.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameFormat;
+            // 
+            // txtTagGrouping
+            // 
+            this.txtTagGrouping.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagGroupingLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTagGrouping.Location = new System.Drawing.Point(218, 101);
+            this.txtTagGrouping.Name = "txtTagGrouping";
+            this.txtTagGrouping.Size = new System.Drawing.Size(38, 20);
+            this.txtTagGrouping.TabIndex = 22;
+            this.txtTagGrouping.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagGroupingLimit;
+            // 
+            // chkProxyLogin
+            // 
+            this.chkProxyLogin.AutoSize = true;
+            this.chkProxyLogin.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseProxyLogin;
+            this.chkProxyLogin.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseProxyLogin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkProxyLogin.Location = new System.Drawing.Point(378, 50);
+            this.chkProxyLogin.Name = "chkProxyLogin";
+            this.chkProxyLogin.Size = new System.Drawing.Size(103, 17);
+            this.chkProxyLogin.TabIndex = 14;
+            this.chkProxyLogin.Text = "Use Proxy Login";
+            this.chkProxyLogin.UseVisualStyleBackColor = true;
+            this.chkProxyLogin.CheckedChanged += new System.EventHandler(this.chkProxyLogin_CheckedChanged);
+            // 
+            // txtProxyPassword
+            // 
+            this.txtProxyPassword.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyPassword", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtProxyPassword.Enabled = false;
+            this.txtProxyPassword.Location = new System.Drawing.Point(278, 48);
+            this.txtProxyPassword.Name = "txtProxyPassword";
+            this.txtProxyPassword.Size = new System.Drawing.Size(94, 20);
+            this.txtProxyPassword.TabIndex = 13;
+            this.txtProxyPassword.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPassword;
+            this.txtProxyPassword.UseSystemPasswordChar = true;
+            // 
+            // txtProxyUsername
+            // 
+            this.txtProxyUsername.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyUsername", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtProxyUsername.Enabled = false;
+            this.txtProxyUsername.Location = new System.Drawing.Point(96, 48);
+            this.txtProxyUsername.Name = "txtProxyUsername";
+            this.txtProxyUsername.Size = new System.Drawing.Size(94, 20);
+            this.txtProxyUsername.TabIndex = 11;
+            this.txtProxyUsername.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyUsername;
+            // 
+            // chkPadUserAgent
+            // 
+            this.chkPadUserAgent.AutoSize = true;
+            this.chkPadUserAgent.Checked = global::DanbooruDownloader3.Properties.Settings.Default.PadUserAgent;
+            this.chkPadUserAgent.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "PadUserAgent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkPadUserAgent.Location = new System.Drawing.Point(9, 100);
+            this.chkPadUserAgent.Name = "chkPadUserAgent";
+            this.chkPadUserAgent.Size = new System.Drawing.Size(101, 17);
+            this.chkPadUserAgent.TabIndex = 9;
+            this.chkPadUserAgent.Text = "Pad User Agent";
+            this.chkPadUserAgent.UseVisualStyleBackColor = true;
+            // 
+            // txtTimeout
+            // 
+            this.txtTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "Timeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTimeout.Location = new System.Drawing.Point(421, 19);
+            this.txtTimeout.Name = "txtTimeout";
+            this.txtTimeout.Size = new System.Drawing.Size(60, 20);
+            this.txtTimeout.TabIndex = 8;
+            this.txtTimeout.Text = global::DanbooruDownloader3.Properties.Settings.Default.Timeout;
+            // 
+            // txtUserAgent
+            // 
+            this.txtUserAgent.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "UserAgent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtUserAgent.Location = new System.Drawing.Point(86, 74);
+            this.txtUserAgent.Name = "txtUserAgent";
+            this.txtUserAgent.Size = new System.Drawing.Size(699, 20);
+            this.txtUserAgent.TabIndex = 7;
+            this.txtUserAgent.Text = global::DanbooruDownloader3.Properties.Settings.Default.UserAgent;
+            this.txtUserAgent.TextChanged += new System.EventHandler(this.txtUserAgent_TextChanged);
+            // 
+            // chkUseProxy
+            // 
+            this.chkUseProxy.AutoSize = true;
+            this.chkUseProxy.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseProxy;
+            this.chkUseProxy.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseProxy", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkUseProxy.Location = new System.Drawing.Point(268, 21);
+            this.chkUseProxy.Name = "chkUseProxy";
+            this.chkUseProxy.Size = new System.Drawing.Size(74, 17);
+            this.chkUseProxy.TabIndex = 2;
+            this.chkUseProxy.Text = "Use Proxy";
+            this.chkUseProxy.UseVisualStyleBackColor = true;
+            this.chkUseProxy.CheckedChanged += new System.EventHandler(this.chkUseProxy_CheckedChanged);
+            // 
+            // txtProxyPort
+            // 
+            this.txtProxyPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtProxyPort.Location = new System.Drawing.Point(202, 19);
+            this.txtProxyPort.Name = "txtProxyPort";
+            this.txtProxyPort.Size = new System.Drawing.Size(60, 20);
+            this.txtProxyPort.TabIndex = 4;
+            this.txtProxyPort.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPort;
+            // 
+            // txtProxyAddress
+            // 
+            this.txtProxyAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "ProxyAddress", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtProxyAddress.Location = new System.Drawing.Point(86, 19);
+            this.txtProxyAddress.Name = "txtProxyAddress";
+            this.txtProxyAddress.Size = new System.Drawing.Size(94, 20);
+            this.txtProxyAddress.TabIndex = 3;
+            this.txtProxyAddress.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyAddress;
             // 
             // FormMain
             // 
@@ -3144,6 +3166,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuery2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFilename;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDownloadStart2;
+        private System.Windows.Forms.TextBox txtTagGrouping;
+        private System.Windows.Forms.Label label25;
     }
 }
 

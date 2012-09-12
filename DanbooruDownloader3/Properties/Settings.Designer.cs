@@ -479,5 +479,17 @@ namespace DanbooruDownloader3.Properties {
                 this["SaveFolderWhenExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string TagGroupingLimit {
+            get {
+                return ((string)(this["TagGroupingLimit"]));
+            }
+            set {
+                this["TagGroupingLimit"] = value;
+            }
+        }
     }
 }
