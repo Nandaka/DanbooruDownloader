@@ -75,5 +75,91 @@ namespace DanbooruDownloader3.Entity
             }
         }
 
+        private string _artistGroupReplacement;
+        private string _copyrightGroupReplacement;
+        private string _characterGroupReplacement;
+        private string _circleGroupReplacement;
+        private string _faultsGroupReplacement;
+
+        public int ArtistGroupLimit { get; set; }
+        public string ArtistGroupReplacement
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_artistGroupReplacement))
+                {
+                    _artistGroupReplacement = "Multiple Artists";
+                }
+                return _artistGroupReplacement;
+            }
+            set 
+            {
+                _artistGroupReplacement = value;
+            }
+        }
+        public int CopyrightGroupLimit { get; set; }
+        public string CopyrightGroupReplacement
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_copyrightGroupReplacement))
+                {
+                    _copyrightGroupReplacement = "Multiple Copyrights";
+                }
+                return _copyrightGroupReplacement;
+            }
+            set
+            {
+                _copyrightGroupReplacement = value;
+            }
+        }
+        public int CharacterGroupLimit { get; set; }
+        public string CharacterGroupReplacement
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_characterGroupReplacement))
+                {
+                    _characterGroupReplacement = "Multiple Characters";
+                }
+                return _characterGroupReplacement;
+            }
+            set
+            {
+                _characterGroupReplacement = value;
+            }
+        }
+        public int CircleGroupLimit { get; set; }
+        public string CircleGroupReplacement
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_circleGroupReplacement))
+                {
+                    _circleGroupReplacement = "Multiple Circles";
+                }
+                return _circleGroupReplacement;
+            }
+            set
+            {
+                _circleGroupReplacement = value;
+            }
+        }
+        public int FaultsGroupLimit { get; set; }
+        public string FaultsGroupReplacement
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_faultsGroupReplacement))
+                {
+                    _faultsGroupReplacement = "Multiple Faults";
+                }
+                return _faultsGroupReplacement;
+            }
+            set
+            {
+                _faultsGroupReplacement = value;
+            }
+        }
     }
 }

@@ -101,31 +101,89 @@ namespace DanbooruDownloader3
 
             var artistSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name);
             var artist = "";
-            if (artistSelection != null) artist = string.Join(" ", artistSelection);          
+            if (artistSelection != null)
+            {
+                if (artistSelection.Count() >= format.ArtistGroupLimit && !string.IsNullOrWhiteSpace(format.ArtistGroupReplacement))
+                {
+                    artist = format.ArtistGroupReplacement;
+                }
+                else
+                {
+                    artist = string.Join(" ", artistSelection);
+                }
+            }
             if (string.IsNullOrWhiteSpace(artist)) artist = format.MissingTagReplacement;
             filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist).Trim());
 
             var copyrightSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Copyright).Select(x => x.Name);
             var copyright = "";
-            if (copyrightSelection != null) copyright = string.Join(" ", copyrightSelection);
+            if (copyrightSelection != null)
+            {
+                if (copyrightSelection.Count() >= format.CopyrightGroupLimit && 
+                    format.CopyrightGroupLimit > 1 &&
+                    !string.IsNullOrWhiteSpace(format.CopyrightGroupReplacement))
+                {
+                    copyright = format.CopyrightGroupReplacement;
+                }
+                else
+                {
+                    copyright = string.Join(" ", copyrightSelection);
+                }
+            }
             if (string.IsNullOrWhiteSpace(copyright)) copyright = format.MissingTagReplacement;
             filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright.Trim()));
 
             var characterSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name);
             var character = "";
-            if(characterSelection != null) character = string.Join(" ", characterSelection);
+            if (characterSelection != null)
+            {
+                if (characterSelection.Count() >= format.CharacterGroupLimit &&
+                    format.CharacterGroupLimit > 1 &&
+                    !string.IsNullOrWhiteSpace(format.CharacterGroupReplacement))
+                {
+                    character = format.CharacterGroupReplacement;
+                }
+                else
+                {
+                    character = string.Join(" ", characterSelection);
+                }
+            }
             if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement;
             filename = filename.Replace("%character%", Helper.SanitizeFilename(character.Trim()));
             
             var circleSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name);
             var circle = "";
-            if(circleSelection != null) circle = string.Join(" ", circleSelection);
+            if (circleSelection != null)
+            {
+                if (circleSelection.Count() >= format.CircleGroupLimit &&
+                    format.CircleGroupLimit > 1 &&
+                    !string.IsNullOrWhiteSpace(format.CircleGroupReplacement))
+                {
+                    circle = format.CircleGroupReplacement;
+                }
+                else
+                {
+                    circle = string.Join(" ", circleSelection);
+                }
+            }
             if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement;
             filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle.Trim()));
             
             var faultsSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name);
             var faults = "";
-            if(faultsSelection != null) faults = string.Join(" ", faultsSelection);
+            if (faultsSelection != null)
+            {
+                if (faultsSelection.Count() >= format.FaultsGroupLimit &&
+                    format.FaultsGroupLimit > 1 &&
+                    !string.IsNullOrWhiteSpace(format.FaultsGroupReplacement))
+                {
+                    faults = format.FaultsGroupReplacement;
+                }
+                else
+                {
+                    faults = string.Join(" ", faultsSelection);
+                }
+            }
             if (string.IsNullOrWhiteSpace(faults)) faults = format.MissingTagReplacement;
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults.Trim()));
 
