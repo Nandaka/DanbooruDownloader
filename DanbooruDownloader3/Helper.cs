@@ -92,12 +92,14 @@ namespace DanbooruDownloader3
 
             filename = filename.Replace("%provider%", Helper.SanitizeFilename(provider));
             filename = filename.Replace("%id%", post.Id);
-            filename = filename.Replace("%tags%", Helper.SanitizeFilename(post.Tags));
             filename = filename.Replace("%rating%", post.Rating);
             filename = filename.Replace("%md5%", post.MD5);
             filename = filename.Replace("%query%", Helper.SanitizeFilename(query));
             filename = filename.Replace("%searchtag%", Helper.SanitizeFilename(searchTags));
             filename = filename.Replace("%originalFilename%", Helper.SanitizeFilename(originalFileName));
+
+            // copy the tags entity to be grouped.
+            var groupedTags = post.TagsEntity;
 
             var artistSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name);
             var artist = "";
@@ -106,6 +108,8 @@ namespace DanbooruDownloader3
                 if (artistSelection.Count() >= format.ArtistGroupLimit && !string.IsNullOrWhiteSpace(format.ArtistGroupReplacement))
                 {
                     artist = format.ArtistGroupReplacement;
+                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Artist);
+                    groupedTags.Add(new DanbooruTag() { Name = format.ArtistGroupReplacement });
                 }
                 else
                 {
@@ -124,6 +128,8 @@ namespace DanbooruDownloader3
                     !string.IsNullOrWhiteSpace(format.CopyrightGroupReplacement))
                 {
                     copyright = format.CopyrightGroupReplacement;
+                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Artist);
+                    groupedTags.Add(new DanbooruTag() { Name = format.ArtistGroupReplacement });
                 }
                 else
                 {
@@ -142,6 +148,8 @@ namespace DanbooruDownloader3
                     !string.IsNullOrWhiteSpace(format.CharacterGroupReplacement))
                 {
                     character = format.CharacterGroupReplacement;
+                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Character);
+                    groupedTags.Add(new DanbooruTag() { Name = format.CharacterGroupReplacement });
                 }
                 else
                 {
@@ -160,6 +168,8 @@ namespace DanbooruDownloader3
                     !string.IsNullOrWhiteSpace(format.CircleGroupReplacement))
                 {
                     circle = format.CircleGroupReplacement;
+                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Circle);
+                    groupedTags.Add(new DanbooruTag() { Name = format.CircleGroupReplacement });
                 }
                 else
                 {
@@ -178,6 +188,8 @@ namespace DanbooruDownloader3
                     !string.IsNullOrWhiteSpace(format.FaultsGroupReplacement))
                 {
                     faults = format.FaultsGroupReplacement;
+                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Faults);
+                    groupedTags.Add(new DanbooruTag() { Name = format.FaultsGroupReplacement });
                 }
                 else
                 {
@@ -186,6 +198,9 @@ namespace DanbooruDownloader3
             }
             if (string.IsNullOrWhiteSpace(faults)) faults = format.MissingTagReplacement;
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults.Trim()));
+
+            groupedTags.Sort();
+            filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", groupedTags.Select(x=> x.Name))));
 
             // append base folder from Save Folder text box
             if (format.BaseFolder.EndsWith(@"\")) filename = format.BaseFolder + filename;

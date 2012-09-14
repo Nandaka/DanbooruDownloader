@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using System;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -84,7 +85,7 @@ namespace DanbooruDownloader3.Entity
     }
 
     [XmlTypeAttribute(AnonymousType = true)]
-    public class DanbooruTag
+    public class DanbooruTag : IComparable<DanbooruTag>
     {
         [XmlAttribute("type")]
         public DanbooruTagType Type { get; set; }
@@ -100,7 +101,16 @@ namespace DanbooruDownloader3.Entity
 
         [XmlAttribute("id")]
         public string Id { get; set; }
-   }
+
+        #region IComparable Members
+
+        public int CompareTo(DanbooruTag obj)
+        {
+            return string.Compare(this.Name, obj.Name);
+        }
+
+        #endregion
+    }
 
     public enum DanbooruTagType
     {
