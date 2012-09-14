@@ -13,8 +13,12 @@ The latest source code can be pulled from https://github.com/Nandaka/DanbooruDow
 The compiled binary can be downloaded at http://nandaka.wordpress.com/tag/danbooru-batch-download/
 The previous version of compiled binary can be downloaded at http://www.mediafire.com/?tglaujm3ylc88
 
-Changelog:
+Change Log:
 =============================
+- DanbooruDownloader20120915
+  - Add tag grouping limit, for example if there are character tag more than 5 (default limit), 
+    those tags will be replaced with tag 'multiple_character'.
+
 - DanbooruDownloader20120908
   - HTML parser for SankakuComplex to get the file_url.
     The parser will run when the post is add to the download list (lazy loading).
