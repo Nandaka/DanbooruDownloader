@@ -88,7 +88,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (string.IsNullOrWhiteSpace(_artistGroupReplacement))
                 {
-                    _artistGroupReplacement = "Multiple Artists";
+                    _artistGroupReplacement = "multiple_artists";
                 }
                 return _artistGroupReplacement;
             }
@@ -104,7 +104,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (string.IsNullOrWhiteSpace(_copyrightGroupReplacement))
                 {
-                    _copyrightGroupReplacement = "Multiple Copyrights";
+                    _copyrightGroupReplacement = "multiple_copyrights";
                 }
                 return _copyrightGroupReplacement;
             }
@@ -120,7 +120,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (string.IsNullOrWhiteSpace(_characterGroupReplacement))
                 {
-                    _characterGroupReplacement = "Multiple Characters";
+                    _characterGroupReplacement = "multiple_characters";
                 }
                 return _characterGroupReplacement;
             }
@@ -136,7 +136,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (string.IsNullOrWhiteSpace(_circleGroupReplacement))
                 {
-                    _circleGroupReplacement = "Multiple Circles";
+                    _circleGroupReplacement = "multiple_circles";
                 }
                 return _circleGroupReplacement;
             }
@@ -152,7 +152,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (string.IsNullOrWhiteSpace(_faultsGroupReplacement))
                 {
-                    _faultsGroupReplacement = "Multiple Faults";
+                    _faultsGroupReplacement = "multiple_faults";
                 }
                 return _faultsGroupReplacement;
             }

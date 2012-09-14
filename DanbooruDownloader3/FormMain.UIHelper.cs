@@ -91,14 +91,6 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// print flags for debug.
-        /// </summary>
-        public void PrintFlags()
-        {
-            tsFlag.Text = "isPaused = " + _isPaused.ToString() + " | isLoadingList = " + _isLoadingList.ToString() + " | isMorePost = " + _isMorePost.ToString() + " | isLoadingThumb = " + _isLoadingThumb.ToString();
-        }
-
-        /// <summary>
         /// Check if dgvDownload is not empty.
         /// </summary>
         /// <returns></returns>

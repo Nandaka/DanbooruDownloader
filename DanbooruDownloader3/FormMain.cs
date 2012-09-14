@@ -200,7 +200,7 @@ namespace DanbooruDownloader3
             var tagStr = txtTagBlacklist.Text.Trim();
             if (!String.IsNullOrWhiteSpace(tagStr))
             {
-                TagBlacklist = DanbooruTagsDao.Instance.ParseTagsString(tagStr);
+                TagBlacklist = DanbooruTagsDao.Instance.ParseTagsString(tagStr.Replace(Environment.NewLine, " "));
             }
             else
             {
@@ -344,11 +344,11 @@ namespace DanbooruDownloader3
                             Limit = Convert.ToInt32(txtFilenameLength.Text),
                             BaseFolder = txtSaveFolder.Text,
                             MissingTagReplacement = txtTagReplacement.Text,
-                            ArtistGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                            CharacterGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                            CopyrightGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                            CircleGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                            FaultsGroupLimit = Convert.ToInt32(txtTagGrouping.Text)
+                            ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
+                            CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
+                            CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
+                            CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
+                            FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text)
                         };
                         string extension = url.Substring(url.LastIndexOf('.'));
                         if (chkRenameJpeg.Checked)
@@ -957,11 +957,11 @@ namespace DanbooruDownloader3
                                                 Limit = Convert.ToInt32(txtFilenameLength.Text),
                                                 BaseFolder = txtSaveFolder.Text,
                                                 MissingTagReplacement = txtTagReplacement.Text,
-                                                ArtistGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                                                CharacterGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                                                CopyrightGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                                                CircleGroupLimit = Convert.ToInt32(txtTagGrouping.Text),
-                                                FaultsGroupLimit = Convert.ToInt32(txtTagGrouping.Text)
+                                                ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
+                                                CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
+                                                CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
+                                                CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
+                                                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text)
                                             };
                                             string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
                                             if (chkRenameJpeg.Checked)
@@ -2103,6 +2103,55 @@ namespace DanbooruDownloader3
                 _downloadList[row.Index].FileUrl = Constants.LOADING_URL;
                 ResolveFileUrl(_downloadList[row.Index]);
                 dgvDownload.Refresh();
+            }
+        }
+
+        private void txtArtistTagGrouping_TextChanged(object sender, EventArgs e)
+        {
+            int i;
+            if(!Int32.TryParse(txtArtistTagGrouping.Text, out i)) {
+                MessageBox.Show("Invalid value: " + txtArtistTagGrouping.Text, "txtArtistTagGrouping");
+                txtArtistTagGrouping.Text = "5";
+            }
+        }
+
+        private void txtCopyTagGrouping_TextChanged(object sender, EventArgs e)
+        {
+            int i;
+            if (!Int32.TryParse(txtCopyTagGrouping.Text, out i))
+            {
+                MessageBox.Show("Invalid value: " + txtCopyTagGrouping.Text, "txtCopyTagGrouping");
+                txtCopyTagGrouping.Text = "5";
+            }
+        }
+
+        private void txtCharaTagGrouping_TextChanged(object sender, EventArgs e)
+        {
+            int i;
+            if (!Int32.TryParse(txtCharaTagGrouping.Text, out i))
+            {
+                MessageBox.Show("Invalid value: " + txtCharaTagGrouping.Text, "txtCharaTagGrouping");
+                txtCharaTagGrouping.Text = "5";
+            }
+        }
+
+        private void txtCircleTagGrouping_TextChanged(object sender, EventArgs e)
+        {
+            int i;
+            if (!Int32.TryParse(txtCircleTagGrouping.Text, out i))
+            {
+                MessageBox.Show("Invalid value: " + txtCircleTagGrouping.Text, "txtCircleTagGrouping");
+                txtCircleTagGrouping.Text = "5";
+            }
+        }
+
+        private void txtFaultsTagGrouping_TextChanged(object sender, EventArgs e)
+        {
+            int i;
+            if (!Int32.TryParse(txtFaultsTagGrouping.Text, out i))
+            {
+                MessageBox.Show("Invalid value: " + txtFaultsTagGrouping.Text, "txtFaultsTagGrouping");
+                txtFaultsTagGrouping.Text = "5";
             }
         }
     }

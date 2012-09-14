@@ -491,5 +491,53 @@ namespace DanbooruDownloader3.Properties {
                 this["TagGroupingLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string TagCopyrigthGrouping {
+            get {
+                return ((string)(this["TagCopyrigthGrouping"]));
+            }
+            set {
+                this["TagCopyrigthGrouping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string TagCharacterGrouping {
+            get {
+                return ((string)(this["TagCharacterGrouping"]));
+            }
+            set {
+                this["TagCharacterGrouping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string TagCircleGrouping {
+            get {
+                return ((string)(this["TagCircleGrouping"]));
+            }
+            set {
+                this["TagCircleGrouping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string TagFaultsGrouping {
+            get {
+                return ((string)(this["TagFaultsGrouping"]));
+            }
+            set {
+                this["TagFaultsGrouping"] = value;
+            }
+        }
     }
 }
