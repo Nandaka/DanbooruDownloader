@@ -89,6 +89,9 @@ namespace DanbooruDownloader3
             string query = post.Query;
             string searchTags = post.SearchTags;
             string originalFileName = post.FileUrl.Split('/').Last();
+            //remove extension
+            originalFileName = originalFileName.Substring(0, originalFileName.LastIndexOf('.'));
+            originalFileName = Uri.UnescapeDataString(originalFileName);
 
             filename = filename.Replace("%provider%", Helper.SanitizeFilename(provider));
             filename = filename.Replace("%id%", post.Id);
