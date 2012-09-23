@@ -242,7 +242,7 @@ namespace DanbooruDownloader3
                         {
                             var post = _postsDao.Posts[row.Index];
                             // try to get the file url if empty
-                            if (string.IsNullOrWhiteSpace(post.FileUrl))
+                            if (string.IsNullOrWhiteSpace(post.FileUrl) && post.Status != "deleted")
                             {
                                 if (!string.IsNullOrWhiteSpace(post.Referer))
                                 {
@@ -331,8 +331,9 @@ namespace DanbooruDownloader3
 
                     string url = (string)row.Cells["colUrl2"].Value;
 
-                    // check if url valid
-                    if (!string.IsNullOrWhiteSpace(url))
+
+                    // check if post active and url valid
+                    if (!string.IsNullOrWhiteSpace(url) && _downloadList[row.Index].Status != "deleted")
                     {
                         if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
                         if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
@@ -381,7 +382,7 @@ namespace DanbooruDownloader3
                             return;
                         }
                         else
-                        {   
+                        {
                             // File exist and overwrite is no checked.
                             row.Cells["colProgress2"].Value = "File exists!";
                             txtLog.Text += "[DownloadRow] File exists: " + filename;
@@ -890,8 +891,8 @@ namespace DanbooruDownloader3
                                             return;
                                         }
 
-                                        // check if have url
-                                        if (string.IsNullOrWhiteSpace(post.FileUrl))
+                                        // check if have url and post is not deleted
+                                        if (string.IsNullOrWhiteSpace(post.FileUrl) && post.Status != "deleted")
                                         {
                                             if (!string.IsNullOrWhiteSpace(post.Referer))
                                             {
@@ -2100,9 +2101,12 @@ namespace DanbooruDownloader3
         {
             foreach (DataGridViewRow row in dgvDownload.SelectedRows)
             {
-                _downloadList[row.Index].FileUrl = Constants.LOADING_URL;
-                ResolveFileUrl(_downloadList[row.Index]);
-                dgvDownload.Refresh();
+                if (_downloadList[row.Index].Status != "deleted")
+                {
+                    _downloadList[row.Index].FileUrl = Constants.LOADING_URL;
+                    ResolveFileUrl(_downloadList[row.Index]);
+                    dgvDownload.Refresh();
+                }
             }
         }
 
