@@ -330,7 +330,7 @@ namespace DanbooruDownloader3
                     if (chkAutoFocus.Checked) dgvDownload.FirstDisplayedScrollingRowIndex = row.Index;
 
                     string url = (string)row.Cells["colUrl2"].Value;
-
+                    Uri uri = null;
                     if (url == Constants.LOADING_URL)
                     {
                         // still loading post url
@@ -345,8 +345,8 @@ namespace DanbooruDownloader3
                         txtLog.Text += "[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index;
                         Program.Logger.Info("[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
                     }
-                    else if (!string.IsNullOrWhiteSpace(url)    && 
-                             Uri.CheckSchemeName(url)           &&
+                    else if (!string.IsNullOrWhiteSpace(url)                            && 
+                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)    &&
                              _downloadList[row.Index].Status != "deleted") // check if post active and url valid
                     {
                         if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
@@ -996,7 +996,8 @@ namespace DanbooruDownloader3
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
                                         }
-                                        if (download && !Uri.CheckSchemeName(targetUrl))
+                                        Uri uri = null;
+                                        if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;

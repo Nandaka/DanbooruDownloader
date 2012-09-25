@@ -161,5 +161,15 @@ namespace DanbooruDownloader3.test
 
             Assert.IsTrue(targetInstance.Tags.Tag.Length > 0);
         }
+
+        [TestMethod]
+        public void TestCheckUri()
+        {
+            string url = "http://chan.sankakustatic.com/data/e9/49/e9496f78362ca9748f208f128f56ef32.jpg";
+            Uri uri = null;
+
+            Assert.IsTrue(Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri));
+            Assert.IsTrue(uri.ToString() == url);
+        }
     }
 }
