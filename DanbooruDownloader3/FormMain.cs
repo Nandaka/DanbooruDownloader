@@ -331,9 +331,23 @@ namespace DanbooruDownloader3
 
                     string url = (string)row.Cells["colUrl2"].Value;
 
-
-                    // check if post active and url valid
-                    if (!string.IsNullOrWhiteSpace(url) && _downloadList[row.Index].Status != "deleted")
+                    if (url == Constants.LOADING_URL)
+                    {
+                        // still loading post url
+                        row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
+                        txtLog.Text += "[DownloadRow] Still loading post url, try again later.: " + row.Index;
+                        Program.Logger.Info("[DownloadRow] Still loading post url, try again later.: " + row.Index);
+                    }
+                    else if (url == Constants.NO_POST_PARSER)
+                    {
+                        // no parser post url
+                        row.Cells["colProgress2"].Value = "No post parser for provider: " + _downloadList[row.Index].Provider;
+                        txtLog.Text += "[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index;
+                        Program.Logger.Info("[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(url)    && 
+                             Uri.CheckSchemeName(url)           &&
+                             _downloadList[row.Index].Status != "deleted") // check if post active and url valid
                     {
                         if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
                         if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
@@ -388,29 +402,14 @@ namespace DanbooruDownloader3
                             txtLog.Text += "[DownloadRow] File exists: " + filename;
                             Program.Logger.Info("[DownloadRow] File exists: " + filename);
                         }
-                    }
-                    else if (url == Constants.LOADING_URL)
-                    {
-                        // still loading post url
-                        row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
-                        txtLog.Text += "[DownloadRow] Still loading post url, try again later.: " + row.Index;
-                        Program.Logger.Info("[DownloadRow] Still loading post url, try again later.: " + row.Index);
-                    }
-                    else if (url == Constants.NO_POST_PARSER)
-                    {
-                        // no parser post url
-                        row.Cells["colProgress2"].Value = "No post parser for provider: " + _downloadList[row.Index].Provider;
-                        txtLog.Text += "[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index;
-                        Program.Logger.Info("[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
-                    }
+                    }                    
                     else
                     {
                         // no valid url
-                        row.Cells["colProgress2"].Value = "No file_url, probably deleted.";
-                        txtLog.Text += "[DownloadRow] no file_url for row: " + row.Index;
-                        Program.Logger.Info("[DownloadRow] no file_url for row: " + row.Index);
-                    }
-                    
+                        row.Cells["colProgress2"].Value = "No valid file_url, probably deleted.";
+                        txtLog.Text += "[DownloadRow] no valid file_url for row: " + row.Index;
+                        Program.Logger.Info("[DownloadRow] no valid file_url for row: " + row.Index);
+                    }                    
                 }
 
                 // proceed with the next row
@@ -997,7 +996,13 @@ namespace DanbooruDownloader3
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
                                         }
-
+                                        if (!Uri.CheckSchemeName(targetUrl))
+                                        {
+                                            ++skipCount;
+                                            ++batchJob[i].Skipped;
+                                            download = false;
+                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL, probably deleted");
+                                        }
                                         #region download
                                         if (download)
                                         {
