@@ -929,15 +929,15 @@ namespace DanbooruDownloader3
 
                                         //Choose the correct urls
                                         var targetUrl = post.FileUrl;
-                                        if (_ImageSize == "Thumb")
+                                        if (_ImageSize == "Thumb" && !String.IsNullOrWhiteSpace(post.PreviewUrl))
                                         {
                                             targetUrl = post.PreviewUrl;
                                         }
-                                        else if (_ImageSize == "Jpeg")
+                                        else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
                                         {
                                            targetUrl = post.JpegUrl;
                                         }
-                                        else if (_ImageSize == "Sample")
+                                        else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
                                         {
                                             targetUrl = post.SampleUrl;
                                         }
@@ -972,7 +972,7 @@ namespace DanbooruDownloader3
                                         }
                                         bool download = true;
                                         // check if exist
-                                        if (!chkOverwrite.Checked)
+                                        if (download && !chkOverwrite.Checked)
                                         {
                                             if (File.Exists(filename))
                                             {
@@ -982,26 +982,26 @@ namespace DanbooruDownloader3
                                                 UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
                                             }
                                         }
-                                        if (post.Hidden)
+                                        if (download && post.Hidden)
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
                                         }
-                                        if (String.IsNullOrWhiteSpace(targetUrl))
+                                        if (download && String.IsNullOrWhiteSpace(targetUrl))
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
                                         }
-                                        if (!Uri.CheckSchemeName(targetUrl))
+                                        if (download && !Uri.CheckSchemeName(targetUrl))
                                         {
                                             ++skipCount;
                                             ++batchJob[i].Skipped;
                                             download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL, probably deleted");
+                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
                                         }
                                         #region download
                                         if (download)
