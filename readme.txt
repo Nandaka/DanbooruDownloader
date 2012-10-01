@@ -15,6 +15,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20121001
+  - Update url checking for Sankaku.
+
 - DanbooruDownloader20120922
   - Fix %originalFilename% to remove duplicate extension.
   - Update %originalFilename% to decode the URL entities (%xx thingies).
