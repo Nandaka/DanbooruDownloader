@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using DanbooruDownloader3.CustomControl;
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
-using System.Xml;
 using DanbooruDownloader3.Entity;
-using System.Xml.Linq;
-using System.ComponentModel;
-using System.Xml.Serialization;
-using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DanbooruDownloader3.test
 {
@@ -142,7 +141,7 @@ namespace DanbooruDownloader3.test
         {
             string url = @"https://yande.re/tag/index.xml?limit=0";
             string filename = @"test-tag.xml";
-            DanbooruDownloader3.Utils.ExtendedWebClient client = new Utils.ExtendedWebClient();
+            ExtendedWebClient client = new ExtendedWebClient();
 
             client.DownloadFile(url, filename);
             Assert.IsTrue(File.Exists(filename));

@@ -4,10 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace DanbooruDownloader3.Utils
+namespace DanbooruDownloader3.CustomControl
 {
     public class ExtendedWebClient : WebClient
     {
+        new public IWebProxy Proxy
+        {
+            get { return GlobalProxy; }
+            private set { this.Proxy = GlobalProxy; }
+        }
+
+        private static IWebProxy globalProxy;
+        public static IWebProxy GlobalProxy
+        {
+            get {
+                return globalProxy; 
+            }
+            set {
+                globalProxy = value;
+            }
+        }
+
         private int timeout;
         public int Timeout
         {
@@ -15,11 +32,11 @@ namespace DanbooruDownloader3.Utils
             set { this.timeout = value; }
         }
 
-        private CookieContainer cookieJar;
-        public CookieContainer CookieJar
+        private static CookieContainer cookieJar;
+        public static CookieContainer CookieJar
         {
-            get { return this.cookieJar; }
-            set { this.cookieJar = value; }
+            get { return cookieJar; }
+            set { cookieJar = value; }
         }
 
         private bool enableCookie;
@@ -36,14 +53,7 @@ namespace DanbooruDownloader3.Utils
             set
             {
                 this.referer = value;
-                //try
-                //{
-                //    this.Headers.Set("Referer", this.referer);
-                //}
-                //catch (Exception)
-                //{
-                    this.Headers.Add("Referer", this.referer);
-                //}
+                this.Headers.Add("Referer", this.referer);
             }
         }
 
@@ -54,14 +64,7 @@ namespace DanbooruDownloader3.Utils
             set
             {
                 this.userAgent = value;
-                //try
-                //{
-                //    this.Headers.Set("user-agent", this.userAgent);
-                //}
-                //catch (Exception)
-                //{
-                    this.Headers.Add("user-agent", this.userAgent);
-                //}
+                this.Headers.Add("user-agent", this.userAgent);
             }
         }
 
@@ -90,7 +93,9 @@ namespace DanbooruDownloader3.Utils
                 if (enableCookie) ((HttpWebRequest)result).CookieContainer = cookieJar;
             }   
 
-            result.Timeout = this.timeout; 
+            result.Timeout = this.timeout;
+            result.Proxy = globalProxy;
+
             return result; 
         } 
 

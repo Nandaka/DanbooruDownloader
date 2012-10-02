@@ -15,8 +15,14 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
-- DanbooruDownloader20121001
+- DanbooruDownloader20121002
+  - Update logging.
+  - Update ExtendedWebClient's proxy.
+
+- DanbooruDownloader20121002
   - Update url checking for Sankaku.
+  - Update logging.
+  - Update ExtendedWebClient's proxy.
 
 - DanbooruDownloader20120922
   - Fix %originalFilename% to remove duplicate extension.

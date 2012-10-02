@@ -159,7 +159,7 @@
       <DependentUpon>FormProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="Utils\ExtendedWebClient.cs">
+    <Compile Include="CustomControl\ExtendedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\Constants.cs" />

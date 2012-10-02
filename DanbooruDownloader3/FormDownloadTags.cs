@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using DanbooruDownloader3.Utils;
+using DanbooruDownloader3.CustomControl;
 using System.IO;
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Entity;
@@ -31,7 +31,11 @@ namespace DanbooruDownloader3
                 {
                     proxy.Credentials = new NetworkCredential(Properties.Settings.Default.ProxyUsername, Properties.Settings.Default.ProxyPassword);
                 }
-                client.Proxy = proxy;
+                ExtendedWebClient.GlobalProxy = proxy;
+            }
+            else
+            {
+                ExtendedWebClient.GlobalProxy = null;
             }
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);

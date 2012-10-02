@@ -137,7 +137,7 @@ namespace DanbooruDownloader3
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
             _retry = Convert.ToInt32( txtRetry.Text );
 
-            CheckProxyLogin();
+            CheckProxyLoginInput();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
 
             SetTagColors();            
@@ -207,20 +207,7 @@ namespace DanbooruDownloader3
                 if (TagBlacklist != null) TagBlacklist.Clear();
             }
         }
-
-        ///// <summary>
-        ///// Load list of tags for auto-complete
-        ///// </summary>
-        //private void SetTagAutoComplete()
-        //{
-        //    //txtTags.AutoCompleteCustomSource.Clear();            
-        //    //if (chkTagAutoComplete.Checked)
-        //    //{
-        //    //    var tagAutoComplete = DanbooruTagsDao.Instance.Tags.Tag.Select(x => x.Name).ToArray<String>();
-        //    //    txtTags.AutoCompleteCustomSource.AddRange(tagAutoComplete);
-        //    //}
-        //}
-
+        
         /// <summary>
         /// Copy checked row from dgvList to _downloadList
         /// </summary>
@@ -259,7 +246,8 @@ namespace DanbooruDownloader3
         }
 
         private void ResolveFileUrl(DanbooruPost post)
-        {
+        {            
+            UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
             ExtendedWebClient _clientPost = new ExtendedWebClient();
             _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
             _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
@@ -275,10 +263,12 @@ namespace DanbooruDownloader3
                 {
                     string html = e.Result;
                     post = SankakuComplexParser.ParsePost(post, html);
+                    UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
                 }
                 else
                 {
-                    post.Status = e.Error.Message;
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "SankakuComplexParser " + e.Error.Message;
+                    UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
                 }
             }
             else
@@ -335,15 +325,13 @@ namespace DanbooruDownloader3
                     {
                         // still loading post url
                         row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
-                        txtLog.Text += "[DownloadRow] Still loading post url, try again later.: " + row.Index;
-                        Program.Logger.Info("[DownloadRow] Still loading post url, try again later.: " + row.Index);
+                        UpdateLog("[DownloadRow]", "Still loading post url, try again later.: " + row.Index);
                     }
                     else if (url == Constants.NO_POST_PARSER)
                     {
                         // no parser post url
                         row.Cells["colProgress2"].Value = "No post parser for provider: " + _downloadList[row.Index].Provider;
-                        txtLog.Text += "[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index;
-                        Program.Logger.Info("[DownloadRow] No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
+                        UpdateLog("[DownloadRow]", "No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
                     }
                     else if (!string.IsNullOrWhiteSpace(url)                            && 
                              Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)    &&
@@ -399,16 +387,14 @@ namespace DanbooruDownloader3
                         {
                             // File exist and overwrite is no checked.
                             row.Cells["colProgress2"].Value = "File exists!";
-                            txtLog.Text += "[DownloadRow] File exists: " + filename;
-                            Program.Logger.Info("[DownloadRow] File exists: " + filename);
+                            UpdateLog("[DownloadRow]", "File exists: " + filename);
                         }
                     }                    
                     else
                     {
                         // no valid url
                         row.Cells["colProgress2"].Value = "No valid file_url, probably deleted.";
-                        txtLog.Text += "[DownloadRow] no valid file_url for row: " + row.Index;
-                        Program.Logger.Info("[DownloadRow] no valid file_url for row: " + row.Index);
+                        UpdateLog("[DownloadRow]", "No valid file_url for row: " + row.Index);
                     }                    
                 }
 
@@ -445,7 +431,7 @@ namespace DanbooruDownloader3
                 {
                     if (chkAppendList.Checked || chkAutoLoadNext.Checked)
                     {
-                        txtLog.AppendText("Appending..." + Environment.NewLine);
+                        UpdateLog("[LoadList]", "Appending: " + postDao.SearchTags + " Offset: " + postDao.Offset);
 
                         int oldCount = _postsDao.Posts.Count;
 
@@ -896,9 +882,9 @@ namespace DanbooruDownloader3
                                             if (!string.IsNullOrWhiteSpace(post.Referer))
                                             {
                                                 UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
+                                                int retry = 0;
                                                 while (true)
-                                                {
-                                                    int retry = 0;
+                                                {                                                    
                                                     try
                                                     {
                                                         string html = _clientPost.DownloadString(post.Referer);
@@ -916,7 +902,7 @@ namespace DanbooruDownloader3
                                                         ++retry;
                                                         if (retry > _retry)
                                                         {
-                                                            UpdateLog("DoBatchJob", "Error: " + ex.StackTrace);
+                                                            UpdateLog("DoBatchJob", "Error: " + ex.StackTrace, ex);
                                                             post.FileUrl = "";
                                                             post.JpegUrl = "";
                                                             post.SampleUrl = "";
@@ -1705,7 +1691,8 @@ namespace DanbooruDownloader3
 
         private void chkProxyLogin_CheckedChanged(object sender, EventArgs e)
         {
-            CheckProxyLogin();
+            CheckProxyLoginInput();
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
         }
 
         private void btnBrowseFolder_Click_1(object sender, EventArgs e)
@@ -2163,6 +2150,26 @@ namespace DanbooruDownloader3
                 MessageBox.Show("Invalid value: " + txtFaultsTagGrouping.Text, "txtFaultsTagGrouping");
                 txtFaultsTagGrouping.Text = "5";
             }
+        }
+
+        private void txtProxyAddress_TextChanged(object sender, EventArgs e)
+        {
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+        }
+
+        private void txtProxyPort_TextChanged(object sender, EventArgs e)
+        {
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+        }
+
+        private void txtProxyUsername_TextChanged(object sender, EventArgs e)
+        {
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+        }
+
+        private void txtProxyPassword_TextChanged(object sender, EventArgs e)
+        {
+            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
         }
     }
 }

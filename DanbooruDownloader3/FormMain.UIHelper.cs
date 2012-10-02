@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
+using DanbooruDownloader3.CustomControl;
 
 namespace DanbooruDownloader3
 {
@@ -51,7 +52,7 @@ namespace DanbooruDownloader3
         /// <summary>
         /// Enable/disable txtProxyUsername and password
         /// </summary>
-        private void CheckProxyLogin()
+        private void CheckProxyLoginInput()
         {
             if (chkProxyLogin.Checked)
             {
@@ -117,7 +118,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Setting up proxy for all webclient.
+        /// Setting up global proxy for webclient.
         /// </summary>
         private void SetProxy(bool useProxy, string proxyAddress, int port, string username=null, string password=null)
         {
@@ -130,13 +131,10 @@ namespace DanbooruDownloader3
                     {
                         proxy.Credentials = new NetworkCredential(username, password);
                     }
-                   _clientFile.Proxy = proxy;
-                   _clientList.Proxy = proxy;
-                   _clientThumb.Proxy = proxy;
-                   _clientBatch.Proxy = proxy;
+                    ExtendedWebClient.GlobalProxy = proxy;
                 }
             }
-            else _clientFile.Proxy = _clientList.Proxy = _clientThumb.Proxy = _clientBatch.Proxy = null;
+            else ExtendedWebClient.GlobalProxy = null;
         }
 
         delegate void SetUpdateLogCallback(string source, string message, Exception ex);

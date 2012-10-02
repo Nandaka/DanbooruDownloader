@@ -2321,6 +2321,7 @@
             this.txtProxyPassword.TabIndex = 13;
             this.txtProxyPassword.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPassword;
             this.txtProxyPassword.UseSystemPasswordChar = true;
+            this.txtProxyPassword.TextChanged += new System.EventHandler(this.txtProxyPassword_TextChanged);
             // 
             // label19
             // 
@@ -2340,6 +2341,7 @@
             this.txtProxyUsername.Size = new System.Drawing.Size(94, 20);
             this.txtProxyUsername.TabIndex = 11;
             this.txtProxyUsername.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyUsername;
+            this.txtProxyUsername.TextChanged += new System.EventHandler(this.txtProxyUsername_TextChanged);
             // 
             // label18
             // 
@@ -2420,6 +2422,7 @@
             this.txtProxyPort.Size = new System.Drawing.Size(41, 20);
             this.txtProxyPort.TabIndex = 4;
             this.txtProxyPort.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyPort;
+            this.txtProxyPort.TextChanged += new System.EventHandler(this.txtProxyPort_TextChanged);
             // 
             // txtProxyAddress
             // 
@@ -2429,6 +2432,7 @@
             this.txtProxyAddress.Size = new System.Drawing.Size(94, 20);
             this.txtProxyAddress.TabIndex = 3;
             this.txtProxyAddress.Text = global::DanbooruDownloader3.Properties.Settings.Default.ProxyAddress;
+            this.txtProxyAddress.TextChanged += new System.EventHandler(this.txtProxyAddress_TextChanged);
             // 
             // label11
             // 
