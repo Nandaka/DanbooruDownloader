@@ -539,5 +539,17 @@ namespace DanbooruDownloader3.Properties {
                 this["TagFaultsGrouping"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TagIgnored {
+            get {
+                return ((string)(this["TagIgnored"]));
+            }
+            set {
+                this["TagIgnored"] = value;
+            }
+        }
     }
 }

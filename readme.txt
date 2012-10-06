@@ -15,6 +15,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20121006
+  - Update logging.
+  - Add ignored tags list.
+	
 - DanbooruDownloader20121002
   - Update logging.
   - Update ExtendedWebClient's proxy.

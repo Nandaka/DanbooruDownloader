@@ -131,5 +131,8 @@
     <Setting Name="TagFaultsGrouping" Type="System.String" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
+    <Setting Name="TagIgnored" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

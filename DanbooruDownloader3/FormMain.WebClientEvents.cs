@@ -65,8 +65,8 @@ namespace DanbooruDownloader3
                 MessageBox.Show(message, "Download List");
                 Program.Logger.Error(message, ex);
 
-                txtLog.Text += "clientList_DownloadDataCompleted(): " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message);
-                txtLog.Text += _clientList.Referer + Environment.NewLine;
+                UpdateLog("clientList_DownloadDataCompleted", "Error: " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message), ex);
+                UpdateLog("clientList_DownloadDataCompleted", "Referer: " + _clientList.Referer);
 
                 chkAutoLoadNext.Checked = false;
             }
@@ -79,7 +79,7 @@ namespace DanbooruDownloader3
         void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             tsProgressBar.Visible = false;
-            txtLog.AppendText("Download Complete: " + e.UserState + Environment.NewLine);
+            UpdateLog("clientList_DownloadFileCompleted", "Download Complete: " + e.UserState);
             txtListFile.Text = saveFileDialog1.FileName;
             gbxSearch.Enabled = true;
             gbxList.Enabled = true;
@@ -134,7 +134,7 @@ namespace DanbooruDownloader3
             }
             catch (Exception ex)
             {
-                txtLog.Text += "[clientThumbnail]"+ e.UserState + " clientThumb_DownloadProgressChanged(): " + ex.Message;
+                UpdateLog("clientThumb_DownloadProgressChanged", "Error: " + e.UserState + " " + ex.Message, ex);
             }
         }
 
@@ -173,7 +173,7 @@ namespace DanbooruDownloader3
             }
             catch (Exception ex)
             {
-                txtLog.Text += "[clientThumbnail]" + e.UserState + " clientThumb_DownloadDataCompleted(): " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message) + Environment.NewLine;
+                UpdateLog("clientThumb_DownloadDataCompleted", "Error" + e.UserState + " " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), ex);
                 int i = (int)e.UserState;
                 //
                 if (chkLoadPreview.Checked)
@@ -225,8 +225,8 @@ namespace DanbooruDownloader3
             DataGridViewRow row = (DataGridViewRow)e.UserState;
 
             var status = e.Error == null ? "OK" : e.Error.InnerException == null ? e.Error.Message : e.Error.InnerException.Message;
-            txtLog.AppendText("[clientFileDownload] Url: " + row.Cells["colUrl2"].Value.ToString() + " Completed, Status: " + status + Environment.NewLine);
-            txtLog.AppendText("[clientFileDownload] Ref: " + _clientFile.Referer + Environment.NewLine);
+            UpdateLog("clientFileDownload", "Url: " + row.Cells["colUrl2"].Value.ToString() + " Completed, Status: " + status);
+            UpdateLog("clientFileDownload", "Ref: " + _clientFile.Referer);
             
             if (e.Error == null)
             {
@@ -244,9 +244,8 @@ namespace DanbooruDownloader3
                 }
                 catch (IOException ex)
                 {
-                    txtLog.AppendText("[clientFileDownload] Cannot rename completed file: " + ex.Message);
+                    UpdateLog("clientFileDownload", "Cannot rename completed file: " + ex.Message, ex);
                     row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: Cannot rename completed file";
-                    Program.Logger.Error("Cannot rename completed file", ex);
                 }
             }
             else

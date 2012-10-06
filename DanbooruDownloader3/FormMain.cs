@@ -351,7 +351,8 @@ namespace DanbooruDownloader3
                             CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
                             CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
                             CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
-                            FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text)
+                            FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
+                            IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " "))
                         };
                         string extension = url.Substring(url.LastIndexOf('.'));
                         if (chkRenameJpeg.Checked)
@@ -947,7 +948,8 @@ namespace DanbooruDownloader3
                                                 CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
                                                 CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
                                                 CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
-                                                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text)
+                                                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
+                                                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " "))
                                             };
                                             string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
                                             if (chkRenameJpeg.Checked)

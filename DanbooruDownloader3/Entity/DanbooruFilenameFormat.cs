@@ -161,5 +161,7 @@ namespace DanbooruDownloader3.Entity
                 _faultsGroupReplacement = value;
             }
         }
+
+        public List<DanbooruTag> IgnoredTags { get; set; }
     }
 }

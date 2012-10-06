@@ -104,6 +104,12 @@ namespace DanbooruDownloader3
             // copy the tags entity to be grouped.
             var groupedTags = post.TagsEntity;
 
+            // remove ignored tags
+            foreach (DanbooruTag ignoredTag in format.IgnoredTags)
+            {
+                groupedTags.RemoveAll(x => x.Name == ignoredTag.Name);
+            }
+
             var artistSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name);
             var artist = "";
             if (artistSelection != null)
