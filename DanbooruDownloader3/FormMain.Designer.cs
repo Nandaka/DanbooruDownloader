@@ -184,6 +184,7 @@
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkIgnoreTagsUseRegex = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txtIgnoredTags = new System.Windows.Forms.TextBox();
             this.txtAutoCompleteLimit = new System.Windows.Forms.TextBox();
@@ -293,6 +294,7 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
+            this.chkBlacklistTagsUseRegex = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -1595,7 +1597,7 @@
             // 
             // colBatchTagQuery
             // 
-            this.colBatchTagQuery.DataPropertyName = "TagQuery";
+            this.colBatchTagQuery.DataPropertyName = "SearchTags";
             this.colBatchTagQuery.HeaderText = "Tags Query";
             this.colBatchTagQuery.Name = "colBatchTagQuery";
             this.colBatchTagQuery.ReadOnly = true;
@@ -1693,6 +1695,7 @@
             this.groupBox5.Controls.Add(this.chkMinimizeTray);
             this.groupBox5.Controls.Add(this.chkAutoFocus);
             this.groupBox5.Controls.Add(this.chkLogging);
+            this.groupBox5.Controls.Add(this.chkUseTagColor);
             this.groupBox5.Location = new System.Drawing.Point(579, 6);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(214, 130);
@@ -1827,15 +1830,19 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkBlacklistTagsUseRegex);
+            this.groupBox2.Controls.Add(this.chkIgnoreTagsUseRegex);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.txtIgnoredTags);
             this.groupBox2.Controls.Add(this.txtAutoCompleteLimit);
             this.groupBox2.Controls.Add(this.txtCircleTagGrouping);
             this.groupBox2.Controls.Add(this.txtFaultsTagGrouping);
             this.groupBox2.Controls.Add(this.txtCharaTagGrouping);
-            this.groupBox2.Controls.Add(this.chkTagAutoComplete);
+            this.groupBox2.Controls.Add(this.txtTagReplacement);
             this.groupBox2.Controls.Add(this.txtCopyTagGrouping);
+            this.groupBox2.Controls.Add(this.label20);
             this.groupBox2.Controls.Add(this.lblColorBlacklistedTag);
+            this.groupBox2.Controls.Add(this.chkTagAutoComplete);
             this.groupBox2.Controls.Add(this.lblColorFaults);
             this.groupBox2.Controls.Add(this.txtArtistTagGrouping);
             this.groupBox2.Controls.Add(this.lblColorCircle);
@@ -1844,10 +1851,7 @@
             this.groupBox2.Controls.Add(this.label25);
             this.groupBox2.Controls.Add(this.txtTagBlacklist);
             this.groupBox2.Controls.Add(this.lblColorArtist);
-            this.groupBox2.Controls.Add(this.txtTagReplacement);
-            this.groupBox2.Controls.Add(this.label20);
             this.groupBox2.Controls.Add(this.lblColorGeneral);
-            this.groupBox2.Controls.Add(this.chkUseTagColor);
             this.groupBox2.Location = new System.Drawing.Point(9, 249);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(564, 118);
@@ -1855,10 +1859,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tagging";
             // 
+            // chkIgnoreTagsUseRegex
+            // 
+            this.chkIgnoreTagsUseRegex.AutoSize = true;
+            this.chkIgnoreTagsUseRegex.Checked = global::DanbooruDownloader3.Properties.Settings.Default.IgnoreTagsUseRegex;
+            this.chkIgnoreTagsUseRegex.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "IgnoreTagsUseRegex", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkIgnoreTagsUseRegex.Location = new System.Drawing.Point(457, 16);
+            this.chkIgnoreTagsUseRegex.Name = "chkIgnoreTagsUseRegex";
+            this.chkIgnoreTagsUseRegex.Size = new System.Drawing.Size(79, 17);
+            this.chkIgnoreTagsUseRegex.TabIndex = 29;
+            this.chkIgnoreTagsUseRegex.Text = "Use Regex";
+            this.chkIgnoreTagsUseRegex.UseVisualStyleBackColor = true;
+            // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(438, 16);
+            this.label21.Location = new System.Drawing.Point(368, 17);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(70, 13);
             this.label21.TabIndex = 28;
@@ -1867,11 +1883,11 @@
             // txtIgnoredTags
             // 
             this.txtIgnoredTags.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagIgnored", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtIgnoredTags.Location = new System.Drawing.Point(437, 36);
+            this.txtIgnoredTags.Location = new System.Drawing.Point(368, 39);
             this.txtIgnoredTags.Multiline = true;
             this.txtIgnoredTags.Name = "txtIgnoredTags";
             this.txtIgnoredTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtIgnoredTags.Size = new System.Drawing.Size(115, 72);
+            this.txtIgnoredTags.Size = new System.Drawing.Size(168, 43);
             this.txtIgnoredTags.TabIndex = 27;
             this.txtIgnoredTags.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagIgnored;
             this.txtIgnoredTags.WordWrap = false;
@@ -1879,7 +1895,7 @@
             // txtAutoCompleteLimit
             // 
             this.txtAutoCompleteLimit.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "AutoCompleteLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtAutoCompleteLimit.Location = new System.Drawing.Point(345, 17);
+            this.txtAutoCompleteLimit.Location = new System.Drawing.Point(325, 88);
             this.txtAutoCompleteLimit.Name = "txtAutoCompleteLimit";
             this.txtAutoCompleteLimit.Size = new System.Drawing.Size(34, 20);
             this.txtAutoCompleteLimit.TabIndex = 19;
@@ -1888,7 +1904,7 @@
             // txtCircleTagGrouping
             // 
             this.txtCircleTagGrouping.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagCircleGrouping", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtCircleTagGrouping.Location = new System.Drawing.Point(151, 62);
+            this.txtCircleTagGrouping.Location = new System.Drawing.Point(135, 62);
             this.txtCircleTagGrouping.Name = "txtCircleTagGrouping";
             this.txtCircleTagGrouping.Size = new System.Drawing.Size(26, 20);
             this.txtCircleTagGrouping.TabIndex = 26;
@@ -1898,7 +1914,7 @@
             // txtFaultsTagGrouping
             // 
             this.txtFaultsTagGrouping.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagFaultsGrouping", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtFaultsTagGrouping.Location = new System.Drawing.Point(151, 88);
+            this.txtFaultsTagGrouping.Location = new System.Drawing.Point(135, 88);
             this.txtFaultsTagGrouping.Name = "txtFaultsTagGrouping";
             this.txtFaultsTagGrouping.Size = new System.Drawing.Size(26, 20);
             this.txtFaultsTagGrouping.TabIndex = 25;
@@ -1920,7 +1936,7 @@
             this.chkTagAutoComplete.AutoSize = true;
             this.chkTagAutoComplete.Checked = global::DanbooruDownloader3.Properties.Settings.Default.TagAutoComplete;
             this.chkTagAutoComplete.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "TagAutoComplete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkTagAutoComplete.Location = new System.Drawing.Point(185, 19);
+            this.chkTagAutoComplete.Location = new System.Drawing.Point(168, 90);
             this.chkTagAutoComplete.Name = "chkTagAutoComplete";
             this.chkTagAutoComplete.Size = new System.Drawing.Size(154, 17);
             this.chkTagAutoComplete.TabIndex = 15;
@@ -1944,7 +1960,7 @@
             this.lblColorBlacklistedTag.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorBlacklistedTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lblColorBlacklistedTag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorBlacklistedTag.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorBlacklistedTag;
-            this.lblColorBlacklistedTag.Location = new System.Drawing.Point(99, 39);
+            this.lblColorBlacklistedTag.Location = new System.Drawing.Point(165, 17);
             this.lblColorBlacklistedTag.Name = "lblColorBlacklistedTag";
             this.lblColorBlacklistedTag.Size = new System.Drawing.Size(80, 13);
             this.lblColorBlacklistedTag.TabIndex = 16;
@@ -1958,7 +1974,7 @@
             this.lblColorFaults.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorFaults", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lblColorFaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorFaults.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorFaults;
-            this.lblColorFaults.Location = new System.Drawing.Point(110, 91);
+            this.lblColorFaults.Location = new System.Drawing.Point(97, 91);
             this.lblColorFaults.Name = "lblColorFaults";
             this.lblColorFaults.Size = new System.Drawing.Size(35, 13);
             this.lblColorFaults.TabIndex = 14;
@@ -1982,7 +1998,7 @@
             this.lblColorCircle.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorCircle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lblColorCircle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorCircle.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorCircle;
-            this.lblColorCircle.Location = new System.Drawing.Point(112, 65);
+            this.lblColorCircle.Location = new System.Drawing.Point(99, 65);
             this.lblColorCircle.Name = "lblColorCircle";
             this.lblColorCircle.Size = new System.Drawing.Size(33, 13);
             this.lblColorCircle.TabIndex = 13;
@@ -2020,7 +2036,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(7, 20);
+            this.label25.Location = new System.Drawing.Point(5, 17);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(96, 13);
             this.label25.TabIndex = 21;
@@ -2029,11 +2045,11 @@
             // txtTagBlacklist
             // 
             this.txtTagBlacklist.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "TagBlacklist", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTagBlacklist.Location = new System.Drawing.Point(185, 39);
+            this.txtTagBlacklist.Location = new System.Drawing.Point(167, 39);
             this.txtTagBlacklist.Multiline = true;
             this.txtTagBlacklist.Name = "txtTagBlacklist";
             this.txtTagBlacklist.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTagBlacklist.Size = new System.Drawing.Size(115, 69);
+            this.txtTagBlacklist.Size = new System.Drawing.Size(168, 43);
             this.txtTagBlacklist.TabIndex = 12;
             this.txtTagBlacklist.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagBlacklist;
             this.txtTagBlacklist.WordWrap = false;
@@ -2056,20 +2072,20 @@
             // txtTagReplacement
             // 
             this.txtTagReplacement.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "EmptyTagReplacement", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTagReplacement.Location = new System.Drawing.Point(306, 88);
+            this.txtTagReplacement.Location = new System.Drawing.Point(449, 88);
             this.txtTagReplacement.Name = "txtTagReplacement";
-            this.txtTagReplacement.Size = new System.Drawing.Size(117, 20);
+            this.txtTagReplacement.Size = new System.Drawing.Size(103, 20);
             this.txtTagReplacement.TabIndex = 11;
             this.txtTagReplacement.Text = global::DanbooruDownloader3.Properties.Settings.Default.EmptyTagReplacement;
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(306, 65);
+            this.label20.Location = new System.Drawing.Point(365, 91);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(124, 13);
+            this.label20.Size = new System.Drawing.Size(86, 13);
             this.label20.TabIndex = 10;
-            this.label20.Text = "Empty Tag Replacement";
+            this.label20.Text = "Empty Tag Repl.";
             // 
             // lblColorGeneral
             // 
@@ -2078,7 +2094,7 @@
             this.lblColorGeneral.DataBindings.Add(new System.Windows.Forms.Binding("ForeColor", global::DanbooruDownloader3.Properties.Settings.Default, "ColorGeneral", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lblColorGeneral.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorGeneral.ForeColor = global::DanbooruDownloader3.Properties.Settings.Default.ColorGeneral;
-            this.lblColorGeneral.Location = new System.Drawing.Point(133, 20);
+            this.lblColorGeneral.Location = new System.Drawing.Point(97, 39);
             this.lblColorGeneral.Name = "lblColorGeneral";
             this.lblColorGeneral.Size = new System.Drawing.Size(44, 13);
             this.lblColorGeneral.TabIndex = 9;
@@ -2090,7 +2106,7 @@
             this.chkUseTagColor.AutoSize = true;
             this.chkUseTagColor.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseColoredTag;
             this.chkUseTagColor.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseColoredTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkUseTagColor.Location = new System.Drawing.Point(306, 41);
+            this.chkUseTagColor.Location = new System.Drawing.Point(6, 90);
             this.chkUseTagColor.Name = "chkUseTagColor";
             this.chkUseTagColor.Size = new System.Drawing.Size(111, 17);
             this.chkUseTagColor.TabIndex = 8;
@@ -2826,7 +2842,7 @@
             // 
             // dataGridViewTextBoxColumn17
             // 
-            this.dataGridViewTextBoxColumn17.DataPropertyName = "TagQuery";
+            this.dataGridViewTextBoxColumn17.DataPropertyName = "SearchTags";
             this.dataGridViewTextBoxColumn17.FillWeight = 25F;
             this.dataGridViewTextBoxColumn17.Frozen = true;
             this.dataGridViewTextBoxColumn17.HeaderText = "Tags Query";
@@ -2940,6 +2956,18 @@
             this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
+            // 
+            // chkBlacklistTagsUseRegex
+            // 
+            this.chkBlacklistTagsUseRegex.AutoSize = true;
+            this.chkBlacklistTagsUseRegex.Checked = global::DanbooruDownloader3.Properties.Settings.Default.BlacklistTagsUseRegex;
+            this.chkBlacklistTagsUseRegex.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "BlacklistTagsUseRegex", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkBlacklistTagsUseRegex.Location = new System.Drawing.Point(256, 16);
+            this.chkBlacklistTagsUseRegex.Name = "chkBlacklistTagsUseRegex";
+            this.chkBlacklistTagsUseRegex.Size = new System.Drawing.Size(79, 17);
+            this.chkBlacklistTagsUseRegex.TabIndex = 30;
+            this.chkBlacklistTagsUseRegex.Text = "Use Regex";
+            this.chkBlacklistTagsUseRegex.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -3236,6 +3264,8 @@
         private System.Windows.Forms.TextBox txtCopyTagGrouping;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtIgnoredTags;
+        private System.Windows.Forms.CheckBox chkIgnoreTagsUseRegex;
+        private System.Windows.Forms.CheckBox chkBlacklistTagsUseRegex;
     }
 }
 

@@ -107,7 +107,19 @@ namespace DanbooruDownloader3
             // remove ignored tags
             foreach (DanbooruTag ignoredTag in format.IgnoredTags)
             {
-                groupedTags.RemoveAll(x => x.Name == ignoredTag.Name);
+                if (format.IgnoreTagsUseRegex)
+                {
+                    if (!String.IsNullOrWhiteSpace(format.IgnoredTagsRegex))
+                    {
+                        //Program.Logger.Debug("Ignore Regex: " + format.IgnoredTagsRegex);
+                        Regex re = new Regex(format.IgnoredTagsRegex, RegexOptions.IgnoreCase);
+                        groupedTags.RemoveAll(x => re.IsMatch(x.Name));
+                    }
+                }
+                else
+                {
+                    groupedTags.RemoveAll(x => x.Name == ignoredTag.Name);
+                }
             }
 
             var artistSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name);

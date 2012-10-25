@@ -10,6 +10,7 @@ using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text.RegularExpressions;
 
 namespace DanbooruDownloader3.test
 {
@@ -21,7 +22,7 @@ namespace DanbooruDownloader3.test
         string sourceYandereXml = @"../../../DanbooruDownloader3.test/TestXml/yande.re.xml";
 
         string sourceDanbooruTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_danbooru.xml";
-        string sourceYandereTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_yande.re.xml";
+        //string sourceYandereTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_yande.re.xml";
 
         [TestMethod]
         public void TestShimmie2Parser()
@@ -30,7 +31,17 @@ namespace DanbooruDownloader3.test
             var shimmie2Provider = pd.Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Shimmie2).First<DanbooruProvider>();
             XmlReader reader = new XmlTextReader(@"../../../DanbooruDownloader3.test/TestXml/shimmie2.xml");
 
-            var list = ShimmieEngine.ParseRSS(reader, shimmie2Provider, "", "", null);
+            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+            {
+                Provider = shimmie2Provider,
+                Query = "",
+                SearchTags = "",
+                BlacklistedTags = null,
+                BlacklistedTagsRegex = new Regex("$^"),
+                BlacklistedTagsUseRegex = false
+            };
+
+            var list = ShimmieEngine.ParseRSS(reader, option);
 
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Count == 9);

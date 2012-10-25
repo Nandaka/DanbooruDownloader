@@ -15,6 +15,11 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20121025
+  - Change matching mode for Tag Blacklist to equals ignore case.
+  - Add option to use Regex for Tag Blacklist and Tag Ignore.
+  - Refactor DanbooruPostDao.
+
 - DanbooruDownloader20121006
   - Update logging.
   - Add ignored tags list.

@@ -163,5 +163,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         public List<DanbooruTag> IgnoredTags { get; set; }
+        public String IgnoredTagsRegex { get; set; }
+        public bool IgnoreTagsUseRegex { get; set; }
     }
 }

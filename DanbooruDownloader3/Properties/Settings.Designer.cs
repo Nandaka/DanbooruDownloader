@@ -551,5 +551,29 @@ namespace DanbooruDownloader3.Properties {
                 this["TagIgnored"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreTagsUseRegex {
+            get {
+                return ((bool)(this["IgnoreTagsUseRegex"]));
+            }
+            set {
+                this["IgnoreTagsUseRegex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BlacklistTagsUseRegex {
+            get {
+                return ((bool)(this["BlacklistTagsUseRegex"]));
+            }
+            set {
+                this["BlacklistTagsUseRegex"] = value;
+            }
+        }
     }
 }

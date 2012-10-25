@@ -55,6 +55,7 @@ namespace DanbooruDownloader3
         public const int MAX_FILENAME_LENGTH = 255;
 
         List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
+        Regex TagBlacklistRegex = new Regex("$^");
         #endregion
 
         public FormMain()
@@ -201,10 +202,20 @@ namespace DanbooruDownloader3
             if (!String.IsNullOrWhiteSpace(tagStr))
             {
                 TagBlacklist = DanbooruTagsDao.Instance.ParseTagsString(tagStr.Replace(Environment.NewLine, " "));
+                try
+                {
+                    TagBlacklistRegex = new Regex(tagStr.Trim().Replace(Environment.NewLine, "|"), RegexOptions.IgnoreCase);
+                }
+                catch (Exception ex)
+                {
+                    Program.Logger.Debug(ex.Message);
+                    TagBlacklistRegex = new Regex("$^");
+                }
             }
             else
             {
                 if (TagBlacklist != null) TagBlacklist.Clear();
+                if (TagBlacklistRegex != null) TagBlacklistRegex = new Regex("$^");
             }
         }
         
@@ -352,7 +363,9 @@ namespace DanbooruDownloader3
                             CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
                             CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
                             FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
-                            IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " "))
+                            IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
+                            IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
+                            IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                         };
                         string extension = url.Substring(url.LastIndexOf('.'));
                         if (chkRenameJpeg.Checked)
@@ -432,7 +445,7 @@ namespace DanbooruDownloader3
                 {
                     if (chkAppendList.Checked || chkAutoLoadNext.Checked)
                     {
-                        UpdateLog("[LoadList]", "Appending: " + postDao.SearchTags + " Offset: " + postDao.Offset);
+                        UpdateLog("[LoadList]", "Appending: " + postDao.Option.SearchTags + " Offset: " + postDao.Offset);
 
                         int oldCount = _postsDao.Posts.Count;
 
@@ -803,7 +816,19 @@ namespace DanbooruDownloader3
                                         var strs = _clientBatch.DownloadString(url);
                                         using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
                                         {
-                                            d = new DanbooruPostDao(ms, batchJob[i].Provider, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
+                                            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                                            {
+                                                Provider = batchJob[i].Provider,
+                                                Query = query,
+                                                SearchTags = batchJob[i].TagQuery,
+                                                //Url = url,
+                                                Referer = url,
+                                                IsXML = isXml,
+                                                BlacklistedTags = TagBlacklist,
+                                                BlacklistedTagsRegex = TagBlacklistRegex,
+                                                BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                                            };
+                                            d = new DanbooruPostDao(ms, option);
                                         }
                                         break;
                                     }
@@ -949,7 +974,9 @@ namespace DanbooruDownloader3
                                                 CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
                                                 CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
                                                 FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
-                                                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " "))
+                                                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
+                                                IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
+                                                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                                             };
                                             string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
                                             if (chkRenameJpeg.Checked)
@@ -1078,7 +1105,19 @@ namespace DanbooruDownloader3
                                         {
                                             if (response != null)
                                             {
-                                                var resp = new DanbooruPostDao(response, _currProvider, query, batchJob[i].TagQuery, url, isXml, TagBlacklist);
+                                                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                                                {
+                                                    Provider = _currProvider,
+                                                    Query = query,
+                                                    SearchTags = batchJob[i].TagQuery,
+                                                    Url = url,
+                                                    Referer = "",
+                                                    IsXML = isXml,
+                                                    BlacklistedTags = TagBlacklist,
+                                                    BlacklistedTagsRegex = TagBlacklistRegex,
+                                                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                                                };
+                                                var resp = new DanbooruPostDao(response, option);
                                                 responseMessage = resp.ResponseMessage;
                                                 flag = false;
                                             }
@@ -1306,8 +1345,18 @@ namespace DanbooruDownloader3
         {
             if (txtListFile.Text.Length > 0)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider, TagBlacklist);
-
+                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                {
+                    Provider = _currProvider,
+                    Url = txtListFile.Text,
+                    Referer = _currProvider.Url,
+                    Query = txtListFile.Text.Split('\\').Last(),
+                    SearchTags = "",
+                    BlacklistedTags = TagBlacklist,
+                    BlacklistedTagsRegex = TagBlacklistRegex, 
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                };
+                DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);
             }
         }
@@ -1363,6 +1412,10 @@ namespace DanbooruDownloader3
                 if (item.Hidden)
                 {
                     dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorBlacklisted;
+                }
+                else
+                {
+                    dgvList.Rows[i].DefaultCellStyle.BackColor = Color.White;
                 }
             }
         }

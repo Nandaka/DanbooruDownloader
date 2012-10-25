@@ -5,6 +5,7 @@ using System.Text;
 using DanbooruDownloader3.Entity;
 using System.Xml.Serialization;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DanbooruDownloader3.DAO
 {
@@ -66,6 +67,7 @@ namespace DanbooruDownloader3.DAO
 
         public DanbooruTag GetTag(string tag)
         {
+            // TODO: Hot spot for perfomance
             var result = Tags.Tag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result != null) return result;
             else

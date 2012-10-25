@@ -6,6 +6,7 @@ using System.Xml;
 using DanbooruDownloader3.Entity;
 using System.IO;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace DanbooruDownloader3.DAO
 {
@@ -15,40 +16,25 @@ namespace DanbooruDownloader3.DAO
         /// <summary>
         /// parse xml/json list file
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="provider"></param>
-        public DanbooruPostDao(string url, DanbooruProvider provider, List<DanbooruTag> BlacklistedTag)
+        /// <param name="option"></param>
+        public DanbooruPostDao(DanbooruPostDaoOption option)//string url, DanbooruProvider provider, List<DanbooruTag> BlacklistedTag)
         {
-            this.Provider = provider;
-            this.Query = url.Split('\\').Last();
-            this.SearchTags = "";
-            this.Referer = provider.Url;
-            this.TagBlackList = BlacklistedTag;
-
-            if (url.ToLower().EndsWith(".xml"))
-                ReadXML(url);
-            else 
-                ReadJSON(url);
+            this.Option = option;
+            if (option.Url.ToLower().EndsWith(".xml"))
+                ReadXML(option.Url);
+            else
+                ReadJSON(option.Url);
         }
 
         /// <summary>
         /// parse xml/json list stream and close it.
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="provider"></param>
-        /// <param name="query"></param>
-        /// <param name="searchTags"></param>
-        /// <param name="referer"></param>
-        /// <param name="isXMl"></param>
-        public DanbooruPostDao(Stream input, DanbooruProvider provider, string query, string searchTags, string referer, Boolean isXMl, List<DanbooruTag> BlacklistedTag)
+        /// <param name="option"></param>
+        public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
         {
-            this.Provider = provider;
-            this.Query = query;
-            this.SearchTags = searchTags;
-            this.Referer = referer;
-            this.TagBlackList = BlacklistedTag;
-
-            if (isXMl)
+            this.Option = option;
+            if (option.IsXML)
             {
                 ReadXML(input);
             }
@@ -58,14 +44,7 @@ namespace DanbooruDownloader3.DAO
         #endregion
         
         #region property
-        public DanbooruProvider Provider { get; set; }
-
-        public string Query { get; set; }
-
-        public string SearchTags { get; set; }
-
-        public string Referer { get; set; }
-
+        public DanbooruPostDaoOption Option { get; set; }
         private int postCount;
         public int PostCount
         {
@@ -91,11 +70,9 @@ namespace DanbooruDownloader3.DAO
         }
 
         public String RawData { get; set; }
-
         public bool Success { get; set; }
         public string ResponseMessage { get; set; }
 
-        public List<DanbooruTag> TagBlackList { get; set; }
         #endregion
         
         private void ReadXML(string filename)
@@ -122,9 +99,9 @@ namespace DanbooruDownloader3.DAO
         private void ProcessXML(XmlTextReader reader)
         {
             RawData = "";
-            if (Provider.BoardType == BoardType.Shimmie2)
+            if (Option.Provider.BoardType == BoardType.Shimmie2)
             {
-                posts =  Engine.ShimmieEngine.ParseRSS(reader, Provider, Query, SearchTags, TagBlackList);
+                posts =  Engine.ShimmieEngine.ParseRSS(reader, Option);
                 foreach (var item in posts)
                 {
                     RawData += item.Id + ":" + item.FileUrl + ", ";                    
@@ -272,16 +249,16 @@ namespace DanbooruDownloader3.DAO
                                     }
                                 }
                                 post.Hidden = CheckBlacklisted(post);
-                                post.Provider = this.Provider.Name;
-                                post.Query = this.Query;
-                                post.SearchTags = this.SearchTags;
-                                if (Provider.BoardType == BoardType.Danbooru || Provider.BoardType == BoardType.Shimmie2)
+                                post.Provider = Option.Provider.Name;
+                                post.Query = Option.Query;
+                                post.SearchTags = Option.SearchTags;
+                                if (Option.Provider.BoardType == BoardType.Danbooru || Option.Provider.BoardType == BoardType.Shimmie2)
                                 {
-                                    post.Referer = this.Provider.Url + @"/post/show/" + post.Id;
+                                    post.Referer = Option.Provider.Url + @"/post/show/" + post.Id;
                                 }
-                                else if (Provider.BoardType == BoardType.Gelbooru)
+                                else if (Option.Provider.BoardType == BoardType.Gelbooru)
                                 {
-                                    post.Referer = this.Provider.Url + @"/index.php?page=post&s=view&id=" + post.Id;
+                                    post.Referer = Option.Provider.Url + @"/index.php?page=post&s=view&id=" + post.Id;
                                 }
                                 posts.Add(post);
                                 actualCount++;
@@ -513,10 +490,10 @@ namespace DanbooruDownloader3.DAO
                         }
                     }
                     post.Hidden = CheckBlacklisted(post);
-                    post.Provider = this.Provider.Name;
-                    post.Query = this.Query;
-                    post.SearchTags = this.SearchTags;
-                    post.Referer = this.Provider.Url + @"/post/show/" + post.Id;
+                    post.Provider = Option.Provider.Name;
+                    post.Query = Option.Query;
+                    post.SearchTags = Option.SearchTags;
+                    post.Referer = Option.Provider.Url + @"/post/show/" + post.Id;
                     this.posts.Add(post);
                     actualCount++;
                 }
@@ -528,16 +505,23 @@ namespace DanbooruDownloader3.DAO
             if (String.IsNullOrWhiteSpace(url)) return url;
             if (!url.StartsWith("http"))
             {
-                return Provider.Url + url;
+                return Option.Provider.Url + url;
             }
             return url;
         }
 
         private bool CheckBlacklisted(DanbooruPost post)
         {
-            foreach (var tag in TagBlackList)
+            if (Option.BlacklistedTagsUseRegex)
             {
-                if (post.Tags.Contains(tag.Name)) return true;
+                return post.TagsEntity.Any(x => Option.BlacklistedTagsRegex.IsMatch(x.Name));
+            }
+            else
+            {
+                foreach (var tag in Option.BlacklistedTags)
+                {
+                    return post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase));
+                }
             }
             return false;
         }

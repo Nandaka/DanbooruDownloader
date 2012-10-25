@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using DanbooruDownloader3.DAO;
 using System.Threading;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -25,8 +26,19 @@ namespace DanbooruDownloader3
                 Program.Logger.Debug("Download list completed");
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
-
-                DanbooruPostDao newPosts = new DanbooruPostDao(ms, _currProvider, txtQuery.Text, txtTags.Text, _clientList.Referer, rbXml.Checked, TagBlacklist);
+                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                {
+                    Provider = _currProvider,
+                    //Url = txtListFile.Text,
+                    Referer = _clientList.Referer,
+                    Query = txtQuery.Text,
+                    SearchTags = txtTags.Text,
+                    IsXML = rbXml.Checked,
+                    BlacklistedTags = TagBlacklist,
+                    BlacklistedTagsRegex = TagBlacklistRegex,
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                };
+                DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
 
                 LoadList(newPosts);
 
@@ -53,7 +65,19 @@ namespace DanbooruDownloader3
                                 {
                                     if (response != null)
                                     {
-                                        var resp = new DanbooruPostDao(response, _currProvider, "", "", "", rbXml.Checked, TagBlacklist);
+                                        DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                                        {
+                                            Provider = _currProvider,
+                                            //Url = "",
+                                            Referer = "",
+                                            Query = "",
+                                            SearchTags = "",
+                                            IsXML = rbXml.Checked,
+                                            BlacklistedTags = TagBlacklist,
+                                            BlacklistedTagsRegex = TagBlacklistRegex,
+                                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                                        };
+                                        var resp = new DanbooruPostDao(response, option);
                                         message = "Server Message: " + resp.ResponseMessage;
                                     }
                                 }
@@ -89,8 +113,18 @@ namespace DanbooruDownloader3
 
             if (chkAutoLoadList.Checked)
             {
-                DanbooruPostDao newPosts = new DanbooruPostDao(txtListFile.Text, _currProvider, TagBlacklist);
-                newPosts.Referer = _clientList.Referer;
+                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                {
+                    Provider = _currProvider,
+                    Url = txtListFile.Text,
+                    Referer = _clientList.Referer,
+                    Query = txtListFile.Text.Split('\\').Last(),
+                    SearchTags = "",
+                    BlacklistedTags = TagBlacklist,
+                    BlacklistedTagsRegex = TagBlacklistRegex,
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                };
+                DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);
             }
             _isLoadingList = false;
