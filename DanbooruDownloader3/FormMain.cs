@@ -1450,8 +1450,15 @@ namespace DanbooruDownloader3
             // for AJAX_LOADER gif animation, may cause high CPU usage...
             if (CheckListGrid())
             {
-                dgvList.Rows[_loadedThumbnail].Cells["colPreview"].Value = pbLoading.Image;
-                dgvList.InvalidateCell(dgvList.Columns["colPreview"].Index, _loadedThumbnail);
+                try
+                {
+                    dgvList.Rows[_loadedThumbnail].Cells["colPreview"].Value = pbLoading.Image;
+                    dgvList.InvalidateCell(dgvList.Columns["colPreview"].Index, _loadedThumbnail);
+                }
+                catch (Exception ex)
+                {
+                    UpdateLog("timGifAnimation_Tick", ex.Message, ex);
+                }
             }
         }
 

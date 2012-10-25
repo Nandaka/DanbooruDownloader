@@ -19,6 +19,7 @@ Change Log:
   - Change matching mode for Tag Blacklist to equals ignore case.
   - Add option to use Regex for Tag Blacklist and Tag Ignore.
   - Refactor DanbooruPostDao.
+  - Use BackgroundWorker for loading downloaded list.
 
 - DanbooruDownloader20121006
   - Update logging.

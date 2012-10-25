@@ -10,6 +10,7 @@ using System.IO;
 using DanbooruDownloader3.DAO;
 using System.Threading;
 using DanbooruDownloader3.Entity;
+using System.Threading.Tasks;
 
 namespace DanbooruDownloader3
 {
@@ -17,6 +18,27 @@ namespace DanbooruDownloader3
     {
         int currThumbRetry = 0;
         //int currFileRetry = 0;
+
+        void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            object[] param = (object[])e.Argument;
+            Stream ms = (Stream)param[0];
+            DanbooruPostDaoOption option = (DanbooruPostDaoOption)param[1];
+            DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
+            e.Result = newPosts;
+        }
+
+        void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            LoadList((DanbooruPostDao)e.Result);
+            tsProgressBar.Visible = false;
+            btnGet.Enabled = true;
+            btnListCancel.Enabled = false;
+            _isLoadingList = false;
+            tsStatus.Text = "Ready.";
+        }
+        
 
         #region clientList event handler
         void clientList_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
@@ -38,10 +60,15 @@ namespace DanbooruDownloader3
                     BlacklistedTagsRegex = TagBlacklistRegex,
                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
                 };
-                DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
-
-                LoadList(newPosts);
-
+                //DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
+                //LoadList(newPosts);
+                tsStatus.Text = "Loading downloaded list...";
+                tsProgressBar.Style = ProgressBarStyle.Marquee;
+                tsProgressBar.Visible = true;
+                backgroundWorker1 = new BackgroundWorker();
+                backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+                backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+                backgroundWorker1.RunWorkerAsync(new object[] { ms, option });
             }
             catch (Exception ex)
             {
@@ -93,13 +120,12 @@ namespace DanbooruDownloader3
                 UpdateLog("clientList_DownloadDataCompleted", "Referer: " + _clientList.Referer);
 
                 chkAutoLoadNext.Checked = false;
+                btnGet.Enabled = true;
+                btnListCancel.Enabled = false;
+                _isLoadingList = false;
             }
-
-            btnGet.Enabled = true;
-            btnListCancel.Enabled = false;
-            _isLoadingList = false;
         }
-
+        
         void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             tsProgressBar.Visible = false;
