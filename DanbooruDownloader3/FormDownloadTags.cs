@@ -39,6 +39,7 @@ namespace DanbooruDownloader3
             }
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            client.UserAgent = Properties.Settings.Default.UserAgent;
         }
 
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
