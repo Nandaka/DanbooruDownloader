@@ -2221,7 +2221,18 @@ namespace DanbooruDownloader3
 
         private void txtProxyPort_TextChanged(object sender, EventArgs e)
         {
-            SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+            int port = 0;
+            bool result = Int32.TryParse(txtProxyPort.Text, out port);
+            if (result)
+            {
+                SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, port, txtProxyUsername.Text, txtProxyPassword.Text);
+            }
+            else
+            {
+                MessageBox.Show("Invalid Port Number: " + txtProxyPort.Text, "Error Parsing Port", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtProxyPort.SelectAll();
+                txtProxyPort.Focus();
+            }
         }
 
         private void txtProxyUsername_TextChanged(object sender, EventArgs e)

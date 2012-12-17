@@ -8,17 +8,52 @@ namespace DanbooruDownloader3.CustomControl
 {
     public class ExtendedWebClient : WebClient
     {
-        new public IWebProxy Proxy
+        #region ctor
+        public ExtendedWebClient(int timeout = -1, CookieContainer cookieJar = null, String userAgent=null)
         {
-            get { return GlobalProxy; }
-            private set { this.Proxy = GlobalProxy; }
+            if (timeout > 0)
+            {
+                this.Timeout = timeout;
+            }
+            else
+            {
+                bool result = Int32.TryParse(Properties.Settings.Default.Timeout, out timeout);
+                if (result) this.Timeout = timeout;
+                else this.Timeout = 60000;
+            }
+            
+            if (cookieJar != null)
+            {
+                // replace old cookie jar
+                ExtendedWebClient.CookieJar = cookieJar;
+            }
+
+            if (userAgent != null)
+            {
+                // replace user agent
+                this.UserAgent = userAgent;
+            }
         }
+        #endregion
 
         private static IWebProxy globalProxy;
         public static IWebProxy GlobalProxy
         {
             get {
-                return globalProxy; 
+                if (Properties.Settings.Default.UseProxy)
+                {
+                    WebProxy proxy = new WebProxy(Properties.Settings.Default.ProxyAddress, Convert.ToInt32(Properties.Settings.Default.ProxyPort));
+                    if (Properties.Settings.Default.UseProxyLogin)
+                    {
+                        proxy.Credentials = new NetworkCredential(Properties.Settings.Default.ProxyUsername, Properties.Settings.Default.ProxyPassword);
+                    }
+                    globalProxy = proxy;
+                }
+                else
+                {
+                    globalProxy = null;
+                }
+                return globalProxy;
             }
             set {
                 globalProxy = value;
@@ -35,14 +70,22 @@ namespace DanbooruDownloader3.CustomControl
         private static CookieContainer cookieJar;
         public static CookieContainer CookieJar
         {
-            get { return cookieJar; }
+            get {
+                if (cookieJar == null)
+                {
+                    cookieJar = new CookieContainer();
+                }
+                return cookieJar; 
+            }
             set { cookieJar = value; }
         }
 
         private bool enableCookie;
         public bool EnableCookie
         {
-            get{return this.enableCookie;}
+            get{ 
+                return this.enableCookie; 
+            }
             set { this.enableCookie = value; }
         }
 
@@ -60,28 +103,24 @@ namespace DanbooruDownloader3.CustomControl
         private string userAgent;
         public string UserAgent
         {
-            get { return this.userAgent; }
+            get 
+            {
+                if (userAgent == null)
+                {
+                    userAgent = Properties.Settings.Default.UserAgent;
+                    if (Properties.Settings.Default.PadUserAgent)
+                    {
+                        userAgent += new DateTime().Ticks;
+                    }
+                    this.Headers.Add("user-agent", this.userAgent);
+                }                
+                return this.userAgent; 
+            }
             set
             {
                 this.userAgent = value;
                 this.Headers.Add("user-agent", this.userAgent);
             }
-        }
-
-        public ExtendedWebClient(){
-            Timeout = 60000;
-            cookieJar = new CookieContainer();
-        }
-
-        public ExtendedWebClient(int timeout){
-            Timeout = timeout;
-            cookieJar = new CookieContainer();
-        }
-
-        public ExtendedWebClient(CookieContainer cookieJar)
-        {
-            CookieJar = cookieJar;
-            Timeout = 60000;
         }
 
         protected override WebRequest GetWebRequest(Uri address) 
