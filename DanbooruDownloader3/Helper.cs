@@ -52,7 +52,7 @@ namespace DanbooruDownloader3
         {
             if (originalUserAgent != null && originalUserAgent.Length > 0)
             {
-                return originalUserAgent + DateTime.UtcNow;
+                return originalUserAgent + DateTime.UtcNow.Ticks;
             }
             else return null;
         }

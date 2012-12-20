@@ -64,7 +64,26 @@ namespace DanbooruDownloader3.CustomControl
         public int Timeout
         {
             get { return this.timeout; }
-            set { this.timeout = value; }
+            set {
+                if (value < 0) value = 0;
+                this.timeout = value; 
+            }
+        }
+        
+        private bool enableCookie;
+        public bool EnableCookie
+        {
+            get
+            {
+                return this.enableCookie;
+            }
+            set {
+                if (value && cookieJar == null)
+                {
+                    cookieJar = new CookieContainer();
+                }
+                this.enableCookie = value; 
+            }
         }
 
         private static CookieContainer cookieJar;
@@ -79,24 +98,22 @@ namespace DanbooruDownloader3.CustomControl
             }
             set { cookieJar = value; }
         }
-
-        private bool enableCookie;
-        public bool EnableCookie
-        {
-            get{ 
-                return this.enableCookie; 
-            }
-            set { this.enableCookie = value; }
-        }
-
+        
         private string referer;
         public string Referer
         {
             get { return this.referer; }
             set
             {
-                this.referer = value;
-                this.Headers.Add("Referer", this.referer);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    this.referer = value;
+                    this.Headers.Add("Referer", this.referer);
+                }
+                else
+                {
+                    this.Headers.Remove("Referer");
+                }
             }
         }
 
@@ -108,23 +125,26 @@ namespace DanbooruDownloader3.CustomControl
                 if (userAgent == null)
                 {
                     userAgent = Properties.Settings.Default.UserAgent;
-                    if (Properties.Settings.Default.PadUserAgent)
-                    {
-                        userAgent += new DateTime().Ticks;
-                    }
-                    this.Headers.Add("user-agent", this.userAgent);
-                }                
-                return this.userAgent; 
+                }
+                if (Properties.Settings.Default.PadUserAgent)
+                {
+                    return Helper.PadUserAgent(userAgent);
+                }
+                else
+                {
+                    return this.userAgent;
+                }
             }
             set
             {
                 this.userAgent = value;
-                this.Headers.Add("user-agent", this.userAgent);
             }
         }
 
         protected override WebRequest GetWebRequest(Uri address) 
-        { 
+        {
+            this.Headers.Add("user-agent", UserAgent);
+
             WebRequest result = base.GetWebRequest(address);
 
             if (result.GetType() == typeof(HttpWebRequest))

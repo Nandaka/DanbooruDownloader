@@ -15,6 +15,9 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20121220
+  - Clean up for ExtendedWebClient for fixing download from Sankaku.
+
 - DanbooruDownloader20121217
   - Update ExtendedWebClient to parse default configuration from application settings.
 

@@ -71,43 +71,19 @@ namespace DanbooruDownloader3
 
             #region init webclients
             _clientList = new ExtendedWebClient();
-            _clientList.Headers.Add("user-agent", txtUserAgent.Text);
-            try
-            {
-                _clientList.Timeout = Convert.ToInt32(txtTimeout.Text);
-            }
-            catch (Exception) { _clientList.Timeout = 60000; }
             _clientList.DownloadProgressChanged += new DownloadProgressChangedEventHandler(clientList_DownloadProgressChanged);
             _clientList.DownloadFileCompleted += new AsyncCompletedEventHandler(clientList_DownloadFileCompleted);
             _clientList.DownloadDataCompleted += new DownloadDataCompletedEventHandler(clientList_DownloadDataCompleted);
 
             _clientThumb = new ExtendedWebClient();
-            try
-            {
-                _clientThumb.Timeout = Convert.ToInt32(txtTimeout.Text);
-            }
-            catch (Exception) { _clientThumb.Timeout = 60000; }
-            _clientThumb.Headers.Add("user-agent", txtUserAgent.Text);
             _clientThumb.DownloadDataCompleted += new DownloadDataCompletedEventHandler(clientThumb_DownloadDataCompleted);
             _clientThumb.DownloadProgressChanged += new DownloadProgressChangedEventHandler(clientThumb_DownloadProgressChanged);
 
             _clientFile = new ExtendedWebClient();
-            try
-            {
-                _clientFile.Timeout = Convert.ToInt32(txtTimeout.Text);
-            }
-            catch (Exception) { _clientFile.Timeout = 60000; }
-            _clientFile.Headers.Add("user-agent", txtUserAgent.Text);
             _clientFile.DownloadFileCompleted += new AsyncCompletedEventHandler(clientFile_DownloadFileCompleted);
             _clientFile.DownloadProgressChanged += new DownloadProgressChangedEventHandler(clientFile_DownloadProgressChanged);
 
             _clientBatch = new ExtendedWebClient();
-            _clientBatch.Headers.Add("user-agent", txtUserAgent.Text);
-            try
-            {
-                _clientBatch.Timeout = Convert.ToInt32(txtTimeout.Text);
-            }
-            catch (Exception) { _clientBatch.Timeout = 60000; }
             //_clientBatch.DownloadProgressChanged += new DownloadProgressChangedEventHandler(_clientBatch_DownloadProgressChanged);
             //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
             #endregion
@@ -389,7 +365,6 @@ namespace DanbooruDownloader3
 
                             // the actual download
                             _clientFile.Referer = _downloadList[row.Index].Referer;
-                            if (chkPadUserAgent.Checked) _clientFile.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                             Program.Logger.Info("[DownloadRow] Downloading " + url);
                             Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                             row.Cells["colDownloadStart2"].Value = DateTime.Now;
@@ -518,7 +493,6 @@ namespace DanbooruDownloader3
                 _loadedThumbnail = i;
                 timGifAnimation.Enabled = true;
                 _clientThumb.Referer = _postsDao.Posts[i].Referer;
-                if (chkPadUserAgent.Checked) _clientThumb.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                 _clientThumb.DownloadDataAsync(new Uri(_postsDao.Posts[_loadedThumbnail].PreviewUrl), _loadedThumbnail);
             }
         }
@@ -554,7 +528,6 @@ namespace DanbooruDownloader3
 
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
-                    if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadFileAsync(new Uri(queryUrl), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
                     tsProgressBar.Visible = true;
                 }
@@ -567,7 +540,6 @@ namespace DanbooruDownloader3
                     tsProgressBar.Value = 0;
                     string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
-                    if (chkPadUserAgent.Checked) _clientList.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                     _clientList.DownloadDataAsync(new Uri(queryUrl), queryUrl);
                     tsProgressBar.Visible = true;
                     if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy ) _resetLoadedThumbnail = true;
@@ -1022,7 +994,6 @@ namespace DanbooruDownloader3
                                         #region download
                                         if (download)
                                         {
-                                            if (chkPadUserAgent.Checked) _clientBatch.UserAgent = Helper.PadUserAgent(txtUserAgent.Text);
                                             UpdateLog("DoBatchJob", "Download: " + targetUrl);
                                             _clientBatch.Referer = post.Referer;
 
