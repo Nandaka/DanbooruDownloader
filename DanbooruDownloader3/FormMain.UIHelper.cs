@@ -266,7 +266,21 @@ namespace DanbooruDownloader3
                 }
             }
 
-            string query = (rbJson.Checked ? _currProvider.QueryStringJson : _currProvider.QueryStringXml);
+            string query = "";
+            switch (_currProvider.Preferred)
+            {
+                case PreferredMethod.Xml:
+                    query = _currProvider.QueryStringXml;
+                    break;
+                case PreferredMethod.Json:
+                    query = _currProvider.QueryStringJson;
+                    break;
+                case PreferredMethod.Html:
+                    query = _currProvider.QueryStringHtml;
+                    break;
+                default:
+                    break;
+            }
             query = query.Replace("%_query%", txtQuery.Text);
             if (!string.IsNullOrWhiteSpace(authString)) query = query + "&" + authString;
 
@@ -290,7 +304,6 @@ namespace DanbooruDownloader3
             searchParam.OrderBy = cbxOrder.SelectedValue.ToString();
             searchParam.Rating = cbxRating.SelectedValue.ToString();
             searchParam.IsNotRating = chkNotRating.Checked;
-            searchParam.IsXML = rbXml.Checked;
             searchParam.BlacklistedTag = TagBlacklist;
 
             return searchParam;

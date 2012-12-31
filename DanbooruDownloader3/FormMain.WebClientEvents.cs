@@ -55,7 +55,6 @@ namespace DanbooruDownloader3
                     Referer = _clientList.Referer,
                     Query = txtQuery.Text,
                     SearchTags = txtTags.Text,
-                    IsXML = rbXml.Checked,
                     BlacklistedTags = TagBlacklist,
                     BlacklistedTagsRegex = TagBlacklistRegex,
                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
@@ -99,7 +98,6 @@ namespace DanbooruDownloader3
                                             Referer = "",
                                             Query = "",
                                             SearchTags = "",
-                                            IsXML = rbXml.Checked,
                                             BlacklistedTags = TagBlacklist,
                                             BlacklistedTagsRegex = TagBlacklistRegex,
                                             BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked

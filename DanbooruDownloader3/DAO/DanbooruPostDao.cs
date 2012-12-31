@@ -35,28 +35,36 @@ namespace DanbooruDownloader3.DAO
         public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
         {
             this.Option = option;
-
-            if (option.Provider.Name.StartsWith("Sankaku Complex"))
+            switch (option.Provider.Preferred)
             {
-                SankakuComplexParser parser = new SankakuComplexParser();
-                using (StreamReader reader = new StreamReader(input))
-                {
-                    DanbooruSearchParam param = new DanbooruSearchParam() {
-                        Provider = option.Provider,
-                        Tag = option.SearchTags};
-
-                    posts = parser.Parse(reader.ReadToEnd(), param);
-                }
-            }
-            else
-            {
-                if (option.IsXML)
-                {
+                case PreferredMethod.Xml:
                     ReadXML(input);
-                }
-                else ReadJSON(input);
-
+                    break;
+                case PreferredMethod.Json:
+                    ReadJSON(input);
+                    break;
+                case PreferredMethod.Html:
+                    if (option.Provider.Name.StartsWith("Sankaku Complex"))
+                    {
+                        SankakuComplexParser parser = new SankakuComplexParser();
+                        using (StreamReader reader = new StreamReader(input))
+                        {
+                            DanbooruSearchParam param = new DanbooruSearchParam()
+                            {
+                                Provider = option.Provider,
+                                Tag = option.SearchTags
+                            };
+                            RawData = reader.ReadToEnd();
+                            posts = parser.Parse(RawData, param);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("No HTML Parser!");
+                    }
+                    break;
             }
+            
             input.Close();
         }
         #endregion

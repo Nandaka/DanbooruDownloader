@@ -20,7 +20,7 @@
     <Name>Sankaku Complex</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
-    <Preferred>Json</Preferred>
+    <Preferred>Html</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
@@ -36,7 +36,7 @@
     <Name>Sankaku Complex (Idol)</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
-    <Preferred>Json</Preferred>
+    <Preferred>Html</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>

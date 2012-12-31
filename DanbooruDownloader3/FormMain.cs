@@ -518,7 +518,8 @@ namespace DanbooruDownloader3
 
             if (chkSaveQuery.Checked)
             {
-                saveFileDialog1.FileName = cbxProvider.Text + " - " + txtTags.Text + " " + txtPage.Text + (rbJson.Checked ? ".json" : ".xml");
+
+                saveFileDialog1.FileName = cbxProvider.Text + " - " + txtTags.Text + " " + txtPage.Text + "." + _currProvider.Preferred.ToString().ToLower();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     gbxSearch.Enabled = false;
@@ -714,7 +715,6 @@ namespace DanbooruDownloader3
                             int imgCount = 0;
                             int skipCount = 0;
                             int currLimit = 0;
-                            bool isXml = false;
                             string url;
                             string query = "";
 
@@ -750,15 +750,22 @@ namespace DanbooruDownloader3
                                 }
                             }
 
-                            if (batchJob[i].Provider.Preferred == PreferredMethod.Xml)
+                            var queryTmp = "";
+                            switch (batchJob[i].Provider.Preferred)
                             {
-                                url = batchJob[i].Provider.Url + batchJob[i].Provider.QueryStringXml.Replace("%_query%", query);
-                                isXml = true;
+                                case PreferredMethod.Xml:
+                                    queryTmp = batchJob[i].Provider.QueryStringXml;
+                                    break;
+                                case PreferredMethod.Json:
+                                    queryTmp = batchJob[i].Provider.QueryStringJson;
+                                    break;
+                                case PreferredMethod.Html:
+                                    queryTmp = batchJob[i].Provider.QueryStringHtml;
+                                    break;
+                                default:
+                                    break;
                             }
-                            else
-                            {
-                                url = batchJob[i].Provider.Url + batchJob[i].Provider.QueryStringJson.Replace("%_query%", query);
-                            }
+                            url = batchJob[i].Provider.Url + queryTmp.Replace("%_query%", query);
 
                             if (batchJob[i].Provider.UseAuth)
                             {
@@ -795,7 +802,6 @@ namespace DanbooruDownloader3
                                                 SearchTags = batchJob[i].TagQuery,
                                                 //Url = url,
                                                 Referer = url,
-                                                IsXML = isXml,
                                                 BlacklistedTags = TagBlacklist,
                                                 BlacklistedTagsRegex = TagBlacklistRegex,
                                                 BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
@@ -1083,7 +1089,6 @@ namespace DanbooruDownloader3
                                                     SearchTags = batchJob[i].TagQuery,
                                                     Url = url,
                                                     Referer = "",
-                                                    IsXML = isXml,
                                                     BlacklistedTags = TagBlacklist,
                                                     BlacklistedTagsRegex = TagBlacklistRegex,
                                                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
@@ -1218,8 +1223,6 @@ namespace DanbooruDownloader3
         private void cbxProvider_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxProvider.SelectedIndex == -1) return;
-            if (cbxProvider.SelectedValue.Equals(PreferredMethod.Json)) rbJson.Checked = true;
-            else rbXml.Checked = true;
 
             txtPage.Text = "";
             _currProvider = _listProvider[cbxProvider.SelectedIndex];

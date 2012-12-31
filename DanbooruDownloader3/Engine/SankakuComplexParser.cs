@@ -61,7 +61,7 @@ namespace DanbooruDownloader3.Engine
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
         {
-            RawData = data;
+            this.RawData = data;
 
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
             
@@ -112,6 +112,9 @@ namespace DanbooruDownloader3.Engine
                         post.Rating = title2.Substring(7, 1).ToLower();
 
                         post.Status = "";
+
+                        post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
+                        post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
                         
                         posts.Add(post);
                     }

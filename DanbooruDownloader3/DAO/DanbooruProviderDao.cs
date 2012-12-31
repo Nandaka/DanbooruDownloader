@@ -41,7 +41,21 @@ namespace DanbooruDownloader3.DAO
                                             case "QueryStringXml": newProvider.QueryStringXml = reader.ReadElementContentAsString(); break;
                                             case "Preferred":
                                                 string preferred = reader.ReadElementContentAsString();
-                                                newProvider.Preferred = preferred.Equals("Json") ? PreferredMethod.Json : PreferredMethod.Xml; break;
+                                                switch (preferred)
+                                                {
+                                                    case "Json":
+                                                        newProvider.Preferred = PreferredMethod.Json;
+                                                        break;
+                                                    case "Xml":
+                                                        newProvider.Preferred = PreferredMethod.Xml;
+                                                        break;
+                                                    case "Html":
+                                                        newProvider.Preferred = PreferredMethod.Html;
+                                                        break;
+                                                    default:
+                                                        throw new Exception("Invalid Provider Type in DanbooruProviderList.xml: " + preferred);
+                                                }
+                                                break;
                                             case "DefaultLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
                                             case "HardLimit": newProvider.HardLimit = reader.ReadElementContentAsInt(); break;
                                             case "UserName": newProvider.UserName = reader.ReadElementContentAsString(); break;

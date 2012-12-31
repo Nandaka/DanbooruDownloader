@@ -17,8 +17,6 @@ namespace DanbooruDownloader3.Entity
 
         public string Referer { get; set; }
 
-        public bool IsXML { get; set; }
-
         public List<DanbooruTag> BlacklistedTags { get; set; }
 
         public System.Text.RegularExpressions.Regex BlacklistedTagsRegex { get; set; }
