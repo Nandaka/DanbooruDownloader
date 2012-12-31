@@ -181,5 +181,35 @@ namespace DanbooruDownloader3.test
             Assert.IsTrue(Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri));
             Assert.IsTrue(uri.ToString() == url);
         }
+
+        [TestMethod]
+        public void TestSankakuParser()
+        {
+            DanbooruProviderDao pd = new DanbooruProviderDao();
+            string target = @"../../../DanbooruDownloader3.test/TestXml/sankaku_paging.htm";
+            var data = File.ReadAllText(target);
+            var query = new DanbooruSearchParam();
+            query.Provider = pd.Read(sourceProvider).Where(x => x.Name == "Sankaku Complex").First();
+            query.Tag = "";
+            query.OrderBy = "score";
+
+            var parser = new SankakuComplexParser();
+
+            var result = parser.Parse(data, query);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count == 20, "Count: " + result.Count);
+            Assert.IsTrue(result[0].Id == "1929657", "Id: " + result[0].Id);
+            Assert.IsTrue(result[0].Provider == "Sankaku Complex", "Provider: " + result[0].Provider);
+            Assert.IsTrue(result[0].SearchTags == "", "SearchTags: " + result[0].SearchTags);
+            Assert.IsTrue(result[0].Query == "tags=order:score", "Query: " + result[0].Query);
+
+            Assert.IsTrue(result[0].Tags == "fate_(series) code_geass fate/zero gilgamesh kotomine_kirei 3boys androgynous armlet blonde bracelet brown_hair clamp_(style) cross cross_necklace earrings enkidu_(fate/strange_fake) fate/strange_fake green_eyes green_hair hand_on_own_face jewelry long_hair multiple_boys necklace parody red_eyes ruchi style_parody toga", "Tags: " + result[0].Tags);
+            Assert.IsTrue(result[0].PreviewUrl == "http://c2.sankakustatic.com/data/preview/85/f5/85f54efd7fea7ba91b20ca09ad5823c7.jpg", "PreviewUrl: " + result[0].PreviewUrl);
+            Assert.IsTrue(result[0].PreviewHeight == 144, "PreviewHeight: " + result[0].PreviewHeight);
+            Assert.IsTrue(result[0].PreviewWidth == 150, "PreviewWidth: " + result[0].PreviewWidth);
+            Assert.IsTrue(result[0].Score == "0.0", "Score: " + result[0].Score);
+            Assert.IsTrue(result[0].Rating == "s", "Rating: " + result[0].Rating);
+        }
     }
 }

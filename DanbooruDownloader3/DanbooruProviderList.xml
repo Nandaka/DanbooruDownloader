@@ -7,12 +7,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://danbooru.donmai.us</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -22,12 +23,13 @@
     <Preferred>Json</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>http://chan.sankakucomplex.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -37,12 +39,13 @@
     <Preferred>Json</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>http://idol.sankakucomplex.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -52,12 +55,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://konachan.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -67,12 +71,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>https://yande.re</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -82,12 +87,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://gelbooru.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -97,12 +103,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://nekobooru.net</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -112,12 +119,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://safebooru.org</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -127,12 +135,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://ichijou.org</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -142,12 +151,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://thedoujin.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -157,12 +167,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://behoimi.org</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -172,12 +183,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml />
     <Url>http://e621.net</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -187,12 +199,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://rule34.xxx</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Gelbooru</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -202,12 +215,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://www.dollbooru.org</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -217,12 +231,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://shimmie.4chanhouse.org</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -232,12 +247,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://fairygarden.no-ip.org/shimmie2</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -247,12 +263,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://megabooru.com</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt />
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
   <DanbooruProvider>
@@ -262,12 +279,13 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
+    <QueryStringHtml />
     <Url>http://rule34.paheal.net</Url>
     <UserName />
     <Password />
     <UseAuth>false</UseAuth>
     <PasswordSalt />
-    <PasswordHash></PasswordHash>
+    <PasswordHash />
     <BoardType>Shimmie2</BoardType>
   </DanbooruProvider>
 </DanbooruProviderList>

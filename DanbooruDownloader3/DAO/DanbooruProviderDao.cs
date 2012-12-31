@@ -37,6 +37,7 @@ namespace DanbooruDownloader3.DAO
                                             case "Name": newProvider.Name = reader.ReadElementContentAsString(); break;
                                             case "Url": newProvider.Url = reader.ReadElementContentAsString(); break;
                                             case "QueryStringJson": newProvider.QueryStringJson = reader.ReadElementContentAsString(); break;
+                                            case "QueryStringHtml": newProvider.QueryStringHtml = reader.ReadElementContentAsString(); break;
                                             case "QueryStringXml": newProvider.QueryStringXml = reader.ReadElementContentAsString(); break;
                                             case "Preferred":
                                                 string preferred = reader.ReadElementContentAsString();

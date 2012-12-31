@@ -8,7 +8,8 @@ namespace DanbooruDownloader3.Entity
     public enum PreferredMethod
     {
         Xml,
-        Json
+        Json,
+        Html
     }
 
     public enum BoardType
@@ -26,6 +27,7 @@ namespace DanbooruDownloader3.Entity
         public PreferredMethod Preferred { get; set; }
         public string QueryStringXml { get; set; }
         public string QueryStringJson { get; set; }
+        public string QueryStringHtml { get; set; }
         public string Url { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -39,6 +41,7 @@ namespace DanbooruDownloader3.Entity
             return "Name: " + Name +
                 " Url: " + Url +
                 " QueryJson: " + QueryStringJson +
+                " QueryHtml: " + QueryStringHtml +
                 " QueryXml: " + QueryStringXml +
                 " Preferred: " + Preferred +
                 " Default Limit: " + DefaultLimit +

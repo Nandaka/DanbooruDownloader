@@ -103,11 +103,13 @@ namespace DanbooruDownloader3
                     case "BoardType":
                         var xmlBox = tableLayoutPanel1.Controls.Find("QueryStringXml", true);
                         var jsonBox = tableLayoutPanel1.Controls.Find("QueryStringJson", true);
+                        var htmlBox = tableLayoutPanel1.Controls.Find("QueryStringHtml", true);
                         var item = cbx.SelectedItem;
                         if (item.Equals(BoardType.Danbooru))
                         {
                             xmlBox[0].Text = "/post/index.xml?%_query%";
                             jsonBox[0].Text = "/post/index.json?%_query%";
+                            htmlBox[0].Text = "/post/index?%_query%";
                         }
                         else if (item.Equals(BoardType.Gelbooru))
                         {

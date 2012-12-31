@@ -61,6 +61,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestXml\danbooru.xml" />
+    <Content Include="TestXml\sankaku_nopaging.htm" />
+    <Content Include="TestXml\sankaku_paging.htm" />
     <Content Include="TestXml\shimmie2.xml" />
     <Content Include="TestXml\tags-source.xml" />
     <Content Include="TestXml\tags-target.xml" />

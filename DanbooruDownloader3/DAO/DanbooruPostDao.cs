@@ -7,6 +7,7 @@ using DanbooruDownloader3.Entity;
 using System.IO;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using DanbooruDownloader3.Engine;
 
 namespace DanbooruDownloader3.DAO
 {
@@ -34,11 +35,28 @@ namespace DanbooruDownloader3.DAO
         public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
         {
             this.Option = option;
-            if (option.IsXML)
+
+            if (option.Provider.Name.StartsWith("Sankaku Complex"))
             {
-                ReadXML(input);
+                SankakuComplexParser parser = new SankakuComplexParser();
+                using (StreamReader reader = new StreamReader(input))
+                {
+                    DanbooruSearchParam param = new DanbooruSearchParam() {
+                        Provider = option.Provider,
+                        Tag = option.SearchTags};
+
+                    posts = parser.Parse(reader.ReadToEnd(), param);
+                }
             }
-            else ReadJSON(input);
+            else
+            {
+                if (option.IsXML)
+                {
+                    ReadXML(input);
+                }
+                else ReadJSON(input);
+
+            }
             input.Close();
         }
         #endregion
