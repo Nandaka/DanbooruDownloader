@@ -15,6 +15,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130101
+  - Add HTML parser for Sankaku Complex support.
+  - Happy New Year 2013!
+
 - DanbooruDownloader20121220
   - Clean up for ExtendedWebClient for fixing download from Sankaku.
 
