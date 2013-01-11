@@ -86,14 +86,20 @@ namespace DanbooruDownloader3.Engine
                         DanbooruPost post = new DanbooruPost();
                         post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
 
-                        post.Provider = query.Provider.Name;
+                        post.Provider = query.Provider;
                         post.SearchTags = query.Tag;
                         post.Query = GenerateQueryString(query);
 
-                        var a = thumb.ChildNodes[0];
+                        int i = 0;
+                        // get the image link
+                        for (; i < thumb.ChildNodes.Count; ++i)
+                        {
+                            if (thumb.ChildNodes[i].Name == "a") break;
+                        }
+                        var a = thumb.ChildNodes[i];
                         post.Referer = query.Provider.Url + a.GetAttributeValue("href", "");
 
-                        var img = a.ChildNodes[0];
+                        var img = a.ChildNodes[i];
                         var title = img.GetAttributeValue("title", "");
                         var title2 = title.ToString();
                         post.Tags = title.Substring(0, title.LastIndexOf("rating:")).Trim();
@@ -120,7 +126,6 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
             }
-
 
             return posts;
         }

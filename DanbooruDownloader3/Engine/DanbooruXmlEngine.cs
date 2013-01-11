@@ -91,7 +91,7 @@ namespace DanbooruDownloader3.Engine
                 p.CreatedAt = post.Attribute("created_at").Value.ToString();
                 p.MD5 = post.Attribute("md5").Value.ToString();
 
-                p.Provider = query.Provider.Name;
+                p.Provider = query.Provider;
                 p.Query = queryStr;
                 p.SearchTags = query.Tag;
                 p.Referer = query.Provider.Url + @"/post/show/" + p.Id;

@@ -12,7 +12,7 @@ namespace DanbooruDownloader3.Entity
     [System.Xml.Serialization.XmlInclude(typeof(System.Drawing.Bitmap))]
     public class DanbooruPost : INotifyPropertyChanged
     {
-        public string Provider { get; set; }
+        public DanbooruProvider Provider { get; set; }
 
         public string Query { get; set; }
 

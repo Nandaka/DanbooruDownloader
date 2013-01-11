@@ -38,14 +38,15 @@ namespace DanbooruDownloader3.Entity
 
         public override string ToString()
         {
-            return "Name: " + Name +
-                " Url: " + Url +
-                " QueryJson: " + QueryStringJson +
-                " QueryHtml: " + QueryStringHtml +
-                " QueryXml: " + QueryStringXml +
-                " Preferred: " + Preferred +
-                " Default Limit: " + DefaultLimit +
-                " Type: " + BoardType.ToString();
+            //return "Name: " + Name +
+            //    " Url: " + Url +
+            //    " QueryJson: " + QueryStringJson +
+            //    " QueryHtml: " + QueryStringHtml +
+            //    " QueryXml: " + QueryStringXml +
+            //    " Preferred: " + Preferred +
+            //    " Default Limit: " + DefaultLimit +
+            //    " Type: " + BoardType.ToString();
+            return Name;
         }
     }
 

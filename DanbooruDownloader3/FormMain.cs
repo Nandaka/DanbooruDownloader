@@ -244,7 +244,8 @@ namespace DanbooruDownloader3
         void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             DanbooruPost post = (DanbooruPost)e.UserState;
-            if (post.Provider.Contains("Sankaku Complex"))
+            //if (post.Provider.Contains("Sankaku Complex"))
+            if(post.Provider.BoardType == BoardType.Danbooru)
             {
                 if (e.Error == null)
                 {
@@ -324,7 +325,7 @@ namespace DanbooruDownloader3
                              Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)    &&
                              _downloadList[row.Index].Status != "deleted") // check if post active and url valid
                     {
-                        if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = cbxProvider.Text;
+                        if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = _listProvider[cbxProvider.SelectedIndex];
                         if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
                         if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
 
@@ -893,7 +894,7 @@ namespace DanbooruDownloader3
                                                     {
                                                         string html = _clientPost.DownloadString(post.Referer);
                                                         _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
-                                                        if (post.Provider.Contains("Sankaku Complex"))
+                                                        if (post.Provider.Name.Contains("Sankaku Complex"))
                                                         {
                                                             var tempPost = SankakuComplexParser.ParsePost(post, html);
                                                             post.FileUrl = tempPost.FileUrl;
@@ -1720,6 +1721,10 @@ namespace DanbooruDownloader3
                     if (_downloadList.IndexOf(_postsDao.Posts[cell.RowIndex]) < 0)
                     {
                         _downloadList.Add(_postsDao.Posts[cell.RowIndex]);
+
+                        if(String.IsNullOrEmpty(_postsDao.Posts[cell.RowIndex].FileUrl)) {
+                            ResolveFileUrl(_postsDao.Posts[cell.RowIndex]);
+                        }
                     }
                 }
             }
@@ -2217,6 +2222,11 @@ namespace DanbooruDownloader3
         private void txtProxyPassword_TextChanged(object sender, EventArgs e)
         {
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(txtLog.SelectedText);
         }
     }
 }

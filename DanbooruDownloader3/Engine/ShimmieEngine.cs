@@ -45,7 +45,7 @@ namespace DanbooruDownloader3.Engine
 
                 post.Referer = AppendHttp(item.Element("link").Value, option.Provider);
                 post.CreatedAt = item.Element("pubDate").Value;
-                post.Provider = option.Provider.Name;
+                post.Provider = option.Provider;
 
                 var data = item.Element("{" + media + "}thumbnail");
                 post.PreviewUrl = AppendHttp(data.Attribute("url").Value, option.Provider);

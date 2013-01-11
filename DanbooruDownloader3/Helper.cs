@@ -85,7 +85,7 @@ namespace DanbooruDownloader3
         public static string MakeFilename(DanbooruFilenameFormat format, DanbooruPost post)
         {
             string filename = format.FilenameFormat;
-            string provider = post.Provider;
+            string provider = post.Provider.Name;
             string query = post.Query;
             string searchTags = post.SearchTags;
             string originalFileName = post.FileUrl.Split('/').Last();

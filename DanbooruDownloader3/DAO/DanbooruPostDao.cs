@@ -44,7 +44,8 @@ namespace DanbooruDownloader3.DAO
                     ReadJSON(input);
                     break;
                 case PreferredMethod.Html:
-                    if (option.Provider.Name.StartsWith("Sankaku Complex"))
+                    //if (option.Provider.Name.StartsWith("Sankaku Complex"))
+                    if (option.Provider.BoardType == BoardType.Danbooru)
                     {
                         SankakuComplexParser parser = new SankakuComplexParser();
                         using (StreamReader reader = new StreamReader(input))
@@ -60,7 +61,7 @@ namespace DanbooruDownloader3.DAO
                     }
                     else
                     {
-                        throw new NotImplementedException("No HTML Parser!");
+                        throw new NotImplementedException("No HTML Parser for: " + option.Provider.Name);
                     }
                     break;
             }
@@ -275,7 +276,7 @@ namespace DanbooruDownloader3.DAO
                                     }
                                 }
                                 post.Hidden = CheckBlacklisted(post);
-                                post.Provider = Option.Provider.Name;
+                                post.Provider = Option.Provider;
                                 post.Query = Option.Query;
                                 post.SearchTags = Option.SearchTags;
                                 if (Option.Provider.BoardType == BoardType.Danbooru || Option.Provider.BoardType == BoardType.Shimmie2)
@@ -516,7 +517,7 @@ namespace DanbooruDownloader3.DAO
                         }
                     }
                     post.Hidden = CheckBlacklisted(post);
-                    post.Provider = Option.Provider.Name;
+                    post.Provider = Option.Provider;
                     post.Query = Option.Query;
                     post.SearchTags = Option.SearchTags;
                     post.Referer = Option.Provider.Url + @"/post/show/" + post.Id;

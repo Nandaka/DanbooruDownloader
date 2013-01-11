@@ -200,7 +200,7 @@ namespace DanbooruDownloader3.test
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count == 20, "Count: " + result.Count);
             Assert.IsTrue(result[0].Id == "1929657", "Id: " + result[0].Id);
-            Assert.IsTrue(result[0].Provider == "Sankaku Complex", "Provider: " + result[0].Provider);
+            Assert.IsTrue(result[0].Provider.Name == "Sankaku Complex", "Provider: " + result[0].Provider.Name);
             Assert.IsTrue(result[0].SearchTags == "", "SearchTags: " + result[0].SearchTags);
             Assert.IsTrue(result[0].Query == "tags=order:score", "Query: " + result[0].Query);
 
