@@ -1310,8 +1310,15 @@ namespace DanbooruDownloader3
 
         private void btnGet_Click(object sender, EventArgs e)
         {
+            doGetList();
+        }
+
+        private void doGetList()
+        {
             btnListCancel.Enabled = true;
             btnGet.Enabled = false;
+            btnNextPage.Enabled = false;
+            btnPrevPage.Enabled = false;
             _isMorePost = true;
             GetList();
         }
@@ -2227,6 +2234,45 @@ namespace DanbooruDownloader3
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(txtLog.SelectedText);
+        }
+
+        private void btnPrevPage_Click(object sender, EventArgs e)
+        {
+            int page;
+            var result = Int32.TryParse(txtPage.Text, out page);
+            if (result)
+            {
+                if ((_currProvider.BoardType == BoardType.Gelbooru && page == 0) || page == 1)
+                {
+                    MessageBox.Show("First Page!", "Prev Page");
+                    return;
+                }
+                --page;
+            }
+            else 
+            {
+                if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
+                else page = 1;
+            }            
+            txtPage.Text = page.ToString();
+            doGetList();
+        }
+
+        private void btnNextPage_Click(object sender, EventArgs e)
+        {
+            int page;
+            var result = Int32.TryParse(txtPage.Text, out page);
+            if (result)
+            {
+                ++page;
+            }
+            else
+            {
+                if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
+                else page = 1;
+            }
+            txtPage.Text = page.ToString();
+            doGetList();
         }
     }
 }

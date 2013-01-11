@@ -34,6 +34,8 @@ namespace DanbooruDownloader3
             LoadList((DanbooruPostDao)e.Result);
             tsProgressBar.Visible = false;
             btnGet.Enabled = true;
+            btnNextPage.Enabled = true;
+            btnPrevPage.Enabled = true;
             btnListCancel.Enabled = false;
             _isLoadingList = false;
             tsStatus.Text = "Ready.";

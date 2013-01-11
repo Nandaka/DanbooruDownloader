@@ -15,6 +15,11 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130112
+  - Add Prev/Next page button.
+  - Add new provider: NIS ImageBoard and 3dBooru.
+  - Fix file_url didn't auto-resolve when added using right-click in Main tab.
+
 - DanbooruDownloader20130101
   - Add HTML parser for Sankaku Complex support.
   - Happy New Year 2013!
@@ -278,6 +283,7 @@ Supported Board
 =============================
 Currently only supporting Danbooru-type, Gelbooru-type with Danbooru API,
 and Shimmie2 with RSS enabled.
+For Sankaku-related board, using HTML parser.
 
 - danbooru (http://danbooru.donmai.us)				NSFW
 - Sankaku Complex (http://chan.sankakucomplex.com)		NSFW
@@ -295,6 +301,8 @@ and Shimmie2 with RSS enabled.
 - dollbooru
 - 4chanhouse
 - fairygarden
+- NIS ImageBoard (http://nis.tinybooru.com)
+- 3dBooru (http://behoimi.org)
 
 License Agreement
 =============================
