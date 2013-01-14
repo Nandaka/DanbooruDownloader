@@ -211,5 +211,24 @@ namespace DanbooruDownloader3.test
             Assert.IsTrue(result[0].Score == "0.0", "Score: " + result[0].Score);
             Assert.IsTrue(result[0].Rating == "s", "Rating: " + result[0].Rating);
         }
+
+        [TestMethod]
+        public void TestGelbooruParser()
+        {
+            DanbooruProviderDao pd = new DanbooruProviderDao();
+            string target = @"../../../DanbooruDownloader3.test/TestXml/gelbooru_post.htm";
+            var data = File.ReadAllText(target);
+            var query = new DanbooruSearchParam();
+            query.Provider = pd.Read(sourceProvider).Where(x => x.Name == "gelbooru.com").First();
+            query.Tag = "";
+            query.OrderBy = "score";
+
+            var post = new DanbooruPost();
+            post.Provider = query.Provider;
+            GelbooruHtmlParser.ParsePost(post, data);
+
+            Assert.IsNotNull(post.FileUrl);
+            Assert.IsTrue(post.FileUrl == @"http://cdn2.gelbooru.com//images/1559/303b7ed1fcba0c1d9520f76ee34ec37e.jpg", "Actual: " + post.FileUrl);
+        }
     }
 }

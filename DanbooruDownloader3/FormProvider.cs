@@ -113,7 +113,8 @@ namespace DanbooruDownloader3
                         }
                         else if (item.Equals(BoardType.Gelbooru))
                         {
-                            xmlBox[0].Text = "/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%";
+                            xmlBox[0].Text = "/index.php?page=dapi&s=post&q=index&%_query%";
+                            htmlBox[0].Text = "/index.php?page=post&s=list&%_query%";
                             jsonBox[0].Text = "";
                         }
                         else if (item.Equals(BoardType.Shimmie2))

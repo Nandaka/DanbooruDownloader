@@ -259,6 +259,20 @@ namespace DanbooruDownloader3
                     UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
                 }
             }
+            else if (post.Provider.BoardType == BoardType.Gelbooru)
+            {
+                if (e.Error == null)
+                {
+                    string html = e.Result;
+                    post = GelbooruHtmlParser.ParsePost(post, html);
+                    UpdateLog("GelbooruHtmlParser", "Resolved to file_url: " + post.FileUrl);
+                }
+                else
+                {
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "GelbooruHtmlParser " + e.Error.Message;
+                    UpdateLog("GelbooruHtmlParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
+                }
+            }
             else
             {
                 post.FileUrl = Constants.NO_POST_PARSER;

@@ -15,6 +15,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130114
+  - Add Gelbooru HTML parser.
+  - Add new provider: lolibooru.
+
 - DanbooruDownloader20130112
   - Add Prev/Next page button.
   - Add new provider: NIS ImageBoard and 3dBooru.

@@ -320,4 +320,20 @@
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>lolibooru.com</Name>
+    <DefaultLimit>0</DefaultLimit>
+    <HardLimit>0</HardLimit>
+    <Preferred>Html</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
+    <Url>http://lolibooru.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt />
+    <PasswordHash />
+    <BoardType>Gelbooru</BoardType>
+  </DanbooruProvider>
 </DanbooruProviderList>

@@ -44,24 +44,29 @@ namespace DanbooruDownloader3.DAO
                     ReadJSON(input);
                     break;
                 case PreferredMethod.Html:
-                    //if (option.Provider.Name.StartsWith("Sankaku Complex"))
-                    if (option.Provider.BoardType == BoardType.Danbooru)
+                    using (StreamReader reader = new StreamReader(input))
                     {
-                        SankakuComplexParser parser = new SankakuComplexParser();
-                        using (StreamReader reader = new StreamReader(input))
+                        DanbooruSearchParam param = new DanbooruSearchParam()
                         {
-                            DanbooruSearchParam param = new DanbooruSearchParam()
-                            {
-                                Provider = option.Provider,
-                                Tag = option.SearchTags
-                            };
-                            RawData = reader.ReadToEnd();
+                            Provider = option.Provider,
+                            Tag = option.SearchTags
+                        };
+                        RawData = reader.ReadToEnd();                        
+
+                        if (option.Provider.BoardType == BoardType.Danbooru)
+                        {
+                            SankakuComplexParser parser = new SankakuComplexParser();
                             posts = parser.Parse(RawData, param);
                         }
-                    }
-                    else
-                    {
-                        throw new NotImplementedException("No HTML Parser for: " + option.Provider.Name);
+                        else if (option.Provider.BoardType == BoardType.Gelbooru)
+                        {
+                            GelbooruHtmlParser parser = new GelbooruHtmlParser();
+                            posts = parser.Parse(RawData, param);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException("No HTML Parser for: " + option.Provider.Name);
+                        }
                     }
                     break;
             }

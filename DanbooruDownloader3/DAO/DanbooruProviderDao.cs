@@ -40,16 +40,16 @@ namespace DanbooruDownloader3.DAO
                                             case "QueryStringHtml": newProvider.QueryStringHtml = reader.ReadElementContentAsString(); break;
                                             case "QueryStringXml": newProvider.QueryStringXml = reader.ReadElementContentAsString(); break;
                                             case "Preferred":
-                                                string preferred = reader.ReadElementContentAsString();
+                                                string preferred = reader.ReadElementContentAsString().ToLowerInvariant();
                                                 switch (preferred)
                                                 {
-                                                    case "Json":
+                                                    case "json":
                                                         newProvider.Preferred = PreferredMethod.Json;
                                                         break;
-                                                    case "Xml":
+                                                    case "xml":
                                                         newProvider.Preferred = PreferredMethod.Xml;
                                                         break;
-                                                    case "Html":
+                                                    case "html":
                                                         newProvider.Preferred = PreferredMethod.Html;
                                                         break;
                                                     default:

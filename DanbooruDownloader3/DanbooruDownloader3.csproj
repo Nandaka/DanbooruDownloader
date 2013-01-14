@@ -114,6 +114,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomControl\MultiColorLabel.cs" />
+    <Compile Include="Engine\GelbooruHtmlParser.cs" />
     <Compile Include="Entity\DanbooruPostDaoOption.cs" />
     <Compile Include="DAO\DanbooruPostDao.cs" />
     <Compile Include="DAO\DanbooruTagsDao.cs" />
