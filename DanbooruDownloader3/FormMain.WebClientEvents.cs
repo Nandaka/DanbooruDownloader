@@ -66,6 +66,7 @@ namespace DanbooruDownloader3
                 tsStatus.Text = "Loading downloaded list...";
                 tsProgressBar.Style = ProgressBarStyle.Marquee;
                 tsProgressBar.Visible = true;
+                _isLoadingList = true;
                 backgroundWorker1 = new BackgroundWorker();
                 backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
                 backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);

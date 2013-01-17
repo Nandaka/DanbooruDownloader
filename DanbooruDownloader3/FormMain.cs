@@ -576,14 +576,11 @@ namespace DanbooruDownloader3
             {
                 if (currRowIndex >= dgvList.Rows.Count - 1)
                 {
-                    if (!_isLoadingList)
+                    if (!_isLoadingList && !_clientList.IsBusy)
                     {
-                        if (!_clientList.IsBusy)
-                        {
-                            tsStatus.Text = "Loading next page...";
-                            doGetNextPage();
-                        }
-                    }
+                        tsStatus.Text = "Loading next page...";
+                        doGetNextPage();
+                    }                    
                 }
             }
         }
@@ -2300,8 +2297,8 @@ namespace DanbooruDownloader3
                         }
                         else
                         {
-                            if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
-                            else page = 1;
+                            MessageBox.Show("No previous page information", "Prev Page");
+                            return;
                         }
                         txtPage.Text = page.ToString();
                         doGetList();
@@ -2319,33 +2316,30 @@ namespace DanbooruDownloader3
         {
             if (_postsDao != null && _isMorePost)
             {
-                if (!_isLoadingList)
+                if (!_isLoadingList && !_clientList.IsBusy)
                 {
-                    if (!_clientList.IsBusy)
+                    int page;
+                    var result = Int32.TryParse(txtPage.Text, out page);
+                    if (result)
                     {
-                        int page;
-                        var result = Int32.TryParse(txtPage.Text, out page);
-                        if (result)
+                        if (_currProvider.BoardType == BoardType.Gelbooru && _currProvider.Preferred == PreferredMethod.Html)
                         {
-                            if (_currProvider.BoardType == BoardType.Gelbooru && _currProvider.Preferred == PreferredMethod.Html)
-                            {
-                                page = _currCount + page;
-                            }
-                            else
-                            {
-                                ++page;
-                            }
+                            page = _currCount + page;
                         }
                         else
                         {
-                            if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
-                            else page = 1;
+                            ++page;
                         }
-                        txtPage.Text = page.ToString();
-                        doGetList();
                     }
+                    else
+                    {
+                        if (_currProvider.BoardType == BoardType.Gelbooru) page = 1;
+                        else page = 2;
+                    }
+                    txtPage.Text = page.ToString();
+                    doGetList();
                 }
-            }
+            }            
         }
     }
 }
