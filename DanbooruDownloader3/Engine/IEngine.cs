@@ -12,10 +12,13 @@ namespace DanbooruDownloader3.Engine
         string RawData { get; set; }
         string ResponseMessage { get; set; }
         bool Success { get; set; }
+        DanbooruSearchParam SearchParam { get; set; }
 
         BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query);
 
         String GenerateQueryString(DanbooruSearchParam query);
-        
+
+        int GetNextPage();
+        int GetPrevPage();
     }
 }

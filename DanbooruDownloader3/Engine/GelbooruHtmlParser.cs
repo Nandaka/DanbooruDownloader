@@ -69,6 +69,8 @@ namespace DanbooruDownloader3.Engine
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
         {
+            this.SearchParam = query;
+
             this.RawData = data;
 
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
@@ -92,7 +94,7 @@ namespace DanbooruDownloader3.Engine
                     if (thumb.GetAttributeValue("class", "").Contains("thumb"))
                     {
                         DanbooruPost post = new DanbooruPost();
-                        post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
+                        post.Id = thumb.GetAttributeValue("id", "_N/A").Substring(1);
 
                         post.Provider = query.Provider;
                         post.SearchTags = query.Tag;
@@ -106,6 +108,10 @@ namespace DanbooruDownloader3.Engine
                         }
                         var a = thumb.ChildNodes[i];
                         post.Referer = query.Provider.Url + "/" + System.Web.HttpUtility.HtmlDecode(a.GetAttributeValue("href", ""));
+                        if (post.Id == "N/A")
+                        {
+                            post.Id = a.GetAttributeValue("id", "N/A").Substring(1);
+                        }
 
                         var img = a.ChildNodes[i];
                         var title = img.GetAttributeValue("title", "");
@@ -136,59 +142,23 @@ namespace DanbooruDownloader3.Engine
                 }
             }
 
+            TotalPost = posts.Count;
+            if (!SearchParam.Page.HasValue) SearchParam.Page = 0;
+            Offset = posts.Count * SearchParam.Page;
+
             return posts;
         }
 
 
-        public int? TotalPost
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int? TotalPost { get; set; }
 
-        public int? Offset
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int? Offset { get; set; }
 
         public string RawData { get; set; }
 
-        public string ResponseMessage
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string ResponseMessage { get; set; }
 
-        public bool Success
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Success { get; set; }
 
         public string GenerateQueryString(DanbooruSearchParam query)
         {
@@ -248,6 +218,45 @@ namespace DanbooruDownloader3.Engine
                 tmp += "limit=" + query.Limit.Value.ToString();
             }
             return tmp;
+        }
+
+
+        public DanbooruSearchParam SearchParam { get; set; }
+
+        public int GetNextPage()
+        {
+            if (!SearchParam.Page.HasValue)
+            {
+                SearchParam.Page = 0;
+            }
+
+            if (SearchParam.Provider.Preferred == PreferredMethod.Html)
+            {
+                return (SearchParam.Page.Value + 1) * TotalPost.Value;
+            }
+
+            return (SearchParam.Page.Value + 1);
+        }
+
+        public int GetPrevPage()
+        {
+            if (!SearchParam.Page.HasValue)
+            {
+                SearchParam.Page = 0;
+            }
+
+            if (SearchParam.Provider.Preferred == PreferredMethod.Html)
+            {
+                var temp = (SearchParam.Page.Value - 1) * TotalPost.Value;
+                if (temp < 0) return 0;
+                else return temp;
+            }
+            else
+            {
+                var temp = (SearchParam.Page.Value - 1);
+                if (temp < 0) return 0;
+                else return temp;
+            }
         }
     }
 }

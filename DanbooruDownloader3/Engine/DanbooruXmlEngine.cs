@@ -170,5 +170,28 @@ namespace DanbooruDownloader3.Engine
             }
             return url;
         }
+
+
+        public DanbooruSearchParam SearchParam
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int GetNextPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPrevPage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

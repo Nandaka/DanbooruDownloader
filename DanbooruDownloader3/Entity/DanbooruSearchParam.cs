@@ -19,17 +19,5 @@ namespace DanbooruDownloader3.Entity
         public bool IsNotRating { get; set; }
 
         public List<DanbooruTag> BlacklistedTag { get; set; }
-        public int GetNextPageNumber()
-        {
-            if (!Page.HasValue)
-            {
-                if (Provider.BoardType == BoardType.Danbooru || Provider.BoardType == BoardType.Shimmie2)
-                    Page = 1;
-                else if (Provider.BoardType == BoardType.Gelbooru)
-                    Page = 0;
-            }
-            ++Page;
-            return Page.Value;
-        }
     }
 }

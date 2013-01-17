@@ -61,6 +61,7 @@ namespace DanbooruDownloader3.Engine
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
         {
+            this.SearchParam = query;
             this.RawData = data;
 
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
@@ -127,33 +128,15 @@ namespace DanbooruDownloader3.Engine
                 }
             }
 
+            TotalPost = posts.Count;
+            if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+            Offset = TotalPost * SearchParam.Page;
             return posts;
         }
 
+        public int? TotalPost { get; set; }
 
-        public int? TotalPost
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int? Offset
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int? Offset { get; set; }
 
         public string RawData { get; set; }
 
@@ -239,6 +222,22 @@ namespace DanbooruDownloader3.Engine
                 tmp += "limit=" + query.Limit.Value.ToString();
             }
             return tmp;
+        }
+
+        public DanbooruSearchParam SearchParam { get; set; }
+        
+        public int GetNextPage()
+        {
+            if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+            return SearchParam.Page.Value + 1;
+        }
+
+        public int GetPrevPage()
+        {
+            if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+            var temp = SearchParam.Page.Value - 1;
+            if (temp > 0) return temp;
+            else return 1;
         }
     }
 }

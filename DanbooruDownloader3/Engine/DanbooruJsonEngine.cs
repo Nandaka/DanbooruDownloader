@@ -23,5 +23,28 @@ namespace DanbooruDownloader3.Engine
         {
             throw new NotImplementedException();
         }
+
+
+        public Entity.DanbooruSearchParam SearchParam
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int GetNextPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPrevPage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

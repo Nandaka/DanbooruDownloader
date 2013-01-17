@@ -30,6 +30,7 @@ namespace DanbooruDownloader3
 
         List<DanbooruProvider> _listProvider;
         DanbooruProvider _currProvider;
+        int _currCount;
         DanbooruProviderDao _dao;
         DanbooruPostDao _postsDao;
 
@@ -451,6 +452,7 @@ namespace DanbooruDownloader3
                         {
                             tsCount.Text = "| Count = " + (oldCount + _postsDao.Posts.Count);
                             tsTotalCount.Text = "| Total Count = " + _postsDao.PostCount;
+                            _currCount = postDao.Posts.Count; // only the new post
                         }
                     }
                     else
@@ -469,6 +471,7 @@ namespace DanbooruDownloader3
 
                 tsCount.Text = "| Count = " + _postsDao.Posts.Count;
                 tsTotalCount.Text = "| Total Count = " + postDao.PostCount;
+                _currCount = postDao.Posts.Count;
                 _isLoadingList = false;
             }
             else
@@ -567,7 +570,7 @@ namespace DanbooruDownloader3
         /// Increase txtPage and get the list.
         /// </summary>
         /// <param name="currRowIndex"></param>
-        private void LoadNextPage(int currRowIndex)
+        private void AutoLoadNextPage(int currRowIndex)
         {
             if (_postsDao != null && _isMorePost && chkAutoLoadNext.Checked)
             {
@@ -578,16 +581,7 @@ namespace DanbooruDownloader3
                         if (!_clientList.IsBusy)
                         {
                             tsStatus.Text = "Loading next page...";
-                            if (txtPage.Text.Length == 0)
-                            {
-                                if (_currProvider.BoardType == BoardType.Danbooru) txtPage.Text = "2";
-                                if (_currProvider.BoardType == BoardType.Gelbooru) txtPage.Text = "1";
-                            }
-                            else
-                            {
-                                txtPage.Text = "" + (Convert.ToInt32(txtPage.Text) + 1);
-                            }
-                            GetList();
+                            doGetNextPage();
                         }
                     }
                 }
@@ -712,6 +706,7 @@ namespace DanbooruDownloader3
                         DanbooruPostDao prevDao = null;
                         bool flag = true;
                         int currPage = 0;
+                        int postCount = 0;
                         do
                         {
                             // stop/pause event handling outside
@@ -730,6 +725,7 @@ namespace DanbooruDownloader3
                             int imgCount = 0;
                             int skipCount = 0;
                             int currLimit = 0;
+                            
                             string url;
                             string query = "";
 
@@ -761,7 +757,14 @@ namespace DanbooruDownloader3
                                 }
                                 else if (batchJob[i].Provider.BoardType == BoardType.Gelbooru)
                                 {
-                                    query += "&pid=" + batchJob[i].CurrentPage;
+                                    if (batchJob[i].Provider.Preferred == PreferredMethod.Html)
+                                    {
+                                        query += "&pid=" + batchJob[i].CurrentPage * postCount;
+                                    }
+                                    else
+                                    {
+                                        query += "&pid=" + batchJob[i].CurrentPage;
+                                    }
                                 }
                             }
 
@@ -874,6 +877,8 @@ namespace DanbooruDownloader3
                                     batchJob[i].CurrentPageOffset = d.Offset;
                                 #endregion
 
+                                    postCount = d.Posts.Count;
+
                                     foreach (DanbooruPost post in d.Posts)
                                     {
                                         // Update progress bar
@@ -908,11 +913,22 @@ namespace DanbooruDownloader3
                                                     {
                                                         string html = _clientPost.DownloadString(post.Referer);
                                                         _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
-                                                        if (post.Provider.Name.Contains("Sankaku Complex"))
+
+                                                        if (post.Provider.BoardType == BoardType.Danbooru)
                                                         {
                                                             var tempPost = SankakuComplexParser.ParsePost(post, html);
                                                             post.FileUrl = tempPost.FileUrl;
                                                             post.PreviewUrl = tempPost.PreviewUrl;
+                                                        }
+                                                        else if (post.Provider.BoardType == BoardType.Gelbooru)
+                                                        {
+                                                            var tempPost = GelbooruHtmlParser.ParsePost(post, html);
+                                                            post.FileUrl = tempPost.FileUrl;
+                                                            post.PreviewUrl = tempPost.PreviewUrl;
+                                                        }
+                                                        else
+                                                        {
+                                                            UpdateLog("DoBatchJob", "No HTML Parser available for : " + post.Provider.Name + "(" + post.Provider.BoardType.ToString() + ")");
                                                         }
                                                         break;
                                                     }
@@ -1470,7 +1486,7 @@ namespace DanbooruDownloader3
         private void timLoadNextPage_Tick(object sender, EventArgs e)
         {
             timLoadNextPage.Enabled = false;
-            LoadNextPage(dgvList.Rows.Count - 1);
+            AutoLoadNextPage(dgvList.Rows.Count - 1);
             //MessageBox.Show("Hitt!");
         }
 
@@ -2252,41 +2268,84 @@ namespace DanbooruDownloader3
 
         private void btnPrevPage_Click(object sender, EventArgs e)
         {
-            int page;
-            var result = Int32.TryParse(txtPage.Text, out page);
-            if (result)
+            doGetPrevPage();
+        }
+
+        private void doGetPrevPage()
+        {
+            if (_postsDao != null)
             {
-                if ((_currProvider.BoardType == BoardType.Gelbooru && page == 0) || page == 1)
+                if (!_isLoadingList)
                 {
-                    MessageBox.Show("First Page!", "Prev Page");
-                    return;
+                    if (!_clientList.IsBusy)
+                    {
+                        int page;
+                        var result = Int32.TryParse(txtPage.Text, out page);
+                        if (result)
+                        {
+                            if ((_currProvider.BoardType == BoardType.Gelbooru && page == 0) || page == 1)
+                            {
+                                MessageBox.Show("First Page!", "Prev Page");
+                                return;
+                            }
+                            if (_currProvider.BoardType == BoardType.Gelbooru && _currProvider.Preferred == PreferredMethod.Html)
+                            {
+                                page = page - _currCount;
+                                if (page < 0) page = 0;
+                            }
+                            else
+                            {
+                                --page;
+                            }
+                        }
+                        else
+                        {
+                            if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
+                            else page = 1;
+                        }
+                        txtPage.Text = page.ToString();
+                        doGetList();
+                    }
                 }
-                --page;
             }
-            else 
-            {
-                if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
-                else page = 1;
-            }            
-            txtPage.Text = page.ToString();
-            doGetList();
         }
 
         private void btnNextPage_Click(object sender, EventArgs e)
         {
-            int page;
-            var result = Int32.TryParse(txtPage.Text, out page);
-            if (result)
+            doGetNextPage();
+        }
+
+        private void doGetNextPage()
+        {
+            if (_postsDao != null && _isMorePost)
             {
-                ++page;
+                if (!_isLoadingList)
+                {
+                    if (!_clientList.IsBusy)
+                    {
+                        int page;
+                        var result = Int32.TryParse(txtPage.Text, out page);
+                        if (result)
+                        {
+                            if (_currProvider.BoardType == BoardType.Gelbooru && _currProvider.Preferred == PreferredMethod.Html)
+                            {
+                                page = _currCount + page;
+                            }
+                            else
+                            {
+                                ++page;
+                            }
+                        }
+                        else
+                        {
+                            if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
+                            else page = 1;
+                        }
+                        txtPage.Text = page.ToString();
+                        doGetList();
+                    }
+                }
             }
-            else
-            {
-                if (_currProvider.BoardType == BoardType.Gelbooru) page = 0;
-                else page = 1;
-            }
-            txtPage.Text = page.ToString();
-            doGetList();
         }
     }
 }

@@ -106,7 +106,7 @@ namespace DanbooruDownloader3.DAO
         public string ResponseMessage { get; set; }
 
         #endregion
-        
+
         private void ReadXML(string filename)
         {
             posts = new BindingList<DanbooruPost>();
