@@ -242,7 +242,7 @@ namespace DanbooruDownloader3
                     if (currThumbRetry < _retry)
                     {
                         currThumbRetry++;
-                        //Thread.Sleep(1000);
+                        Thread.Sleep(_delay * 1000);
                     }
                     else
                     {

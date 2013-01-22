@@ -133,7 +133,6 @@
             this.btnClearDownloadList = new System.Windows.Forms.Button();
             this.btnPauseDownload = new System.Windows.Forms.Button();
             this.btnDownloadFiles = new System.Windows.Forms.Button();
-            this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.dgvDownload = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPreview2 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -152,6 +151,7 @@
             this.resolveFileUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtSaveFolder = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnClearCompleted = new System.Windows.Forms.Button();
@@ -159,7 +159,6 @@
             this.btnStopBatchJob = new System.Windows.Forms.Button();
             this.btnStartBatchJob = new System.Windows.Forms.Button();
             this.btnAddBatchJob = new System.Windows.Forms.Button();
-            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.dgvBatchJob = new DanbooruDownloader3.CustomControl.gfDataGridView();
             this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -171,6 +170,7 @@
             this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ctxMenuBatch = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
@@ -215,8 +215,6 @@
             this.label23 = new System.Windows.Forms.Label();
             this.cbxImageSize = new System.Windows.Forms.ComboBox();
             this.chkRenameJpeg = new System.Windows.Forms.CheckBox();
-            this.txtRetry = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.txtFilenameLength = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.chkOverwrite = new System.Windows.Forms.CheckBox();
@@ -225,6 +223,9 @@
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.txtDelay = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.linkUrl = new System.Windows.Forms.LinkLabel();
             this.chkProxyLogin = new System.Windows.Forms.CheckBox();
             this.txtProxyPassword = new System.Windows.Forms.TextBox();
@@ -232,6 +233,8 @@
             this.txtProxyUsername = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.chkPadUserAgent = new System.Windows.Forms.CheckBox();
+            this.txtRetry = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.txtTimeout = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtUserAgent = new System.Windows.Forms.TextBox();
@@ -1114,8 +1117,8 @@
             this.tabPage4.Controls.Add(this.btnClearDownloadList);
             this.tabPage4.Controls.Add(this.btnPauseDownload);
             this.tabPage4.Controls.Add(this.btnDownloadFiles);
-            this.tabPage4.Controls.Add(this.txtSaveFolder);
             this.tabPage4.Controls.Add(this.dgvDownload);
+            this.tabPage4.Controls.Add(this.txtSaveFolder);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -1208,17 +1211,6 @@
             this.btnDownloadFiles.Text = "Download";
             this.btnDownloadFiles.UseVisualStyleBackColor = true;
             this.btnDownloadFiles.Click += new System.EventHandler(this.btnDownloadFiles_Click);
-            // 
-            // txtSaveFolder
-            // 
-            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
-            this.txtSaveFolder.Name = "txtSaveFolder";
-            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
-            this.txtSaveFolder.TabIndex = 4;
-            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
             // 
             // dgvDownload
             // 
@@ -1437,6 +1429,17 @@
             this.deleteToolStripMenuItem.Text = "&Delete Selected Row(s)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // txtSaveFolder
+            // 
+            this.txtSaveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSaveFolder.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "SaveFolder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSaveFolder.Location = new System.Drawing.Point(320, 9);
+            this.txtSaveFolder.Name = "txtSaveFolder";
+            this.txtSaveFolder.Size = new System.Drawing.Size(220, 20);
+            this.txtSaveFolder.TabIndex = 4;
+            this.txtSaveFolder.Text = global::DanbooruDownloader3.Properties.Settings.Default.SaveFolder;
+            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.btnClearAll);
@@ -1445,8 +1448,8 @@
             this.tabPage5.Controls.Add(this.btnStopBatchJob);
             this.tabPage5.Controls.Add(this.btnStartBatchJob);
             this.tabPage5.Controls.Add(this.btnAddBatchJob);
-            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Controls.Add(this.dgvBatchJob);
+            this.tabPage5.Controls.Add(this.cbxAbortOnError);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1518,18 +1521,6 @@
             this.btnAddBatchJob.Text = "Add Batch Job";
             this.btnAddBatchJob.UseVisualStyleBackColor = true;
             this.btnAddBatchJob.Click += new System.EventHandler(this.btnAddBatchJob_Click);
-            // 
-            // cbxAbortOnError
-            // 
-            this.cbxAbortOnError.AutoSize = true;
-            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
-            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
-            this.cbxAbortOnError.Name = "cbxAbortOnError";
-            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
-            this.cbxAbortOnError.TabIndex = 4;
-            this.cbxAbortOnError.Text = "Abort On Error";
-            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
             // dgvBatchJob
             // 
@@ -1673,6 +1664,18 @@
             this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
             this.deleteToolStripMenuItem1.Text = "Delete Job";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
+            // 
+            // cbxAbortOnError
+            // 
+            this.cbxAbortOnError.AutoSize = true;
+            this.cbxAbortOnError.Checked = global::DanbooruDownloader3.Properties.Settings.Default.batchAbortOnError;
+            this.cbxAbortOnError.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "batchAbortOnError", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxAbortOnError.Location = new System.Drawing.Point(238, 11);
+            this.cbxAbortOnError.Name = "cbxAbortOnError";
+            this.cbxAbortOnError.Size = new System.Drawing.Size(93, 17);
+            this.cbxAbortOnError.TabIndex = 4;
+            this.cbxAbortOnError.Text = "Abort On Error";
+            this.cbxAbortOnError.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -2137,8 +2140,6 @@
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.cbxImageSize);
             this.groupBox3.Controls.Add(this.chkRenameJpeg);
-            this.groupBox3.Controls.Add(this.txtRetry);
-            this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.txtFilenameLength);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.chkOverwrite);
@@ -2231,25 +2232,6 @@
             this.chkRenameJpeg.Text = "Rename .jpeg to .jpg";
             this.chkRenameJpeg.UseVisualStyleBackColor = true;
             // 
-            // txtRetry
-            // 
-            this.txtRetry.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "retry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtRetry.Location = new System.Drawing.Point(163, 71);
-            this.txtRetry.Name = "txtRetry";
-            this.txtRetry.Size = new System.Drawing.Size(32, 20);
-            this.txtRetry.TabIndex = 8;
-            this.txtRetry.Text = global::DanbooruDownloader3.Properties.Settings.Default.retry;
-            this.txtRetry.TextChanged += new System.EventHandler(this.txtRetry_TextChanged);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(125, 74);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(32, 13);
-            this.label17.TabIndex = 7;
-            this.label17.Text = "Retry";
-            // 
             // txtFilenameLength
             // 
             this.txtFilenameLength.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameLengthLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -2321,6 +2303,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label26);
+            this.groupBox1.Controls.Add(this.txtDelay);
+            this.groupBox1.Controls.Add(this.label24);
             this.groupBox1.Controls.Add(this.linkUrl);
             this.groupBox1.Controls.Add(this.chkProxyLogin);
             this.groupBox1.Controls.Add(this.txtProxyPassword);
@@ -2328,6 +2313,8 @@
             this.groupBox1.Controls.Add(this.txtProxyUsername);
             this.groupBox1.Controls.Add(this.label18);
             this.groupBox1.Controls.Add(this.chkPadUserAgent);
+            this.groupBox1.Controls.Add(this.txtRetry);
+            this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.txtTimeout);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.txtUserAgent);
@@ -2344,10 +2331,38 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Internet Settings";
             // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(227, 101);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(12, 13);
+            this.label26.TabIndex = 18;
+            this.label26.Text = "s";
+            // 
+            // txtDelay
+            // 
+            this.txtDelay.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "delay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtDelay.Location = new System.Drawing.Point(204, 98);
+            this.txtDelay.Name = "txtDelay";
+            this.txtDelay.Size = new System.Drawing.Size(23, 20);
+            this.txtDelay.TabIndex = 17;
+            this.txtDelay.Text = global::DanbooruDownloader3.Properties.Settings.Default.delay;
+            this.txtDelay.TextChanged += new System.EventHandler(this.txtDelay_TextChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(168, 101);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(34, 13);
+            this.label24.TabIndex = 16;
+            this.label24.Text = "Delay";
+            // 
             // linkUrl
             // 
             this.linkUrl.AutoSize = true;
-            this.linkUrl.Location = new System.Drawing.Point(245, 104);
+            this.linkUrl.Location = new System.Drawing.Point(251, 101);
             this.linkUrl.Name = "linkUrl";
             this.linkUrl.Size = new System.Drawing.Size(308, 13);
             this.linkUrl.TabIndex = 15;
@@ -2420,6 +2435,25 @@
             this.chkPadUserAgent.TabIndex = 9;
             this.chkPadUserAgent.Text = "Pad User Agent";
             this.chkPadUserAgent.UseVisualStyleBackColor = true;
+            // 
+            // txtRetry
+            // 
+            this.txtRetry.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "retry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtRetry.Location = new System.Drawing.Point(145, 98);
+            this.txtRetry.Name = "txtRetry";
+            this.txtRetry.Size = new System.Drawing.Size(17, 20);
+            this.txtRetry.TabIndex = 8;
+            this.txtRetry.Text = global::DanbooruDownloader3.Properties.Settings.Default.retry;
+            this.txtRetry.TextChanged += new System.EventHandler(this.txtRetry_TextChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(107, 101);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(32, 13);
+            this.label17.TabIndex = 7;
+            this.label17.Text = "Retry";
             // 
             // txtTimeout
             // 
@@ -3278,6 +3312,9 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.Button btnPrevPage;
         private System.Windows.Forms.Button btnNextPage;
+        private System.Windows.Forms.TextBox txtDelay;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label26;
     }
 }
 

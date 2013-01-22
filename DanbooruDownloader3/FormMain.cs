@@ -52,6 +52,7 @@ namespace DanbooruDownloader3
         int _loadedThumbnail;
         bool _resetLoadedThumbnail = false;
         int _retry;
+        int _delay;
 
         public const int MAX_FILENAME_LENGTH = 255;
 
@@ -802,40 +803,7 @@ namespace DanbooruDownloader3
                                 BeginInvoke(del);
                                 UpdateLog("DoBatchJob", "Downloading list: " + url);
 
-                                int currRetry = 0;
-                                while (currRetry < Convert.ToInt32(txtRetry.Text))
-                                {
-                                    try
-                                    {
-                                        var strs = _clientBatch.DownloadString(url);
-                                        using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
-                                        {
-                                            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
-                                            {
-                                                Provider = batchJob[i].Provider,
-                                                Query = query,
-                                                SearchTags = batchJob[i].TagQuery,
-                                                //Url = url,
-                                                Referer = url,
-                                                BlacklistedTags = TagBlacklist,
-                                                BlacklistedTagsRegex = TagBlacklistRegex,
-                                                BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
-                                            };
-                                            d = new DanbooruPostDao(ms, option);
-                                        }
-                                        break;
-                                    }
-                                    catch (System.Net.WebException ex)
-                                    {
-                                        ++currRetry;
-                                        if (currRetry >= Convert.ToInt32(txtRetry.Text)) break; 
-                                            //throw new Exception("Cannot load list.", ex);
-                                        else
-                                        {
-                                            UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + ex.Message, ex);
-                                        }                                        
-                                    }
-                                }
+                                d = GetBatchImageList(url, query, batchJob[i]);
 
                                 if (d == null)
                                 {
@@ -900,49 +868,7 @@ namespace DanbooruDownloader3
                                         // check if have url and post is not deleted
                                         if (string.IsNullOrWhiteSpace(post.FileUrl) && post.Status != "deleted")
                                         {
-                                            if (!string.IsNullOrWhiteSpace(post.Referer))
-                                            {
-                                                UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
-                                                int retry = 0;
-                                                while (true)
-                                                {                                                    
-                                                    try
-                                                    {
-                                                        string html = _clientPost.DownloadString(post.Referer);
-                                                        _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
-
-                                                        if (post.Provider.BoardType == BoardType.Danbooru)
-                                                        {
-                                                            var tempPost = SankakuComplexParser.ParsePost(post, html);
-                                                            post.FileUrl = tempPost.FileUrl;
-                                                            post.PreviewUrl = tempPost.PreviewUrl;
-                                                        }
-                                                        else if (post.Provider.BoardType == BoardType.Gelbooru)
-                                                        {
-                                                            var tempPost = GelbooruHtmlParser.ParsePost(post, html);
-                                                            post.FileUrl = tempPost.FileUrl;
-                                                            post.PreviewUrl = tempPost.PreviewUrl;
-                                                        }
-                                                        else
-                                                        {
-                                                            UpdateLog("DoBatchJob", "No HTML Parser available for : " + post.Provider.Name + "(" + post.Provider.BoardType.ToString() + ")");
-                                                        }
-                                                        break;
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        ++retry;
-                                                        if (retry > _retry)
-                                                        {
-                                                            UpdateLog("DoBatchJob", "Error: " + ex.StackTrace, ex);
-                                                            post.FileUrl = "";
-                                                            post.JpegUrl = "";
-                                                            post.SampleUrl = "";
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                            ResolveFileUrlBatch(_clientPost, post);
                                         }
 
                                         //Choose the correct urls
@@ -1028,41 +954,7 @@ namespace DanbooruDownloader3
                                         #region download
                                         if (download)
                                         {
-                                            UpdateLog("DoBatchJob", "Download: " + targetUrl);
-                                            _clientBatch.Referer = post.Referer;
-
-                                            currRetry = 0;
-                                            while (currRetry <= Convert.ToInt32(txtRetry.Text))
-                                            {
-                                                try
-                                                {
-                                                    var filename2 = filename + ".!tmp";
-                                                    if (File.Exists(filename2))
-                                                    {
-                                                        UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
-                                                        File.Delete(filename2);
-                                                    }
-                                                    _clientBatch.DownloadFile(targetUrl, filename2);
-                                                    File.Move(filename2, filename);
-                                                    UpdateLog("DoBatchJob", "Saved To: " + filename);
-
-                                                    ++imgCount;
-                                                    ++batchJob[i].Downloaded;
-                                                    break;
-                                                }
-                                                catch (System.Net.WebException ex)
-                                                {
-                                                    if (currRetry < Convert.ToInt32(txtRetry.Text) && cbxAbortOnError.Checked) throw;
-                                                    else
-                                                    {
-                                                        var message = ex.Message;
-                                                        if (ex.InnerException != null) message = ex.InnerException.Message;
-                                                        UpdateLog("DoBatchJob", "Error (" + currRetry + "): " + message, ex);
-                                                    }
-                                                    ++currRetry;
-                                                    if (currRetry > Convert.ToInt32(txtRetry.Text)) ++batchJob[i].Error;
-                                                }
-                                            }
+                                            imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
                                         }
                                         #endregion
 
@@ -1188,6 +1080,170 @@ namespace DanbooruDownloader3
                 myArray[1] = -1;
                 BeginInvoke(del2, myArray);
             }
+        }
+
+        private int DoDownloadBatch(string targetUrl, DanbooruBatchJob job,  DanbooruPost post, string filename)
+        {
+            UpdateLog("DoBatchJob", "Download: " + targetUrl);
+            _clientBatch.Referer = post.Referer;
+
+            int currRetry = 0;
+            int maxRetry = Convert.ToInt32(txtRetry.Text);
+            int delay = Convert.ToInt32(txtDelay.Text);
+
+            while (currRetry <= maxRetry)
+            {
+                try
+                {
+                    var filename2 = filename + ".!tmp";
+                    if (File.Exists(filename2))
+                    {
+                        UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
+                        File.Delete(filename2);
+                    }
+                    _clientBatch.DownloadFile(targetUrl, filename2);
+                    File.Move(filename2, filename);
+                    UpdateLog("DoBatchJob", "Saved To: " + filename);
+
+                    ++job.Downloaded;
+                    return 1;
+                }
+                catch (System.Net.WebException ex)
+                {
+                    if (currRetry < maxRetry && cbxAbortOnError.Checked) throw;
+                    else
+                    {
+                        var message = ex.Message;
+                        if (ex.InnerException != null) message = ex.InnerException.Message;
+                        UpdateLog("DoBatchJob", "Error Download Batch Image (" + currRetry + " of " + maxRetry + "): " + message + " Wait for " + delay + "s.", ex);
+
+                        for (int wait = 0; wait < delay; wait++)
+                        {
+                            //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
+                            Thread.Sleep(1000);
+                        }
+                        UpdateLog("DoBatchJob", "Retrying...");
+                    }
+                    ++currRetry;
+                    if (currRetry > Convert.ToInt32(txtRetry.Text)) ++job.Error;
+                }
+            }
+            return 0; // failed
+        }
+
+        /// <summary>
+        /// Get File Url for batch job
+        /// </summary>
+        /// <param name="_clientPost"></param>
+        /// <param name="post"></param>
+        private void ResolveFileUrlBatch(ExtendedWebClient _clientPost, DanbooruPost post)
+        {
+            
+            if (!string.IsNullOrWhiteSpace(post.Referer))
+            {
+                UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
+                int currRetry = 0;
+                int maxRetry = Convert.ToInt32(txtRetry.Text);
+                int delay = Convert.ToInt32(txtDelay.Text);
+
+                while (currRetry < maxRetry)
+                {
+                    try
+                    {
+                        string html = _clientPost.DownloadString(post.Referer);
+                        _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
+
+                        if (post.Provider.BoardType == BoardType.Danbooru)
+                        {
+                            var tempPost = SankakuComplexParser.ParsePost(post, html);
+                            post.FileUrl = tempPost.FileUrl;
+                            post.PreviewUrl = tempPost.PreviewUrl;
+                        }
+                        else if (post.Provider.BoardType == BoardType.Gelbooru)
+                        {
+                            var tempPost = GelbooruHtmlParser.ParsePost(post, html);
+                            post.FileUrl = tempPost.FileUrl;
+                            post.PreviewUrl = tempPost.PreviewUrl;
+                        }
+                        else
+                        {
+                            UpdateLog("DoBatchJob", "No HTML Parser available for : " + post.Provider.Name + "(" + post.Provider.BoardType.ToString() + ")");
+                        }
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                        if (currRetry >= maxRetry)
+                        {
+                            UpdateLog("DoBatchJob", "Giving Up Resolving FileUrl: " + ex.StackTrace, ex);
+                            post.FileUrl = "";
+                            post.JpegUrl = "";
+                            post.SampleUrl = "";
+                            break;
+                        }
+                        ++currRetry;
+
+                        UpdateLog("DoBatchJob", "Error Resolving FileUrl (" + currRetry + " of " + maxRetry + "): " + ex.Message + " Wait for " + delay + "s.", ex);
+                        for (int wait = 0; wait < delay; ++wait)
+                        {
+                            //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
+                            Thread.Sleep(1000);
+                        }
+                        UpdateLog("DoBatchJob", "Retrying...");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get image list, return null if failed
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="query"></param>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        private DanbooruPostDao GetBatchImageList(String url, String query, DanbooruBatchJob job)
+        {
+            DanbooruPostDao d = null;
+            int currRetry = 0;
+            int maxRetry = Convert.ToInt32(txtRetry.Text);
+            int delay = Convert.ToInt32(txtDelay.Text);
+            while (currRetry < maxRetry)
+            {
+                try
+                {
+                    var strs = _clientBatch.DownloadString(url);
+                    using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
+                    {
+                        DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                        {
+                            Provider = job.Provider,
+                            Query = query,
+                            SearchTags = job.TagQuery,
+                            Referer = url,
+                            BlacklistedTags = TagBlacklist,
+                            BlacklistedTagsRegex = TagBlacklistRegex,
+                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                        };
+                        d = new DanbooruPostDao(ms, option);
+                    }
+                    break;
+                }
+                catch (System.Net.WebException ex)
+                {
+                    ++currRetry;
+                    UpdateLog("DoBatchJob", "Error Getting List (" + currRetry + " of " + maxRetry + "): " + ex.Message + " Wait for " + delay + "s.", ex);
+                    for (int wait = 0; wait < delay; ++wait)
+                    {
+                        //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
+                        Thread.Sleep(1000);
+                    }
+                    UpdateLog("DoBatchJob", "Retrying...");
+                }
+            }
+
+            return d;
         }
 
         public delegate void UpdateUiDelegate();
@@ -2340,6 +2396,21 @@ namespace DanbooruDownloader3
                     doGetList();
                 }
             }            
+        }
+
+        private void txtDelay_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                _delay = Convert.ToInt32(txtDelay.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid format.");
+                txtDelay.Text = "10";
+                _delay = 10;
+                txtDelay.Focus();
+            }
         }
     }
 }

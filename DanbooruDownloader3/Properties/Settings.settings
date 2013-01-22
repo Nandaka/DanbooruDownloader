@@ -140,5 +140,8 @@
     <Setting Name="BlacklistTagsUseRegex" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="delay" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
