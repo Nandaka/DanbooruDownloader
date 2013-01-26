@@ -287,5 +287,46 @@ namespace DanbooruDownloader3
         {
             return File.Exists("tags.xml");
         }
+
+        public static bool DumpRawData(string data, DanbooruPost post)
+        {
+            string filename = "Dump for Post " + post.Id  + post.Provider.Name + " Query " + post.Query + ".txt";
+            try
+            {
+                
+                using (StreamWriter output = File.CreateText(filename))
+                {
+                    output.Write(data);
+                    output.Flush();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error("Failed to create dump file: " + filename, ex);
+                return false;
+            }
+        }
+
+        public static bool DumpRawData(string data, DanbooruProvider provider, string query)
+        {
+            string filename = "Dump for List " + provider.Name + " Query " + query + ".txt";
+            filename = Helper.SanitizeFilename(filename);
+            try
+            {
+
+                using (StreamWriter output = File.CreateText(filename))
+                {
+                    output.Write(data);
+                    output.Flush();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error("Failed to create dump file: " + filename, ex);
+                return false;
+            }
+        }
     }
 }

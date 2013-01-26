@@ -230,5 +230,17 @@ namespace DanbooruDownloader3.test
             Assert.IsNotNull(post.FileUrl);
             Assert.IsTrue(post.FileUrl == @"http://cdn2.gelbooru.com//images/1559/303b7ed1fcba0c1d9520f76ee34ec37e.jpg", "Actual: " + post.FileUrl);
         }
+        [TestMethod]
+        public void TestDumpRawData()
+        {
+            string dump = "test124";
+            DanbooruPost post = new DanbooruPost();
+            post.Id = "123";
+            post.Query = "";
+            post.Provider = new DanbooruProvider() {Name = "TestProvider"};
+
+            bool result = Helper.DumpRawData(dump, post);
+            Assert.IsTrue(result);
+        }
     }
 }

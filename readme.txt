@@ -15,6 +15,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130126
+  - Add delay for retrying.
+  - Add page/list dumping if encounter exception.
+
 - DanbooruDownloader20130119
   - Add Gelbooru HTML parser.
   - Add new provider: lolibooru.

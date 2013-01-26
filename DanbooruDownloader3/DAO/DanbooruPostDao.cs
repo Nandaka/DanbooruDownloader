@@ -34,44 +34,50 @@ namespace DanbooruDownloader3.DAO
         /// <param name="option"></param>
         public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
         {
-            this.Option = option;
-            switch (option.Provider.Preferred)
-            {
-                case PreferredMethod.Xml:
-                    ReadXML(input);
-                    break;
-                case PreferredMethod.Json:
-                    ReadJSON(input);
-                    break;
-                case PreferredMethod.Html:
-                    using (StreamReader reader = new StreamReader(input))
-                    {
+            string rawData = "";
+            try
+            {                
+                using (StreamReader reader = new StreamReader(input))
+                {
+                    rawData = reader.ReadToEnd();
+                }
+                this.Option = option;
+                switch (option.Provider.Preferred)
+                {
+                    case PreferredMethod.Xml:
+                        ReadXML(rawData, option);
+                        break;
+                    case PreferredMethod.Json:
+                        ReadJSON(rawData, option);
+                        break;
+                    case PreferredMethod.Html:
                         DanbooruSearchParam param = new DanbooruSearchParam()
                         {
                             Provider = option.Provider,
                             Tag = option.SearchTags
                         };
-                        RawData = reader.ReadToEnd();                        
-
                         if (option.Provider.BoardType == BoardType.Danbooru)
                         {
                             SankakuComplexParser parser = new SankakuComplexParser();
-                            posts = parser.Parse(RawData, param);
+                            posts = parser.Parse(rawData, param);
                         }
                         else if (option.Provider.BoardType == BoardType.Gelbooru)
                         {
                             GelbooruHtmlParser parser = new GelbooruHtmlParser();
-                            posts = parser.Parse(RawData, param);
+                            posts = parser.Parse(rawData, param);
                         }
                         else
                         {
                             throw new NotImplementedException("No HTML Parser for: " + option.Provider.Name);
                         }
-                    }
-                    break;
+                        break;
+                }
             }
-            
-            input.Close();
+            catch (Exception)
+            {
+                Helper.DumpRawData(rawData, Option.Provider, option.Query);
+                throw;
+            }
         }
         #endregion
         
@@ -111,194 +117,187 @@ namespace DanbooruDownloader3.DAO
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
-            using (XmlTextReader reader = new XmlTextReader(filename))
-            {
-                ProcessXML(reader);
+            StreamReader reader = null;
+            try
+            {                
+                try
+                {
+                    reader = File.OpenText(filename);
+                }
+                catch (Exception)
+                {
+                    reader = new StreamReader(System.Net.WebRequest.Create(filename).GetResponse().GetResponseStream());
+                }
+
+                string rawData = reader.ReadToEnd();
+                ProcessXML(rawData);
             }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }                             
         }
 
-        private void ReadXML(Stream input)
+        private void ReadXML(string rawData, DanbooruPostDaoOption option)
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
-
-            using (XmlTextReader reader = new XmlTextReader(input))
-            {
-                ProcessXML(reader);
-            }                       
+            ProcessXML(rawData);
         }
 
-        private void ProcessXML(XmlTextReader reader)
+        private void ProcessXML(string rawData)
         {
-            RawData = "";
-            if (Option.Provider.BoardType == BoardType.Shimmie2)
+            RawData = rawData;
+            using (StringReader strReader = new StringReader(rawData))
             {
-                posts =  Engine.ShimmieEngine.ParseRSS(reader, Option);
-                foreach (var item in posts)
+                using (XmlTextReader reader = new XmlTextReader(strReader))
                 {
-                    RawData += item.Id + ":" + item.FileUrl + ", ";                    
-                }
-            }
-            // only for testing
-            //else if (Provider.BoardType == BoardType.Danbooru)
-            //{
-            //    var parser = new Engine.DanbooruXmlEngine();
-            //    XmlDocument doc = new XmlDocument();
-            //    doc.Load(reader);
-            //    RawData = doc.InnerXml;
-            //    var query = new DanbooruSearchParam() { Provider = Provider, Tag = SearchTags };
-            //    posts = parser.Parse(RawData, query);
-            //    this.ResponseMessage = parser.ResponseMessage;
-            //    this.Success = parser.Success;
-            //    if (Success)
-            //    {
-            //        postCount = parser.TotalPost.Value;
-            //        offset = parser.Offset.Value;
-            //        actualCount = posts.Count;
-            //    }
-            //}
-            else
-            {
-                while (reader.Read())
-                {
-                    switch (reader.NodeType)
+                    if (Option.Provider.BoardType == BoardType.Shimmie2)
                     {
-                        case XmlNodeType.Element: // The node is an element.
-                            var nodeName = reader.Name.ToLowerInvariant();
-                            if (nodeName.Equals("posts"))
+                        posts =  Engine.ShimmieEngine.ParseRSS(reader, Option);
+                    }
+                    else
+                    {
+                        while (reader.Read())
+                        {
+                            switch (reader.NodeType)
                             {
-                                while (reader.MoveToNextAttribute())
-                                {
-                                    if (reader.Name.ToLowerInvariant().Equals("count"))    // Posts Count
+                                case XmlNodeType.Element: // The node is an element.
+                                    var nodeName = reader.Name.ToLowerInvariant();
+                                    if (nodeName.Equals("posts"))
                                     {
-                                        postCount = int.Parse(reader.Value);
-                                        RawData += "postCount:" + postCount;
+                                        while (reader.MoveToNextAttribute())
+                                        {
+                                            if (reader.Name.ToLowerInvariant().Equals("count"))    // Posts Count
+                                            {
+                                                postCount = int.Parse(reader.Value);
+                                            }
+                                            else if (reader.Name.ToLowerInvariant().Equals("offset")) // Post Offset
+                                            {
+                                                offset = int.Parse(reader.Value);
+                                            }
+                                        }
                                     }
-                                    else if (reader.Name.ToLowerInvariant().Equals("offset")) // Post Offset
+                                    else if (nodeName.Equals("response"))
                                     {
-                                        offset = int.Parse(reader.Value);
-                                        RawData += ", offset:" + offset;
+                                        Success = true;
+                                        while (reader.MoveToNextAttribute())
+                                        {
+                                            if (reader.Name.ToLowerInvariant().Equals("reason"))    // Posts Count
+                                            {
+                                                ResponseMessage = reader.Value;
+                                            }
+                                            else if (reader.Name.ToLowerInvariant().Equals("success"))    // Posts Count
+                                            {
+                                                Success = bool.Parse(reader.Value);
+                                            }
+                                        }
                                     }
-                                }
+                                    else if (nodeName.Equals("post"))
+                                    {
+                                        DanbooruPost post = new DanbooruPost();
+                                        while (reader.MoveToNextAttribute())
+                                        {
+                                            switch (reader.Name.ToLowerInvariant())
+                                            {
+                                                case "id": post.Id = reader.Value; break;
+                                                case "tags":
+                                                    post.Tags = reader.Value;
+                                                    post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                                                    break;
+                                                case "source": post.Source = reader.Value; break;
+                                                case "creator_id": post.CreatorId = reader.Value; break;
+                                                case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
+                                                case "width": post.Width = -1;
+                                                    try
+                                                    {
+                                                        post.Width = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "height": post.Height = -1;
+                                                    try
+                                                    {
+                                                        post.Height = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "change": post.Change = reader.Value; break;
+                                                case "score": post.Score = reader.Value; break;
+                                                case "rating": post.Rating = reader.Value; break;
+                                                case "status": post.Status = reader.Value; break;
+                                                case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
+                                                case "created_at": post.CreatedAt = reader.Value; break;
+                                                case "md5": post.MD5 = reader.Value; break;
+                                                case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
+                                                case "preview_width": post.PreviewWidth = -1;
+                                                    try
+                                                    {
+                                                        post.PreviewWidth = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "preview_height": post.PreviewHeight = -1;
+                                                    try
+                                                    {
+                                                        post.PreviewHeight = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "parent_id": post.ParentId = reader.Value; break;
+                                                case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
+                                                case "sample_width": post.SampleWidth = -1;
+                                                    try
+                                                    {
+                                                        post.SampleWidth = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "sample_height": post.SampleHeight = -1;
+                                                    try
+                                                    {
+                                                        post.SampleHeight = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "jpeg_url": post.JpegUrl = AppendHttp(reader.Value); break;
+                                                case "jpeg_width": post.JpegWidth = -1;
+                                                    try
+                                                    {
+                                                        post.JpegWidth = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                                case "jpeg_height": post.JpegHeight = -1;
+                                                    try
+                                                    {
+                                                        post.JpegHeight = Int32.Parse(reader.Value);
+                                                    }
+                                                    catch (Exception) { if (FormMain.Debug) throw; }
+                                                    break;
+                                            }
+                                        }
+                                        post.Hidden = CheckBlacklisted(post);
+                                        post.Provider = Option.Provider;
+                                        post.Query = Option.Query;
+                                        post.SearchTags = Option.SearchTags;
+                                        if (Option.Provider.BoardType == BoardType.Danbooru || Option.Provider.BoardType == BoardType.Shimmie2)
+                                        {
+                                            post.Referer = Option.Provider.Url + @"/post/show/" + post.Id;
+                                        }
+                                        else if (Option.Provider.BoardType == BoardType.Gelbooru)
+                                        {
+                                            post.Referer = Option.Provider.Url + @"/index.php?page=post&s=view&id=" + post.Id;
+                                        }
+                                        posts.Add(post);
+                                        actualCount++;
+                                    }
+                                    break;
+                                case XmlNodeType.EndElement: //Display the end of the element.
+                                    //txtResult.AppendText("END");
+                                    break;
                             }
-                            else if (nodeName.Equals("response"))
-                            {
-                                Success = true;
-                                while (reader.MoveToNextAttribute())
-                                {
-                                    if (reader.Name.ToLowerInvariant().Equals("reason"))    // Posts Count
-                                    {
-                                        ResponseMessage = reader.Value;
-                                    }
-                                    else if (reader.Name.ToLowerInvariant().Equals("success"))    // Posts Count
-                                    {
-                                        Success = bool.Parse(reader.Value);
-                                    }
-                                }
-                            }
-                            else if (nodeName.Equals("post"))
-                            {
-                                DanbooruPost post = new DanbooruPost();
-                                while (reader.MoveToNextAttribute())
-                                {
-                                    switch (reader.Name.ToLowerInvariant())
-                                    {
-                                        case "id": post.Id = reader.Value; RawData += ", id:" + reader.Value; break;
-                                        case "tags":
-                                            post.Tags = reader.Value;
-                                            post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
-                                            break;
-                                        case "source": post.Source = reader.Value; break;
-                                        case "creator_id": post.CreatorId = reader.Value; break;
-                                        case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
-                                        case "width": post.Width = -1;
-                                            try
-                                            {
-                                                post.Width = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "height": post.Height = -1;
-                                            try
-                                            {
-                                                post.Height = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "change": post.Change = reader.Value; break;
-                                        case "score": post.Score = reader.Value; break;
-                                        case "rating": post.Rating = reader.Value; break;
-                                        case "status": post.Status = reader.Value; break;
-                                        case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
-                                        case "created_at": post.CreatedAt = reader.Value; break;
-                                        case "md5": post.MD5 = reader.Value; break;
-                                        case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
-                                        case "preview_width": post.PreviewWidth = -1;
-                                            try
-                                            {
-                                                post.PreviewWidth = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "preview_height": post.PreviewHeight = -1;
-                                            try
-                                            {
-                                                post.PreviewHeight = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "parent_id": post.ParentId = reader.Value; break;
-                                        case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
-                                        case "sample_width": post.SampleWidth = -1;
-                                            try
-                                            {
-                                                post.SampleWidth = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "sample_height": post.SampleHeight = -1;
-                                            try
-                                            {
-                                                post.SampleHeight = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "jpeg_url": post.JpegUrl = AppendHttp(reader.Value); break;
-                                        case "jpeg_width": post.JpegWidth = -1;
-                                            try
-                                            {
-                                                post.JpegWidth = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                        case "jpeg_height": post.JpegHeight = -1;
-                                            try
-                                            {
-                                                post.JpegHeight = Int32.Parse(reader.Value);
-                                            }
-                                            catch (Exception) { if (FormMain.Debug) throw; }
-                                            break;
-                                    }
-                                }
-                                post.Hidden = CheckBlacklisted(post);
-                                post.Provider = Option.Provider;
-                                post.Query = Option.Query;
-                                post.SearchTags = Option.SearchTags;
-                                if (Option.Provider.BoardType == BoardType.Danbooru || Option.Provider.BoardType == BoardType.Shimmie2)
-                                {
-                                    post.Referer = Option.Provider.Url + @"/post/show/" + post.Id;
-                                }
-                                else if (Option.Provider.BoardType == BoardType.Gelbooru)
-                                {
-                                    post.Referer = Option.Provider.Url + @"/index.php?page=post&s=view&id=" + post.Id;
-                                }
-                                posts.Add(post);
-                                actualCount++;
-                            }
-                            break;
-                        case XmlNodeType.EndElement: //Display the end of the element.
-                            //txtResult.AppendText("END");
-                            break;
+                        }
                     }
                 }
             }
@@ -308,9 +307,6 @@ namespace DanbooruDownloader3.DAO
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
-            DanbooruPost post = null;
-            String json = "";
-            String tmp;
 
             StreamReader reader = null;
             try
@@ -324,39 +320,32 @@ namespace DanbooruDownloader3.DAO
                     reader = new StreamReader(System.Net.WebRequest.Create(filename).GetResponse().GetResponseStream());
                 }
 
-                ProcessJson(ref post, ref json, reader, out tmp);
+                string rawData = reader.ReadToEnd();
+
+                ProcessJson(rawData);
+                RawData = rawData;
             }
             finally
             {
                 if (reader != null) reader.Close();
-            }
-
-            RawData = json;
+            }            
         }
 
-        public void ReadJSON(Stream input)
+        public void ReadJSON(string rawData, DanbooruPostDaoOption option)
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
-            DanbooruPost post = null;
-            String json = "";
-            String tmp;
 
-            using (StreamReader reader = new StreamReader(input))
+            using (StringReader reader = new StringReader(rawData))
             {
-                ProcessJson(ref post, ref json, reader, out tmp);
-                RawData = json;
+                ProcessJson(rawData);
+                //RawData = json;
+                RawData = rawData;
             }
         }
 
-        private void ProcessJson(ref DanbooruPost post, ref String json, StreamReader reader, out String tmp)
+        private void ProcessJson(String json)
         {
-            while ((tmp = reader.ReadLine()) != null)
-            {
-                json += tmp;
-            }
-            reader.Close();
-
             if (json.Length < 4) return;
 
             if (json.StartsWith("{"))
@@ -386,7 +375,7 @@ namespace DanbooruDownloader3.DAO
 
                 foreach (string str in split)
                 {
-                    post = new DanbooruPost();
+                    DanbooruPost post = new DanbooruPost();
                     string[] node = str.Split(',');
                     foreach (string str2 in node)
                     {
