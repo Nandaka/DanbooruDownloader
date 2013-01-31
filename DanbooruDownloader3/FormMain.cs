@@ -827,7 +827,7 @@ namespace DanbooruDownloader3
                                     if (prevDao != null)
                                     {
                                         // identical data returned, probably no more new image.
-                                        if (prevDao.RawData.Equals(d.RawData))
+                                        if (prevDao.RawData != null && prevDao.RawData.Equals(d.RawData))
                                         {
                                             UpdateLog("DoBatchJob", "Identical list, probably last page.");
                                             batchJob[i].Status = "Identical list, probably last page.";
@@ -2316,7 +2316,8 @@ namespace DanbooruDownloader3
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(txtLog.SelectedText);
+            if(!String.IsNullOrWhiteSpace(txtLog.SelectedText))
+                Clipboard.SetText(txtLog.SelectedText);
         }
 
         private void btnPrevPage_Click(object sender, EventArgs e)
