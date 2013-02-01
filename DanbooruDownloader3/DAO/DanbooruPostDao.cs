@@ -54,7 +54,8 @@ namespace DanbooruDownloader3.DAO
                         DanbooruSearchParam param = new DanbooruSearchParam()
                         {
                             Provider = option.Provider,
-                            Tag = option.SearchTags
+                            Tag = option.SearchTags,
+                            Option = option
                         };
                         if (option.Provider.BoardType == BoardType.Danbooru)
                         {
@@ -277,7 +278,7 @@ namespace DanbooruDownloader3.DAO
                                                     break;
                                             }
                                         }
-                                        post.Hidden = CheckBlacklisted(post);
+                                        post.Hidden = Helper.CheckBlacklistedTag(post, Option);
                                         post.Provider = Option.Provider;
                                         post.Query = Option.Query;
                                         post.SearchTags = Option.SearchTags;
@@ -510,7 +511,7 @@ namespace DanbooruDownloader3.DAO
                             default: break;
                         }
                     }
-                    post.Hidden = CheckBlacklisted(post);
+                    post.Hidden = Helper.CheckBlacklistedTag(post, Option);
                     post.Provider = Option.Provider;
                     post.Query = Option.Query;
                     post.SearchTags = Option.SearchTags;
@@ -529,22 +530,6 @@ namespace DanbooruDownloader3.DAO
                 return Option.Provider.Url + url;
             }
             return url;
-        }
-
-        private bool CheckBlacklisted(DanbooruPost post)
-        {
-            if (Option.BlacklistedTagsUseRegex)
-            {
-                return post.TagsEntity.Any(x => Option.BlacklistedTagsRegex.IsMatch(x.Name));
-            }
-            else
-            {
-                foreach (var tag in Option.BlacklistedTags)
-                {
-                    return post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase));
-                }
-            }
-            return false;
         }
     }
 }

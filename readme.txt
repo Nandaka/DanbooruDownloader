@@ -15,9 +15,10 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
-- DanbooruDownloader20130131
+- DanbooruDownloader20130201
   - Fix unhandled exception for copy log if no selected text.
   - Fix unhandled exception if downloading from Sankaku.
+  - Fix blacklist tag function.
 
 - DanbooruDownloader20130126
   - Add delay for retrying.

@@ -59,9 +59,9 @@ namespace DanbooruDownloader3.Engine
             return post;
         }
 
-        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
+        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
         {
-            this.SearchParam = query;
+            this.SearchParam = searchParam;
             this.RawData = data;
 
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
@@ -87,9 +87,9 @@ namespace DanbooruDownloader3.Engine
                         DanbooruPost post = new DanbooruPost();
                         post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
 
-                        post.Provider = query.Provider;
-                        post.SearchTags = query.Tag;
-                        post.Query = GenerateQueryString(query);
+                        post.Provider = searchParam.Provider;
+                        post.SearchTags = searchParam.Tag;
+                        post.Query = GenerateQueryString(searchParam);
 
                         int i = 0;
                         // get the image link
@@ -98,7 +98,7 @@ namespace DanbooruDownloader3.Engine
                             if (thumb.ChildNodes[i].Name == "a") break;
                         }
                         var a = thumb.ChildNodes[i];
-                        post.Referer = query.Provider.Url + a.GetAttributeValue("href", "");
+                        post.Referer = searchParam.Provider.Url + a.GetAttributeValue("href", "");
 
                         var img = a.ChildNodes[i];
                         var title = img.GetAttributeValue("title", "");
@@ -106,6 +106,8 @@ namespace DanbooruDownloader3.Engine
                         post.Tags = title.Substring(0, title.LastIndexOf("rating:")).Trim();
                         post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
                         post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+
+                        post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
                         post.PreviewUrl = img.GetAttributeValue("src", "");
                         post.PreviewHeight = img.GetAttributeValue("height", 0);

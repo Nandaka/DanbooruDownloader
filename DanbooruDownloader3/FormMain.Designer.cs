@@ -1921,6 +1921,7 @@
             this.txtIgnoredTags.TabIndex = 27;
             this.txtIgnoredTags.Text = global::DanbooruDownloader3.Properties.Settings.Default.TagIgnored;
             this.txtIgnoredTags.WordWrap = false;
+            this.txtIgnoredTags.TextChanged += new System.EventHandler(this.txtIgnoredTags_TextChanged);
             // 
             // txtAutoCompleteLimit
             // 

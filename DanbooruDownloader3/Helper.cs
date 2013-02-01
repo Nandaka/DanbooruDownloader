@@ -97,7 +97,7 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%id%", post.Id);
             filename = filename.Replace("%rating%", post.Rating);
             filename = filename.Replace("%md5%", post.MD5);
-            filename = filename.Replace("%query%", Helper.SanitizeFilename(query));
+            filename = filename.Replace("%searchParam%", Helper.SanitizeFilename(query));
             filename = filename.Replace("%searchtag%", Helper.SanitizeFilename(searchTags));
             filename = filename.Replace("%originalFilename%", Helper.SanitizeFilename(originalFileName));
 
@@ -327,6 +327,22 @@ namespace DanbooruDownloader3
                 Program.Logger.Error("Failed to create dump file: " + filename, ex);
                 return false;
             }
+        }
+
+        public static bool CheckBlacklistedTag(DanbooruPost post, DanbooruPostDaoOption option)
+        {
+            if (option.BlacklistedTagsUseRegex)
+            {
+                return post.TagsEntity.Any(x => option.BlacklistedTagsRegex.IsMatch(x.Name));
+            }
+            else
+            {
+                foreach (var tag in option.BlacklistedTags)
+                {
+                    return post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase));
+                }
+            }
+            return false;
         }
     }
 }

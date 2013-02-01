@@ -18,6 +18,7 @@ namespace DanbooruDownloader3.Entity
         public string Rating { get; set; }
         public bool IsNotRating { get; set; }
 
-        public List<DanbooruTag> BlacklistedTag { get; set; }
+        public DanbooruPostDaoOption Option { get; set; }
+
     }
 }

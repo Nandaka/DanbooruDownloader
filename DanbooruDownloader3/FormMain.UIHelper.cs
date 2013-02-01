@@ -164,7 +164,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Update status label with the query url
+        /// Update status label with the searchParam url
         /// </summary>
         private void UpdateStatus()
         {
@@ -192,7 +192,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Generate query url from text boxes.
+        /// Generate searchParam url from text boxes.
         /// </summary>
         /// <param name="authString"></param>
         /// <returns></returns>
@@ -289,10 +289,21 @@ namespace DanbooruDownloader3
 
         public DanbooruSearchParam GetSearchParams()
         {
+            DanbooruPostDaoOption option = new DanbooruPostDaoOption() {
+                BlacklistedTags = TagBlacklist,
+                BlacklistedTagsRegex = TagBlacklistRegex,
+                BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                IgnoredTags = TagIgnore,
+                IgnoredTagsRegex = TagIgnoreRegex,
+                IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                Provider = _currProvider,
+                SearchTags = txtTags.Text
+            };
+
             DanbooruSearchParam searchParam = new DanbooruSearchParam();
 
-            searchParam.Provider = _currProvider;
-            searchParam.Tag = txtTags.Text;
+            searchParam.Provider = option.Provider;
+            searchParam.Tag = option.SearchTags;
             searchParam.Source = txtSource.Text;
 
             int tempPage = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
@@ -304,7 +315,7 @@ namespace DanbooruDownloader3
             searchParam.OrderBy = cbxOrder.SelectedValue.ToString();
             searchParam.Rating = cbxRating.SelectedValue.ToString();
             searchParam.IsNotRating = chkNotRating.Checked;
-            searchParam.BlacklistedTag = TagBlacklist;
+            searchParam.Option = option;
 
             return searchParam;
         }

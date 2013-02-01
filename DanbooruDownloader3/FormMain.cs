@@ -58,6 +58,8 @@ namespace DanbooruDownloader3
 
         List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
         Regex TagBlacklistRegex = new Regex("$^");
+        List<DanbooruTag> TagIgnore = new List<DanbooruTag>();
+        Regex TagIgnoreRegex = new Regex("$^");
         #endregion
 
         public FormMain()
@@ -182,7 +184,7 @@ namespace DanbooruDownloader3
                 TagBlacklist = DanbooruTagsDao.Instance.ParseTagsString(tagStr.Replace(Environment.NewLine, " "));
                 try
                 {
-                    TagBlacklistRegex = new Regex(tagStr.Trim().Replace(Environment.NewLine, "|"), RegexOptions.IgnoreCase);
+                    TagBlacklistRegex = new Regex(tagStr.Trim().Replace(Environment.NewLine, "|").Replace(" ", "|"), RegexOptions.IgnoreCase);
                 }
                 catch (Exception ex)
                 {
@@ -727,7 +729,7 @@ namespace DanbooruDownloader3
                             string url;
                             string query = "";
 
-                            #region Construct the query
+                            #region Construct the searchParam
 
                             // check if given limit is more than the hard limit
                             if (batchJob[i].Limit > batchJob[i].Provider.HardLimit) currLimit = batchJob[i].Provider.HardLimit;
@@ -1011,7 +1013,10 @@ namespace DanbooruDownloader3
                                                     Referer = "",
                                                     BlacklistedTags = TagBlacklist,
                                                     BlacklistedTagsRegex = TagBlacklistRegex,
-                                                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                                                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                                                    IgnoredTags = TagIgnore,
+                                                    IgnoredTagsRegex = TagIgnoreRegex,
+                                                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                                                 };
                                                 var resp = new DanbooruPostDao(response, option);
                                                 responseMessage = resp.ResponseMessage;
@@ -1200,7 +1205,7 @@ namespace DanbooruDownloader3
         /// Get image list, return null if failed
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="query"></param>
+        /// <param name="searchParam"></param>
         /// <param name="job"></param>
         /// <returns></returns>
         private DanbooruPostDao GetBatchImageList(String url, String query, DanbooruBatchJob job)
@@ -1224,7 +1229,10 @@ namespace DanbooruDownloader3
                             Referer = url,
                             BlacklistedTags = TagBlacklist,
                             BlacklistedTagsRegex = TagBlacklistRegex,
-                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                            IgnoredTags = TagIgnore,
+                            IgnoredTagsRegex = TagIgnoreRegex,
+                            IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                         };
                         d = new DanbooruPostDao(ms, option);
                     }
@@ -1418,8 +1426,11 @@ namespace DanbooruDownloader3
                     Query = txtListFile.Text.Split('\\').Last(),
                     SearchTags = "",
                     BlacklistedTags = TagBlacklist,
-                    BlacklistedTagsRegex = TagBlacklistRegex, 
-                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                    BlacklistedTagsRegex = TagBlacklistRegex,
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                    IgnoredTags = TagIgnore,
+                    IgnoredTagsRegex = TagIgnoreRegex,
+                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                 };
                 DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);
@@ -1992,7 +2003,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Manual query string
+        /// Manual searchParam string
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2411,6 +2422,34 @@ namespace DanbooruDownloader3
                 txtDelay.Text = "10";
                 _delay = 10;
                 txtDelay.Focus();
+            }
+        }
+
+        private void txtIgnoredTags_TextChanged(object sender, EventArgs e)
+        {
+            ParseIgnoredTags();
+        }
+
+        private void ParseIgnoredTags()
+        {
+            var tagStr = txtIgnoredTags.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(tagStr))
+            {
+                TagIgnore = DanbooruTagsDao.Instance.ParseTagsString(tagStr.Replace(Environment.NewLine, " "));
+                try
+                {
+                    TagIgnoreRegex = new Regex(tagStr.Trim().Replace(Environment.NewLine, "|").Replace(" ", "|"), RegexOptions.IgnoreCase);
+                }
+                catch (Exception ex)
+                {
+                    Program.Logger.Debug(ex.Message);
+                    TagIgnoreRegex = new Regex("$^");
+                }
+            }
+            else
+            {
+                if (TagIgnore != null) TagIgnore.Clear();
+                if (TagIgnoreRegex != null) TagIgnoreRegex = new Regex("$^");
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -19,8 +20,14 @@ namespace DanbooruDownloader3.Entity
 
         public List<DanbooruTag> BlacklistedTags { get; set; }
 
-        public System.Text.RegularExpressions.Regex BlacklistedTagsRegex { get; set; }
+        public Regex BlacklistedTagsRegex { get; set; }
 
         public bool BlacklistedTagsUseRegex { get; set; }
+
+        public List<DanbooruTag> IgnoredTags { get; set; }
+
+        public Regex IgnoredTagsRegex { get; set; }
+
+        public bool IgnoredTagsUseRegex { get; set; }
     }
 }

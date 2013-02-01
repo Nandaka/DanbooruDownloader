@@ -25,7 +25,7 @@ namespace DanbooruDownloader3
             object[] param = (object[])e.Argument;
             Stream ms = (Stream)param[0];
             DanbooruPostDaoOption option = (DanbooruPostDaoOption)param[1];
-            DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
+            DanbooruPostDao newPosts = new DanbooruPostDao(ms, option);
             e.Result = newPosts;
         }
 
@@ -59,7 +59,10 @@ namespace DanbooruDownloader3
                     SearchTags = txtTags.Text,
                     BlacklistedTags = TagBlacklist,
                     BlacklistedTagsRegex = TagBlacklistRegex,
-                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked, 
+                    IgnoredTags = TagIgnore,
+                    IgnoredTagsRegex = TagIgnoreRegex,
+                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                 };
                 //DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
                 //LoadList(newPosts);
@@ -103,7 +106,10 @@ namespace DanbooruDownloader3
                                             SearchTags = "",
                                             BlacklistedTags = TagBlacklist,
                                             BlacklistedTagsRegex = TagBlacklistRegex,
-                                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                                            IgnoredTags = TagIgnore,
+                                            IgnoredTagsRegex = TagIgnoreRegex,
+                                            IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                                         };
                                         var resp = new DanbooruPostDao(response, option);
                                         message = "Server Message: " + resp.ResponseMessage;
@@ -149,7 +155,10 @@ namespace DanbooruDownloader3
                     SearchTags = "",
                     BlacklistedTags = TagBlacklist,
                     BlacklistedTagsRegex = TagBlacklistRegex,
-                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                    IgnoredTags = TagIgnore,
+                    IgnoredTagsRegex = TagIgnoreRegex,
+                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                 };
                 DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);
