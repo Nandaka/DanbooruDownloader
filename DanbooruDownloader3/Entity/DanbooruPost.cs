@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -122,9 +123,21 @@ namespace DanbooruDownloader3.Entity
             set { thumbnailImage = value; }
         }
 
+        private List<DanbooruTag> tagsEntity;
         [XmlIgnore]
         //[Browsable(false)]
-        public List<DanbooruTag> TagsEntity { get; set; }
+        public List<DanbooruTag> TagsEntity
+        {
+            get
+            {
+                if (tagsEntity == null)
+                {
+                    tagsEntity = DanbooruTagsDao.Instance.ParseTagsString(Tags);
+                }
+                return tagsEntity;
+            }
+            set { this.tagsEntity = value; }
+        }
 
         #region INotifyPropertyChanged Members
 

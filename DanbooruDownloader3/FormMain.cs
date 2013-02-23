@@ -1609,7 +1609,10 @@ namespace DanbooruDownloader3
 
         private void dgvDownload_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            dgvDownload.Rows[e.RowIndex].Cells["colIndex"].Value = e.RowIndex + 1;
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; ++i)
+            {
+                dgvDownload.Rows[i].Cells["colIndex"].Value = i + 1;
+            }
         }
 
         private void btnClearDownloadList_Click(object sender, EventArgs e)
