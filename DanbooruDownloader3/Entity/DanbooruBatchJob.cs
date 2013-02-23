@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.Entity
 {
+    [Serializable()]
     public class DanbooruBatchJob
     {
         [Browsable(false)]
@@ -17,7 +19,7 @@ namespace DanbooruDownloader3.Entity
             {
                 return Provider.Name;
             }
-            private set { }
+            set { }
         }
             
         public string SaveFolder { get; set; }
@@ -40,7 +42,9 @@ namespace DanbooruDownloader3.Entity
             }
         }
 
+        [XmlIgnore]
         private string _status;
+        [XmlIgnore]
         public string Status
         {
             get
@@ -84,27 +88,35 @@ namespace DanbooruDownloader3.Entity
             }
         }
 
+        [XmlIgnore]
         public int Downloaded { get; set; }
+        [XmlIgnore]
         public int Skipped { get; set; }
+        [XmlIgnore]
         public int Error { get; set; }
         
         [Browsable(false)]
+        [XmlIgnore]
         public int Total { get; set; }
-        
+
+        [XmlIgnore]
         public int ProcessedTotal
         {
             get
             {
                 return Downloaded + Skipped + Error;
             }
-            private set { }
+            set { }
         }
 
         [Browsable(false)]
+        [XmlIgnore]
         public int CurrentPage { get; set; }
         [Browsable(false)]
+        [XmlIgnore]
         public int CurrentPageTotal { get; set; }
         [Browsable(false)]
+        [XmlIgnore]
         public int CurrentPageOffset { get; set; }
     }
 }

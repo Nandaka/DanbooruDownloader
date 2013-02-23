@@ -2455,5 +2455,40 @@ namespace DanbooruDownloader3
                 if (TagIgnoreRegex != null) TagIgnoreRegex = new Regex("$^");
             }
         }
+
+        private void btnSaveBatchList_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
+                //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
+                StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
+
+                serializer.Serialize(writer, batchJob);
+
+                writer.Close();
+            }
+        }
+
+        private void btnLoadList_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
+                StreamReader reader = new StreamReader(openFileDialog2.FileName);
+
+                batchJob = (BindingList<DanbooruBatchJob>)serializer.Deserialize(reader);
+                reader.Close();
+            }
+            dgvBatchJob.DataSource = batchJob;
+        }
+
+        private void dgvBatchJob_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; ++i)
+            {
+                dgvBatchJob.Rows[i].Cells["colBatchId"].Value = i + 1;
+            }
+        }
     }
 }
