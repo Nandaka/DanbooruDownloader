@@ -256,11 +256,13 @@ namespace DanbooruDownloader3
                     string html = e.Result;
                     post = SankakuComplexParser.ParsePost(post, html);
                     UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
                 }
                 else
                 {
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "SankakuComplexParser " + e.Error.Message;
                     UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
+                    post.FileUrl = "";
                 }
             }
             else if (post.Provider.BoardType == BoardType.Gelbooru)
@@ -270,11 +272,13 @@ namespace DanbooruDownloader3
                     string html = e.Result;
                     post = GelbooruHtmlParser.ParsePost(post, html);
                     UpdateLog("GelbooruHtmlParser", "Resolved to file_url: " + post.FileUrl);
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
                 }
                 else
                 {
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "GelbooruHtmlParser " + e.Error.Message;
                     UpdateLog("GelbooruHtmlParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
+                    post.FileUrl = "";
                 }
             }
             else
@@ -319,7 +323,9 @@ namespace DanbooruDownloader3
 
                 tsStatus.Text = "Downloading Post #" + row.Index;
                 
-                if (!_downloadList[row.Index].Completed)
+                DanbooruPost post = _downloadList[row.Index];
+
+                if (!post.Completed)
                 {                    
                     row.Selected = true;
 
@@ -327,6 +333,12 @@ namespace DanbooruDownloader3
 
                     string url = (string)row.Cells["colUrl2"].Value;
                     Uri uri = null;
+
+                    if (string.IsNullOrWhiteSpace(url))
+                    {
+                        ResolveFileUrl(post);
+                    }
+
                     if (url == Constants.LOADING_URL)
                     {
                         // still loading post url
@@ -336,16 +348,16 @@ namespace DanbooruDownloader3
                     else if (url == Constants.NO_POST_PARSER)
                     {
                         // no parser post url
-                        row.Cells["colProgress2"].Value = "No post parser for provider: " + _downloadList[row.Index].Provider;
-                        UpdateLog("[DownloadRow]", "No post parser for provider: " + _downloadList[row.Index].Provider + " at : " + row.Index);
+                        row.Cells["colProgress2"].Value = "No post parser for provider: " + post.Provider;
+                        UpdateLog("[DownloadRow]", "No post parser for provider: " + post.Provider + " at : " + row.Index);
                     }
                     else if (!string.IsNullOrWhiteSpace(url)                            && 
                              Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)    &&
-                             _downloadList[row.Index].Status != "deleted") // check if post active and url valid
+                             post.Status != "deleted") // check if post active and url valid
                     {
-                        if (_downloadList[row.Index].Provider == null) _downloadList[row.Index].Provider = _listProvider[cbxProvider.SelectedIndex];
-                        if (_downloadList[row.Index].Query == null) _downloadList[row.Index].Query = txtQuery.Text;
-                        if (_downloadList[row.Index].SearchTags == null) _downloadList[row.Index].SearchTags = txtTags.Text;
+                        if (post.Provider == null) post.Provider = _listProvider[cbxProvider.SelectedIndex];
+                        if (post.Query == null) post.Query = txtQuery.Text;
+                        if (post.SearchTags == null) post.SearchTags = txtTags.Text;
 
                         var format = new DanbooruFilenameFormat()
                         {
@@ -367,7 +379,7 @@ namespace DanbooruDownloader3
                         {
                             if (extension.EndsWith(".jpeg")) extension = ".jpg";
                         }
-                        string filename = Helper.MakeFilename(format, _downloadList[row.Index]) + extension;
+                        string filename = Helper.MakeFilename(format, post) + extension;
 
                         if (chkOverwrite.Checked || !File.Exists(filename))
                         {
@@ -383,7 +395,7 @@ namespace DanbooruDownloader3
                             }
 
                             // the actual download
-                            _clientFile.Referer = _downloadList[row.Index].Referer;
+                            _clientFile.Referer = post.Referer;
                             Program.Logger.Info("[DownloadRow] Downloading " + url);
                             Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                             row.Cells["colDownloadStart2"].Value = DateTime.Now;
