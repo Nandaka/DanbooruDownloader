@@ -302,6 +302,7 @@ namespace DanbooruDownloader3
             {
                 Program.Logger.Info("[clientFileDownload] Download complete: " + row.Cells["colUrl2"].Value.ToString());
                 _downloadList[row.Index].Completed = true;
+                row.DefaultCellStyle.BackColor = Color.Green;
 
                 string filename = row.Cells["colFilename"].Value.ToString();
                 try
@@ -322,6 +323,7 @@ namespace DanbooruDownloader3
             {
                 row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + status;                
                 Program.Logger.Error("Download Error: " + row.Cells["colUrl2"].Value.ToString(), e.Error);
+                row.DefaultCellStyle.BackColor = Color.Red;
             }
 
             // check if the last row

@@ -2152,6 +2152,10 @@ namespace DanbooruDownloader3
                     lbxAutoComplete.DataSource = null;
                 }
             }
+            if (e.KeyCode == Keys.Enter)
+            {
+                doGetList();
+            }
         }
 
         private void lbxAutoComplete_KeyDown(object sender, KeyEventArgs e)
@@ -2488,6 +2492,18 @@ namespace DanbooruDownloader3
             for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; ++i)
             {
                 dgvBatchJob.Rows[i].Cells["colBatchId"].Value = i + 1;
+            }
+        }
+
+        private void btnClearCompletedDownload_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < _downloadList.Count; ++i)
+            {
+                if (_downloadList[i].Completed)
+                {
+                    _downloadList.RemoveAt(i);
+                    --i;
+                }
             }
         }
     }
