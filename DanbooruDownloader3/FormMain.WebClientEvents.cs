@@ -113,6 +113,10 @@ namespace DanbooruDownloader3
                                         };
                                         var resp = new DanbooruPostDao(response, option);
                                         message = "Server Message: " + resp.ResponseMessage;
+                                        if (status != "200")
+                                        {
+                                            message += "\nStatus Code: " + wex.Status.ToString() + " (" + status + ")";
+                                        }
                                     }
                                 }
                             }

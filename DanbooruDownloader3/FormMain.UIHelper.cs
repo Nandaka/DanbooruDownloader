@@ -226,43 +226,36 @@ namespace DanbooruDownloader3
                     txtQuery.Text += page;
                 }
                 else
-                {                    
+                {
+                    List<string> queryList = new List<string>();
+                    List<string> tagsList = new List<string>();
+                    
                     //Tags
-                    txtQuery.Text += tags.Length > 0 ? "tags=" + tags.Replace(' ', '+') : "";
+                    if(tags.Length > 0) tagsList.Add(tags.Replace(' ', '+'));
 
                     //Rating
-                    if (cbxRating.SelectedIndex > 0)
-                    {
-                        txtQuery.Text += txtQuery.Text.Length > 0 ? "+" : "tags=";
-                        txtQuery.Text += chkNotRating.Checked ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue;
-                    }
+                    if (cbxRating.SelectedIndex > 0) tagsList.Add(chkNotRating.Checked ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue);
 
                     //Source
                     var source = txtSource.Text.Trim();
-                    txtQuery.Text += txtQuery.Text.Length > 0 && source.Length > 0 ? "+" : source.Length > 0 ? "tags=" : "";
-                    txtQuery.Text += source.Length > 0 ? "source:" + source : "";
+                    if (source.Length > 0) tagsList.Add("source:" + source);
 
                     //Order
-                    if (cbxOrder.SelectedIndex > 0)
-                    {
-                        txtQuery.Text += txtQuery.Text.Length > 0 ? "+" : "tags=";
-                        txtQuery.Text += cbxOrder.SelectedValue;
-                    }
+                    if (cbxOrder.SelectedIndex > 0) tagsList.Add(cbxOrder.SelectedValue.ToString());
+
+                    if (tagsList.Count > 0) queryList.Add("tags=" + String.Join("+", tagsList));
 
                     //Limit
-                    txtQuery.Text += txtQuery.Text.Length > 0 && txtLimit.Text.Length > 0 ? "&" : "";
-                    txtQuery.Text += txtLimit.Text.Length > 0 ? "limit=" + txtLimit.Text : "";
+                    if (txtLimit.Text.Length > 0) queryList.Add("limit=" + txtLimit.Text);
 
                     //StartPage
-                    txtQuery.Text += txtQuery.Text.Length > 0 && txtPage.Text.Length > 0 ? "&" : "";
-                    if (_currProvider.BoardType == BoardType.Danbooru)
+                    if (txtPage.Text.Length > 0)
                     {
-                        txtQuery.Text += txtPage.Text.Length > 0 ? "page=" + txtPage.Text : "";
+                        if (_currProvider.BoardType == BoardType.Danbooru) queryList.Add("page=" + txtPage.Text); 
+                        else if (_currProvider.BoardType == BoardType.Gelbooru) queryList.Add("pid=" + txtPage.Text);
                     }
-                    else if (_currProvider.BoardType == BoardType.Gelbooru)
-                    {
-                        txtQuery.Text += txtPage.Text.Length > 0 ? "pid=" + txtPage.Text : "";
-                    }
+
+                    if (queryList.Count > 0) txtQuery.Text = String.Join("&", queryList);
                 }
             }
 

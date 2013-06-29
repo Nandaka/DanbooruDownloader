@@ -135,6 +135,7 @@ namespace DanbooruDownloader3
             _ImageSize = cbxImageSize.Text;
 
             ToggleTagsColor();
+            ToogleEnableCookie();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -2024,7 +2025,19 @@ namespace DanbooruDownloader3
         /// <param name="e"></param>
         private void txtQuery_TextChanged(object sender, EventArgs e)
         {
-            tsStatus.Text = "Query URL: " + _currProvider.Url + "?" + txtQuery.Text;
+            string queryStr = "";
+            switch (_currProvider.Preferred)
+            {
+                case PreferredMethod.Html: queryStr = _currProvider.QueryStringHtml;
+                    break;
+                case PreferredMethod.Json: queryStr = _currProvider.QueryStringJson;
+                    break;
+                case PreferredMethod.Xml: queryStr = _currProvider.QueryStringXml;
+                    break;
+                default: queryStr = "Invalid Prefered Method!";
+                    break;
+            }
+            tsStatus.Text = "Query URL: " + _currProvider.Url + queryStr.Replace("%_query%", txtQuery.Text);
             tsStatus.Text = tsStatus.Text.Replace("&", "&&");
         } 
 
@@ -2517,6 +2530,16 @@ namespace DanbooruDownloader3
                     --i;
                 }
             }
+        }
+
+        private void chkEnableCookie_CheckedChanged(object sender, EventArgs e)
+        {
+            ToogleEnableCookie();
+        }
+
+        private void ToogleEnableCookie()
+        {
+            _clientBatch.EnableCookie = _clientFile.EnableCookie = _clientList.EnableCookie = _clientThumb.EnableCookie = chkEnableCookie.Checked;
         }
     }
 }

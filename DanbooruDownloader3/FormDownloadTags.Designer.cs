@@ -38,6 +38,7 @@
             this.chkBackup = new System.Windows.Forms.CheckBox();
             this.chkMerge = new System.Windows.Forms.CheckBox();
             this.pbIcon = new System.Windows.Forms.PictureBox();
+            this.chkUseLoop = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,11 +141,24 @@
             this.pbIcon.TabIndex = 9;
             this.pbIcon.TabStop = false;
             // 
-            // Download Tags
+            // chkUseLoop
+            // 
+            this.chkUseLoop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkUseLoop.AutoSize = true;
+            this.chkUseLoop.Location = new System.Drawing.Point(263, 69);
+            this.chkUseLoop.Name = "chkUseLoop";
+            this.chkUseLoop.Size = new System.Drawing.Size(72, 17);
+            this.chkUseLoop.TabIndex = 10;
+            this.chkUseLoop.Text = "Use Loop";
+            this.chkUseLoop.UseVisualStyleBackColor = true;
+            this.chkUseLoop.CheckedChanged += new System.EventHandler(this.chkUseLoop_CheckedChanged);
+            // 
+            // FormDownloadTags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 92);
+            this.Controls.Add(this.chkUseLoop);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.chkMerge);
             this.Controls.Add(this.chkBackup);
@@ -157,7 +171,7 @@
             this.Controls.Add(this.btnDownload);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "Download Tags";
+            this.Name = "FormDownloadTags";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Download Tags";
             this.Load += new System.EventHandler(this.FormDownloadTags_Load);
@@ -179,6 +193,7 @@
         private System.Windows.Forms.CheckBox chkBackup;
         private System.Windows.Forms.CheckBox chkMerge;
         private System.Windows.Forms.PictureBox pbIcon;
+        private System.Windows.Forms.CheckBox chkUseLoop;
 
     }
 }

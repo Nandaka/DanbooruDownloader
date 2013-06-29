@@ -242,5 +242,19 @@ namespace DanbooruDownloader3.test
             bool result = Helper.DumpRawData(dump, post);
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void TestImportTagList()
+        {
+            string tempName = @"../../../DanbooruDownloader3.test/TestXml/tags.xml.197.!tmp";
+            var tempList = new DanbooruTagsDao(tempName).Tags;
+            Assert.IsTrue(tempList.Tag == null);
+
+            tempName = @"../../../DanbooruDownloader3.test/TestXml/tags.xml.1.!tmp";
+            tempList = new DanbooruTagsDao(tempName).Tags;
+            Assert.IsTrue(tempList.Tag != null);
+            Assert.IsTrue(tempList.Tag.Length == 1000);
+
+        }
     }
 }

@@ -96,7 +96,7 @@ namespace DanbooruDownloader3.CustomControl
                 }
                 return cookieJar; 
             }
-            set { cookieJar = value; }
+            private set { cookieJar = value; }
         }
         
         private string referer;

@@ -140,6 +140,12 @@ namespace DanbooruDownloader3.DAO
                 }
             }
 
+            Save(target, sourceInstance);
+            return "Added: " + added + " tags, Updated: " + updated + " tags";
+        }
+
+        public static void Save(string target, List<DanbooruTag> sourceInstance)
+        {
             XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
             using (StreamWriter s = File.CreateText(target))
             {
@@ -147,7 +153,6 @@ namespace DanbooruDownloader3.DAO
                 col.Tag = sourceInstance.ToArray();
                 ser.Serialize(s, col);
             }
-            return "Added: " + added + " tags, Updated: " + updated + " tags";
         }
     }
 }
