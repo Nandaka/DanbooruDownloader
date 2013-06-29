@@ -15,6 +15,13 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130630
+  - Add use cookie flag.
+  - Update DownloadTag to support danbooru by using loop.
+  - Add Clear Completed download button in Download List.
+  - Marked green color for completed download and red for error.
+  - and fixes.
+
 - DanbooruDownloader20130223
   - Fix save/load download list.
   - Add save/load batch job list.
@@ -235,6 +242,7 @@ Change Log:
   - Add select all provider button in add batch job dialog.
   - Updating progress message for batch download.
   - Fix proxy login support (20120110).
+
 
 DanbooruProvider.xml
 =============================
