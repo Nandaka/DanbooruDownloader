@@ -64,6 +64,14 @@ namespace DanbooruDownloader3
 
         public FormMain()
         {
+            if (Properties.Settings.Default.UpdateRequired)
+            {
+                Program.Logger.Info("Upgrading configuration");
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateRequired = false;
+                Properties.Settings.Default.Save();
+            }
+
             ToggleLogging(Properties.Settings.Default.EnableLogging);
             InitializeComponent();
             
