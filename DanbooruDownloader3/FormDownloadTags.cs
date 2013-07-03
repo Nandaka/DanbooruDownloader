@@ -48,8 +48,8 @@ namespace DanbooruDownloader3
                 if (chkUseLoop.Checked && this.page < 1000)
                 {
                     string tempName = TAGS_FILENAME + "." + this.page + ".!tmp";
-                    var tempList = new DanbooruTagsDao(tempName).Tags.Tag;
-                    if (tempList.Length == 0)
+                    var tempTags = new DanbooruTagsDao(tempName).Tags;
+                    if (tempTags == null || tempTags.Tag == null || tempTags.Tag.Length == 0)
                     {
                         // no more tags
                         chkUseLoop.Enabled = true;
