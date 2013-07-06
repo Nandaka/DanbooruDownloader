@@ -15,6 +15,11 @@ The previous version of compiled binary can be downloaded at http://www.mediafir
 
 Change Log:
 =============================
+- DanbooruDownloader20130706
+  - Fix null reference error when updating tags from danbooru with loop tick.
+  - Add configuration upgrade handler.
+  - Add cookie viewer.
+
 - DanbooruDownloader20130630
   - Add use cookie flag.
   - Update DownloadTag to support danbooru by using loop.

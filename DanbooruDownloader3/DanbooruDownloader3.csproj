@@ -119,6 +119,12 @@
     <Compile Include="DAO\DanbooruPostDao.cs" />
     <Compile Include="DAO\DanbooruTagsDao.cs" />
     <Compile Include="Engine\SankakuComplexParser.cs" />
+    <Compile Include="FormCookie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCookie.Designer.cs">
+      <DependentUpon>FormCookie.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDownloadTags.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +182,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\EnumUtils.cs" />
+    <EmbeddedResource Include="FormCookie.resx">
+      <DependentUpon>FormCookie.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDownloadTags.resx">
       <DependentUpon>FormDownloadTags.cs</DependentUpon>
     </EmbeddedResource>

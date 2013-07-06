@@ -2549,5 +2549,11 @@ namespace DanbooruDownloader3
         {
             _clientBatch.EnableCookie = _clientFile.EnableCookie = _clientList.EnableCookie = _clientThumb.EnableCookie = chkEnableCookie.Checked;
         }
+
+        private void btnCookie_Click(object sender, EventArgs e)
+        {
+            FormCookie cookieForm = new FormCookie();
+            cookieForm.Show();
+        }
     }
 }
