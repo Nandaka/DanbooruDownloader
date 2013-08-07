@@ -285,6 +285,33 @@ Filename Format
 
 If the given tags is not available, it will replaced with empty string.
 
+Settings
+=============================
+- Application Settings:
+“Minimize to System Tray” => Minimize to system tray :D
+“Auto Focus Currrently Downloaded” => Move the selected row to the currently downloaded image in Download List tab.
+“Enable Logging”   => Enable general logging.
+“Use Colored Tags” => Enable colored tags in Main Tabs.
+
+- Tagging:
+“Artist” [5]     => Limit number of Artist tags to be used in the filename format for %artist%.
+“Copyright” [5]  => Limit number of Copyright tags to be used in the filename format for %copyright%.
+“Character” [5]  => Limit number of Character tags to be used in the filename format for %character%.
+“Circle” [5]     => Limit number of Circle tags to be used in the filename format for %cirle%.
+“Faults” [5]     => Limit number of Faults tags to be used in the filename format for %faults%.
+                    Double click to change the tags color.
+
+“Blacklisted tags” => Tags to be blacklisted in the Main Tab/Batch Job. 
+                      It will shown with grey background in Main Tab.
+                      It will be skipped in Batch Job.
+“Ignored Tags”     => Tags to be ignored in the filename
+“Use Regex” => Enable regular expression for filter Blacklisted/Ignored tags.
+
+“Use Tags Auto Complete #” [200] => Enable Autocomplete in Tag searchbox in Main tab.
+                                    Up to 200 tags will be retrieved. This is based on your tags.xml.
+“Empty Tag Repl.” [____] => For filename formatting, for example you use %artist% meta for filename format 
+                            but the image doesn't have this information, then it will replaced based on this value.
+
 FAQ
 =============================
 Q1: I cannot download from Danbooru (403 Forbidden)!
