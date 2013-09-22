@@ -102,8 +102,7 @@ namespace DanbooruDownloader3.Engine
 
                         var img = a.ChildNodes[i];
                         var title = img.GetAttributeValue("title", "");
-                        var title2 = title.ToString();
-                        post.Tags = title.Substring(0, title.LastIndexOf("rating:")).Trim();
+                        post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
                         post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
                         post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
 
@@ -112,13 +111,23 @@ namespace DanbooruDownloader3.Engine
                         post.PreviewUrl = img.GetAttributeValue("src", "");
                         post.PreviewHeight = img.GetAttributeValue("height", 0);
                         post.PreviewWidth = img.GetAttributeValue("width", 0);
-
+                        
+                        // Rating:Explicit Score:4.5 Size:1080x1800 User:System
                         post.Source = "";
-                        post.Score = title.Substring(title.LastIndexOf("score:") + 6);
-                        post.Score = post.Score.Substring(0, post.Score.LastIndexOf(" ")).Trim();
+                        post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
+                        post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
 
-                        title2 = title2.Substring(title2.LastIndexOf("rating:"));
-                        post.Rating = title2.Substring(7, 1).ToLower();
+                        string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
+                        resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
+                        string[] resArr = resolution.Split('x');
+                        post.Width = Int32.Parse(resArr[0]);
+                        post.Height = Int32.Parse(resArr[1]);
+
+                        string rating = title.Substring(title.LastIndexOf("Rating:") + 7);
+                        rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                        post.Rating = rating.ToLower();
+
+                        post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
 
                         post.Status = "";
 

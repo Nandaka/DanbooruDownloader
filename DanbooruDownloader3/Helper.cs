@@ -339,7 +339,8 @@ namespace DanbooruDownloader3
             {
                 foreach (var tag in option.BlacklistedTags)
                 {
-                    return post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase));
+                    if (post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase)))
+                        return true;                    
                 }
             }
             return false;

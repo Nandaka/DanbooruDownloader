@@ -176,7 +176,6 @@
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.chkEnableCookie = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.chkAutoFocus = new System.Windows.Forms.CheckBox();
             this.chkLogging = new System.Windows.Forms.CheckBox();
@@ -227,6 +226,7 @@
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkEnableCookie = new System.Windows.Forms.CheckBox();
             this.btnCookie = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
             this.txtDelay = new System.Windows.Forms.TextBox();
@@ -1747,20 +1747,6 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Application Settings";
             // 
-            // chkEnableCookie
-            // 
-            this.chkEnableCookie.AutoSize = true;
-            this.chkEnableCookie.Checked = global::DanbooruDownloader3.Properties.Settings.Default.enableCookie;
-            this.chkEnableCookie.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnableCookie.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "enableCookie", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkEnableCookie.Location = new System.Drawing.Point(464, 21);
-            this.chkEnableCookie.Name = "chkEnableCookie";
-            this.chkEnableCookie.Size = new System.Drawing.Size(95, 17);
-            this.chkEnableCookie.TabIndex = 18;
-            this.chkEnableCookie.Text = "Enable Cookie";
-            this.chkEnableCookie.UseVisualStyleBackColor = true;
-            this.chkEnableCookie.CheckedChanged += new System.EventHandler(this.chkEnableCookie_CheckedChanged);
-            // 
             // chkMinimizeTray
             // 
             this.chkMinimizeTray.AutoSize = true;
@@ -2386,6 +2372,20 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Internet Settings";
+            // 
+            // chkEnableCookie
+            // 
+            this.chkEnableCookie.AutoSize = true;
+            this.chkEnableCookie.Checked = global::DanbooruDownloader3.Properties.Settings.Default.enableCookie;
+            this.chkEnableCookie.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnableCookie.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "enableCookie", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkEnableCookie.Location = new System.Drawing.Point(464, 21);
+            this.chkEnableCookie.Name = "chkEnableCookie";
+            this.chkEnableCookie.Size = new System.Drawing.Size(95, 17);
+            this.chkEnableCookie.TabIndex = 18;
+            this.chkEnableCookie.Text = "Enable Cookie";
+            this.chkEnableCookie.UseVisualStyleBackColor = true;
+            this.chkEnableCookie.CheckedChanged += new System.EventHandler(this.chkEnableCookie_CheckedChanged);
             // 
             // btnCookie
             // 
