@@ -104,7 +104,7 @@ namespace DanbooruDownloader3.Engine
                         var title = img.GetAttributeValue("title", "");
                         post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
                         post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                        post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                        post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
 
                         post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 

@@ -118,7 +118,7 @@ namespace DanbooruDownloader3.Engine
                         var title2 = title.ToString();
                         post.Tags = title.Substring(0, title.LastIndexOf("rating:")).Trim();
                         post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                        post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                        post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
                         post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
                         post.PreviewUrl = img.GetAttributeValue("src", "");

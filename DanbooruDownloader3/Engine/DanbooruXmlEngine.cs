@@ -51,7 +51,7 @@ namespace DanbooruDownloader3.Engine
                 DanbooruPost p = new DanbooruPost();
                 p.Id = post.Attribute("id").Value.ToString();
                 p.Tags = post.Attribute("tags").Value.ToString();
-                p.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(p.Tags);
+                p.TagsEntity = Helper.ParseTags(p.Tags, SearchParam.Provider);
                 p.Source = post.Attribute("source").Value.ToString();
                 p.Score = post.Attribute("score").Value.ToString();
                 p.Rating = post.Attribute("rating").Value.ToString();

@@ -117,7 +117,8 @@ namespace DanbooruDownloader3.CustomControl
                               CharacterBrush = new SolidBrush(Helper.ColorCharacter),
                               CircleBrush = new SolidBrush(Helper.ColorCircle),
                               CopyrightBrush = new SolidBrush(Helper.ColorCopyright),
-                              FaultsBrush = new SolidBrush(Helper.ColorFaults))
+                              FaultsBrush = new SolidBrush(Helper.ColorFaults), 
+                              UnknownBrush = new SolidBrush(Helper.ColorUnknown))
                     {
                         graphics.SetClip(cellBounds, System.Drawing.Drawing2D.CombineMode.Replace);
                         foreach (var item in tags)
@@ -131,6 +132,7 @@ namespace DanbooruDownloader3.CustomControl
                                 case Entity.DanbooruTagType.Circle: brush = CircleBrush; break;
                                 case Entity.DanbooruTagType.Copyright: brush = CopyrightBrush; break;
                                 case Entity.DanbooruTagType.Faults: brush = FaultsBrush; break;
+                                case Entity.DanbooruTagType.Unknown: brush = UnknownBrush; break;
                             }
 
                             strSize = graphics.MeasureString(temp, cellStyle.Font);
@@ -161,7 +163,16 @@ namespace DanbooruDownloader3.CustomControl
         {
             if (formattedValue.GetType() == typeof(String))
             {
-                return DanbooruDownloader3.DAO.DanbooruTagsDao.Instance.ParseTagsString(formattedValue as string);
+                DanbooruDownloader3.Entity.DanbooruPost Post = this.OwningRow.DataBoundItem as DanbooruDownloader3.Entity.DanbooruPost;
+
+                if (Post == null || !Post.Provider.HasPrivateTags || DanbooruDownloader3.Properties.Settings.Default.UseGlobalProviderTags)
+                {
+                    return DanbooruDownloader3.DAO.DanbooruTagsDao.Instance.ParseTagsString(formattedValue as string);
+                }
+                else
+                {
+                    return DanbooruDownloader3.DAO.DanbooruTagsDao.Instance.ParseTagsString(formattedValue as string, Post.Provider.ProviderTagCollection);
+                }
             }
             else return base.ParseFormattedValue(formattedValue, cellStyle, formattedValueTypeConverter, valueTypeConverter);
         }

@@ -32,7 +32,7 @@ namespace DanbooruDownloader3.Engine
 
                 post.Id = titleData[0].Trim();
                 post.Tags = titleData[1].Trim();
-                post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                post.TagsEntity = Helper.ParseTags(post.Tags, option.Provider);
 
                 if (option.BlacklistedTagsUseRegex)
                 {

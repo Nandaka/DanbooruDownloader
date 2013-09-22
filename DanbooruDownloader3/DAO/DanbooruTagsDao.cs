@@ -74,7 +74,28 @@ namespace DanbooruDownloader3.DAO
             {
                 var unknownTag = new DanbooruTag()
                 {
-                    Name = tag, Type = DanbooruTagType.General, Count = -1, Id = "-1"
+                    Name = tag,
+                    Type = DanbooruTagType.Unknown,
+                    Count = -1,
+                    Id = "-1"
+                };
+                return unknownTag;
+            }
+        }
+
+        public DanbooruTag GetTag(string tag, DanbooruTagCollection tagCollection)
+        {
+            // TODO: Hot spot for perfomance
+            var result = tagCollection.Tag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
+            if (result != null) return result;
+            else
+            {
+                var unknownTag = new DanbooruTag()
+                {
+                    Name = tag,
+                    Type = DanbooruTagType.Unknown,
+                    Count = -1,
+                    Id = "-1"
                 };
                 return unknownTag;
             }
@@ -91,10 +112,21 @@ namespace DanbooruDownloader3.DAO
             return tags;
         }
 
+        public List<DanbooruTag> ParseTagsString(string tagsStr, DanbooruTagCollection tagCollection)
+        {
+            List<DanbooruTag> tags = new List<DanbooruTag>();
+            var tokens = tagsStr.Split(' ');
+            foreach (var item in tokens)
+            {
+                tags.Add(GetTag(item.Trim(), tagCollection));
+            }
+            return tags;
+        }
+
         private static DanbooruTagsDao _DefaultTagsDao;
         public static DanbooruTagsDao Instance
         {
-            get 
+            get
             {
                 if (_DefaultTagsDao == null)
                 {
@@ -121,7 +153,7 @@ namespace DanbooruDownloader3.DAO
             int updated = 0;
             var sourceInstance = new DanbooruTagsDao(source).Tags.Tag.ToList();
             var targetInstance = new DanbooruTagsDao(target).Tags.Tag.ToList();
-            
+
             foreach (var targetItem in targetInstance)
             {
                 var sourceIndex = sourceInstance.FindIndex(x => x.Name == targetItem.Name);

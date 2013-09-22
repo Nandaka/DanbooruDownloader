@@ -20,6 +20,7 @@ namespace DanbooruDownloader3
         private ExtendedWebClient client;
         private List<DanbooruProvider> list;
         private int page = 1;
+        private DanbooruProvider selectedProvider = null;
 
         public FormDownloadTags()
         {
@@ -47,84 +48,142 @@ namespace DanbooruDownloader3
             {
                 if (chkUseLoop.Checked && this.page < 1000)
                 {
-                    string tempName = TAGS_FILENAME + "." + this.page + ".!tmp";
-                    var tempTags = new DanbooruTagsDao(tempName).Tags;
-                    if (tempTags == null || tempTags.Tag == null || tempTags.Tag.Length == 0)
-                    {
-                        // no more tags
-                        chkUseLoop.Enabled = true;
-
-                        var newTagList = CombineLoopTag(this.page);
-
-                        if (chkMerge.Checked)
-                        {
-                            Program.Logger.Debug("[Download Tags] Merging Old Tags.");
-                            lblStatus.Text = "Status: Merging Old Tags, this might take some times.";
-                            lblStatus.Invalidate();
-                            lblStatus.Update();
-                            lblStatus.Refresh();
-                            Application.DoEvents();
-
-                            DanbooruTagsDao.Save(TAGS_FILENAME + ".merge", newTagList);
-                            var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
-
-                            Program.Logger.Info("[Download Tags] " + message);
-                            MessageBox.Show(message, "Tags.xml merged.");
-
-                            File.Delete(TAGS_FILENAME + ".merge");
-                        }
-                        else
-                        {
-                            // write back to TAGS_FILENAME
-                            DanbooruTagsDao.Save(TAGS_FILENAME, newTagList);
-                        }
-
-                        DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
-                        Program.Logger.Info("[Download Tags] Complete.");
-                        lblStatus.Text = "Status: Download complete.";
-                        if (chkAutoClose.Checked)
-                        {
-                            this.Close();
-                        }
-                    }
-                    else
-                    {
-                        // continue next page 
-                        ProcessLoop(++this.page);
-                    }
+                    HandleLoop();
                 }
                 else
                 {
-                    if (File.Exists(TAGS_FILENAME))
+                    HandleSingle();
+                }
+            }
+        }
+
+        private void HandleSingle()
+        {
+            if (File.Exists(TAGS_FILENAME))
+            {
+                File.Delete(TAGS_FILENAME);
+            }
+            File.Move(TAGS_FILENAME + ".!tmp", TAGS_FILENAME);
+
+            if (selectedProvider != null)
+            {
+                string targetXml = "tags-" + selectedProvider.Name + ".xml";
+                if (File.Exists(targetXml))
+                {
+                    if (chkBackup.Checked)
                     {
-                        File.Delete(TAGS_FILENAME);
+                        string backupName = targetXml + ".bak";
+                        if (File.Exists(backupName))
+                            File.Delete(backupName);
+                        File.Move(targetXml, backupName);
                     }
-                    File.Move(TAGS_FILENAME + ".!tmp", TAGS_FILENAME);
-
-                    // merge operation
-                    if (chkMerge.Checked)
+                    else
                     {
-                        Program.Logger.Debug("[Download Tags] Merging...");
-                        lblStatus.Text = "Status: Merging..., this might take some times.";
-                        lblStatus.Invalidate();
-                        lblStatus.Update();
-                        lblStatus.Refresh();
-                        Application.DoEvents();
-
-                        var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
-                        Program.Logger.Info("[Download Tags] " + message);
-                        MessageBox.Show(message, "Tags.xml merged.");
-                        File.Delete(TAGS_FILENAME + ".merge");
-                    }
-
-                    DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
-                    Program.Logger.Info("[Download Tags] Complete.");
-                    lblStatus.Text = "Status: Download complete.";
-                    if (chkAutoClose.Checked)
-                    {
-                        this.Close();
+                        File.Delete(targetXml);
                     }
                 }
+                File.Copy(TAGS_FILENAME, targetXml);
+                selectedProvider.LoadProviderTagCollection();
+                Program.Logger.Info(String.Format("[Download Tags] Private Tags.xml saved to {0}.", targetXml));
+            }
+
+            // merge operation
+            if (chkMerge.Checked)
+            {
+                Program.Logger.Debug("[Download Tags] Merging...");
+                lblStatus.Text = "Status: Merging..., this might take some times.";
+                lblStatus.Invalidate();
+                lblStatus.Update();
+                lblStatus.Refresh();
+                Application.DoEvents();
+
+                var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
+                Program.Logger.Info("[Download Tags] " + message);
+                MessageBox.Show(message, "Tags.xml merged.");
+                File.Delete(TAGS_FILENAME + ".merge");
+            }
+
+            DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
+            Program.Logger.Info("[Download Tags] Complete.");
+            lblStatus.Text = "Status: Download complete.";
+            if (chkAutoClose.Checked)
+            {
+                this.Close();
+            }
+        }
+
+
+        private DanbooruTagCollection prevTag = null;
+        private void HandleLoop()
+        {
+            string tempName = TAGS_FILENAME + "." + this.page + ".!tmp";
+            var tempTags = new DanbooruTagsDao(tempName).Tags;
+            if (tempTags == null || tempTags.Tag == null || tempTags.Tag.Length == 0 || 
+               (prevTag != null && prevTag.Tag.Last().Name == tempTags.Tag.Last().Name) )
+            {
+                // no more tags
+                chkUseLoop.Enabled = true;
+
+                var newTagList = CombineLoopTag(this.page);
+
+                if (selectedProvider != null)
+                {
+                    string targetXml = "tags-" + selectedProvider.Name + ".xml";
+                    if (File.Exists(targetXml))
+                    {
+                        if (chkBackup.Checked)
+                        {
+                            string backupName = targetXml + ".bak";
+                            if (File.Exists(backupName))
+                                File.Delete(backupName);
+                            File.Move(targetXml, backupName);
+                        }
+                        else
+                        {
+                            File.Delete(targetXml);
+                        }
+                    }
+                    DanbooruTagsDao.Save(targetXml, newTagList);
+                    selectedProvider.LoadProviderTagCollection();
+                    Program.Logger.Info(String.Format("[Download Tags] Private Tags.xml saved to {0}.", targetXml));
+                }
+
+                if (chkMerge.Checked)
+                {
+                    Program.Logger.Debug("[Download Tags] Merging Old Tags.");
+                    lblStatus.Text = "Status: Merging Old Tags, this might take some times.";
+                    lblStatus.Invalidate();
+                    lblStatus.Update();
+                    lblStatus.Refresh();
+                    Application.DoEvents();
+
+                    DanbooruTagsDao.Save(TAGS_FILENAME + ".merge", newTagList);
+                    var message = DanbooruTagsDao.Merge(TAGS_FILENAME + ".merge", TAGS_FILENAME);
+
+                    Program.Logger.Info("[Download Tags] " + message);
+                    MessageBox.Show(message, "Tags.xml merged.");
+
+                    File.Delete(TAGS_FILENAME + ".merge");
+                }
+                else
+                {
+                    // write back to TAGS_FILENAME
+                    DanbooruTagsDao.Save(TAGS_FILENAME, newTagList);
+                }
+
+                DanbooruTagsDao.Instance = new DanbooruTagsDao(TAGS_FILENAME);
+                Program.Logger.Info("[Download Tags] Complete.");
+                lblStatus.Text = "Status: Download complete.";
+                if (chkAutoClose.Checked)
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                // continue next page 
+                ProcessLoop(++this.page);
+                prevTag = tempTags;
             }
         }
 
@@ -167,13 +226,13 @@ namespace DanbooruDownloader3
             }
             if (e.TotalBytesToReceive != -1)
             {
-                lblStatus.Text += " " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes";
+                lblStatus.Text += " " + Helper.FormatByteSize(e.BytesReceived) + " of " + Helper.FormatByteSize(e.TotalBytesToReceive);
                 progressBar1.Value = e.ProgressPercentage < 100 ? e.ProgressPercentage : 100;
                 progressBar1.Style = ProgressBarStyle.Continuous;
             }
             else
             {
-                lblStatus.Text += " " + e.BytesReceived + " bytes";
+                lblStatus.Text += " " + Helper.FormatByteSize(e.BytesReceived);
                 progressBar1.Style = ProgressBarStyle.Marquee;
             }            
         }
@@ -182,6 +241,7 @@ namespace DanbooruDownloader3
         {
             if (!String.IsNullOrWhiteSpace(txtUrl.Text))
             {
+                selectedProvider = list[cbxProvider.SelectedIndex];
                 btnDownload.Enabled = false;
                 lblStatus.Text = "Status: Download starting...";
                 lblStatus.Invalidate();
@@ -238,7 +298,9 @@ namespace DanbooruDownloader3
             if (File.Exists(tempFile)) File.Delete(tempFile);
 
             Program.Logger.Info("[Download Tags] Start downloading page: " + page);
-            client.DownloadFileAsync(new Uri(txtUrl.Text + "&order=name&page=" + page), tempFile);
+            string url = txtUrl.Text + "&order=name&page=" + page;
+            Program.Logger.Info("[Download Tags] Start downloading url: " + url);
+            client.DownloadFileAsync(new Uri(url), tempFile);
         }
 
         private void FormDownloadTags_Load(object sender, EventArgs e)

@@ -82,6 +82,11 @@ namespace DanbooruDownloader3.Entity
             }
             private set { }
         }
+
+        public override string ToString()
+        {
+            return "Tags Count: " + Tag.Length;
+        }
     }
 
     [XmlTypeAttribute(AnonymousType = true)]
@@ -125,6 +130,8 @@ namespace DanbooruDownloader3.Entity
         [XmlEnum(Name = "5")]
         Circle = 5,
         [XmlEnum(Name = "6")]
-        Faults = 6
+        Faults = 6,
+        [XmlEnum(Name = "-1")]
+        Unknown = -1
     }
 }

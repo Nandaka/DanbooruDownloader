@@ -58,7 +58,7 @@ namespace DanbooruDownloader3.Entity
             get { return _rating; }
             set { this._rating = value; }
         }
-        
+
         private string _status = "-";
         public string Status
         {
@@ -73,7 +73,7 @@ namespace DanbooruDownloader3.Entity
             get { return _has_children; }
             set { this._has_children = value; }
         }
-        
+
         private string _parent_id;
         [Browsable(false)]
         public string ParentId
@@ -132,7 +132,7 @@ namespace DanbooruDownloader3.Entity
             {
                 if (tagsEntity == null)
                 {
-                    tagsEntity = DanbooruTagsDao.Instance.ParseTagsString(Tags);
+                    tagsEntity = Helper.ParseTags(Tags, Provider);
                 }
                 return tagsEntity;
             }
@@ -144,7 +144,7 @@ namespace DanbooruDownloader3.Entity
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-                
+
         public int Filesize { get; set; }
 
         public string Filename { get; set; }

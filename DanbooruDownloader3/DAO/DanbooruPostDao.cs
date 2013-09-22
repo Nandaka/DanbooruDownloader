@@ -18,7 +18,7 @@ namespace DanbooruDownloader3.DAO
         /// parse xml/json list file
         /// </summary>
         /// <param name="option"></param>
-        public DanbooruPostDao(DanbooruPostDaoOption option)//string url, DanbooruProvider provider, List<DanbooruTag> BlacklistedTag)
+        public DanbooruPostDao(DanbooruPostDaoOption option)
         {
             this.Option = option;
             if (option.Url.ToLower().EndsWith(".xml"))
@@ -35,6 +35,7 @@ namespace DanbooruDownloader3.DAO
         public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
         {
             string rawData = "";
+            this.Option = option;
             try
             {                
                 using (StreamReader reader = new StreamReader(input))
@@ -204,7 +205,7 @@ namespace DanbooruDownloader3.DAO
                                                 case "id": post.Id = reader.Value; break;
                                                 case "tags":
                                                     post.Tags = reader.Value;
-                                                    post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                                                    post.TagsEntity = Helper.ParseTags(post.Tags, Option.Provider);
                                                     break;
                                                 case "source": post.Source = reader.Value; break;
                                                 case "creator_id": post.CreatorId = reader.Value; break;
@@ -390,7 +391,7 @@ namespace DanbooruDownloader3.DAO
                             case "\"tags\"":
                                 post.Tags = val[1].Replace("\"", "");
                                 post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                                post.TagsEntity = DanbooruTagsDao.Instance.ParseTagsString(post.Tags);
+                                post.TagsEntity = Helper.ParseTags(post.Tags, Option.Provider);
                                 break;
                             case "\"source\"":                                
                                 post.Source = val[1].Replace("\"", "");

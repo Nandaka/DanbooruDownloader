@@ -47,6 +47,7 @@ namespace DanbooruDownloader3
             Helper.ColorCircle = lblColorCircle.ForeColor;
             Helper.ColorFaults = lblColorFaults.ForeColor;
             Helper.ColorBlacklisted = lblColorBlacklistedTag.ForeColor;
+            Helper.ColorUnknown = lblColorUnknown.ForeColor;
         }
 
         /// <summary>

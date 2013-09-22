@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DanbooruDownloader3.DAO;
+using System.IO;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -35,6 +37,53 @@ namespace DanbooruDownloader3.Entity
         public string PasswordSalt { get; set; }
         public string PasswordHash { get; set; }
         public BoardType BoardType { get; set; }
+
+        private bool _hasPrivateTags;
+        public bool HasPrivateTags
+        {
+            get
+            {
+                if (_danbooruTagCollection == null)
+                {
+                    LoadProviderTagCollection();
+                }
+                return _hasPrivateTags;
+            }
+            private set
+            {
+                _hasPrivateTags = value;
+            }
+        }
+
+        private DanbooruTagCollection _danbooruTagCollection;
+        public DanbooruTagCollection ProviderTagCollection
+        {
+            get
+            {
+                if (_danbooruTagCollection == null)
+                {
+                    _danbooruTagCollection = LoadProviderTagCollection();
+                }
+                return _danbooruTagCollection;
+            }
+
+            set { _danbooruTagCollection = value; }
+        }
+
+        public DanbooruTagCollection LoadProviderTagCollection()
+        {
+            try
+            {
+                DanbooruTagsDao dao = new DanbooruTagsDao("tags-" + Name + ".xml");
+                _hasPrivateTags = true;
+                return dao.Tags;
+            }
+            catch (FileNotFoundException)
+            {
+                _hasPrivateTags = false;
+                return DanbooruTagsDao.Instance.Tags;
+            }
+        }
 
         public override string ToString()
         {

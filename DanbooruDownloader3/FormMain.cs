@@ -2125,8 +2125,14 @@ namespace DanbooruDownloader3
                     {
                         txtAutoCompleteLimit.Text = limit.ToString();
                     }
+                    List<string> candidate = null;
                     // get the autocomplete candidate
-                    var candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
+                    if (Properties.Settings.Default.UseGlobalProviderTags && _currProvider.HasPrivateTags)
+                    {
+                        candidate = _currProvider.ProviderTagCollection.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
+                    }
+                    else 
+                        candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
                     if (candidate.Count > 0)
                     {
                         lbxAutoComplete.DataSource = candidate;
@@ -2554,6 +2560,16 @@ namespace DanbooruDownloader3
         {
             FormCookie cookieForm = new FormCookie();
             cookieForm.Show();
+        }
+
+        private void lblColorUnknown_DoubleClick(object sender, EventArgs e)
+        {
+            colorDialog1.Color = lblColorUnknown.ForeColor;
+            if (DialogResult.OK == colorDialog1.ShowDialog())
+            {
+                lblColorUnknown.ForeColor = colorDialog1.Color;
+                SetTagColors();
+            }
         }
     }
 }

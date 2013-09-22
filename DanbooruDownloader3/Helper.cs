@@ -8,6 +8,7 @@ using DanbooruDownloader3.Entity;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3
 {
@@ -20,6 +21,7 @@ namespace DanbooruDownloader3
         public static Color ColorCircle = Color.Purple;
         public static Color ColorFaults = Color.Red;
         public static Color ColorBlacklisted = Color.LightGray;
+        public static Color ColorUnknown = Color.Gray;
 
         /// <summary>
         /// Generate hashed password+salt using SHA1
@@ -344,6 +346,34 @@ namespace DanbooruDownloader3
                 }
             }
             return false;
+        }
+
+        public static string FormatByteSize(long size)
+        {
+            double sizeD = size;
+            if (size < 1024)
+                return String.Format("{0} bytes", size);
+            else
+            {
+                sizeD = sizeD / 1024;
+                if (sizeD >= 1 && sizeD < 1024)
+                    return String.Format("{0:F2} Kbytes", sizeD);
+                sizeD = sizeD / 1024;
+                if (sizeD >= 1 && sizeD < 1024)
+                    return String.Format("{0:F2} Mbytes", sizeD);
+                sizeD = sizeD / 1024;
+                return String.Format("{0:F2} Gbytes", sizeD);
+            }
+        }
+
+        public static List<DanbooruTag> ParseTags(string p, DanbooruProvider provider)
+        {
+            if (provider != null && provider.HasPrivateTags && !DanbooruDownloader3.Properties.Settings.Default.UseGlobalProviderTags)
+            {
+                return DanbooruTagsDao.Instance.ParseTagsString(p, provider.ProviderTagCollection);
+            }
+            else
+                return DanbooruTagsDao.Instance.ParseTagsString(p);
         }
     }
 }
