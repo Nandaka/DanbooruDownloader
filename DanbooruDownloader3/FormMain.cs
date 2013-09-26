@@ -31,7 +31,6 @@ namespace DanbooruDownloader3
         List<DanbooruProvider> _listProvider;
         DanbooruProvider _currProvider;
         int _currCount;
-        DanbooruProviderDao _dao;
         DanbooruPostDao _postsDao;
 
         BindingList<DanbooruPost> _downloadList;
@@ -74,7 +73,7 @@ namespace DanbooruDownloader3
 
             ToggleLogging(Properties.Settings.Default.EnableLogging);
             InitializeComponent();
-            
+
             // Get assembly version
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -99,7 +98,7 @@ namespace DanbooruDownloader3
             //_clientBatch.DownloadProgressChanged += new DownloadProgressChangedEventHandler(_clientBatch_DownloadProgressChanged);
             //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
             #endregion
-            
+
             LoadProviderList();
 
             //Auto populate Order and Rating
@@ -124,12 +123,12 @@ namespace DanbooruDownloader3
                                     "%searchtag% = Search tag";
 
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
-            _retry = Convert.ToInt32( txtRetry.Text );
+            _retry = Convert.ToInt32(txtRetry.Text);
 
             CheckProxyLoginInput();
             SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, Convert.ToInt32(txtProxyPort.Text), txtProxyUsername.Text, txtProxyPassword.Text);
 
-            SetTagColors();            
+            SetTagColors();
 
             //SetTagAutoComplete();
 
@@ -171,8 +170,7 @@ namespace DanbooruDownloader3
         private void LoadProviderList()
         {
             Program.Logger.Debug("Loading provider list.");
-            _dao = new DanbooruProviderDao();
-            _listProvider = _dao.Read();
+            _listProvider = DanbooruProviderDao.GetInstance().Read();
 
             cbxProvider.DataSource = null;
             cbxProvider.DataSource = _listProvider;
@@ -207,7 +205,7 @@ namespace DanbooruDownloader3
                 if (TagBlacklistRegex != null) TagBlacklistRegex = new Regex("$^");
             }
         }
-        
+
         /// <summary>
         /// Copy checked row from dgvList to _downloadList
         /// </summary>
@@ -239,14 +237,14 @@ namespace DanbooruDownloader3
                             _downloadList.Add(post);
                             row.Cells["colCheck"].Value = false;
                         }
-                    }                    
+                    }
                     dgvDownload.DataSource = _downloadList;
                 }
             }
         }
 
         private void ResolveFileUrl(DanbooruPost post)
-        {            
+        {
             UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
             ExtendedWebClient _clientPost = new ExtendedWebClient();
             _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
@@ -258,7 +256,7 @@ namespace DanbooruDownloader3
         {
             DanbooruPost post = (DanbooruPost)e.UserState;
             //if (post.Provider.Contains("Sankaku Complex"))
-            if(post.Provider.BoardType == BoardType.Danbooru)
+            if (post.Provider.BoardType == BoardType.Danbooru)
             {
                 if (e.Error == null)
                 {
@@ -317,7 +315,7 @@ namespace DanbooruDownloader3
 
                 if (_isPaused)
                 {
-                    DialogResult result =  MessageBox.Show("Paused." + Environment.NewLine + "Click OK to continue.","Download",MessageBoxButtons.OKCancel);
+                    DialogResult result = MessageBox.Show("Paused." + Environment.NewLine + "Click OK to continue.", "Download", MessageBoxButtons.OKCancel);
                     _isPaused = false;
                     btnPauseDownload.Enabled = true;
 
@@ -331,11 +329,11 @@ namespace DanbooruDownloader3
                 }
 
                 tsStatus.Text = "Downloading Post #" + row.Index;
-                
+
                 DanbooruPost post = _downloadList[row.Index];
 
                 if (!post.Completed)
-                {                    
+                {
                     row.Selected = true;
 
                     if (chkAutoFocus.Checked) dgvDownload.FirstDisplayedScrollingRowIndex = row.Index;
@@ -360,8 +358,8 @@ namespace DanbooruDownloader3
                         row.Cells["colProgress2"].Value = "No post parser for provider: " + post.Provider;
                         UpdateLog("[DownloadRow]", "No post parser for provider: " + post.Provider + " at : " + row.Index);
                     }
-                    else if (!string.IsNullOrWhiteSpace(url)                            && 
-                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)    &&
+                    else if (!string.IsNullOrWhiteSpace(url) &&
+                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri) &&
                              post.Status != "deleted") // check if post active and url valid
                     {
                         if (post.Provider == null) post.Provider = _listProvider[cbxProvider.SelectedIndex];
@@ -418,18 +416,18 @@ namespace DanbooruDownloader3
                             row.Cells["colProgress2"].Value = "File exists!";
                             UpdateLog("[DownloadRow]", "File exists: " + filename);
                         }
-                    }                    
+                    }
                     else
                     {
                         // no valid url
                         row.Cells["colProgress2"].Value = "No valid file_url, probably deleted.";
                         UpdateLog("[DownloadRow]", "No valid file_url for row: " + row.Index);
-                    }                    
+                    }
                 }
 
                 // proceed with the next row
                 if (row.Index < dgvDownload.Rows.GetLastRow(DataGridViewElementStates.None))
-                {                    
+                {
                     DownloadRows(dgvDownload.Rows[row.Index + 1]);
                 }
                 else
@@ -505,7 +503,7 @@ namespace DanbooruDownloader3
                 ShowMessage("Main", "No Posts!");
             }
         }
-                
+
         /// <summary>
         /// Load thumbnails
         /// </summary>
@@ -585,7 +583,7 @@ namespace DanbooruDownloader3
                     _clientList.Referer = referer;
                     _clientList.DownloadDataAsync(new Uri(queryUrl), queryUrl);
                     tsProgressBar.Visible = true;
-                    if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy ) _resetLoadedThumbnail = true;
+                    if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy) _resetLoadedThumbnail = true;
                 }
             }
         }
@@ -604,11 +602,11 @@ namespace DanbooruDownloader3
                     {
                         tsStatus.Text = "Loading next page...";
                         doGetNextPage();
-                    }                    
+                    }
                 }
             }
         }
-                
+
         #endregion
 
         #region batch job helper
@@ -616,10 +614,10 @@ namespace DanbooruDownloader3
         ManualResetEvent _shutdownEvent = null;// = new ManualResetEvent(false);
         ManualResetEvent _pauseEvent = null;// = new ManualResetEvent(true);
         BindingList<DanbooruBatchJob> batchJob;
-        
+
         public void PauseBatchJobs()
         {
-            UpdateLog("[Batch Job]","Pausing");
+            UpdateLog("[Batch Job]", "Pausing");
             UpdateStatus2("Pausing...");
             _pauseEvent.Reset();
         }
@@ -673,9 +671,9 @@ namespace DanbooruDownloader3
 
             batchJobThread = new Thread(DoBatchJob);
             batchJobThread.Start(batchJob);
-            ToggleBatchJobButton(false);            
+            ToggleBatchJobButton(false);
         }
-        
+
         private void btnPauseBatchJob_Click(object sender, EventArgs e)
         {
             if (btnPauseBatchJob.Text == "Pause Batch Job")
@@ -689,7 +687,7 @@ namespace DanbooruDownloader3
                 ResumeBatchJobs();
             }
         }
-        
+
         private void btnStopBatchJob_Click(object sender, EventArgs e)
         {
             if (batchJobThread != null && batchJobThread.IsAlive)
@@ -705,7 +703,7 @@ namespace DanbooruDownloader3
 
         public void DoBatchJob(object list)
         {
-            DoBatchJob((BindingList<DanbooruBatchJob>) list);
+            DoBatchJob((BindingList<DanbooruBatchJob>)list);
         }
 
         public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
@@ -717,7 +715,7 @@ namespace DanbooruDownloader3
             if (batchJob != null)
             {
                 UpdateStatus2("Starting Batch Job");
-                
+
                 for (int i = 0; i < batchJob.Count; i++)
                 {
                     if (!batchJob[i].isCompleted)
@@ -746,7 +744,7 @@ namespace DanbooruDownloader3
                             int imgCount = 0;
                             int skipCount = 0;
                             int currLimit = 0;
-                            
+
                             string url;
                             string query = "";
 
@@ -762,7 +760,7 @@ namespace DanbooruDownloader3
                             {
                                 query += batchJob[i].TagQuery;
                                 if (!string.IsNullOrWhiteSpace(batchJob[i].TagQuery)) query += "/";
-                                query += batchJob[i].CurrentPage;                                
+                                query += batchJob[i].CurrentPage;
                                 url = query;
                             }
                             else
@@ -880,7 +878,7 @@ namespace DanbooruDownloader3
 
                                         if (_shutdownEvent.WaitOne(0))
                                         {
-                                            batchJob[i].Status =" ==> Stopped.";
+                                            batchJob[i].Status = " ==> Stopped.";
                                             // toggle button
                                             BeginInvoke(bjd, new object[] { true });
                                             UpdateLog("DoBatchJob", "Batch Job Stopped.");
@@ -902,7 +900,7 @@ namespace DanbooruDownloader3
                                         }
                                         else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
                                         {
-                                           targetUrl = post.JpegUrl;
+                                            targetUrl = post.JpegUrl;
                                         }
                                         else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
                                         {
@@ -1108,7 +1106,7 @@ namespace DanbooruDownloader3
             }
         }
 
-        private int DoDownloadBatch(string targetUrl, DanbooruBatchJob job,  DanbooruPost post, string filename)
+        private int DoDownloadBatch(string targetUrl, DanbooruBatchJob job, DanbooruPost post, string filename)
         {
             UpdateLog("DoBatchJob", "Download: " + targetUrl);
             _clientBatch.Referer = post.Referer;
@@ -1164,7 +1162,7 @@ namespace DanbooruDownloader3
         /// <param name="post"></param>
         private void ResolveFileUrlBatch(ExtendedWebClient _clientPost, DanbooruPost post)
         {
-            
+
             if (!string.IsNullOrWhiteSpace(post.Referer))
             {
                 UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
@@ -1199,7 +1197,7 @@ namespace DanbooruDownloader3
                     }
                     catch (Exception ex)
                     {
-                        
+
                         if (currRetry >= maxRetry)
                         {
                             UpdateLog("DoBatchJob", "Giving Up Resolving FileUrl: " + ex.StackTrace, ex);
@@ -1283,7 +1281,7 @@ namespace DanbooruDownloader3
                 if (batchJob[row.Index].isError)
                     row.DefaultCellStyle.BackColor = Color.Red;
                 else if (batchJob[row.Index].isCompleted)
-                    row.DefaultCellStyle.BackColor = Color.Lime;                
+                    row.DefaultCellStyle.BackColor = Color.Lime;
             }
             dgvBatchJob.Refresh();
         }
@@ -1331,7 +1329,7 @@ namespace DanbooruDownloader3
         }
 
         #endregion
-        
+
         #region windows form events
         private void cbxProvider_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1360,7 +1358,7 @@ namespace DanbooruDownloader3
         }
 
         private void txtTags_TextChanged(object sender, EventArgs e)
-        {            
+        {
             txtPage.Text = "";
             if (chkTagAutoComplete.Checked)
             {
@@ -1368,7 +1366,7 @@ namespace DanbooruDownloader3
             }
             UpdateStatus();
         }
-                
+
         private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateStatus();
@@ -1522,7 +1520,7 @@ namespace DanbooruDownloader3
 
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dgvList.Columns["colUrl"].Index || 
+            if (e.ColumnIndex == dgvList.Columns["colUrl"].Index ||
                 e.ColumnIndex == dgvList.Columns["colSourceUrl"].Index ||
                 e.ColumnIndex == dgvList.Columns["colReferer"].Index
                 )
@@ -1532,7 +1530,7 @@ namespace DanbooruDownloader3
                 string url = dgvList.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 // preprocess Pixiv Url
                 var match = pixivUrl.Match(url);
-                if( match.Success) 
+                if (match.Success)
                 {
                     url = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + match.Groups[1].Value;
                 }
@@ -1665,7 +1663,7 @@ namespace DanbooruDownloader3
                     if (txtSaveFolder.Text.Length > 0)
                     {
                         EnableDownloadControls(false);
-                        DownloadRows(dgvDownload.Rows[0]);                        
+                        DownloadRows(dgvDownload.Rows[0]);
                     }
                 }
                 else
@@ -1847,7 +1845,8 @@ namespace DanbooruDownloader3
                     {
                         _downloadList.Add(_postsDao.Posts[cell.RowIndex]);
 
-                        if(String.IsNullOrEmpty(_postsDao.Posts[cell.RowIndex].FileUrl)) {
+                        if (String.IsNullOrEmpty(_postsDao.Posts[cell.RowIndex].FileUrl))
+                        {
                             ResolveFileUrl(_postsDao.Posts[cell.RowIndex]);
                         }
                     }
@@ -1918,11 +1917,8 @@ namespace DanbooruDownloader3
                 DialogResult result = form.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    //if (form.IsModified)
-                    //{
-                        _dao.Save(form.Providers);
-                        LoadProviderList();                        
-                    //}
+                    DanbooruProviderDao.GetInstance().Save(form.Providers);
+                    LoadProviderList();
                     cbxProvider.SelectedIndex = form.SelectedIndex;
                     _currProvider = _listProvider[cbxProvider.SelectedIndex];
                 }
@@ -2047,7 +2043,7 @@ namespace DanbooruDownloader3
             }
             tsStatus.Text = "Query URL: " + _currProvider.Url + queryStr.Replace("%_query%", txtQuery.Text);
             tsStatus.Text = tsStatus.Text.Replace("&", "&&");
-        } 
+        }
 
         private void chkLogging_CheckedChanged(object sender, EventArgs e)
         {
@@ -2121,7 +2117,8 @@ namespace DanbooruDownloader3
                     {
                         limit = Convert.ToInt32(txtAutoCompleteLimit.Text);
 
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
                         txtAutoCompleteLimit.Text = limit.ToString();
                     }
@@ -2131,7 +2128,7 @@ namespace DanbooruDownloader3
                     {
                         candidate = _currProvider.ProviderTagCollection.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
                     }
-                    else 
+                    else
                         candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
                     if (candidate.Count > 0)
                     {
@@ -2294,7 +2291,8 @@ namespace DanbooruDownloader3
         private void txtArtistTagGrouping_TextChanged(object sender, EventArgs e)
         {
             int i;
-            if(!Int32.TryParse(txtArtistTagGrouping.Text, out i)) {
+            if (!Int32.TryParse(txtArtistTagGrouping.Text, out i))
+            {
                 MessageBox.Show("Invalid value: " + txtArtistTagGrouping.Text, "txtArtistTagGrouping");
                 txtArtistTagGrouping.Text = "5";
             }
@@ -2373,7 +2371,7 @@ namespace DanbooruDownloader3
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(!String.IsNullOrWhiteSpace(txtLog.SelectedText))
+            if (!String.IsNullOrWhiteSpace(txtLog.SelectedText))
                 Clipboard.SetText(txtLog.SelectedText);
         }
 
@@ -2453,7 +2451,7 @@ namespace DanbooruDownloader3
                     txtPage.Text = page.ToString();
                     doGetList();
                 }
-            }            
+            }
         }
 
         private void txtDelay_TextChanged(object sender, EventArgs e)

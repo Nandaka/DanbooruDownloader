@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using DanbooruDownloader3.Entity;
 using System.Reflection;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3
 {
@@ -138,6 +139,8 @@ namespace DanbooruDownloader3
             foreach (var info in propertyInfos)
             {
                 var controls = tableLayoutPanel1.Controls.Find(info.Name, true);
+                bool canWrite = (info.CanWrite && info.GetSetMethod() != null) ? true : false;
+
                 if (controls.Length > 0)
                 {
                     if (info.PropertyType.Name == "Boolean")
@@ -145,11 +148,13 @@ namespace DanbooruDownloader3
                         ComboBox _cbx = (ComboBox)controls[0];
                         string value = info.GetValue(Providers[index], null).ToString().ToLowerInvariant();
                         _cbx.SelectedIndex = value == "true" ? 0 : 1;
+                        _cbx.Enabled = canWrite;
                     }
                     else if (info.PropertyType.IsEnum)
                     {
                         ComboBox _cbx = (ComboBox)controls[0];
                         _cbx.SelectedIndex = _cbx.FindStringExact(info.GetValue(Providers[index], null).ToString());
+                        _cbx.Enabled = canWrite;
                     }
                     else
                     {
@@ -157,6 +162,7 @@ namespace DanbooruDownloader3
                         var value = info.GetValue(Providers[index], null);
                         if (value != null) _txt.Text = value.ToString();
                         else _txt.Text = "";
+                        _txt.Enabled = canWrite;
                     }
                 }
             }
@@ -176,6 +182,7 @@ namespace DanbooruDownloader3
                     var controls = tableLayoutPanel1.Controls.Find(info.Name, true);
                     if (controls.Length > 0)
                     {
+                        if (!controls[0].Enabled) continue;
                         if (controls[0].GetType().Name == "TextBox")
                         {
                             var value = controls[0].Text;
@@ -215,6 +222,7 @@ namespace DanbooruDownloader3
         {
             GetValues(cbxProviders.SelectedIndex);
             //IsModified = true;
+            DanbooruProviderDao.GetInstance().Save(Providers);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

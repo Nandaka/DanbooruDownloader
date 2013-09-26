@@ -33,8 +33,7 @@ namespace DanbooruDownloader3
 
         private void FillProvider()
         {
-            DanbooruProviderDao dao = new DanbooruProviderDao();
-            providerList = dao.Read();
+            providerList = DanbooruProviderDao.GetInstance().Read();
 
             foreach (DanbooruProvider p in providerList)
             {

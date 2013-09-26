@@ -67,7 +67,7 @@ namespace DanbooruDownloader3.Entity
                 return _danbooruTagCollection;
             }
 
-            set { _danbooruTagCollection = value; }
+            private set { _danbooruTagCollection = value; }
         }
 
         public DanbooruTagCollection LoadProviderTagCollection()

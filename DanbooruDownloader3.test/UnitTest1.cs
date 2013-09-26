@@ -27,8 +27,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestShimmie2Parser()
         {
-            DanbooruProviderDao pd = new DanbooruProviderDao();
-            var shimmie2Provider = pd.Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Shimmie2).First<DanbooruProvider>();
+            var shimmie2Provider = DanbooruProviderDao.GetInstance().Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Shimmie2).First<DanbooruProvider>();
             XmlReader reader = new XmlTextReader(@"../../../DanbooruDownloader3.test/TestXml/shimmie2.xml");
 
             DanbooruPostDaoOption option = new DanbooruPostDaoOption()
@@ -51,20 +50,19 @@ namespace DanbooruDownloader3.test
         public void TestProviderSave()
         {            
             string target = @"../../../DanbooruDownloader3.test/testSave.xml";
-            DanbooruProviderDao pd = new DanbooruProviderDao();
-            var list = pd.Read(sourceProvider);
+            var list = DanbooruProviderDao.GetInstance().Read(sourceProvider);
             list[0].Name = "hahaha";
-            pd.Save(list, target);
+            DanbooruProviderDao.GetInstance().Save(list, target);
             Assert.IsTrue(System.IO.File.Exists(target));
             XDocument doc = XDocument.Load(target);
-            list = pd.Read(target);
+            list = DanbooruProviderDao.GetInstance().Read(target);
             Assert.IsTrue(list[0].Name == "hahaha");
         }
 
         [TestMethod]
         public void TestDanbooruEngineParser()
         {
-            DanbooruProviderDao pd = new DanbooruProviderDao();
+            DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             DanbooruXmlEngine e = new DanbooruXmlEngine();
 
             {
@@ -185,7 +183,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestSankakuParser()
         {
-            DanbooruProviderDao pd = new DanbooruProviderDao();
+            DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             string target = @"../../../DanbooruDownloader3.test/TestXml/sankaku_paging.htm";
             var data = File.ReadAllText(target);
             var query = new DanbooruSearchParam();
@@ -215,7 +213,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestGelbooruParser()
         {
-            DanbooruProviderDao pd = new DanbooruProviderDao();
+            DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             string target = @"../../../DanbooruDownloader3.test/TestXml/gelbooru_post.htm";
             var data = File.ReadAllText(target);
             var query = new DanbooruSearchParam();

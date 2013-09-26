@@ -10,6 +10,19 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruProviderDao
     {
+        private static DanbooruProviderDao _instance;
+        public static DanbooruProviderDao GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new DanbooruProviderDao();
+            }
+            return _instance;
+        }
+
+        private DanbooruProviderDao() { }
+            
+
         public List<DanbooruProvider> Read(string filename = @"DanbooruProviderList.xml")
         {
             List<DanbooruProvider> list = new List<DanbooruProvider>();
@@ -97,6 +110,11 @@ namespace DanbooruDownloader3.DAO
                     propertyInfos = typeof(DanbooruProvider).GetProperties();
                     foreach (PropertyInfo info in propertyInfos)
                     {
+                        // skip private setter
+                        if (!info.CanWrite || info.GetSetMethod() == null)
+                        {
+                            continue;
+                        }
                         var value = info.GetValue(p, null);
                         if(value == null) value = "";
                         if (info.Name == "Password") value = ""; //Blank the password.
@@ -115,6 +133,7 @@ namespace DanbooruDownloader3.DAO
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
+                writer.Flush();
                 writer.Close();
             }
         }

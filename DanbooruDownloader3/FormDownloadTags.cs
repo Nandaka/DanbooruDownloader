@@ -305,8 +305,7 @@ namespace DanbooruDownloader3
 
         private void FormDownloadTags_Load(object sender, EventArgs e)
         {
-            DanbooruProviderDao provider = new DanbooruProviderDao();
-            list = provider.Read().Where<DanbooruProvider>(x => x.BoardType == Entity.BoardType.Danbooru || x.BoardType == Entity.BoardType.Gelbooru).ToList<DanbooruProvider>();
+            list = DanbooruProviderDao.GetInstance().Read().Where<DanbooruProvider>(x => x.BoardType == Entity.BoardType.Danbooru || x.BoardType == Entity.BoardType.Gelbooru).ToList<DanbooruProvider>();
             cbxProvider.DataSource = list;
             cbxProvider.DisplayMember = "Name";
             cbxProvider.ValueMember = "Url";
