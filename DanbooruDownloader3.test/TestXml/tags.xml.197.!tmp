@@ -1,3 +1,736 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tags type="array">
-</tags>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><link href="http://cs.sankakucomplex.com/stylesheets/style.css?820" media=screen rel=stylesheet type="text/css"><style type="text/css" media=screen>#top-notification{position:absolute;top:0px;left:0px;margin:0 auto;text-align:center;font-weight:bold;font-size:120%;background-color:#fafafa;border-bottom:1px solid #ddd;padding:2px 0px}#top-notification-contents{width:1000px}</style><script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+<title>Tags | Sankaku Channel - Anime, manga & game images</title>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8"/>
+<link rel="shortcut icon" href="http://images.sankakucomplex.com/gfx/favicon.png">
+<link rel=top title="Sankaku Channel" href="/">
+<script type="text/javascript">
+	document.write('<style type="text/css">.blacklisted { display: none !important; }</style>');
+	</script>
+<script src="http://cs.sankakucomplex.com/javascripts/app.js?820" type="text/javascript"></script>
+<link href="http://chan.sankakucomplex.com/post/atom" rel=alternate title=ATOM type="application/atom+xml">
+<link rel=search type="application/opensearchdescription+xml" title="Sankaku Complex" href="http://www.sankakucomplex.com/opensearch.xml">
+<link rel=search type="application/opensearchdescription+xml" title="Sankaku Channel" href="http://chan.sankakucomplex.com/opensearch.xml">
+</head>
+<body class=en>
+<div id=header>
+<div id=headerlogo>
+<a href="http://www.sankakucomplex.com/"><img height=100 width=392 style="float:left;padding: 16px 0px 0px 20px;" src="http://cs.sankakucomplex.com/logo.png" class="" alt="Sankaku Complex: Anime, Manga and Games, observed from Japan"></a>
+<div id=headerthumbs><ul><li><a target=_blank href="http://www.sankakucomplex.com/2013/09/28/top-20-anime-you-want-hollywood-to-make-into-movies/" title="Top 20 Anime You Want Hollywood To Make Into Movies"><img src="http://img.sankakucomplex.com/tn/100/93074.jpg" alt="Top 20 Anime You Want Hollywood To Make Into Movies"/>Top 20 Anime You Want Hollywood To Make Into Movies</a></li>
+<li><a target=_blank href="http://www.sankakucomplex.com/2013/09/28/ff14-lightning-cuter-than-ever/" title="FF14: Lightning Cuter Than Ever"><img src="http://img.sankakucomplex.com/tn/100/93055.jpg" alt="FF14: Lightning Cuter Than Ever"/>FF14: Lightning Cuter Than Ever</a></li>
+<li><a target=_blank href="http://www.sankakucomplex.com/2013/09/27/outrage-at-oreimo-rip-off-kickstarter/" title="Outrage at OreImo Rip-Off Kickstarter"><img src="http://img.sankakucomplex.com/tn/100/93042.jpg" alt="Outrage at OreImo Rip-Off Kickstarter"/>Outrage at OreImo Rip-Off Kickstarter</a></li>
+<li><a target=_blank href="http://www.sankakucomplex.com/2013/09/27/free-good-end-see-you-next-summer/" title="Free! Good End: &#8220;See You Next Summer!&#8221;"><img src="http://img.sankakucomplex.com/tn/100/92944.jpg" alt="Free! Good End: &#8220;See You Next Summer!&#8221;"/>Free! Good End: &#8220;See You Next Summer!&#8221;</a></li>
+<li><a target=_blank href="http://www.sankakucomplex.com/2013/09/26/haganai-movie-now-couldnt-get-any-worse/" title="Haganai Movie &#8220;Now Couldn&#8217;t Get Any Worse!&#8221;"><img src="http://img.sankakucomplex.com/tn/100/92939.jpg" alt="Haganai Movie &#8220;Now Couldn&#8217;t Get Any Worse!&#8221;"/>Haganai Movie &#8220;Now Couldn&#8217;t Get Any Worse!&#8221;</a></li>
+</ul></div>
+</div>
+<h2 id=site-title><a href="/">Sankaku Channel</a></h2>
+<ul class=flat-list id=navbar>
+<li class=""><a href="/user/login" rel=nofollow>Login</a></li>
+<li class=""><a href="/post/index">Posts</a></li>
+<li class=""><a href="/rankings/show">Rankings</a></li>
+<li class=""><a href="/note/index">Notes</a></li>
+<li class=""><a href="/artist/index?order=date">Artists</a></li>
+<li class=current-page><a href="/tag/index?order=date">Tags</a></li>
+<li class=""><a href="/pool/index">Pools</a></li>
+<li class=""><a href="/wiki/show?title=help%3Ahome">Wiki</a></li>
+<li><a href="http://www.sankakucomplex.com/forums/" id=forum-link>Forums</a></li>
+<li class=""><a href="/static/more">&raquo;</a></li>
+<li class=lang-select>Language: <a href="/en/tag/index?order=name&amp;page=197 " class=active>English</a> <a href="/ja/tag/index?order=name&amp;page=197 " class=>日本語</a></li>
+</ul>
+<ul class=flat-list id=subnavbar>
+<li><a href="/tag/popular_by_day">Popular</a></li>
+<li><a href="/tag_alias/index">Aliases</a></li>
+<li><a href="/tag_implication/index">Implications</a></li>
+<li><a href="/wiki/show?title=help:_tags">Help</a></li>
+</ul>
+</div>
+<div id=notice style="display: none;"></div>
+<div id=content>
+<div>
+<form action="/tag/index">
+<table class=form>
+<tfoot>
+<tr>
+<td><input name=commit type=submit value=Search></td>
+<td></td>
+</tr>
+</tfoot>
+<tbody>
+<tr>
+<th width="15%">
+<label for=name>Name</label>
+<p>Use * as a wildcard</p>
+</th>
+<td width="85%"><input id=name name=name size=40 type=text></td>
+</tr>
+<tr>
+<th><label for=type>Type</label></th>
+<td><select id=type name=type><option value="" selected>Any</option>
+<option value=4>Character</option>
+<option value=0>General</option>
+<option value=1>Artist</option>
+<option value=3>Copyright</option></select></td>
+</tr>
+<tr>
+<th><label for=order>Order</label></th>
+<td><select id=order name=order><option value=name selected>Name</option>
+<option value=count>Count</option>
+<option value=date>Date</option>
+<option value=popularity>Popularity</option>
+<option value=quality>Quality</option></select></td>
+</tr>
+<tr>
+<th><label for=show_empty_tags>Show empty tags</label></th>
+<td><input id=show_empty_tags name=show_empty_tags type=checkbox value=1></td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
+<table width="100%" class=highlightable>
+<thead>
+<tr>
+<th width="5%">Posts</th>
+<th>Name</th>
+<th>Name(en)</th>
+<th>Name(ja)</th>
+<th width="50%">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class=even>
+<td align=right>3</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akana_%28dodo%29">?</a>
+<a href="/post/index?tags=akana_%28dodo%29">akana_(dodo)</a>
+</td>
+<td>akana_(dodo)</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>68</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akanagi">?</a>
+<a href="/post/index?tags=akanagi">akanagi</a>
+</td>
+<td>akanagi</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=even>
+<td align=right>4</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akanagi_youto">?</a>
+<a href="/post/index?tags=akanagi_youto">akanagi_youto</a>
+</td>
+<td>akanagi_youto</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>2</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanai_tobira">?</a>
+<a href="/post/index?tags=akanai_tobira">akanai_tobira</a>
+</td>
+<td>akanai_tobira</td>
+<td>開かない扉</td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>29</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akanako">?</a>
+<a href="/post/index?tags=akanako">akanako</a>
+</td>
+<td>akanako</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akanako_%28pixiv%29">?</a>
+<a href="/post/index?tags=akanako_%28pixiv%29">akanako_(pixiv)</a>
+</td>
+<td>akanako_(pixiv)</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=even>
+<td align=right>24</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akaname">?</a>
+<a href="/post/index?tags=akaname">akaname</a>
+</td>
+<td>akaname</td>
+<td>あかなめ</td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akaname_%28neko_musume_michikusa_nikki%29">?</a>
+<a href="/post/index?tags=akaname_%28neko_musume_michikusa_nikki%29">akaname_(neko_musume_michikusa_nikki)</a>
+</td>
+<td>akaname_(neko_musume_michikusa_nikki)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akaname_%28nubatama%29">?</a>
+<a href="/post/index?tags=akaname_%28nubatama%29">akaname_(nubatama)</a>
+</td>
+<td>akaname_(nubatama)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>22</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akaname-san">?</a>
+<a href="/post/index?tags=akaname-san">akaname-san</a>
+</td>
+<td>akaname-san</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=aka-nanoko">?</a>
+<a href="/post/index?tags=aka-nanoko">aka-nanoko</a>
+</td>
+<td>aka-nanoko</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>164</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akana_rui">?</a>
+<a href="/post/index?tags=akana_rui">akana_rui</a>
+</td>
+<td>akana_rui</td>
+<td>赤名累</td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanashi_rikka">?</a>
+<a href="/post/index?tags=akanashi_rikka">akanashi_rikka</a>
+</td>
+<td>akanashi_rikka</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>2</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akanasu">?</a>
+<a href="/post/index?tags=akanasu">akanasu</a>
+</td>
+<td>akanasu</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanatsu">?</a>
+<a href="/post/index?tags=akanatsu">akanatsu</a>
+</td>
+<td>akanatsu</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>198</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanbe">?</a>
+<a href="/post/index?tags=akanbe">akanbe</a>
+</td>
+<td>akanbe</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>8</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akanbe_%28smile_precure%21%29">?</a>
+<a href="/post/index?tags=akanbe_%28smile_precure%21%29">akanbe_(smile_precure!)</a>
+</td>
+<td>akanbe_(smile_precure!)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>96</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane">?</a>
+<a href="/post/index?tags=akane">akane</a>
+</td>
+<td>akane</td>
+<td>茜</td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_">?</a>
+<a href="/post/index?tags=akane_">akane_</a>
+</td>
+<td>akane_</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>10</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane5_ajisai4">?</a>
+<a href="/post/index?tags=akane5_ajisai4">akane5_ajisai4</a>
+</td>
+<td>akane5_ajisai4</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>3</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akane711">?</a>
+<a href="/post/index?tags=akane711">akane711</a>
+</td>
+<td>akane711</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akane841">?</a>
+<a href="/post/index?tags=akane841">akane841</a>
+</td>
+<td>akane841</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=even>
+<td align=right>2</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28akane_no_heya%29">?</a>
+<a href="/post/index?tags=akane_%28akane_no_heya%29">akane_(akane_no_heya)</a>
+</td>
+<td>akane_(akane_no_heya)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_akatsuki">?</a>
+<a href="/post/index?tags=akane_akatsuki">akane_akatsuki</a>
+</td>
+<td>akane_akatsuki</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>62</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28allegro_mistic%29">?</a>
+<a href="/post/index?tags=akane_%28allegro_mistic%29">akane_(allegro_mistic)</a>
+</td>
+<td>akane_(allegro_mistic)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_ame">?</a>
+<a href="/post/index?tags=akane_ame">akane_ame</a>
+</td>
+<td>akane_ame</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>2</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28anyamal_tantei_kirumin_zoo%29">?</a>
+<a href="/post/index?tags=akane_%28anyamal_tantei_kirumin_zoo%29">akane_(anyamal_tantei_kirumin_zoo)</a>
+</td>
+<td>akane_(anyamal_tantei_kirumin_zoo)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28anymal_tantei_kirumin_zoo%29">?</a>
+<a href="/post/index?tags=akane_%28anymal_tantei_kirumin_zoo%29">akane_(anymal_tantei_kirumin_zoo)</a>
+</td>
+<td>akane_(anymal_tantei_kirumin_zoo)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>2</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28arcana_heart%29">?</a>
+<a href="/post/index?tags=akane_%28arcana_heart%29">akane_(arcana_heart)</a>
+</td>
+<td>akane_(arcana_heart)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>7</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_ardygun">?</a>
+<a href="/post/index?tags=akane_ardygun">akane_ardygun</a>
+</td>
+<td>akane_ardygun</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>34</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akane_%28artist%29">?</a>
+<a href="/post/index?tags=akane_%28artist%29">akane_(artist)</a>
+</td>
+<td>akane_(artist)</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>21</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28ar_tonelico%29">?</a>
+<a href="/post/index?tags=akane_%28ar_tonelico%29">akane_(ar_tonelico)</a>
+</td>
+<td>akane_(ar_tonelico)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akane_%28azuya%29">?</a>
+<a href="/post/index?tags=akane_%28azuya%29">akane_(azuya)</a>
+</td>
+<td>akane_(azuya)</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=odd>
+<td align=right>9</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane-chan">?</a>
+<a href="/post/index?tags=akane-chan">akane-chan</a>
+</td>
+<td>akane-chan</td>
+<td>あかねちゃん</td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane-chan_overdrive">?</a>
+<a href="/post/index?tags=akane-chan_overdrive">akane-chan_overdrive</a>
+</td>
+<td>akane-chan_overdrive</td>
+<td>あかねちゃんＯＶＥＲＤＲＩＶＥ</td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_cyrielle_%28_character_%29">?</a>
+<a href="/post/index?tags=akane_cyrielle_%28_character_%29">akane_cyrielle_(_character_)</a>
+</td>
+<td>akane_cyrielle_(_character_)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>3</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28darkpink%29">?</a>
+<a href="/post/index?tags=akane_%28darkpink%29">akane_(darkpink)</a>
+</td>
+<td>akane_(darkpink)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>10</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28discipline%29">?</a>
+<a href="/post/index?tags=akane_%28discipline%29">akane_(discipline)</a>
+</td>
+<td>akane_(discipline)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>2</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_dokuro">?</a>
+<a href="/post/index?tags=akane_dokuro">akane_dokuro</a>
+</td>
+<td>akane_dokuro</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>18</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28fukuoka_katsumi%29">?</a>
+<a href="/post/index?tags=akane_%28fukuoka_katsumi%29">akane_(fukuoka_katsumi)</a>
+</td>
+<td>akane_(fukuoka_katsumi)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanegakubo_ruka">?</a>
+<a href="/post/index?tags=akanegakubo_ruka">akanegakubo_ruka</a>
+</td>
+<td>akanegakubo_ruka</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>74</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akanegasaki_sora">?</a>
+<a href="/post/index?tags=akanegasaki_sora">akanegasaki_sora</a>
+</td>
+<td>akanegasaki_sora</td>
+<td>茜ヶ崎空</td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>3</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanegasaki_sora_%28cosplay%29">?</a>
+<a href="/post/index?tags=akanegasaki_sora_%28cosplay%29">akanegasaki_sora_(cosplay)</a>
+</td>
+<td>akanegasaki_sora_(cosplay)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>2</td>
+<td class=tag-type-artist>
+<a href="/wiki/show?title=akane_%28getwild23%29">?</a>
+<a href="/post/index?tags=akane_%28getwild23%29">akane_(getwild23)</a>
+</td>
+<td>akane_(getwild23)</td>
+<td></td>
+<td>
+artist
+</td>
+</tr>
+<tr class=even>
+<td align=right>3</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akanegi_atsuki">?</a>
+<a href="/post/index?tags=akanegi_atsuki">akanegi_atsuki</a>
+</td>
+<td>akanegi_atsuki</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>16</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akanegi_atsuko">?</a>
+<a href="/post/index?tags=akanegi_atsuko">akanegi_atsuko</a>
+</td>
+<td>akanegi_atsuko</td>
+<td>茜木温子</td>
+<td>
+character
+</td>
+</tr>
+<tr class=even>
+<td align=right>55</td>
+<td class=tag-type-character>
+<a href="/wiki/show?title=akane_%28goma%29">?</a>
+<a href="/post/index?tags=akane_%28goma%29">akane_(goma)</a>
+</td>
+<td>akane_(goma)</td>
+<td></td>
+<td>
+character
+</td>
+</tr>
+<tr class=odd>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28guren%29">?</a>
+<a href="/post/index?tags=akane_%28guren%29">akane_(guren)</a>
+</td>
+<td>akane_(guren)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=even>
+<td align=right>1</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_hadzuki">?</a>
+<a href="/post/index?tags=akane_hadzuki">akane_hadzuki</a>
+</td>
+<td>akane_hadzuki</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+<tr class=odd>
+<td align=right>2</td>
+<td class=tag-type-general>
+<a href="/wiki/show?title=akane_%28hanasaku_manimani%29">?</a>
+<a href="/post/index?tags=akane_%28hanasaku_manimani%29">akane_(hanasaku_manimani)</a>
+</td>
+<td>akane_(hanasaku_manimani)</td>
+<td></td>
+<td>
+general
+</td>
+</tr>
+</tbody>
+</table>
+<div id=paginator>
+<div class=pagination><a href="/tag/index?page=196&amp;order=name">&lt;&lt;</a> <a href="/tag/index?page=1&amp;order=name">1</a> ... <a href="/tag/index?page=195&amp;order=name">195</a> <a href="/tag/index?page=196&amp;order=name">196</a> <span class=current>197</span> <a href="/tag/index?page=198&amp;order=name">198</a> <a href="/tag/index?page=199&amp;order=name">199</a> ... <a href="/tag/index?page=9582&amp;order=name">9582</a> <a href="/tag/index?page=198&amp;order=name">&gt;&gt;</a></div>
+</div>
+</div>
+<script type="text/javascript">
+    
+    Post.init_blacklisted();
+  </script>
+<script type="text/javascript">
+    Cookie.setup()
+  </script>
+<script type="text/javascript"> 
+jQuery(function() {jQuery(window).scroll(sticky_relocate);
+  sticky_relocate();
+  });
+</script>
+<div id=top-notification>
+<div id=top-notification-contents>You can now make your favorites private - see <a href="/user/edit">your account settings page</a></div>
+</div>
+<script type="text/javascript">if (!NREUMQ.f) { NREUMQ.f=function() {
+NREUMQ.push(["load",new Date().getTime()]);
+var e=document.createElement("script");
+e.type="text/javascript";
+e.src=(("http:"===document.location.protocol)?"http:":"https:") + "//" +
+  "js-agent.newrelic.com/nr-100.js";
+document.body.appendChild(e);
+if(NREUMQ.a)NREUMQ.a();
+};
+NREUMQ.a=window.onload;window.onload=NREUMQ.f;
+};
+NREUMQ.push(["nrfj","beacon-3.newrelic.com","a36d492457","1562384","dlYLERANX1xdQx5BAlIWDAsGB0s=",0,240,new Date().getTime(),"","","","",""]);</script></body>
+</html>

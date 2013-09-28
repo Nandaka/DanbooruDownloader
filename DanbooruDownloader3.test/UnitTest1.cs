@@ -11,6 +11,7 @@ using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace DanbooruDownloader3.test
 {
@@ -180,6 +181,33 @@ namespace DanbooruDownloader3.test
             Assert.IsTrue(uri.ToString() == url);
         }
 
+
+        [TestMethod]
+        public void TestSankakuTagParser()
+        {
+            string target = @"../../../DanbooruDownloader3.test/TestXml/sankakutagspage.htm";
+            var data = File.ReadAllText(target);
+            var parser = new SankakuComplexParser();
+
+            var result = parser.parseTagsPage(data, 1);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Tag.Length == 50, "Count: " + result.Tag.Length);
+
+            List<DanbooruTag> newTagList = new List<DanbooruTag>();
+            
+            for (int i = 1; i <= 9579; ++i)
+            {
+                var tempName = @"../../../DanbooruDownloader3.test/TestXml/tags.xml." + i + ".!tmp";
+                System.Diagnostics.Debug.WriteLine("Processing: " + tempName);
+                var tempTag = parser.parseTagsPage(File.ReadAllText(tempName), i);
+                if (tempTag != null && tempTag.Tag != null)
+                {
+                    newTagList.AddRange(tempTag.Tag);
+                }
+            }
+            DanbooruTagsDao.Save("tags-" + "Sankaku Complex" + ".xml", newTagList);
+        }
+
         [TestMethod]
         public void TestSankakuParser()
         {
@@ -228,6 +256,7 @@ namespace DanbooruDownloader3.test
             Assert.IsNotNull(post.FileUrl);
             Assert.IsTrue(post.FileUrl == @"http://cdn2.gelbooru.com//images/1559/303b7ed1fcba0c1d9520f76ee34ec37e.jpg", "Actual: " + post.FileUrl);
         }
+
         [TestMethod]
         public void TestDumpRawData()
         {

@@ -6,3 +6,4 @@ old/*
 TestResults/*
 DanbooruDownloader3.test/bin/*
 DanbooruDownloader3.test/obj/*
+*.!tmp
