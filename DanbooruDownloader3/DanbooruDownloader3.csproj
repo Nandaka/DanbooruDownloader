@@ -265,7 +265,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)readme.txt $(TargetDir)readme.txt /Y</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)readme.txt $(TargetDir)readme.txt /Y
+copy $(SolutionDir)changelog.txt $(TargetDir)changelog.txt /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

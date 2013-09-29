@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20130929
+  - Add tag parser for Sankaku Complex.
+  - Fix Form Provider save feature.
+  - Use short version for rating for Sankaku Complex.
+  - Fix batch job xml loading.
+
 - DanbooruDownloader20130922
   - Add option to use per-provider tags.xml or global tags.xml
   - Add color for Unknown tags.
