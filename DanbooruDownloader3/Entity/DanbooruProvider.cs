@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DanbooruDownloader3.DAO;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -39,6 +40,7 @@ namespace DanbooruDownloader3.Entity
         public BoardType BoardType { get; set; }
 
         private bool _hasPrivateTags;
+        [XmlIgnore]
         public bool HasPrivateTags
         {
             get
@@ -56,6 +58,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTagCollection _danbooruTagCollection;
+        [XmlIgnore]
         public DanbooruTagCollection ProviderTagCollection
         {
             get
