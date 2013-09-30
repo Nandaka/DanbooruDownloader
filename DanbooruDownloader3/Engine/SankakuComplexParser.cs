@@ -306,7 +306,7 @@ namespace DanbooruDownloader3.Engine
                     DanbooruTag tag = new DanbooruTag();
                     tag.Id = index.ToString();
                     tag.Count = Int32.Parse(cols[countIndex].InnerText);
-                    tag.Name = System.Net.WebUtility.HtmlDecode(cols[nameIndex].ChildNodes[3].InnerText.Replace("\n", ""));
+                    tag.Name = Helper.RemoveControlCharacters(System.Net.WebUtility.HtmlDecode(cols[nameIndex].ChildNodes[3].InnerText.Replace("\n", "")));
 
                     string tagType = cols[typeIndex].InnerText.Replace("\n", "");
                     if(tagType.EndsWith("(edit)")) tagType = tagType.Substring(0, tagType.Length - 6);

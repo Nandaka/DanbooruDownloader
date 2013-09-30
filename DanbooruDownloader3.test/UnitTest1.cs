@@ -194,18 +194,19 @@ namespace DanbooruDownloader3.test
             Assert.IsTrue(result.Tag.Length == 50, "Count: " + result.Tag.Length);
 
             List<DanbooruTag> newTagList = new List<DanbooruTag>();
+
+            target = @"../../../DanbooruDownloader3.test/TestXml/sankakutagspage-invalid.htm";
+            data = File.ReadAllText(target);
+            parser = new SankakuComplexParser();
+
+            result = parser.parseTagsPage(data, 1);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Tag.Length == 50, "Count: " + result.Tag.Length);
+
+            var filename = "dummy.xml";
+            DanbooruTagsDao.Save(filename, result.Tag.ToList());
+            DanbooruTagsDao dao = new DanbooruTagsDao(filename);
             
-            for (int i = 1; i <= 9579; ++i)
-            {
-                var tempName = @"../../../DanbooruDownloader3.test/TestXml/tags.xml." + i + ".!tmp";
-                System.Diagnostics.Debug.WriteLine("Processing: " + tempName);
-                var tempTag = parser.parseTagsPage(File.ReadAllText(tempName), i);
-                if (tempTag != null && tempTag.Tag != null)
-                {
-                    newTagList.AddRange(tempTag.Tag);
-                }
-            }
-            DanbooruTagsDao.Save("tags-" + "Sankaku Complex" + ".xml", newTagList);
         }
 
         [TestMethod]

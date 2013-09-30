@@ -375,5 +375,31 @@ namespace DanbooruDownloader3
             else
                 return DanbooruTagsDao.Instance.ParseTagsString(p);
         }
+
+        /// <summary>
+        /// Remove control char from unicode string
+        /// http://stackoverflow.com/a/6799681
+        /// </summary>
+        /// <param name="inString"></param>
+        /// <returns></returns>
+        public static string RemoveControlCharacters(string inString)
+        {
+            if (inString == null) return null;
+
+            StringBuilder newString = new StringBuilder();
+            char ch;
+
+            for (int i = 0; i < inString.Length; i++)
+            {
+
+                ch = inString[i];
+
+                if (!char.IsControl(ch))
+                {
+                    newString.Append(ch);
+                }
+            }
+            return newString.ToString();
+        }
     }
 }
