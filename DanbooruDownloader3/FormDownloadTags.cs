@@ -412,7 +412,7 @@ namespace DanbooruDownloader3
                     }
                     else
                     {
-                        chkUseLoop.Checked = false;
+                        //chkUseLoop.Checked = false;
                         isSankaku = false;
                     }
 
