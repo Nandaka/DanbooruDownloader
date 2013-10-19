@@ -5,6 +5,7 @@ Change Log:
   - Update WebClient to enable compression.
   - Update WebClient to add Accept Language header.
   - Update UrlResolver to use Queue.
+  - Fix Download Tag form.
 
 - DanbooruDownloader20130929
   - Add tag parser for Sankaku Complex.
