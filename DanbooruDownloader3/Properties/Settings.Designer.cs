@@ -635,5 +635,29 @@ namespace DanbooruDownloader3.Properties {
                 this["UseGlobalProviderTags"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-GB,en-US;q=0.8,en;q=0.6")]
+        public string AcceptLanguage {
+            get {
+                return ((string)(this["AcceptLanguage"]));
+            }
+            set {
+                this["AcceptLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableCompression {
+            get {
+                return ((bool)(this["EnableCompression"]));
+            }
+            set {
+                this["EnableCompression"] = value;
+            }
+        }
     }
 }

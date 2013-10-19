@@ -250,8 +250,7 @@ namespace DanbooruDownloader3.Engine
             if (temp > 0) return temp;
             else return 1;
         }
-
-
+        
         public DanbooruTagCollection parseTagsPage(string data, int page)
         {
             DanbooruTagCollection tagCol = new DanbooruTagCollection();

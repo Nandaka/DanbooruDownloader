@@ -142,7 +142,9 @@ namespace DanbooruDownloader3
             _ImageSize = cbxImageSize.Text;
 
             ToggleTagsColor();
-            ToogleEnableCookie();
+            ExtendedWebClient.EnableCookie = Properties.Settings.Default.enableCookie;
+            ExtendedWebClient.EnableCompression = Properties.Settings.Default.EnableCompression;
+            ExtendedWebClient.AcceptLanguage = Properties.Settings.Default.AcceptLanguage;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -243,13 +245,31 @@ namespace DanbooruDownloader3
             }
         }
 
+        private Queue<DanbooruPost> resolveQueue = new Queue<DanbooruPost>();
+        private bool isResolverRunning = false;
+
         private void ResolveFileUrl(DanbooruPost post)
         {
-            UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
-            ExtendedWebClient _clientPost = new ExtendedWebClient();
-            _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
-            _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
+            resolveQueue.Enqueue(post);
             post.FileUrl = Constants.LOADING_URL;
+            if(!isResolverRunning) ResolveFileUrl();
+        }
+
+        private void ResolveFileUrl()
+        {
+            if (resolveQueue.Count > 0)
+            {
+                isResolverRunning = true;
+                var post = resolveQueue.Dequeue();
+                UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
+                ExtendedWebClient _clientPost = new ExtendedWebClient();
+                _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
+                _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
+            }
+            else
+            {
+                isResolverRunning = false;
+            }
         }
 
         void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -293,6 +313,7 @@ namespace DanbooruDownloader3
                 post.FileUrl = Constants.NO_POST_PARSER;
             }
             dgvDownload.Refresh();
+            if (isResolverRunning) ResolveFileUrl();
         }
 
         /// <summary>
@@ -2546,14 +2567,9 @@ namespace DanbooruDownloader3
 
         private void chkEnableCookie_CheckedChanged(object sender, EventArgs e)
         {
-            ToogleEnableCookie();
+            ExtendedWebClient.EnableCookie = chkEnableCookie.Checked;
         }
-
-        private void ToogleEnableCookie()
-        {
-            _clientBatch.EnableCookie = _clientFile.EnableCookie = _clientList.EnableCookie = _clientThumb.EnableCookie = chkEnableCookie.Checked;
-        }
-
+        
         private void btnCookie_Click(object sender, EventArgs e)
         {
             FormCookie cookieForm = new FormCookie();
@@ -2568,6 +2584,16 @@ namespace DanbooruDownloader3
                 lblColorUnknown.ForeColor = colorDialog1.Color;
                 SetTagColors();
             }
+        }
+
+        private void txtAcceptLanguage_TextChanged(object sender, EventArgs e)
+        {
+            ExtendedWebClient.AcceptLanguage = txtAcceptLanguage.Text;
+        }
+
+        private void chkEnableCompression_CheckedChanged(object sender, EventArgs e)
+        {
+            ExtendedWebClient.EnableCompression = chkEnableCompression.Checked;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace DanbooruDownloader3.CustomControl
     public class ExtendedWebClient : WebClient
     {
         #region ctor
-        public ExtendedWebClient(int timeout = -1, CookieContainer cookieJar = null, String userAgent=null)
+        public ExtendedWebClient(int timeout = -1, CookieContainer cookieJar = null, String userAgent = null)
         {
             if (timeout > 0)
             {
@@ -21,7 +21,7 @@ namespace DanbooruDownloader3.CustomControl
                 if (result) this.Timeout = timeout;
                 else this.Timeout = 60000;
             }
-            
+
             if (cookieJar != null)
             {
                 // replace old cookie jar
@@ -39,7 +39,8 @@ namespace DanbooruDownloader3.CustomControl
         private static IWebProxy globalProxy;
         public static IWebProxy GlobalProxy
         {
-            get {
+            get
+            {
                 if (Properties.Settings.Default.UseProxy)
                 {
                     WebProxy proxy = new WebProxy(Properties.Settings.Default.ProxyAddress, Convert.ToInt32(Properties.Settings.Default.ProxyPort));
@@ -55,7 +56,8 @@ namespace DanbooruDownloader3.CustomControl
                 }
                 return globalProxy;
             }
-            set {
+            set
+            {
                 globalProxy = value;
             }
         }
@@ -64,41 +66,57 @@ namespace DanbooruDownloader3.CustomControl
         public int Timeout
         {
             get { return this.timeout; }
-            set {
+            set
+            {
                 if (value < 0) value = 0;
-                this.timeout = value; 
+                this.timeout = value;
             }
         }
-        
-        private bool enableCookie;
-        public bool EnableCookie
+
+        private static bool enableCookie;
+        public static bool EnableCookie
         {
             get
             {
-                return this.enableCookie;
+                return enableCookie;
             }
-            set {
+            set
+            {
                 if (value && cookieJar == null)
                 {
                     cookieJar = new CookieContainer();
                 }
-                this.enableCookie = value; 
+                enableCookie = value;
             }
+        }
+
+        public static bool EnableCompression { get; set; }
+
+        private static string _acceptLanguage;
+        public static string AcceptLanguage
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_acceptLanguage)) _acceptLanguage = "en-GB,en-US;q=0.8,en;q=0.6";
+                return _acceptLanguage;
+            }
+            set { _acceptLanguage = value; }
         }
 
         private static CookieContainer cookieJar;
         public static CookieContainer CookieJar
         {
-            get {
+            get
+            {
                 if (cookieJar == null)
                 {
                     cookieJar = new CookieContainer();
                 }
-                return cookieJar; 
+                return cookieJar;
             }
             private set { cookieJar = value; }
         }
-        
+
         private string referer;
         public string Referer
         {
@@ -120,7 +138,7 @@ namespace DanbooruDownloader3.CustomControl
         private string userAgent;
         public string UserAgent
         {
-            get 
+            get
             {
                 if (userAgent == null)
                 {
@@ -141,22 +159,69 @@ namespace DanbooruDownloader3.CustomControl
             }
         }
 
-        protected override WebRequest GetWebRequest(Uri address) 
+        protected override WebRequest GetWebRequest(Uri address)
         {
             this.Headers.Add("user-agent", UserAgent);
 
-            WebRequest result = base.GetWebRequest(address);
+            WebRequest req = base.GetWebRequest(address);
 
-            if (result.GetType() == typeof(HttpWebRequest))
+            var httpReq = req as HttpWebRequest;
+            if (httpReq != null)
             {
-                if (enableCookie) ((HttpWebRequest)result).CookieContainer = cookieJar;
-            }   
+                if (enableCookie)
+                {
+                    httpReq.CookieContainer = cookieJar;
+                }
+                if (EnableCompression)
+                {
+                    httpReq.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
+                    httpReq.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                httpReq.Headers.Add(HttpRequestHeader.AcceptLanguage, AcceptLanguage);
+            }
 
-            result.Timeout = this.timeout;
-            result.Proxy = globalProxy;
+            req.Timeout = this.timeout;
+            req.Proxy = globalProxy;
 
-            return result; 
-        } 
+            return req;
+        }
 
+        protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
+        {
+            try
+            {
+                WebResponse response = base.GetWebResponse(request, result);
+                ReadCookies(response);
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected override WebResponse GetWebResponse(WebRequest request)
+        {
+            try
+            {
+                WebResponse response = base.GetWebResponse(request);
+                ReadCookies(response);
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void ReadCookies(WebResponse r)
+        {
+            var response = r as HttpWebResponse;
+            if (response != null && cookieJar != null)
+            {
+                CookieCollection cookies = response.Cookies;
+                cookieJar.Add(cookies);
+            }
+        }
     }
 }

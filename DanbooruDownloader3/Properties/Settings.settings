@@ -155,5 +155,11 @@
     <Setting Name="UseGlobalProviderTags" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="AcceptLanguage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-GB,en-US;q=0.8,en;q=0.6</Value>
+    </Setting>
+    <Setting Name="EnableCompression" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
