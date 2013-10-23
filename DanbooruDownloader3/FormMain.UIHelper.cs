@@ -314,20 +314,6 @@ namespace DanbooruDownloader3
             return searchParam;
         }
 
-        public void ToggleLogging(bool enable)
-        {
-            if (enable)
-            {
-                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.All;
-                Program.Logger.Info("Turning on logging");
-            }
-            else
-            {
-                Program.Logger.Info("Turning off logging");
-                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.Off;
-            }
-        }
-
         /// <summary>
         /// Flash the taskbar, see: http://social.msdn.microsoft.com/forums/en-US/Vsexpressvcs/thread/237b1d13-d2a5-467b-abc5-d793ce472076
         /// </summary>

@@ -15,12 +15,9 @@ namespace DanbooruDownloader3
         [STAThread]
         static void Main()
         {
-            log4net.GlobalContext.Properties["Date"] = DateTime.Now.ToString("yyyy-MM-dd");
-            log4net.Config.XmlConfigurator.Configure();
-            if (Logger == null)
-            {
-                Logger = LogManager.GetLogger(typeof(FormMain));
-            }
+            PrepareLogger();
+            SetLogger(DanbooruDownloader3.Properties.Settings.Default.EnableLogging);            
+
             //try
             //{
                 Application.EnableVisualStyles();
@@ -34,6 +31,27 @@ namespace DanbooruDownloader3
             //}
             Logger.Info("Closing down Danbooru Downloader.");
             Logger.Info("############################################################################");
+        }
+
+        private static void PrepareLogger()
+        {
+            log4net.GlobalContext.Properties["Date"] = DateTime.Now.ToString("yyyy-MM-dd");
+            Logger = LogManager.GetLogger(typeof(FormMain));
+        }
+
+        public static void SetLogger(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                log4net.Config.XmlConfigurator.Configure();
+                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.All;
+                Logger.Info("Logging Enabled");
+            }
+            else
+            {
+                Logger.Info("Logging Disabled");
+                Program.Logger.Logger.Repository.Threshold = log4net.Core.Level.Off;
+            }
         }
     }
 }

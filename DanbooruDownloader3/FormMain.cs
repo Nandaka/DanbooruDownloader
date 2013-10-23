@@ -71,7 +71,6 @@ namespace DanbooruDownloader3
                 Properties.Settings.Default.Save();
             }
 
-            ToggleLogging(Properties.Settings.Default.EnableLogging);
             InitializeComponent();
 
             // Get assembly version
@@ -2068,7 +2067,7 @@ namespace DanbooruDownloader3
 
         private void chkLogging_CheckedChanged(object sender, EventArgs e)
         {
-            ToggleLogging(chkLogging.Checked);
+            Program.SetLogger(chkLogging.Checked);
         }
         #endregion
 

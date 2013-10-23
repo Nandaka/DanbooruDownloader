@@ -7,3 +7,4 @@ TestResults/*
 DanbooruDownloader3.test/bin/*
 DanbooruDownloader3.test/obj/*
 *.!tmp
+packages/*
