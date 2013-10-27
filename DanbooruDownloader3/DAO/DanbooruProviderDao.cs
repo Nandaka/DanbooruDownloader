@@ -80,6 +80,7 @@ namespace DanbooruDownloader3.DAO
                                                 string type = reader.ReadElementContentAsString();
                                                 newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
                                                 break;
+                                            case "TagDownloadUseLoop": newProvider.TagDownloadUseLoop = reader.ReadElementContentAsBoolean(); break;
                                             default: break;
                                         }
                                     }

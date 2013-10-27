@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.Threading;
+using System.Security;
+using System.Security.Permissions;
 
 namespace DanbooruDownloader3.CustomControl
 {
@@ -188,30 +191,16 @@ namespace DanbooruDownloader3.CustomControl
 
         protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
         {
-            try
-            {
-                WebResponse response = base.GetWebResponse(request, result);
-                ReadCookies(response);
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            WebResponse response = base.GetWebResponse(request, result);
+            ReadCookies(response);
+            return response;
         }
 
         protected override WebResponse GetWebResponse(WebRequest request)
         {
-            try
-            {
-                WebResponse response = base.GetWebResponse(request);
-                ReadCookies(response);
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            WebResponse response = base.GetWebResponse(request);
+            ReadCookies(response);
+            return response;
         }
 
         private void ReadCookies(WebResponse r)

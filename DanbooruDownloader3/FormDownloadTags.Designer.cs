@@ -39,6 +39,8 @@
             this.chkMerge = new System.Windows.Forms.CheckBox();
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.chkUseLoop = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtStartingPage = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,7 +85,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(12, 70);
+            this.lblStatus.Location = new System.Drawing.Point(12, 89);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(74, 13);
             this.lblStatus.TabIndex = 4;
@@ -145,7 +147,7 @@
             // 
             this.chkUseLoop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkUseLoop.AutoSize = true;
-            this.chkUseLoop.Location = new System.Drawing.Point(263, 69);
+            this.chkUseLoop.Location = new System.Drawing.Point(15, 69);
             this.chkUseLoop.Name = "chkUseLoop";
             this.chkUseLoop.Size = new System.Drawing.Size(72, 17);
             this.chkUseLoop.TabIndex = 10;
@@ -153,11 +155,30 @@
             this.chkUseLoop.UseVisualStyleBackColor = true;
             this.chkUseLoop.CheckedChanged += new System.EventHandler(this.chkUseLoop_CheckedChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(93, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Starting Page";
+            // 
+            // txtStartingPage
+            // 
+            this.txtStartingPage.Location = new System.Drawing.Point(170, 67);
+            this.txtStartingPage.Name = "txtStartingPage";
+            this.txtStartingPage.Size = new System.Drawing.Size(42, 20);
+            this.txtStartingPage.TabIndex = 12;
+            this.txtStartingPage.Text = "1";
+            // 
             // FormDownloadTags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 92);
+            this.ClientSize = new System.Drawing.Size(600, 112);
+            this.Controls.Add(this.txtStartingPage);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.chkUseLoop);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.chkMerge);
@@ -194,6 +215,8 @@
         private System.Windows.Forms.CheckBox chkMerge;
         private System.Windows.Forms.PictureBox pbIcon;
         private System.Windows.Forms.CheckBox chkUseLoop;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtStartingPage;
 
     }
 }

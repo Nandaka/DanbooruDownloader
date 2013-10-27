@@ -120,7 +120,11 @@ namespace DanbooruDownloader3.Entity
         public Image ThumbnailImage
         {
             get { return thumbnailImage; }
-            set { thumbnailImage = value; }
+            set
+            {
+                thumbnailImage = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("ThumbnailImage"));
+            }
         }
 
         private List<DanbooruTag> tagsEntity;
@@ -143,6 +147,11 @@ namespace DanbooruDownloader3.Entity
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, e);
+        }
         #endregion
 
         public int Filesize { get; set; }
@@ -288,5 +297,6 @@ namespace DanbooruDownloader3.Entity
             set { this._jpeg_height = value; }
         }
         #endregion
+
     }
 }

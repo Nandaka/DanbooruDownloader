@@ -5,6 +5,7 @@ using System.Text;
 using DanbooruDownloader3.DAO;
 using System.IO;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -24,6 +25,7 @@ namespace DanbooruDownloader3.Entity
 
     public class DanbooruProvider
     {
+        // Remember to add the new member to DAO load action
         public string Name { get; set; }
         public int DefaultLimit { get; set; }
         public int HardLimit { get; set; }
@@ -38,6 +40,7 @@ namespace DanbooruDownloader3.Entity
         public string PasswordSalt { get; set; }
         public string PasswordHash { get; set; }
         public BoardType BoardType { get; set; }
+        public bool TagDownloadUseLoop { get; set; }
 
         private bool _hasPrivateTags;
         [XmlIgnore]
@@ -101,6 +104,4 @@ namespace DanbooruDownloader3.Entity
             return Name;
         }
     }
-
-
 }

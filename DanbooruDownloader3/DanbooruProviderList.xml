@@ -15,6 +15,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex</Name>
@@ -31,6 +32,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex (Idol)</Name>
@@ -47,6 +49,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Konachan</Name>

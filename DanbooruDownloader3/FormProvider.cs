@@ -196,7 +196,7 @@ namespace DanbooruDownloader3
                         }
                     }
                 }
-                catch (Exception) { return;  }
+                catch (Exception ex) { Program.Logger.Error(ex.Message, ex); }
             }
 
             Providers[index] = temp;
