@@ -310,6 +310,7 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
+            this.chkHideBlaclistedImage = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -1741,6 +1742,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.chkHideBlaclistedImage);
             this.groupBox5.Controls.Add(this.chkUseGlobalProviderTags);
             this.groupBox5.Controls.Add(this.chkMinimizeTray);
             this.groupBox5.Controls.Add(this.chkAutoFocus);
@@ -1758,7 +1760,7 @@
             this.chkUseGlobalProviderTags.AutoSize = true;
             this.chkUseGlobalProviderTags.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseGlobalProviderTags;
             this.chkUseGlobalProviderTags.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseGlobalProviderTags", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkUseGlobalProviderTags.Location = new System.Drawing.Point(6, 113);
+            this.chkUseGlobalProviderTags.Location = new System.Drawing.Point(6, 105);
             this.chkUseGlobalProviderTags.Name = "chkUseGlobalProviderTags";
             this.chkUseGlobalProviderTags.Size = new System.Drawing.Size(123, 17);
             this.chkUseGlobalProviderTags.TabIndex = 18;
@@ -1784,7 +1786,7 @@
             this.chkAutoFocus.Checked = global::DanbooruDownloader3.Properties.Settings.Default.AutoFocusCurrent;
             this.chkAutoFocus.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAutoFocus.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "AutoFocusCurrent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAutoFocus.Location = new System.Drawing.Point(6, 44);
+            this.chkAutoFocus.Location = new System.Drawing.Point(6, 42);
             this.chkAutoFocus.Name = "chkAutoFocus";
             this.chkAutoFocus.Size = new System.Drawing.Size(187, 17);
             this.chkAutoFocus.TabIndex = 6;
@@ -1797,7 +1799,7 @@
             this.chkLogging.Checked = global::DanbooruDownloader3.Properties.Settings.Default.EnableLogging;
             this.chkLogging.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogging.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "EnableLogging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkLogging.Location = new System.Drawing.Point(6, 67);
+            this.chkLogging.Location = new System.Drawing.Point(6, 63);
             this.chkLogging.Name = "chkLogging";
             this.chkLogging.Size = new System.Drawing.Size(100, 17);
             this.chkLogging.TabIndex = 17;
@@ -1810,7 +1812,7 @@
             this.chkUseTagColor.AutoSize = true;
             this.chkUseTagColor.Checked = global::DanbooruDownloader3.Properties.Settings.Default.UseColoredTag;
             this.chkUseTagColor.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "UseColoredTag", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkUseTagColor.Location = new System.Drawing.Point(6, 90);
+            this.chkUseTagColor.Location = new System.Drawing.Point(6, 84);
             this.chkUseTagColor.Name = "chkUseTagColor";
             this.chkUseTagColor.Size = new System.Drawing.Size(111, 17);
             this.chkUseTagColor.TabIndex = 8;
@@ -3148,6 +3150,18 @@
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
             // 
+            // chkHideBlaclistedImage
+            // 
+            this.chkHideBlaclistedImage.AutoSize = true;
+            this.chkHideBlaclistedImage.Checked = global::DanbooruDownloader3.Properties.Settings.Default.HideBlacklistedImage;
+            this.chkHideBlaclistedImage.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "HideBlacklistedImage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkHideBlaclistedImage.Location = new System.Drawing.Point(6, 126);
+            this.chkHideBlaclistedImage.Name = "chkHideBlaclistedImage";
+            this.chkHideBlaclistedImage.Size = new System.Drawing.Size(134, 17);
+            this.chkHideBlaclistedImage.TabIndex = 19;
+            this.chkHideBlaclistedImage.Text = "Hide Blacklisted Image";
+            this.chkHideBlaclistedImage.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3460,6 +3474,7 @@
         private System.Windows.Forms.TextBox txtAcceptLanguage;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.CheckBox chkEnableCompression;
+        private System.Windows.Forms.CheckBox chkHideBlaclistedImage;
     }
 }
 

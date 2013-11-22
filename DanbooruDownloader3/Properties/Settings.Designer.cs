@@ -659,5 +659,17 @@ namespace DanbooruDownloader3.Properties {
                 this["EnableCompression"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideBlacklistedImage {
+            get {
+                return ((bool)(this["HideBlacklistedImage"]));
+            }
+            set {
+                this["HideBlacklistedImage"] = value;
+            }
+        }
     }
 }

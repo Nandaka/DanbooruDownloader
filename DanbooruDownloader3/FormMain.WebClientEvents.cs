@@ -281,9 +281,9 @@ namespace DanbooruDownloader3
             {
                 DataGridViewRow row = (DataGridViewRow)e.UserState;
                 var startTime = (DateTime)row.Cells["colDownloadStart2"].Value;
-                double speed = e.BytesReceived / (TimeSpan.FromTicks(DateTime.Now.AddTicks(-startTime.Ticks).Ticks).TotalSeconds * 1024);
+                string speed = Helper.shortSpeedStr((long)(e.BytesReceived / (TimeSpan.FromTicks(DateTime.Now.AddTicks(-startTime.Ticks).Ticks).TotalSeconds)));
                 txtLog.AppendText("[clientFileDownload]" + row.Index + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
-                row.Cells["colProgress2"].Value = String.Format("Downloading: {0:0.00} of {1:0.00} KB ({2:0.00} KB/s)", e.BytesReceived / 1024, e.TotalBytesToReceive / 1024, speed);
+                row.Cells["colProgress2"].Value = String.Format("Downloading: {0:0.00} of {1:0.00} ({2:0.00}/s)", Helper.shortSpeedStr(e.BytesReceived), Helper.shortSpeedStr(e.TotalBytesToReceive), speed);
             }
             if (e.TotalBytesToReceive > 0)
             {

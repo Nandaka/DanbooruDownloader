@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20131122
+  - Add starting page for download by tags.
+  - Update Logging logic.
+  - Add option to hide image containing Blacklisted tag.
+  - Update Sankaku Tag download.
+
 - DanbooruDownloader20131019
   - Update cookie handling.
   - Update WebClient to enable compression.

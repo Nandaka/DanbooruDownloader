@@ -1518,6 +1518,7 @@ namespace DanbooruDownloader3
 
         private void dgvList_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            bool hideRow = chkHideBlaclistedImage.Checked;
             // add row number
             for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
             {
@@ -1527,6 +1528,7 @@ namespace DanbooruDownloader3
                 if (item.Hidden)
                 {
                     dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorBlacklisted;
+                    if (hideRow) dgvList.Rows[i].Visible = false;
                 }
                 else
                 {
@@ -1602,12 +1604,13 @@ namespace DanbooruDownloader3
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
+            bool hideRow = chkHideBlaclistedImage.Checked;
             if (dgvList.Rows.Count > 0)
             {
                 foreach (DataGridViewRow row in dgvList.Rows)
                 {
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colCheck"];
-                    chk.Value = true;
+                    if(row.Visible) chk.Value = true;
                 }
             }
         }

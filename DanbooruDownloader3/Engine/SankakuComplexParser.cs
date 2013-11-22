@@ -269,11 +269,11 @@ namespace DanbooruDownloader3.Engine
                     continue;
                 }
 
-                var rows = table.SelectNodes("//tr");
+                var rows = table.SelectNodes("//table[contains(@class,'highlightable')]//tr");
                 int countIndex = 1, nameIndex = 3, typeIndex = 9;
                 foreach (var row in rows)
                 {
-                    if (row.ChildNodes.Count != 11 && row.ChildNodes.Count != 7) continue;
+                    //if (row.ChildNodes.Count != 11 && row.ChildNodes.Count != 7) continue;
                     var cols = row.ChildNodes;
                     if (cols[1].Name == "th")
                     {
@@ -309,6 +309,7 @@ namespace DanbooruDownloader3.Engine
 
                     string tagType = cols[typeIndex].InnerText.Replace("\n", "");
                     if(tagType.EndsWith("(edit)")) tagType = tagType.Substring(0, tagType.Length - 6);
+                    tagType = tagType.ToLowerInvariant();
                     if (tagType == "general")
                         tag.Type = DanbooruTagType.General;
                     else if (tagType == "character")
@@ -317,9 +318,9 @@ namespace DanbooruDownloader3.Engine
                         tag.Type = DanbooruTagType.Artist;
                     else if (tagType == "copyright")
                         tag.Type = DanbooruTagType.Copyright;
-                    else if (tagType == "Idol")
+                    else if (tagType == "idol")
                         tag.Type = DanbooruTagType.Artist;
-                    else if (tagType == "Photo_Set")
+                    else if (tagType == "photo_set")
                         tag.Type = DanbooruTagType.Circle;
                     else
                         tag.Type = DanbooruTagType.Faults;

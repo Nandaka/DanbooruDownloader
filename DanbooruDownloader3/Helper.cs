@@ -401,5 +401,26 @@ namespace DanbooruDownloader3
             }
             return newString.ToString();
         }
+
+        
+        /// <summary>
+        /// http://stackoverflow.com/a/14488941
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <returns></returns>
+        public static string shortSpeedStr(long speed)
+        {
+            string[] suffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+            int i = 0;
+            decimal dValue = (decimal) speed;
+            while (Math.Round(dValue / 1024) >= 1)
+            {
+                dValue /= 1024;
+                i++;
+            }
+
+            return string.Format("{0:n1} {1}", dValue, suffixes[i]);
+        }
+
     }
 }

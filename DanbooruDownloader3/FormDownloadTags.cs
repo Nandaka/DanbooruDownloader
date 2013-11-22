@@ -28,6 +28,7 @@ namespace DanbooruDownloader3
         {
             get
             {
+                Int32.TryParse(txtStartingPage.Text, out _page);
                 return _page;
             }
             set
