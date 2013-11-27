@@ -22,6 +22,7 @@ namespace DanbooruDownloader3
         public static Color ColorFaults = Color.Red;
         public static Color ColorBlacklisted = Color.LightGray;
         public static Color ColorUnknown = Color.Gray;
+        public static Color ColorDeleted = Color.FromArgb(255, 241,243,244);
 
         /// <summary>
         /// Generate hashed password+salt using SHA1

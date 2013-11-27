@@ -378,9 +378,13 @@ namespace DanbooruDownloader3
                         row.Cells["colProgress2"].Value = "No post parser for provider: " + post.Provider;
                         UpdateLog("[DownloadRow]", "No post parser for provider: " + post.Provider + " at : " + row.Index);
                     }
+                    else if (post.Status == "deleted" && !chkProcessDeletedPost.Checked)
+                    {
+                        row.Cells["colProgress2"].Value = "Post is deleted.";
+                        UpdateLog("[DownloadRow]", "Post is deleted for row: " + row.Index);
+                    }
                     else if (!string.IsNullOrWhiteSpace(url) &&
-                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri) &&
-                             post.Status != "deleted") // check if post active and url valid
+                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)) // check if post active and url valid
                     {
                         if (post.Provider == null) post.Provider = _listProvider[cbxProvider.SelectedIndex];
                         if (post.Query == null) post.Query = txtQuery.Text;
@@ -426,7 +430,7 @@ namespace DanbooruDownloader3
                             Program.Logger.Info("[DownloadRow] Downloading " + url);
                             Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                             row.Cells["colDownloadStart2"].Value = DateTime.Now;
-                            _clientFile.DownloadFileAsync(new Uri(url), filename2, row);
+                            _clientFile.DownloadFileAsync(uri, filename2, row);
 
                             return;
                         }
@@ -1529,6 +1533,10 @@ namespace DanbooruDownloader3
                 {
                     dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorBlacklisted;
                     if (hideRow) dgvList.Rows[i].Visible = false;
+                }
+                else if (item.Status == "deleted")
+                {
+                    dgvList.Rows[i].DefaultCellStyle.BackColor = Helper.ColorDeleted;
                 }
                 else
                 {

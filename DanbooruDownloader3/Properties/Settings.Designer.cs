@@ -671,5 +671,17 @@ namespace DanbooruDownloader3.Properties {
                 this["HideBlacklistedImage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ProcessDeletedPost {
+            get {
+                return ((bool)(this["ProcessDeletedPost"]));
+            }
+            set {
+                this["ProcessDeletedPost"] = value;
+            }
+        }
     }
 }
