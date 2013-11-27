@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20131127
+  - Fix tag download for danbooru.
+
 - DanbooruDownloader20131122
   - Add starting page for download by tags.
   - Update Logging logic.

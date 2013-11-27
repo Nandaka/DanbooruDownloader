@@ -176,6 +176,7 @@
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkHideBlaclistedImage = new System.Windows.Forms.CheckBox();
             this.chkUseGlobalProviderTags = new System.Windows.Forms.CheckBox();
             this.chkMinimizeTray = new System.Windows.Forms.CheckBox();
             this.chkAutoFocus = new System.Windows.Forms.CheckBox();
@@ -310,7 +311,6 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
-            this.chkHideBlaclistedImage = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -1755,6 +1755,18 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Application Settings";
             // 
+            // chkHideBlaclistedImage
+            // 
+            this.chkHideBlaclistedImage.AutoSize = true;
+            this.chkHideBlaclistedImage.Checked = global::DanbooruDownloader3.Properties.Settings.Default.HideBlacklistedImage;
+            this.chkHideBlaclistedImage.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "HideBlacklistedImage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkHideBlaclistedImage.Location = new System.Drawing.Point(6, 126);
+            this.chkHideBlaclistedImage.Name = "chkHideBlaclistedImage";
+            this.chkHideBlaclistedImage.Size = new System.Drawing.Size(134, 17);
+            this.chkHideBlaclistedImage.TabIndex = 19;
+            this.chkHideBlaclistedImage.Text = "Hide Blacklisted Image";
+            this.chkHideBlaclistedImage.UseVisualStyleBackColor = true;
+            // 
             // chkUseGlobalProviderTags
             // 
             this.chkUseGlobalProviderTags.AutoSize = true;
@@ -3149,18 +3161,6 @@
             this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
-            // 
-            // chkHideBlaclistedImage
-            // 
-            this.chkHideBlaclistedImage.AutoSize = true;
-            this.chkHideBlaclistedImage.Checked = global::DanbooruDownloader3.Properties.Settings.Default.HideBlacklistedImage;
-            this.chkHideBlaclistedImage.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "HideBlacklistedImage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkHideBlaclistedImage.Location = new System.Drawing.Point(6, 126);
-            this.chkHideBlaclistedImage.Name = "chkHideBlaclistedImage";
-            this.chkHideBlaclistedImage.Size = new System.Drawing.Size(134, 17);
-            this.chkHideBlaclistedImage.TabIndex = 19;
-            this.chkHideBlaclistedImage.Text = "Hide Blacklisted Image";
-            this.chkHideBlaclistedImage.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 

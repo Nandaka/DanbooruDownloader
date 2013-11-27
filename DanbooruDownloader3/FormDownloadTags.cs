@@ -435,11 +435,18 @@ namespace DanbooruDownloader3
             {
                 SelectedProvider = list[index];
                 string limit = "0";
+                chkUseLoop.Checked = SelectedProvider.TagDownloadUseLoop;
+                txtStartingPage.Enabled = chkUseLoop.Checked;
+                if (chkUseLoop.Checked)
+                {
+                    limit = "1000";
+                }
+
                 Page = Int32.Parse(txtStartingPage.Text);
                 if (SelectedProvider.BoardType == BoardType.Danbooru)
                 {
                     txtUrl.Text = cbxProvider.SelectedValue + @"/tag/index.xml?limit=" + limit;
-
+              
                     // sankaku
                     if (cbxProvider.SelectedValue.ToString().ToLowerInvariant().Contains("sankaku"))
                     {
@@ -458,10 +465,6 @@ namespace DanbooruDownloader3
                     txtUrl.Text = cbxProvider.SelectedValue + @"/index.php?page=dapi&s=tag&q=index&limit=" + limit;
                     pbIcon.Image = Properties.Resources.Gelbooru;
                 }
-
-                if (chkUseLoop.Checked) limit = "1000";
-
-                chkUseLoop.Checked = SelectedProvider.TagDownloadUseLoop;
             }
             else
             {
@@ -469,8 +472,6 @@ namespace DanbooruDownloader3
                 txtUrl.Text = "";
                 pbIcon.Image = null;
             }
-
-            txtStartingPage.Enabled = chkUseLoop.Checked;
         }
     }
 }
