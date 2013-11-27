@@ -19,15 +19,19 @@ namespace DanbooruDownloader3.Engine
             string sample_url = "";
 
             // Flash Game or bmp
-            if (post.PreviewUrl == "http://chan.sankakucomplex.com/download-preview.png")
+            if (post.PreviewUrl.EndsWith("download-preview.png"))
             {
                 var links = doc.DocumentNode.SelectNodes("//a");
                 foreach (var link in links)
                 {
                     // flash
-                    if (link.InnerText == "Save this flash (right click and save)")
+                    if (link.InnerText == "Save this file (right click and save as)")
                     {
                         file_url = link.GetAttributeValue("href", "");
+                        // http://cs.sankakucomplex.com/data/f6/23/f623ea7559ef39d96ebb0ca7530586b8.swf
+                        post.MD5 = file_url.Substring(file_url.LastIndexOf("/") + 1);
+                        post.MD5 = post.MD5.Substring(0, post.MD5.Length - 4);
+
                         break;
                     }
                     // bmp
