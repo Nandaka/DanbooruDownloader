@@ -1017,6 +1017,15 @@ namespace DanbooruDownloader3
                                             flag = false;
                                             break;
                                         }
+
+                                        // check batch job delay
+                                        int delay = 0;
+                                        Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
+                                        if (download && delay > 0)
+                                        {
+                                            UpdateLog("DoBatchJob", String.Format("Waiting for {0}ms for the next post.", delay));
+                                            Thread.Sleep(delay);
+                                        }
                                     }
                                 }
                                 batchJob[i].Status = " ==> Done.";

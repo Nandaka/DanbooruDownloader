@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20140117
+  - Add option to add delay for Batch Download (in milisecond).
+
 - DanbooruDownloader20131127
   - Fix tag download for danbooru.
 
