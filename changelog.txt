@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20140126
+  - Add option always put delay in batch download.
+  - Add delay for download tags (follow Batch Download Delay).
+  - Update flash parser for Sankaku.
+
 - DanbooruDownloader20140117
   - Add option to add delay for Batch Download (in milisecond).
 

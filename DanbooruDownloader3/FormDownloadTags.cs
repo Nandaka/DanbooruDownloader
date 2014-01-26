@@ -21,7 +21,8 @@ namespace DanbooruDownloader3
         private const string TAGS_FILENAME = "tags.xml";
         private ExtendedWebClient client;
         private List<DanbooruProvider> list;
-        
+
+        private bool isClosing = false;
 
         private int _page = 1;
         private int Page
@@ -39,7 +40,7 @@ namespace DanbooruDownloader3
         }
 
         private DanbooruProvider SelectedProvider;
-                
+
         private bool isSankaku;
         private int retry;
 
@@ -50,7 +51,7 @@ namespace DanbooruDownloader3
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
         }
-        
+
         #region webclient async event
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
@@ -63,8 +64,8 @@ namespace DanbooruDownloader3
                     if (File.Exists(TAGS_FILENAME + ".bak"))
                     {
                         message += "," + Environment.NewLine + "Restoring backup.";
-                        File.Move(TAGS_FILENAME + ".bak", TAGS_FILENAME);
                     }
+                    RestoreBackup();
                     Program.Logger.Error("[Download Tags] " + message, e.Error);
                     MessageBox.Show(message);
                 }
@@ -88,6 +89,14 @@ namespace DanbooruDownloader3
                 retry = 0;
                 if (chkUseLoop.Checked)
                 {
+                    int delay = 0;
+                    Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
+                    delay = delay / 1000;
+                    if (delay > 0)
+                    {
+                        WaitForDelay("Tags Delay", delay);
+                    }
+
                     string tempName = TAGS_FILENAME + "." + Page + ".!tmp";
                     ++Page;
                     HandleLoop(tempName);
@@ -130,6 +139,7 @@ namespace DanbooruDownloader3
             cbxProvider.ValueMember = "Url";
             cbxProvider.SelectedIndex = -1;
             txtUrl.Text = "";
+            isClosing = false;
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
@@ -145,25 +155,18 @@ namespace DanbooruDownloader3
                 lblStatus.Refresh();
                 Application.DoEvents();
 
-                // Backup
-                if (chkBackup.Checked)
-                {
-                    Program.Logger.Info("[Download Tags] Backup checked.");
-                    if (File.Exists(TAGS_FILENAME))
-                    {
-                        if (File.Exists(TAGS_FILENAME + ".bak")) File.Delete(TAGS_FILENAME + ".bak");
-                        File.Move(TAGS_FILENAME, TAGS_FILENAME + ".bak");
-                    }
-                }
+                CreateBackup();
 
                 // Merge preparation
                 if (chkMerge.Checked)
                 {
                     Program.Logger.Info("[Download Tags] Merge checked.");
+                    var mergeTarget = TAGS_FILENAME + ".merge";
                     if (File.Exists(TAGS_FILENAME))
                     {
-                        if (File.Exists(TAGS_FILENAME + ".merge")) File.Delete(TAGS_FILENAME + ".merge");
-                        File.Copy(TAGS_FILENAME, TAGS_FILENAME + ".merge");
+                        if (File.Exists(mergeTarget))
+                            File.Delete(mergeTarget);
+                        File.Copy(TAGS_FILENAME, mergeTarget);
                     }
                     else
                     {
@@ -196,14 +199,21 @@ namespace DanbooruDownloader3
 
         #endregion
 
-        private void WaitForDelay(string message)
+        private void WaitForDelay(string message, int sleepTime = -1)
         {
-            int sleepTime = Int32.Parse(DanbooruDownloader3.Properties.Settings.Default.delay);
+            if (sleepTime == -1)
+            {
+                sleepTime = Int32.Parse(DanbooruDownloader3.Properties.Settings.Default.delay);
+            }
+
             lblStatus.Text = string.Format("Status: Waiting for {0}s", sleepTime);
             for (int i = 0; i < sleepTime; ++i)
             {
                 for (int j = 1; j <= 10; ++j)
                 {
+                    if (isClosing)
+                        return;
+
                     lblStatus.Text = string.Format("Status:{0}. Waiting for {1} of {2}s", message, i, sleepTime);
                     Application.DoEvents();
                     Thread.Sleep(100);
@@ -390,7 +400,7 @@ namespace DanbooruDownloader3
                 }
                 else
                 {
-                   tempTag = new DanbooruTagsDao(tempName).Tags;
+                    tempTag = new DanbooruTagsDao(tempName).Tags;
                 }
                 if (tempTag != null && tempTag.Tag != null)
                 {
@@ -418,6 +428,10 @@ namespace DanbooruDownloader3
 
         private void ProcessLoop(int page)
         {
+            if (isClosing)
+            {
+                return;
+            }
             // Delete temp file
             string tempFile = TAGS_FILENAME + "." + page + ".!tmp";
             if (File.Exists(tempFile)) File.Delete(tempFile);
@@ -446,7 +460,7 @@ namespace DanbooruDownloader3
                 if (SelectedProvider.BoardType == BoardType.Danbooru)
                 {
                     txtUrl.Text = cbxProvider.SelectedValue + @"/tag/index.xml?limit=" + limit;
-              
+
                     // sankaku
                     if (cbxProvider.SelectedValue.ToString().ToLowerInvariant().Contains("sankaku"))
                     {
@@ -471,6 +485,63 @@ namespace DanbooruDownloader3
                 chkUseLoop.Checked = false;
                 txtUrl.Text = "";
                 pbIcon.Image = null;
+            }
+        }
+
+        private void FormDownloadTags_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isClosing = true;
+            RestoreBackup();
+        }
+
+        private void CreateBackup()
+        {
+            if (chkBackup.Checked)
+            {
+                Program.Logger.Info("[Download Tags] Backup checked.");
+                // Main tags.xml
+                var backup = TAGS_FILENAME + ".bak";
+                if (File.Exists(TAGS_FILENAME))
+                {
+                    if (File.Exists(backup))
+                        File.Delete(backup);
+
+                    File.Move(TAGS_FILENAME, backup);
+                }
+
+                // selected provider
+                string targetXml = "tags-" + SelectedProvider.Name + ".xml";
+                string targetXmlBackup = "tags-" + SelectedProvider.Name + ".xml.bak";
+                if (File.Exists(targetXml))
+                {
+                    if (File.Exists(targetXmlBackup))
+                        File.Delete(targetXmlBackup);
+
+                    File.Move(targetXml, targetXmlBackup);
+                }
+            }
+        }
+
+        private void RestoreBackup()
+        {
+            if (chkBackup.Checked)
+            {
+                // main tags.xml
+                var backup = TAGS_FILENAME + ".bak";
+                if (File.Exists(backup))
+                {
+                    Program.Logger.Info("[Download Tags] Restoring backup: " + TAGS_FILENAME);
+                    File.Move(backup, TAGS_FILENAME);
+                }
+
+                // selected provider
+                string targetXml = "tags-" + SelectedProvider.Name + ".xml";
+                string targetXmlBackup = "tags-" + SelectedProvider.Name + ".xml.bak";
+                if (File.Exists(targetXmlBackup))
+                {
+                    Program.Logger.Info("[Download Tags] Restoring backup: " + targetXml);
+                    File.Move(targetXmlBackup, targetXml);
+                }
             }
         }
     }

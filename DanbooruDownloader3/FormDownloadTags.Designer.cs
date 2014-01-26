@@ -195,6 +195,7 @@
             this.Name = "FormDownloadTags";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Download Tags";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDownloadTags_FormClosing);
             this.Load += new System.EventHandler(this.FormDownloadTags_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.ResumeLayout(false);

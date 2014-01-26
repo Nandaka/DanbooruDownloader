@@ -695,5 +695,17 @@ namespace DanbooruDownloader3.Properties {
                 this["BatchJobDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DelayIncludeSkipped {
+            get {
+                return ((bool)(this["DelayIncludeSkipped"]));
+            }
+            set {
+                this["DelayIncludeSkipped"] = value;
+            }
+        }
     }
 }
