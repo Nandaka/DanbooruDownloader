@@ -144,6 +144,10 @@ namespace DanbooruDownloader3
             ExtendedWebClient.EnableCookie = Properties.Settings.Default.enableCookie;
             ExtendedWebClient.EnableCompression = Properties.Settings.Default.EnableCompression;
             ExtendedWebClient.AcceptLanguage = Properties.Settings.Default.AcceptLanguage;
+
+            dgvList.SetColumnOrder();
+            dgvDownload.SetColumnOrder();
+            dgvBatchJob.SetColumnOrder();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -405,11 +409,8 @@ namespace DanbooruDownloader3
                             IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                             IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                         };
-                        string extension = url.Substring(url.LastIndexOf('.'));
-                        if (chkRenameJpeg.Checked)
-                        {
-                            if (extension.EndsWith(".jpeg")) extension = ".jpg";
-                        }
+
+                        string extension = Helper.getFileExtensions(url);
                         string filename = Helper.MakeFilename(format, post) + extension;
 
                         if (chkOverwrite.Checked || !File.Exists(filename))
@@ -955,11 +956,7 @@ namespace DanbooruDownloader3
                                                 IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                                                 IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                                             };
-                                            string extension = targetUrl.Substring(targetUrl.LastIndexOf('.'));
-                                            if (chkRenameJpeg.Checked)
-                                            {
-                                                if (extension.EndsWith(".jpeg")) extension = ".jpg";
-                                            }
+                                            string extension = Helper.getFileExtensions(targetUrl);
                                             filename = Helper.MakeFilename(format, post) + extension;
                                         }
                                         bool download = true;
@@ -1867,6 +1864,10 @@ namespace DanbooruDownloader3
                 // Save the setting
                 Properties.Settings.Default.Save();
             }
+
+            dgvList.SaveColumnOrder();
+            dgvDownload.SaveColumnOrder();
+            dgvBatchJob.SaveColumnOrder();
         }
 
         private void addSelectedRowsToolStripMenuItem_Click(object sender, EventArgs e)

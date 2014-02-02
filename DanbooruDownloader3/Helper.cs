@@ -22,7 +22,7 @@ namespace DanbooruDownloader3
         public static Color ColorFaults = Color.Red;
         public static Color ColorBlacklisted = Color.LightGray;
         public static Color ColorUnknown = Color.Gray;
-        public static Color ColorDeleted = Color.FromArgb(255, 241,243,244);
+        public static Color ColorDeleted = Color.FromArgb(255, 241, 243, 244);
 
         /// <summary>
         /// Generate hashed password+salt using SHA1
@@ -147,7 +147,7 @@ namespace DanbooruDownloader3
             var copyright = "";
             if (copyrightSelection != null)
             {
-                if (copyrightSelection.Count() >= format.CopyrightGroupLimit && 
+                if (copyrightSelection.Count() >= format.CopyrightGroupLimit &&
                     format.CopyrightGroupLimit > 1 &&
                     !string.IsNullOrWhiteSpace(format.CopyrightGroupReplacement))
                 {
@@ -182,7 +182,7 @@ namespace DanbooruDownloader3
             }
             if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement;
             filename = filename.Replace("%character%", Helper.SanitizeFilename(character.Trim()));
-            
+
             var circleSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name);
             var circle = "";
             if (circleSelection != null)
@@ -202,7 +202,7 @@ namespace DanbooruDownloader3
             }
             if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement;
             filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle.Trim()));
-            
+
             var faultsSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name);
             var faults = "";
             if (faultsSelection != null)
@@ -224,7 +224,7 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults.Trim()));
 
             groupedTags.Sort();
-            filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", groupedTags.Select(x=> x.Name))));
+            filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", groupedTags.Select(x => x.Name))));
 
             // append base folder from Save Folder text box
             if (format.BaseFolder.EndsWith(@"\")) filename = format.BaseFolder + filename;
@@ -265,7 +265,7 @@ namespace DanbooruDownloader3
         /// <param name="url"></param>
         /// <returns></returns>
         public static string RemoveAuthInfo(string url)
-        {            
+        {
             if (!string.IsNullOrWhiteSpace(url) && url.Contains("password_hash="))
             {
                 var splitted = url.Split('&');
@@ -293,10 +293,10 @@ namespace DanbooruDownloader3
 
         public static bool DumpRawData(string data, DanbooruPost post)
         {
-            string filename = "Dump for Post " + post.Id  + post.Provider.Name + " Query " + post.Query + ".txt";
+            string filename = "Dump for Post " + post.Id + post.Provider.Name + " Query " + post.Query + ".txt";
             try
             {
-                
+
                 using (StreamWriter output = File.CreateText(filename))
                 {
                     output.Write(data);
@@ -343,7 +343,7 @@ namespace DanbooruDownloader3
                 foreach (var tag in option.BlacklistedTags)
                 {
                     if (post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase)))
-                        return true;                    
+                        return true;
                 }
             }
             return false;
@@ -403,7 +403,7 @@ namespace DanbooruDownloader3
             return newString.ToString();
         }
 
-        
+
         /// <summary>
         /// http://stackoverflow.com/a/14488941
         /// </summary>
@@ -413,7 +413,7 @@ namespace DanbooruDownloader3
         {
             string[] suffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
             int i = 0;
-            decimal dValue = (decimal) speed;
+            decimal dValue = (decimal)speed;
             while (Math.Round(dValue / 1024) >= 1)
             {
                 dValue /= 1024;
@@ -423,5 +423,20 @@ namespace DanbooruDownloader3
             return string.Format("{0:n1} {1}", dValue, suffixes[i]);
         }
 
+        public static string getFileExtensions(string url)
+        {
+            // http://cs.sankakucomplex.com/data/4c/87/4c87c7e5fbda5e0c2eda1bd0797a008e.jpg?136708
+            string extension = url.Substring(url.LastIndexOf('.'));
+            if (extension.Contains("?"))
+            {
+                extension = extension.Substring(0, extension.LastIndexOf("?"));
+            }
+
+            if (Properties.Settings.Default.RenameJpeg)
+            {
+                if (extension.EndsWith(".jpeg")) extension = ".jpg";
+            }
+            return extension;
+        }
     }
 }

@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20140202
+  - Fix Sankaku saving: Illegal character in path name.
+  - Auto save column order on datagrid.
+
 - DanbooruDownloader20140126
   - Add option always put delay in batch download.
   - Add delay for download tags (follow Batch Download Delay).
