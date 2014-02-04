@@ -144,10 +144,6 @@ namespace DanbooruDownloader3
             ExtendedWebClient.EnableCookie = Properties.Settings.Default.enableCookie;
             ExtendedWebClient.EnableCompression = Properties.Settings.Default.EnableCompression;
             ExtendedWebClient.AcceptLanguage = Properties.Settings.Default.AcceptLanguage;
-
-            dgvList.SetColumnOrder();
-            dgvDownload.SetColumnOrder();
-            dgvBatchJob.SetColumnOrder();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -1864,10 +1860,6 @@ namespace DanbooruDownloader3
                 // Save the setting
                 Properties.Settings.Default.Save();
             }
-
-            dgvList.SaveColumnOrder();
-            dgvDownload.SaveColumnOrder();
-            dgvBatchJob.SaveColumnOrder();
         }
 
         private void addSelectedRowsToolStripMenuItem_Click(object sender, EventArgs e)
