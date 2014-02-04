@@ -291,9 +291,8 @@ namespace DanbooruDownloader3
             return File.Exists("tags.xml");
         }
 
-        public static bool DumpRawData(string data, DanbooruPost post)
+        public static bool DumpRawData(string data, string filename)
         {
-            string filename = "Dump for Post " + post.Id + post.Provider.Name + " Query " + post.Query + ".txt";
             try
             {
 

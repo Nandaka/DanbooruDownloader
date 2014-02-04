@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20140204
+  - Remove duplicated feature extension.
+  - Sankaku Parser: Auto dump html page if encounter error.
+
 - DanbooruDownloader20140202
   - Fix Sankaku saving: Illegal character in path name.
   - Auto save column order on datagrid.

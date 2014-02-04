@@ -13,140 +13,161 @@ namespace DanbooruDownloader3.Engine
     {
         public static DanbooruPost ParsePost(DanbooruPost post, string postHtml)
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(postHtml);
-            string file_url = "";
-            string sample_url = "";
-
-            // Flash Game or bmp
-            if (post.PreviewUrl.EndsWith("download-preview.png"))
+            try
             {
-                var links = doc.DocumentNode.SelectNodes("//a");
-                foreach (var link in links)
-                {
-                    // flash
-                    if (link.InnerText == "Save this file (right click and save as)")
-                    {
-                        file_url = link.GetAttributeValue("href", "");
-                        // http://cs.sankakucomplex.com/data/f6/23/f623ea7559ef39d96ebb0ca7530586b8.swf
-                        post.MD5 = file_url.Substring(file_url.LastIndexOf("/") + 1);
-                        post.MD5 = post.MD5.Substring(0, post.MD5.Length - 4);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(postHtml);
+                string file_url = "";
+                string sample_url = "";
 
-                        break;
-                    }
-                    // bmp
-                    if (link.InnerText == "Download")
+                // Flash Game or bmp
+                if (post.PreviewUrl.EndsWith("download-preview.png"))
+                {
+                    var links = doc.DocumentNode.SelectNodes("//a");
+                    foreach (var link in links)
                     {
-                        file_url = link.GetAttributeValue("href", "");
-                        break;
+                        // flash
+                        if (link.InnerText == "Save this file (right click and save as)")
+                        {
+                            file_url = link.GetAttributeValue("href", "");
+                            // http://cs.sankakucomplex.com/data/f6/23/f623ea7559ef39d96ebb0ca7530586b8.swf
+                            post.MD5 = file_url.Substring(file_url.LastIndexOf("/") + 1);
+                            post.MD5 = post.MD5.Substring(0, post.MD5.Length - 4);
+
+                            break;
+                        }
+                        // bmp
+                        if (link.InnerText == "Download")
+                        {
+                            file_url = link.GetAttributeValue("href", "");
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    var lowresElement = doc.DocumentNode.SelectSingleNode("//a[@id='lowres']");
+                    if (lowresElement != null)
+                    {
+                        sample_url = lowresElement.GetAttributeValue("href", "");
+                    }
+                    var highresElement = doc.DocumentNode.SelectSingleNode("//a[@id='highres']");
+                    if (highresElement != null)
+                    {
+                        file_url = highresElement.GetAttributeValue("href", "");
+                    }
+                }
+
+                post.FileUrl = file_url;
+                if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(sample_url))
+                    sample_url = file_url;
+                post.SampleUrl = sample_url;
+                return post;
             }
-            else
+            catch (Exception ex)
             {
-                var lowresElement = doc.DocumentNode.SelectSingleNode("//a[@id='lowres']");
-                if (lowresElement != null)
-                {
-                    sample_url = lowresElement.GetAttributeValue("href", "");
-                }
-                var highresElement = doc.DocumentNode.SelectSingleNode("//a[@id='highres']");
-                if (highresElement != null)
-                {
-                    file_url = highresElement.GetAttributeValue("href", "");
-                }
+                string filename = "Dump for Post " + post.Id + post.Provider.Name + " Query " + post.Query + ".txt";
+                bool result = Helper.DumpRawData(postHtml, filename);
+                if (!result) Program.Logger.Error("Failed to dump rawdata to: " + filename, ex);
+                throw;
             }
 
-            post.FileUrl = file_url;
-            if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(sample_url))
-                sample_url = file_url;
-            post.SampleUrl = sample_url;
-            return post;
         }
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
         {
-            this.SearchParam = searchParam;
-            this.RawData = data;
-
-            BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
-
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(data);
-
-            // remove popular preview
-            var popular = doc.DocumentNode.SelectSingleNode("//div[@id='popular-preview']");
-            if (popular != null)
+            try
             {
-                popular.Remove();
-            }
+                this.SearchParam = searchParam;
+                this.RawData = data;
 
-            // get all thumbs
-            var thumbs = doc.DocumentNode.SelectNodes("//span");
-            if (thumbs != null && thumbs.Count > 0)
-            {
-                foreach (var thumb in thumbs)
+                BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
+
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(data);
+
+                // remove popular preview
+                var popular = doc.DocumentNode.SelectSingleNode("//div[@id='popular-preview']");
+                if (popular != null)
                 {
-                    if (thumb.GetAttributeValue("class", "").Contains("thumb"))
+                    popular.Remove();
+                }
+
+                // get all thumbs
+                var thumbs = doc.DocumentNode.SelectNodes("//span");
+                if (thumbs != null && thumbs.Count > 0)
+                {
+                    foreach (var thumb in thumbs)
                     {
-                        DanbooruPost post = new DanbooruPost();
-                        post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
-
-                        post.Provider = searchParam.Provider;
-                        post.SearchTags = searchParam.Tag;
-                        post.Query = GenerateQueryString(searchParam);
-
-                        int i = 0;
-                        // get the image link
-                        for (; i < thumb.ChildNodes.Count; ++i)
+                        if (thumb.GetAttributeValue("class", "").Contains("thumb"))
                         {
-                            if (thumb.ChildNodes[i].Name == "a") break;
+                            DanbooruPost post = new DanbooruPost();
+                            post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
+
+                            post.Provider = searchParam.Provider;
+                            post.SearchTags = searchParam.Tag;
+                            post.Query = GenerateQueryString(searchParam);
+
+                            int i = 0;
+                            // get the image link
+                            for (; i < thumb.ChildNodes.Count; ++i)
+                            {
+                                if (thumb.ChildNodes[i].Name == "a") break;
+                            }
+                            var a = thumb.ChildNodes[i];
+                            post.Referer = searchParam.Provider.Url + a.GetAttributeValue("href", "");
+
+                            var img = a.ChildNodes[i];
+                            var title = img.GetAttributeValue("title", "");
+                            post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
+                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
+                            post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
+
+                            post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
+
+                            post.PreviewUrl = img.GetAttributeValue("src", "");
+                            post.PreviewHeight = img.GetAttributeValue("height", 0);
+                            post.PreviewWidth = img.GetAttributeValue("width", 0);
+
+                            // Rating:Explicit Score:4.5 Size:1080x1800 User:System
+                            post.Source = "";
+                            post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
+                            post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
+
+                            string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
+                            resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
+                            string[] resArr = resolution.Split('x');
+                            post.Width = Int32.Parse(resArr[0]);
+                            post.Height = Int32.Parse(resArr[1]);
+
+                            string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
+                            //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                            post.Rating = rating.ToLower();
+
+                            post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
+
+                            post.Status = "";
+
+                            post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
+                            post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
+
+                            posts.Add(post);
                         }
-                        var a = thumb.ChildNodes[i];
-                        post.Referer = searchParam.Provider.Url + a.GetAttributeValue("href", "");
-
-                        var img = a.ChildNodes[i];
-                        var title = img.GetAttributeValue("title", "");
-                        post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
-                        post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                        post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
-
-                        post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
-
-                        post.PreviewUrl = img.GetAttributeValue("src", "");
-                        post.PreviewHeight = img.GetAttributeValue("height", 0);
-                        post.PreviewWidth = img.GetAttributeValue("width", 0);
-
-                        // Rating:Explicit Score:4.5 Size:1080x1800 User:System
-                        post.Source = "";
-                        post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
-                        post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
-
-                        string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
-                        resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
-                        string[] resArr = resolution.Split('x');
-                        post.Width = Int32.Parse(resArr[0]);
-                        post.Height = Int32.Parse(resArr[1]);
-
-                        string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
-                        //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
-                        post.Rating = rating.ToLower();
-
-                        post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
-
-                        post.Status = "";
-
-                        post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
-                        post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
-
-                        posts.Add(post);
                     }
                 }
-            }
 
-            TotalPost = posts.Count;
-            if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
-            Offset = TotalPost * SearchParam.Page;
-            return posts;
+                TotalPost = posts.Count;
+                if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+                Offset = TotalPost * SearchParam.Page;
+                return posts;
+            }
+            catch (Exception ex)
+            {
+                var filename = Helper.SanitizeFilename("Dump for Sankaku Image List - " + searchParam.Tag + " - page " + searchParam.Page + ".txt");
+                var result = Helper.DumpRawData(data, filename);
+                if (!result) Program.Logger.Error("Failed to dump rawdata to: " + filename, ex);
+                throw;
+            }
         }
 
         public int? TotalPost { get; set; }
@@ -254,7 +275,7 @@ namespace DanbooruDownloader3.Engine
             if (temp > 0) return temp;
             else return 1;
         }
-        
+
         public DanbooruTagCollection parseTagsPage(string data, int page)
         {
             DanbooruTagCollection tagCol = new DanbooruTagCollection();
@@ -312,7 +333,7 @@ namespace DanbooruDownloader3.Engine
                     tag.Name = Helper.RemoveControlCharacters(System.Net.WebUtility.HtmlDecode(cols[nameIndex].ChildNodes[3].InnerText.Replace("\n", "")));
 
                     string tagType = cols[typeIndex].InnerText.Replace("\n", "");
-                    if(tagType.EndsWith("(edit)")) tagType = tagType.Substring(0, tagType.Length - 6);
+                    if (tagType.EndsWith("(edit)")) tagType = tagType.Substring(0, tagType.Length - 6);
                     tagType = tagType.ToLowerInvariant();
                     if (tagType == "general")
                         tag.Type = DanbooruTagType.General;

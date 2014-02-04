@@ -267,7 +267,8 @@ namespace DanbooruDownloader3.test
             post.Query = "";
             post.Provider = new DanbooruProvider() {Name = "TestProvider"};
 
-            bool result = Helper.DumpRawData(dump, post);
+            string filename = "Dump for Post " + post.Id + post.Provider.Name + " Query " + post.Query + ".txt";
+            bool result = Helper.DumpRawData(dump, filename);
             Assert.IsTrue(result);
         }
 
