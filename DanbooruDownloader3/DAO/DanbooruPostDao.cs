@@ -530,7 +530,7 @@ namespace DanbooruDownloader3.DAO
             {
                 return Option.Provider.Url + url;
             }
-            return url;
+            return url.Replace(@"\", "");
         }
     }
 }
