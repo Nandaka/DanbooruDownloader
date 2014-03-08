@@ -10,66 +10,138 @@ using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using DanbooruDownloader3.DAO;
+using System.IO;
 
 namespace DanbooruDownloader3.Engine
 {
     public class ShimmieEngine
     {
         private static Regex imageResolutionRegex = new Regex(@"title=.*[\|\||\/\/] (\d+)x(\d+).*width='(\d+)'.*height='(\d+).*Uploaded by (.+)<");
+        private static Regex thumbSrc = new Regex("src=\"(.*)\"");
 
-        public static BindingList<DanbooruPost> ParseRSS(XmlReader reader, DanbooruPostDaoOption option)
+        public static BindingList<DanbooruPost> ParseRSS(string xmldoc, DanbooruPostDaoOption option)
         {
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
             
-            XDocument doc = XDocument.Load(reader);
-            string media = doc.Root.Attribute("{http://www.w3.org/2000/xmlns/}media").Value;
-
-            foreach (var item in doc.Descendants("item"))
+            try
             {
-                DanbooruPost post = new DanbooruPost();
-
-                var titleData = item.Element("title").Value.Split(new char[] { '-' } , 2);
-
-                post.Id = titleData[0].Trim();
-                post.Tags = titleData[1].Trim();
-                post.TagsEntity = Helper.ParseTags(post.Tags, option.Provider);
-
-                if (option.BlacklistedTagsUseRegex)
-                {
-                    post.Hidden = IsBlacklisted(post, option.BlacklistedTagsRegex);
-                }
-                else
-                {
-                    post.Hidden = IsBlacklisted(post, option.BlacklistedTags);
-                }
-
-                post.Referer = AppendHttp(item.Element("link").Value, option.Provider);
-                post.CreatedAt = item.Element("pubDate").Value;
-                post.Provider = option.Provider;
-
-                var data = item.Element("{" + media + "}thumbnail");
-                post.PreviewUrl = AppendHttp(data.Attribute("url").Value, option.Provider);
-                data = item.Element("{" + media + "}content");
-                post.FileUrl = AppendHttp(data.Attribute("url").Value, option.Provider);
-
-                post.Query = option.Query;
-                post.SearchTags = option.SearchTags;
-
-                try
-                {
-                    string description = HttpUtility.HtmlDecode(item.Element("description").Value);
-                    Match matches = imageResolutionRegex.Match(description);
-                    post.Width = Convert.ToInt32(matches.Groups[1].Value);
-                    post.Height = Convert.ToInt32(matches.Groups[2].Value);
-                    post.PreviewWidth = Convert.ToInt32(matches.Groups[3].Value);
-                    post.PreviewHeight = Convert.ToInt32(matches.Groups[4].Value);
-                    post.CreatorId = matches.Groups[5].Value;
-                }
-                catch (Exception) { }
-
-                posts.Add(post);
+                ReadRssMethod1(option, posts, xmldoc);
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error("Using method2", ex);
+                ReadRssMethod2(option, posts, xmldoc);
             }
             return posts;
+        }
+
+        private static void PostProcess(DanbooruPostDaoOption option, DanbooruPost post)
+        {
+            post.TagsEntity = Helper.ParseTags(post.Tags, option.Provider);
+
+            if (option.BlacklistedTagsUseRegex)
+            {
+                post.Hidden = IsBlacklisted(post, option.BlacklistedTagsRegex);
+            }
+            else
+            {
+                post.Hidden = IsBlacklisted(post, option.BlacklistedTags);
+            }
+
+            post.Query = option.Query;
+            post.SearchTags = option.SearchTags;
+            post.Provider = option.Provider;
+        }
+
+        private static void ReadRssMethod2(DanbooruPostDaoOption option, BindingList<DanbooruPost> posts, string xmldoc)
+        {
+            using (StringReader strReader = new StringReader(xmldoc))
+            {
+                using (XmlReader reader = new XmlTextReader(strReader))
+                {
+                    XDocument doc = XDocument.Load(reader);
+                    var feeds = doc.Descendants("item");
+
+                    XNamespace dc = "http://purl.org/dc/elements/1.1/";
+
+                    foreach (var item in feeds)
+                    {
+                        DanbooruPost post = new DanbooruPost();
+                        var titleData = item.Element("title").Value.Split(new char[] { '-' }, 2);
+
+                        post.Id = titleData[0].Trim();
+                        post.Tags = titleData[1].Trim();
+
+                        post.Referer = AppendHttp(item.Element("link").Value, option.Provider);
+                        post.CreatedAt = item.Element("pubDate").Value;
+
+                        post.CreatorId = item.Element(dc + "creator").Value;
+
+                        post.FileUrl = item.Element("enclosure").Attribute("url").Value;
+                        try
+                        {
+                            HtmlAgilityPack.HtmlDocument description = new HtmlAgilityPack.HtmlDocument();
+                            description.LoadHtml(HttpUtility.HtmlDecode(item.Element("description").Value));
+                            
+                            //post.Width = Convert.ToInt32(matches.Groups[1].Value);
+                            //post.Height = Convert.ToInt32(matches.Groups[2].Value);
+                            var img = description.DocumentNode.SelectSingleNode("//img");
+                            post.PreviewWidth = Convert.ToInt32(img.Attributes["width"].Value);
+                            post.PreviewHeight = Convert.ToInt32(img.Attributes["height"].Value);
+                            post.PreviewUrl = img.Attributes["src"].Value;
+                        }
+                        catch (Exception) { }
+
+                        PostProcess(option, post);
+                        posts.Add(post);
+                    }
+                }
+            }
+        }
+
+        private static void ReadRssMethod1(DanbooruPostDaoOption option, BindingList<DanbooruPost> posts, string xmldoc)
+        {
+            using (StringReader strReader = new StringReader(xmldoc))
+            {
+                using (XmlReader reader = new XmlTextReader(strReader))
+                {
+                    XDocument doc = XDocument.Load(reader);
+                    string media = doc.Root.Attribute("{http://www.w3.org/2000/xmlns/}media").Value;
+
+                    foreach (var item in doc.Descendants("item"))
+                    {
+                        DanbooruPost post = new DanbooruPost();
+
+                        var titleData = item.Element("title").Value.Split(new char[] { '-' }, 2);
+
+                        post.Id = titleData[0].Trim();
+                        post.Tags = titleData[1].Trim();
+
+                        post.Referer = AppendHttp(item.Element("link").Value, option.Provider);
+                        post.CreatedAt = item.Element("pubDate").Value;
+
+                        var data = item.Element("{" + media + "}thumbnail");
+                        post.PreviewUrl = AppendHttp(data.Attribute("url").Value, option.Provider);
+                        data = item.Element("{" + media + "}content");
+                        post.FileUrl = AppendHttp(data.Attribute("url").Value, option.Provider);
+
+                        try
+                        {
+                            string description = HttpUtility.HtmlDecode(item.Element("description").Value);
+                            Match matches = imageResolutionRegex.Match(description);
+                            post.Width = Convert.ToInt32(matches.Groups[1].Value);
+                            post.Height = Convert.ToInt32(matches.Groups[2].Value);
+                            post.PreviewWidth = Convert.ToInt32(matches.Groups[3].Value);
+                            post.PreviewHeight = Convert.ToInt32(matches.Groups[4].Value);
+                            post.CreatorId = matches.Groups[5].Value;
+                        }
+                        catch (Exception) { }
+
+                        PostProcess(option, post);
+                        posts.Add(post);
+                    }
+                }
+            }
         }
 
         private static string AppendHttp(string url, DanbooruProvider provider) 

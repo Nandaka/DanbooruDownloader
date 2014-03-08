@@ -280,7 +280,7 @@
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>20</HardLimit>
     <Preferred>Xml</Preferred>
-    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <QueryStringXml>/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
     <Url>http://rule34.paheal.net</Url>

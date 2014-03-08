@@ -29,7 +29,12 @@ namespace DanbooruDownloader3.test
         public void TestShimmie2Parser()
         {
             var shimmie2Provider = DanbooruProviderDao.GetInstance().Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Shimmie2).First<DanbooruProvider>();
-            XmlReader reader = new XmlTextReader(@"../../../DanbooruDownloader3.test/TestXml/shimmie2.xml");
+            var xml = "";
+
+            using (StreamReader reader = new StreamReader(@"../../../DanbooruDownloader3.test/TestXml/shimmie2.xml"))
+            {
+                xml = reader.ReadToEnd();
+            }
 
             DanbooruPostDaoOption option = new DanbooruPostDaoOption()
             {
@@ -41,7 +46,7 @@ namespace DanbooruDownloader3.test
                 BlacklistedTagsUseRegex = false
             };
 
-            var list = ShimmieEngine.ParseRSS(reader, option);
+            var list = ShimmieEngine.ParseRSS(xml, option);
 
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Count == 9);

@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20140308
+  - Update Shimmie Parser.
+  - Fix json Parser.
+
 - DanbooruDownloader20140204
   - Remove duplicated feature extension.
   - Sankaku Parser: Auto dump html page if encounter error.

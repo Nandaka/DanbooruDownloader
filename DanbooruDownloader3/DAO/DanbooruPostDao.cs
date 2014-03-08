@@ -156,7 +156,7 @@ namespace DanbooruDownloader3.DAO
                 {
                     if (Option.Provider.BoardType == BoardType.Shimmie2)
                     {
-                        posts =  Engine.ShimmieEngine.ParseRSS(reader, Option);
+                        posts = Engine.ShimmieEngine.ParseRSS(rawData, Option);
                     }
                     else
                     {
