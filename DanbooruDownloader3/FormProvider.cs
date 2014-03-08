@@ -35,9 +35,14 @@ namespace DanbooruDownloader3
 
         private void LoadProviders()
         {
+            var temp = Providers[SelectedIndex];
+            
             cbxProviders.DataSource = null;
+            cbxProviders.DisplayMember = "Name";
             cbxProviders.DataSource = Providers;
-            cbxProviders.DisplayMember = "Name";            
+            
+            // hax to remember the selected provider > 0
+            Providers[SelectedIndex] = temp;
         }
 
         private void CreateControls()

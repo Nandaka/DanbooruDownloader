@@ -3,6 +3,7 @@ Change Log:
 - DanbooruDownloader20140308
   - Update Shimmie Parser.
   - Fix json Parser.
+  - Fix Provider Form.
 
 - DanbooruDownloader20140204
   - Remove duplicated feature extension.
