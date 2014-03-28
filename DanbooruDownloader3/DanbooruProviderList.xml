@@ -7,7 +7,7 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
-    <QueryStringHtml />
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>http://danbooru.donmai.us</Url>
     <UserName />
     <Password />
@@ -22,8 +22,8 @@
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
     <Preferred>Html</Preferred>
-    <QueryStringXml></QueryStringXml>
-    <QueryStringJson></QueryStringJson>
+    <QueryStringXml />
+    <QueryStringJson />
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>http://chan.sankakucomplex.com</Url>
     <UserName />
@@ -66,6 +66,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>yande.re (oreno.imouto.org)</Name>
@@ -82,6 +83,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>gelbooru.com</Name>
@@ -98,6 +100,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>nekobooru.net</Name>
@@ -114,6 +117,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>safebooru.org</Name>
@@ -130,6 +134,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>ichijou.org</Name>
@@ -146,6 +151,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>TheDoujin.com</Name>
@@ -162,6 +168,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
@@ -178,6 +185,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>e621 (Furry)</Name>
@@ -194,6 +202,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>rule34.xxx</Name>
@@ -210,6 +219,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>dollbooru</Name>
@@ -226,6 +236,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>4chanhouse</Name>
@@ -242,6 +253,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>fairygarden</Name>
@@ -258,6 +270,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>megabooru</Name>
@@ -274,6 +287,7 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>rule34.paheal.net</Name>
@@ -290,6 +304,7 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>NIS Imageboard</Name>
@@ -306,6 +321,7 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>lolibooru.com</Name>
@@ -322,6 +338,7 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>hypnohub.net</Name>
@@ -338,6 +355,23 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>tbib.org</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>20</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
+    <Url>http://tbib.org</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt />
+    <PasswordHash />
+    <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
 </DanbooruProviderList>
