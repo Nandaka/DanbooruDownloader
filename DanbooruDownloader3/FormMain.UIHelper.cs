@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
-using DanbooruDownloader3.Entity;
-using System.IO;
-using System.Net;
-using System.Security.Cryptography;
-using System.Runtime.InteropServices;
 using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -85,7 +85,7 @@ namespace DanbooruDownloader3
         private void EnableDownloadControls(bool enabled)
         {
             btnClearDownloadList.Enabled = enabled;
-            btnLoadDownloadList.Enabled = enabled;            
+            btnLoadDownloadList.Enabled = enabled;
             btnDownloadFiles.Enabled = enabled;
 
             btnCancelDownload.Enabled = !enabled;
@@ -121,7 +121,7 @@ namespace DanbooruDownloader3
         /// <summary>
         /// Setting up global proxy for webclient.
         /// </summary>
-        private void SetProxy(bool useProxy, string proxyAddress, int port, string username=null, string password=null)
+        private void SetProxy(bool useProxy, string proxyAddress, int port, string username = null, string password = null)
         {
             if (useProxy)
             {
@@ -138,7 +138,7 @@ namespace DanbooruDownloader3
             else ExtendedWebClient.GlobalProxy = null;
         }
 
-        delegate void SetUpdateLogCallback(string source, string message, Exception ex);
+        private delegate void SetUpdateLogCallback(string source, string message, Exception ex);
 
         /// <summary>
         /// Update Log text box.
@@ -159,8 +159,8 @@ namespace DanbooruDownloader3
                 txtLog.AppendText("[" + source + "] " + message + Environment.NewLine);
 
                 message = Helper.RemoveAuthInfo(message);
-                if(ex == null) Program.Logger.Info("[" + source + "] " + message);
-                else           Program.Logger.Error("[" + source + "] " + message, ex);
+                if (ex == null) Program.Logger.Info("[" + source + "] " + message);
+                else Program.Logger.Error("[" + source + "] " + message, ex);
             }
         }
 
@@ -173,10 +173,11 @@ namespace DanbooruDownloader3
             tsStatus.Text = tsStatus.Text.Replace("&", "&&");
         }
 
-        delegate void SetUpdateStatusCallback(string message, bool showDialogBox);
+        private delegate void SetUpdateStatusCallback(string message, bool showDialogBox);
+
         private void UpdateStatus2(string message, bool showDialogBox = false)
         {
-            if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated) 
+            if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated)
             {
                 SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus2);
                 this.Invoke(d, new object[] { message, showDialogBox });
@@ -206,13 +207,14 @@ namespace DanbooruDownloader3
 
                 // Clean up txtTags
                 var tags = txtTags.Text;
-                tags = tags.Trim();
                 while (tags.Contains("  "))
                 {
                     tags = tags.Replace("  ", " ");
                 }
+                tags = tags.Trim();
+                tags = System.Web.HttpUtility.UrlEncode(tags);
 
-                if (_currProvider.BoardType == BoardType.Shimmie2 )
+                if (_currProvider.BoardType == BoardType.Shimmie2)
                 {
                     var page = txtPage.Text;
                     if (String.IsNullOrWhiteSpace(page))
@@ -223,16 +225,16 @@ namespace DanbooruDownloader3
 
                     txtQuery.Text = tags;
                     if (!String.IsNullOrWhiteSpace(tags)) txtQuery.Text += "/";
-                                        
+
                     txtQuery.Text += page;
                 }
                 else
                 {
                     List<string> queryList = new List<string>();
                     List<string> tagsList = new List<string>();
-                    
+
                     //Tags
-                    if(tags.Length > 0) tagsList.Add(tags.Replace(' ', '+'));
+                    if (tags.Length > 0) tagsList.Add(tags.Replace(' ', '+'));
 
                     //Rating
                     if (cbxRating.SelectedIndex > 0) tagsList.Add(chkNotRating.Checked ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue);
@@ -252,7 +254,7 @@ namespace DanbooruDownloader3
                     //StartPage
                     if (txtPage.Text.Length > 0)
                     {
-                        if (_currProvider.BoardType == BoardType.Danbooru) queryList.Add("page=" + txtPage.Text); 
+                        if (_currProvider.BoardType == BoardType.Danbooru) queryList.Add("page=" + txtPage.Text);
                         else if (_currProvider.BoardType == BoardType.Gelbooru) queryList.Add("pid=" + txtPage.Text);
                     }
 
@@ -266,12 +268,15 @@ namespace DanbooruDownloader3
                 case PreferredMethod.Xml:
                     query = _currProvider.QueryStringXml;
                     break;
+
                 case PreferredMethod.Json:
                     query = _currProvider.QueryStringJson;
                     break;
+
                 case PreferredMethod.Html:
                     query = _currProvider.QueryStringHtml;
                     break;
+
                 default:
                     break;
             }
@@ -283,7 +288,8 @@ namespace DanbooruDownloader3
 
         public DanbooruSearchParam GetSearchParams()
         {
-            DanbooruPostDaoOption option = new DanbooruPostDaoOption() {
+            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+            {
                 BlacklistedTags = TagBlacklist,
                 BlacklistedTagsRegex = TagBlacklistRegex,
                 BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
@@ -301,7 +307,7 @@ namespace DanbooruDownloader3
             searchParam.Source = txtSource.Text;
 
             int tempPage = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
-            if(!String.IsNullOrWhiteSpace(txtPage.Text)) 
+            if (!String.IsNullOrWhiteSpace(txtPage.Text))
             {
                 tempPage = Convert.ToInt32(txtPage.Text);
             }
@@ -321,7 +327,7 @@ namespace DanbooruDownloader3
         /// <param name="bInvert"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
+        private static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
         public void ShowMessage(string title, string text)
         {
@@ -331,7 +337,7 @@ namespace DanbooruDownloader3
             }
             else
             {
-                if(this.WindowState == FormWindowState.Minimized || !this.Focused) FlashWindow(this.Handle, true);
+                if (this.WindowState == FormWindowState.Minimized || !this.Focused) FlashWindow(this.Handle, true);
                 MessageBox.Show(this, text, title, MessageBoxButtons.OK);
             }
         }

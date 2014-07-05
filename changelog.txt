@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20140705
+  - Update Sankaku Parser: fix url resolution.
+  - Fix Issue #41: use url encoding for tags search.
+
 - DanbooruDownloader20140308
   - Update Shimmie Parser.
   - Fix json Parser.
