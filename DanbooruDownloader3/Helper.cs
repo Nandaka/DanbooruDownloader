@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-using System.IO;
-using DanbooruDownloader3.Entity;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -295,7 +295,6 @@ namespace DanbooruDownloader3
         {
             try
             {
-
                 using (StreamWriter output = File.CreateText(filename))
                 {
                     output.Write(data);
@@ -316,7 +315,6 @@ namespace DanbooruDownloader3
             filename = Helper.SanitizeFilename(filename);
             try
             {
-
                 using (StreamWriter output = File.CreateText(filename))
                 {
                     output.Write(data);
@@ -391,7 +389,6 @@ namespace DanbooruDownloader3
 
             for (int i = 0; i < inString.Length; i++)
             {
-
                 ch = inString[i];
 
                 if (!char.IsControl(ch))
@@ -401,7 +398,6 @@ namespace DanbooruDownloader3
             }
             return newString.ToString();
         }
-
 
         /// <summary>
         /// http://stackoverflow.com/a/14488941
@@ -436,6 +432,20 @@ namespace DanbooruDownloader3
                 if (extension.EndsWith(".jpeg")) extension = ".jpg";
             }
             return extension;
+        }
+
+        public static string FixUrl(string url, bool useHttps = false)
+        {
+            if (String.IsNullOrWhiteSpace(url)) return url;
+            if (!url.StartsWith("http"))
+            {
+                if (useHttps)
+                    url = "https:" + url;
+                else
+                    url = "http:" + url;
+            }
+
+            return url;
         }
     }
 }

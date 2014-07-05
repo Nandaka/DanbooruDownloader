@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using HtmlAgilityPack;
-using DanbooruDownloader3.Entity;
-using System.ComponentModel;
 using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using HtmlAgilityPack;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -29,7 +29,7 @@ namespace DanbooruDownloader3.Engine
                         // flash
                         if (link.InnerText == "Save this file (right click and save as)")
                         {
-                            file_url = link.GetAttributeValue("href", "");
+                            file_url = Helper.FixUrl(link.GetAttributeValue("href", ""));
                             // http://cs.sankakucomplex.com/data/f6/23/f623ea7559ef39d96ebb0ca7530586b8.swf
                             post.MD5 = file_url.Substring(file_url.LastIndexOf("/") + 1);
                             post.MD5 = post.MD5.Substring(0, post.MD5.Length - 4);
@@ -39,7 +39,7 @@ namespace DanbooruDownloader3.Engine
                         // bmp
                         if (link.InnerText == "Download")
                         {
-                            file_url = link.GetAttributeValue("href", "");
+                            file_url = Helper.FixUrl(link.GetAttributeValue("href", ""));
                             break;
                         }
                     }
@@ -49,12 +49,12 @@ namespace DanbooruDownloader3.Engine
                     var lowresElement = doc.DocumentNode.SelectSingleNode("//a[@id='lowres']");
                     if (lowresElement != null)
                     {
-                        sample_url = lowresElement.GetAttributeValue("href", "");
+                        sample_url = Helper.FixUrl(lowresElement.GetAttributeValue("href", ""));
                     }
                     var highresElement = doc.DocumentNode.SelectSingleNode("//a[@id='highres']");
                     if (highresElement != null)
                     {
-                        file_url = highresElement.GetAttributeValue("href", "");
+                        file_url = Helper.FixUrl(highresElement.GetAttributeValue("href", ""));
                     }
                 }
 
@@ -71,7 +71,6 @@ namespace DanbooruDownloader3.Engine
                 if (!result) Program.Logger.Error("Failed to dump rawdata to: " + filename, ex);
                 throw;
             }
-
         }
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
@@ -115,7 +114,7 @@ namespace DanbooruDownloader3.Engine
                                 if (thumb.ChildNodes[i].Name == "a") break;
                             }
                             var a = thumb.ChildNodes[i];
-                            post.Referer = searchParam.Provider.Url + a.GetAttributeValue("href", "");
+                            post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""));
 
                             var img = a.ChildNodes[i];
                             var title = img.GetAttributeValue("title", "");
@@ -125,7 +124,7 @@ namespace DanbooruDownloader3.Engine
 
                             post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
-                            post.PreviewUrl = img.GetAttributeValue("src", "");
+                            post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""));
                             post.PreviewHeight = img.GetAttributeValue("height", 0);
                             post.PreviewWidth = img.GetAttributeValue("width", 0);
 
