@@ -2,64 +2,66 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using DanbooruDownloader3.CustomControl;
 using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
 using DanbooruDownloader3.Utils;
-using System.Net;
-using System.IO;
-using System.Diagnostics;
-using System.Threading;
-using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using DanbooruDownloader3.CustomControl;
-using DanbooruDownloader3.Engine;
 
 namespace DanbooruDownloader3
 {
     public partial class FormMain : Form
     {
         #region property
+
         public static bool Debug = false;
 
-        List<DanbooruProvider> _listProvider;
-        DanbooruProvider _currProvider;
-        int _currCount;
-        DanbooruPostDao _postsDao;
+        private List<DanbooruProvider> _listProvider;
+        private DanbooruProvider _currProvider;
+        private int _currCount;
+        private DanbooruPostDao _postsDao;
 
-        BindingList<DanbooruPost> _downloadList;
+        private BindingList<DanbooruPost> _downloadList;
 
-        ExtendedWebClient _clientList;
-        ExtendedWebClient _clientThumb;
-        ExtendedWebClient _clientFile;
-        ExtendedWebClient _clientBatch;
+        private ExtendedWebClient _clientList;
+        private ExtendedWebClient _clientThumb;
+        private ExtendedWebClient _clientFile;
+        private ExtendedWebClient _clientBatch;
 
-        bool _isPaused = false;
-        bool _isLoadingList = false;
-        bool _isLoadingThumb = false;
-        bool _isDownloading = false;
-        bool _isCanceled = false;
+        private bool _isPaused = false;
+        private bool _isLoadingList = false;
+        private bool _isLoadingThumb = false;
+        private bool _isDownloading = false;
+        private bool _isCanceled = false;
 
-        bool _isMorePost = true;
+        private bool _isMorePost = true;
 
-        int _loadedThumbnail;
-        bool _resetLoadedThumbnail = false;
-        int _retry;
-        int _delay;
+        private int _loadedThumbnail;
+        private bool _resetLoadedThumbnail = false;
+        private int _retry;
+        private int _delay;
 
         public const int MAX_FILENAME_LENGTH = 255;
 
-        List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
-        Regex TagBlacklistRegex = new Regex("$^");
-        List<DanbooruTag> TagIgnore = new List<DanbooruTag>();
-        Regex TagIgnoreRegex = new Regex("$^");
-        #endregion
+        private List<DanbooruTag> TagBlacklist = new List<DanbooruTag>();
+        private Regex TagBlacklistRegex = new Regex("$^");
+        private List<DanbooruTag> TagIgnore = new List<DanbooruTag>();
+        private Regex TagIgnoreRegex = new Regex("$^");
+
+        #endregion property
 
         public FormMain()
         {
@@ -80,6 +82,7 @@ namespace DanbooruDownloader3
             Program.Logger.Info("Starting up " + this.Text);
 
             #region init webclients
+
             _clientList = new ExtendedWebClient();
             _clientList.DownloadProgressChanged += new DownloadProgressChangedEventHandler(clientList_DownloadProgressChanged);
             _clientList.DownloadFileCompleted += new AsyncCompletedEventHandler(clientList_DownloadFileCompleted);
@@ -96,7 +99,8 @@ namespace DanbooruDownloader3
             _clientBatch = new ExtendedWebClient();
             //_clientBatch.DownloadProgressChanged += new DownloadProgressChangedEventHandler(_clientBatch_DownloadProgressChanged);
             //_clientBatch.DownloadFileCompleted += new AsyncCompletedEventHandler(_clientBatch_DownloadFileCompleted);
-            #endregion
+
+            #endregion init webclients
 
             LoadProviderList();
 
@@ -165,6 +169,7 @@ namespace DanbooruDownloader3
         }
 
         #region method
+
         /// <summary>
         /// Populate the provider List
         /// </summary>
@@ -251,7 +256,7 @@ namespace DanbooruDownloader3
         {
             resolveQueue.Enqueue(post);
             post.FileUrl = Constants.LOADING_URL;
-            if(!isResolverRunning) ResolveFileUrl();
+            if (!isResolverRunning) ResolveFileUrl();
         }
 
         private void ResolveFileUrl()
@@ -271,7 +276,7 @@ namespace DanbooruDownloader3
             }
         }
 
-        void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        private void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             DanbooruPost post = (DanbooruPost)e.UserState;
             //if (post.Provider.Contains("Sankaku Complex"))
@@ -559,7 +564,7 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Download posts list 
+        /// Download posts list
         /// </summary>
         private void GetList()
         {
@@ -579,7 +584,6 @@ namespace DanbooruDownloader3
 
             if (chkSaveQuery.Checked)
             {
-
                 saveFileDialog1.FileName = cbxProvider.Text + " - " + txtTags.Text + " " + txtPage.Text + "." + _currProvider.Preferred.ToString().ToLower();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -628,13 +632,14 @@ namespace DanbooruDownloader3
             }
         }
 
-        #endregion
+        #endregion method
 
         #region batch job helper
-        Thread batchJobThread;
-        ManualResetEvent _shutdownEvent = null;// = new ManualResetEvent(false);
-        ManualResetEvent _pauseEvent = null;// = new ManualResetEvent(true);
-        BindingList<DanbooruBatchJob> batchJob;
+
+        private Thread batchJobThread;
+        private ManualResetEvent _shutdownEvent = null;// = new ManualResetEvent(false);
+        private ManualResetEvent _pauseEvent = null;// = new ManualResetEvent(true);
+        private BindingList<DanbooruBatchJob> batchJob;
 
         public void PauseBatchJobs()
         {
@@ -660,7 +665,8 @@ namespace DanbooruDownloader3
             _pauseEvent.Set();
         }
 
-        FormAddBatchJob f;
+        private FormAddBatchJob f;
+
         private void btnAddBatchJob_Click(object sender, EventArgs e)
         {
             if (f == null)
@@ -786,7 +792,7 @@ namespace DanbooruDownloader3
                             }
                             else
                             {
-                                query = "tags=" + batchJob[i].TagQuery;
+                                query = "tags=" + System.Web.HttpUtility.UrlEncode(batchJob[i].TagQuery);
                                 if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
 
                                 query += "&limit=" + currLimit;
@@ -814,12 +820,15 @@ namespace DanbooruDownloader3
                                 case PreferredMethod.Xml:
                                     queryTmp = batchJob[i].Provider.QueryStringXml;
                                     break;
+
                                 case PreferredMethod.Json:
                                     queryTmp = batchJob[i].Provider.QueryStringJson;
                                     break;
+
                                 case PreferredMethod.Html:
                                     queryTmp = batchJob[i].Provider.QueryStringHtml;
                                     break;
+
                                 default:
                                     break;
                             }
@@ -836,11 +845,13 @@ namespace DanbooruDownloader3
                                 string authString = "login=" + batchJob[i].Provider.UserName + "&password_hash=" + hash;
                                 url = url + "&" + authString;
                             }
-                            #endregion
+
+                            #endregion Construct the searchParam
 
                             try
                             {
                                 #region Get and load the image list
+
                                 batchJob[i].Status = "Getting list for page " + batchJob[i].CurrentPage;
                                 BeginInvoke(del);
                                 UpdateLog("DoBatchJob", "Downloading list: " + url);
@@ -882,7 +893,8 @@ namespace DanbooruDownloader3
                                     batchJob[i].Total = d.PostCount;
                                     batchJob[i].CurrentPageTotal = d.Posts.Count;
                                     batchJob[i].CurrentPageOffset = d.Offset;
-                                #endregion
+
+                                #endregion Get and load the image list
 
                                     postCount = d.Posts.Count;
 
@@ -989,12 +1001,15 @@ namespace DanbooruDownloader3
                                             download = false;
                                             UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
                                         }
+
                                         #region download
+
                                         if (download)
                                         {
                                             imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
                                         }
-                                        #endregion
+
+                                        #endregion download
 
                                         // check if more than available post
                                         if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
@@ -1188,7 +1203,6 @@ namespace DanbooruDownloader3
         /// <param name="post"></param>
         private void ResolveFileUrlBatch(ExtendedWebClient _clientPost, DanbooruPost post)
         {
-
             if (!string.IsNullOrWhiteSpace(post.Referer))
             {
                 UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);
@@ -1223,7 +1237,6 @@ namespace DanbooruDownloader3
                     }
                     catch (Exception ex)
                     {
-
                         if (currRetry >= maxRetry)
                         {
                             UpdateLog("DoBatchJob", "Giving Up Resolving FileUrl: " + ex.StackTrace, ex);
@@ -1300,6 +1313,7 @@ namespace DanbooruDownloader3
         }
 
         public delegate void UpdateUiDelegate();
+
         public void UpdateUi()
         {
             foreach (DataGridViewRow row in dgvBatchJob.Rows)
@@ -1313,6 +1327,7 @@ namespace DanbooruDownloader3
         }
 
         public delegate void UpdateUiDelegate2(int current, int total);
+
         public void UpdateUi(int current, int total)
         {
             tsProgressBar.Visible = true;
@@ -1323,7 +1338,6 @@ namespace DanbooruDownloader3
                     tsProgressBar.Style = ProgressBarStyle.Continuous;
                     tsProgressBar.Maximum = total;
                     tsProgressBar.Value = current >= total ? total : current;
-
                 }
                 else
                 {
@@ -1340,6 +1354,7 @@ namespace DanbooruDownloader3
         }
 
         public delegate void ToggleBatchJobButtonDelegate(bool enabled);
+
         public void ToggleBatchJobButton(bool enabled)
         {
             btnStartBatchJob.Enabled = enabled;
@@ -1354,9 +1369,10 @@ namespace DanbooruDownloader3
             }
         }
 
-        #endregion
+        #endregion batch job helper
 
         #region windows form events
+
         private void cbxProvider_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxProvider.SelectedIndex == -1) return;
@@ -1548,7 +1564,7 @@ namespace DanbooruDownloader3
         }
 
         // http://img14.pixiv.net/img/leucojum-aest/17661193_p3.jpg
-        Regex pixivUrl = new Regex(@"img.*pixiv.*\/(\d+).*\.");
+        private Regex pixivUrl = new Regex(@"img.*pixiv.*\/(\d+).*\.");
 
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1569,7 +1585,6 @@ namespace DanbooruDownloader3
 
                 Process.Start(url);
             }
-
         }
 
         private void timGifAnimation_Tick(object sender, EventArgs e)
@@ -1620,7 +1635,7 @@ namespace DanbooruDownloader3
                 foreach (DataGridViewRow row in dgvList.Rows)
                 {
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colCheck"];
-                    if(row.Visible) chk.Value = true;
+                    if (row.Visible) chk.Value = true;
                 }
             }
         }
@@ -1641,7 +1656,6 @@ namespace DanbooruDownloader3
                     ShowMessage("Filename Length Limit", "Maximum " + MAX_FILENAME_LENGTH.ToString() + "!");
                     txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
                 }
-
             }
             catch (Exception)
             {
@@ -1691,7 +1705,6 @@ namespace DanbooruDownloader3
                             ShowMessage("Save Folder", "Please select save folder!");
                             return;
                         }
-
                     }
                     if (txtSaveFolder.Text.Length > 0)
                     {
@@ -1786,7 +1799,6 @@ namespace DanbooruDownloader3
                 var hti = dgvDownload.HitTest(e.X, e.Y);
                 dgvDownload.ClearSelection();
                 dgvDownload.Rows[hti.RowIndex].Selected = true;
-
             }
         }
 
@@ -2067,10 +2079,13 @@ namespace DanbooruDownloader3
             {
                 case PreferredMethod.Html: queryStr = _currProvider.QueryStringHtml;
                     break;
+
                 case PreferredMethod.Json: queryStr = _currProvider.QueryStringJson;
                     break;
+
                 case PreferredMethod.Xml: queryStr = _currProvider.QueryStringXml;
                     break;
+
                 default: queryStr = "Invalid Prefered Method!";
                     break;
             }
@@ -2082,9 +2097,11 @@ namespace DanbooruDownloader3
         {
             Program.SetLogger(chkLogging.Checked);
         }
-        #endregion
+
+        #endregion windows form events
 
         private string _ImageSize;
+
         private void cbxImageSize_TextChanged(object sender, EventArgs e)
         {
             if (cbxImageSize.Text == "Thumb")
@@ -2131,10 +2148,10 @@ namespace DanbooruDownloader3
 
                 Process.Start(url);
             }
-
         }
 
         #region Auto Complete Logic
+
         private string keyword;
 
         private void DoAutoComplete()
@@ -2149,7 +2166,6 @@ namespace DanbooruDownloader3
                     try
                     {
                         limit = Convert.ToInt32(txtAutoCompleteLimit.Text);
-
                     }
                     catch (Exception)
                     {
@@ -2293,7 +2309,8 @@ namespace DanbooruDownloader3
                 lbxAutoComplete.Visible = false;
             }
         }
-        #endregion
+
+        #endregion Auto Complete Logic
 
         private void reloadThumbnailToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2581,7 +2598,7 @@ namespace DanbooruDownloader3
         {
             ExtendedWebClient.EnableCookie = chkEnableCookie.Checked;
         }
-        
+
         private void btnCookie_Click(object sender, EventArgs e)
         {
             FormCookie cookieForm = new FormCookie();

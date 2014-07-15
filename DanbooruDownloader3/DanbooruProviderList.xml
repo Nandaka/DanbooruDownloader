@@ -35,6 +35,23 @@
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
+    <Name>Sankaku Complex (HTTPS)</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Html</Preferred>
+    <QueryStringXml />
+    <QueryStringJson />
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
+    <Url>https://chan.sankakucomplex.com</Url>
+    <UserName />
+    <Password />
+    <UseAuth>false</UseAuth>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash />
+    <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
+  </DanbooruProvider>
+  <DanbooruProvider>
     <Name>Sankaku Complex (Idol)</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
@@ -290,23 +307,6 @@
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
-    <Name>rule34.paheal.net</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>20</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/rss/images/%_query%</QueryStringXml>
-    <QueryStringJson />
-    <QueryStringHtml />
-    <Url>http://rule34.paheal.net</Url>
-    <UserName />
-    <Password />
-    <UseAuth>false</UseAuth>
-    <PasswordSalt />
-    <PasswordHash />
-    <BoardType>Shimmie2</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
     <Name>NIS Imageboard</Name>
     <DefaultLimit>0</DefaultLimit>
     <HardLimit>0</HardLimit>
@@ -321,23 +321,6 @@
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>lolibooru.com</Name>
-    <DefaultLimit>0</DefaultLimit>
-    <HardLimit>0</HardLimit>
-    <Preferred>Html</Preferred>
-    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
-    <QueryStringJson />
-    <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
-    <Url>http://lolibooru.com</Url>
-    <UserName />
-    <Password />
-    <UseAuth>false</UseAuth>
-    <PasswordSalt />
-    <PasswordHash />
-    <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>

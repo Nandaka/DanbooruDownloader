@@ -17,11 +17,11 @@ namespace DanbooruDownloader3
 
         private List<CheckBox> chkList;
         private List<DanbooruProvider> providerList;
-        
+
         public FormAddBatchJob()
         {
             InitializeComponent();
-            
+
             //Auto populate Rating
             cbxRating.DataSource = new BindingSource(Constants.Rating, null);
             cbxRating.DisplayMember = "Key";
@@ -70,7 +70,7 @@ namespace DanbooruDownloader3
                         providerFlag = true;
                         DanbooruBatchJob Job = new DanbooruBatchJob();
                         Job.Provider = p;
-                        
+
                         try
                         {
                             if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
@@ -99,7 +99,8 @@ namespace DanbooruDownloader3
                         if (cbxRating.SelectedValue != null && chkNotRating.Checked) Job.Rating = "-" + cbxRating.SelectedValue;
                         else Job.Rating = (string)cbxRating.SelectedValue;
 
-                        Job.TagQuery = txtTagQuery.Text.Replace(" ", "+");
+                        // do encoding later on main form.
+                        Job.TagQuery = txtTagQuery.Text;
 
                         if (string.IsNullOrWhiteSpace(txtSave.Text))
                         {

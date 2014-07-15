@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using System.Xml;
-using DanbooruDownloader3.Entity;
 using System.Xml.Linq;
 using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -14,13 +14,16 @@ namespace DanbooruDownloader3.Engine
     /// TODO: not used yet
     /// </summary>
 
-    public class DanbooruXmlEngine:IEngine
+    public class DanbooruXmlEngine : IEngine
     {
         public int? TotalPost { get; set; }
+
         public int? Offset { get; set; }
+
         public string RawData { get; set; }
 
         public string ResponseMessage { get; set; }
+
         public bool Success { get; set; }
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
@@ -38,7 +41,7 @@ namespace DanbooruDownloader3.Engine
                 if (!Success)
                 {
                     return null;
-                }                
+                }
             }
 
             this.TotalPost = Convert.ToInt32(posts.Root.Attribute("count").Value);
@@ -107,8 +110,7 @@ namespace DanbooruDownloader3.Engine
 
             if (!String.IsNullOrWhiteSpace(query.Tag))
             {
-                // convert spaces into '_'
-                tmp += query.Tag.Replace(' ', '_');
+                tmp += System.Web.HttpUtility.UrlEncode(query.Tag);
             }
             if (!String.IsNullOrWhiteSpace(query.Source))
             {
@@ -170,7 +172,6 @@ namespace DanbooruDownloader3.Engine
             }
             return url;
         }
-
 
         public DanbooruSearchParam SearchParam
         {
