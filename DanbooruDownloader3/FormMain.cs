@@ -233,7 +233,7 @@ namespace DanbooruDownloader3
                         {
                             var post = _postsDao.Posts[row.Index];
                             // try to get the file url if empty
-                            if (string.IsNullOrWhiteSpace(post.FileUrl) && post.Status != "deleted")
+                            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
                             {
                                 if (!string.IsNullOrWhiteSpace(post.Referer))
                                 {
@@ -920,7 +920,7 @@ namespace DanbooruDownloader3
                                         }
 
                                         // check if have url and post is not deleted
-                                        if (string.IsNullOrWhiteSpace(post.FileUrl) && post.Status != "deleted")
+                                        if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
                                         {
                                             ResolveFileUrlBatch(_clientPost, post);
                                         }
@@ -2329,7 +2329,7 @@ namespace DanbooruDownloader3
         {
             foreach (DataGridViewRow row in dgvDownload.SelectedRows)
             {
-                if (_downloadList[row.Index].Status != "deleted")
+                if (_downloadList[row.Index].Status != "deleted" || chkProcessDeletedPost.Checked)
                 {
                     _downloadList[row.Index].FileUrl = Constants.LOADING_URL;
                     ResolveFileUrl(_downloadList[row.Index]);

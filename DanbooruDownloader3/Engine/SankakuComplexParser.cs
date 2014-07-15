@@ -129,6 +129,14 @@ namespace DanbooruDownloader3.Engine
 
                             post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
+                            var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
+                            if (status.Contains("deleted"))
+                                post.Status = "deleted";
+                            else if (status.Contains("pending"))
+                                post.Status = "pending";
+                            else
+                                post.Status = status;
+
                             post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
                             post.PreviewHeight = img.GetAttributeValue("height", 0);
                             post.PreviewWidth = img.GetAttributeValue("width", 0);
@@ -149,8 +157,6 @@ namespace DanbooruDownloader3.Engine
                             post.Rating = rating.ToLower();
 
                             post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
-
-                            post.Status = "";
 
                             post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
                             post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
