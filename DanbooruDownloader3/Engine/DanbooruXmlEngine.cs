@@ -194,5 +194,50 @@ namespace DanbooruDownloader3.Engine
         {
             throw new NotImplementedException();
         }
+
+        public static string GetQueryString(DanbooruProvider provider, DanbooruSearchParam query)
+        {
+            var queryStr = "";
+
+            // Clean up txtTags
+            var tags = query.Tag;
+            while (tags.Contains("  "))
+            {
+                tags = tags.Replace("  ", " ");
+            }
+            tags = tags.Trim();
+            tags = System.Web.HttpUtility.UrlEncode(tags);
+
+            List<string> queryList = new List<string>();
+            List<string> tagsList = new List<string>();
+
+            //Tags
+            if (tags.Length > 0) tagsList.Add(tags.Replace(' ', '+'));
+
+            //Rating
+            if (!String.IsNullOrWhiteSpace(query.Rating)) tagsList.Add(query.IsNotRating ? "-" + query.Rating : "" + query.Rating);
+
+            //Source
+            if (!String.IsNullOrWhiteSpace(query.Source)) tagsList.Add("source:" + query.Source);
+
+            //Order
+            if (!String.IsNullOrWhiteSpace(query.OrderBy)) tagsList.Add(query.OrderBy);
+
+            if (tagsList.Count > 0) queryList.Add("tags=" + String.Join("+", tagsList));
+
+            //Limit
+            if (query.Limit > 0) queryList.Add("limit=" + query.Limit);
+
+            //StartPage
+            if (query.Page > 0)
+            {
+                if (provider.BoardType == BoardType.Danbooru) queryList.Add("page=" + query.Page);
+                else if (provider.BoardType == BoardType.Gelbooru) queryList.Add("pid=" + query.Page);
+            }
+
+            if (queryList.Count > 0) queryStr = String.Join("&", queryList);
+
+            return queryStr;
+        }
     }
 }

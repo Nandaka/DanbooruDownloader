@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-
-using DanbooruDownloader3.Entity;
-using System.Xml;
-using System.ComponentModel;
-using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
+using System.Xml.Linq;
 using DanbooruDownloader3.DAO;
-using System.IO;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -22,7 +21,7 @@ namespace DanbooruDownloader3.Engine
         public static BindingList<DanbooruPost> ParseRSS(string xmldoc, DanbooruPostDaoOption option)
         {
             BindingList<DanbooruPost> posts = new BindingList<DanbooruPost>();
-            
+
             try
             {
                 ReadRssMethod1(option, posts, xmldoc);
@@ -82,7 +81,7 @@ namespace DanbooruDownloader3.Engine
                         {
                             HtmlAgilityPack.HtmlDocument description = new HtmlAgilityPack.HtmlDocument();
                             description.LoadHtml(HttpUtility.HtmlDecode(item.Element("description").Value));
-                            
+
                             //post.Width = Convert.ToInt32(matches.Groups[1].Value);
                             //post.Height = Convert.ToInt32(matches.Groups[2].Value);
                             var img = description.DocumentNode.SelectSingleNode("//img");
@@ -144,7 +143,7 @@ namespace DanbooruDownloader3.Engine
             }
         }
 
-        private static string AppendHttp(string url, DanbooruProvider provider) 
+        private static string AppendHttp(string url, DanbooruProvider provider)
         {
             if (!url.StartsWith("http")) url = provider.Url + url;
             return url;
@@ -169,6 +168,33 @@ namespace DanbooruDownloader3.Engine
                 return post.TagsEntity.Any(x => regex.IsMatch(x.Name));
             }
             return false;
+        }
+
+        public static string GetQueryString(DanbooruProvider provider, DanbooruSearchParam query)
+        {
+            var queryStr = "";
+
+            // Clean up txtTags
+            var tags = query.Tag;
+            while (tags.Contains("  "))
+            {
+                tags = tags.Replace("  ", " ");
+            }
+            tags = tags.Trim();
+            tags = System.Web.HttpUtility.UrlEncode(tags);
+
+            //StartPage
+            var page = 1;
+            if (query.Page.HasValue && query.Page > 0)
+            {
+                page = query.Page.Value;
+            }
+
+            queryStr = tags;
+            if (!String.IsNullOrWhiteSpace(tags)) queryStr += "/";
+            queryStr += page;
+
+            return queryStr;
         }
     }
 }

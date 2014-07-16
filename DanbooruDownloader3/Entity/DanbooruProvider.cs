@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using DanbooruDownloader3.DAO;
-using System.IO;
 using System.Xml.Serialization;
-using System.ComponentModel;
+using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -27,22 +27,37 @@ namespace DanbooruDownloader3.Entity
     {
         // Remember to add the new member to DAO load action
         public string Name { get; set; }
+
         public int DefaultLimit { get; set; }
+
         public int HardLimit { get; set; }
+
         public PreferredMethod Preferred { get; set; }
+
         public string QueryStringXml { get; set; }
+
         public string QueryStringJson { get; set; }
+
         public string QueryStringHtml { get; set; }
+
         public string Url { get; set; }
+
         public string UserName { get; set; }
+
         public string Password { get; set; }
+
         public bool UseAuth { get; set; }
+
         public string PasswordSalt { get; set; }
+
         public string PasswordHash { get; set; }
+
         public BoardType BoardType { get; set; }
+
         public bool TagDownloadUseLoop { get; set; }
 
         private bool _hasPrivateTags;
+
         [XmlIgnore]
         public bool HasPrivateTags
         {
@@ -61,6 +76,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTagCollection _danbooruTagCollection;
+
         [XmlIgnore]
         public DanbooruTagCollection ProviderTagCollection
         {
@@ -102,6 +118,61 @@ namespace DanbooruDownloader3.Entity
             //    " Default Limit: " + DefaultLimit +
             //    " Type: " + BoardType.ToString();
             return Name;
+        }
+
+        public string GetQueryString(DanbooruSearchParam searchParam)
+        {
+            var queryStr = "";
+            if (this.BoardType == BoardType.Shimmie2)
+            {
+                queryStr = DanbooruDownloader3.Engine.ShimmieEngine.GetQueryString(this, searchParam);
+            }
+            else
+            {
+                queryStr = DanbooruDownloader3.Engine.DanbooruXmlEngine.GetQueryString(this, searchParam);
+            }
+
+            return queryStr;
+        }
+
+        public string GetQueryUrl(DanbooruSearchParam searchParam)
+        {
+            var queryStr = GetQueryString(searchParam);
+
+            var queryRootUrl = ""; ;
+            switch (this.Preferred)
+            {
+                case PreferredMethod.Xml:
+                    queryRootUrl = this.QueryStringXml;
+                    break;
+
+                case PreferredMethod.Json:
+                    queryRootUrl = this.QueryStringJson;
+                    break;
+
+                case PreferredMethod.Html:
+                    queryRootUrl = this.QueryStringHtml;
+                    break;
+
+                default:
+                    break;
+            }
+
+            queryStr = queryRootUrl.Replace("%_query%", queryStr);
+
+            if (this.UseAuth)
+            {
+                var hash = this.PasswordHash;
+                if (String.IsNullOrWhiteSpace(hash))
+                {
+                    hash = Helper.GeneratePasswordHash(this.Password, this.PasswordSalt);
+                    this.PasswordHash = hash;
+                }
+                string authString = "login=" + this.UserName + "&password_hash=" + hash;
+                queryStr = queryStr + "&" + authString;
+            }
+
+            return this.Url + queryStr;
         }
     }
 }

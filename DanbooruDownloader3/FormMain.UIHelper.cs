@@ -190,98 +190,30 @@ namespace DanbooruDownloader3
         }
 
         /// <summary>
-        /// Generate searchParam url from text boxes.
+        /// Generate searchParam url from main tab.
         /// </summary>
         /// <param name="authString"></param>
         /// <returns></returns>
-        public string GetQueryUrl(string authString = "")
+        public string GetQueryUrl()
         {
             if (_currProvider == null) return "";
+
+            DanbooruSearchParam searchParam = GetSearchParams();
+
             if (chkGenerate.Checked)
             {
-                txtQuery.Text = "";
-
-                // Clean up txtTags
-                var tags = txtTags.Text;
-                while (tags.Contains("  "))
-                {
-                    tags = tags.Replace("  ", " ");
-                }
-                tags = tags.Trim();
-                tags = System.Web.HttpUtility.UrlEncode(tags);
-
-                if (_currProvider.BoardType == BoardType.Shimmie2)
-                {
-                    var page = txtPage.Text;
-                    if (String.IsNullOrWhiteSpace(page))
-                    {
-                        txtPage.Text = "1";
-                        page = "1";
-                    }
-
-                    txtQuery.Text = tags;
-                    if (!String.IsNullOrWhiteSpace(tags)) txtQuery.Text += "/";
-
-                    txtQuery.Text += page;
-                }
-                else
-                {
-                    List<string> queryList = new List<string>();
-                    List<string> tagsList = new List<string>();
-
-                    //Tags
-                    if (tags.Length > 0) tagsList.Add(tags.Replace(' ', '+'));
-
-                    //Rating
-                    if (cbxRating.SelectedIndex > 0) tagsList.Add(chkNotRating.Checked ? "-" + cbxRating.SelectedValue : "" + cbxRating.SelectedValue);
-
-                    //Source
-                    var source = txtSource.Text.Trim();
-                    if (source.Length > 0) tagsList.Add("source:" + source);
-
-                    //Order
-                    if (cbxOrder.SelectedIndex > 0) tagsList.Add(cbxOrder.SelectedValue.ToString());
-
-                    if (tagsList.Count > 0) queryList.Add("tags=" + String.Join("+", tagsList));
-
-                    //Limit
-                    if (txtLimit.Text.Length > 0) queryList.Add("limit=" + txtLimit.Text);
-
-                    //StartPage
-                    if (txtPage.Text.Length > 0)
-                    {
-                        if (_currProvider.BoardType == BoardType.Danbooru) queryList.Add("page=" + txtPage.Text);
-                        else if (_currProvider.BoardType == BoardType.Gelbooru) queryList.Add("pid=" + txtPage.Text);
-                    }
-
-                    if (queryList.Count > 0) txtQuery.Text = String.Join("&", queryList);
-                }
+                txtQuery.Text = _currProvider.GetQueryString(searchParam);
             }
 
-            string query = "";
-            switch (_currProvider.Preferred)
-            {
-                case PreferredMethod.Xml:
-                    query = _currProvider.QueryStringXml;
-                    break;
+            string query = _currProvider.GetQueryUrl(searchParam);
 
-                case PreferredMethod.Json:
-                    query = _currProvider.QueryStringJson;
-                    break;
-
-                case PreferredMethod.Html:
-                    query = _currProvider.QueryStringHtml;
-                    break;
-
-                default:
-                    break;
-            }
-            query = query.Replace("%_query%", txtQuery.Text);
-            if (!string.IsNullOrWhiteSpace(authString)) query = query + "&" + authString;
-
-            return _currProvider.Url + query;
+            return query;
         }
 
+        /// <summary>
+        /// Get search parameter from Main Tab and Option Panels
+        /// </summary>
+        /// <returns></returns>
         public DanbooruSearchParam GetSearchParams()
         {
             DanbooruPostDaoOption option = new DanbooruPostDaoOption()
@@ -293,24 +225,88 @@ namespace DanbooruDownloader3
                 IgnoredTagsRegex = TagIgnoreRegex,
                 IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                 Provider = _currProvider,
-                SearchTags = txtTags.Text
+                SearchTags = !String.IsNullOrWhiteSpace(txtTags.Text) ? txtTags.Text : ""
             };
 
             DanbooruSearchParam searchParam = new DanbooruSearchParam();
 
             searchParam.Provider = option.Provider;
             searchParam.Tag = option.SearchTags;
-            searchParam.Source = txtSource.Text;
+            searchParam.Source = txtSource.Text.Trim();
 
-            int tempPage = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
-            if (!String.IsNullOrWhiteSpace(txtPage.Text))
-            {
-                tempPage = Convert.ToInt32(txtPage.Text);
-            }
-            searchParam.Page = tempPage;
-            searchParam.OrderBy = cbxOrder.SelectedValue.ToString();
-            searchParam.Rating = cbxRating.SelectedValue.ToString();
+            int limit = 0;
+            if (Int32.TryParse(txtLimit.Text, out limit) && limit > 0) searchParam.Limit = limit;
+            else searchParam.Limit = null;
+
+            int page = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
+            if (Int32.TryParse(txtPage.Text, out page) && page > 0) searchParam.Page = page;
+            else searchParam.Page = null;
+
             searchParam.IsNotRating = chkNotRating.Checked;
+            if (cbxRating.SelectedValue != null)
+            {
+                if (cbxRating.SelectedValue.GetType() == typeof(string))
+                    searchParam.Rating = cbxRating.SelectedValue.ToString();
+                else
+                {
+                    var rating = (KeyValuePair<string, string>)cbxRating.SelectedValue;
+                    searchParam.Rating = rating.Value;
+                }
+            }
+
+            if (cbxOrder.SelectedValue != null)
+            {
+                if (cbxOrder.SelectedValue.GetType() == typeof(string))
+                    searchParam.OrderBy = cbxOrder.SelectedValue.ToString();
+                else
+                {
+                    var order = (KeyValuePair<string, string>)cbxOrder.SelectedValue;
+                    searchParam.OrderBy = order.Value;
+                }
+            }
+
+            searchParam.Option = option;
+
+            return searchParam;
+        }
+
+        /// <summary>
+        /// Get Search Param from Batch Job
+        /// </summary>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        public DanbooruSearchParam GetSearchParamsFromJob(DanbooruBatchJob job, int currPage)
+        {
+            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+            {
+                BlacklistedTags = TagBlacklist,
+                BlacklistedTagsRegex = TagBlacklistRegex,
+                BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                IgnoredTags = TagIgnore,
+                IgnoredTagsRegex = TagIgnoreRegex,
+                IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                Provider = _currProvider,
+                SearchTags = !String.IsNullOrWhiteSpace(job.TagQuery) ? job.TagQuery : ""
+            };
+
+            DanbooruSearchParam searchParam = new DanbooruSearchParam();
+
+            searchParam.Provider = option.Provider;
+            searchParam.Tag = option.SearchTags;
+            searchParam.Source = "";
+
+            // check if given limit is more than the hard limit
+            if (job.Limit > job.Provider.HardLimit) searchParam.Limit = job.Provider.HardLimit;
+            else searchParam.Limit = job.Limit;
+
+            // reflect to current page
+            searchParam.Page = job.StartPage + currPage;
+
+            searchParam.IsNotRating = false;
+            searchParam.Rating = job.Rating;
+
+            searchParam.OrderBy = "";
+
             searchParam.Option = option;
 
             return searchParam;
@@ -325,6 +321,11 @@ namespace DanbooruDownloader3
         [DllImport("user32.dll")]
         private static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
+        /// <summary>
+        /// Show message box or baloon message (if minimized to systray)
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="text"></param>
         public void ShowMessage(string title, string text)
         {
             if (notifyIcon1.Visible)
