@@ -447,5 +447,26 @@ namespace DanbooruDownloader3
 
             return url;
         }
+
+        public static void WriteTextFile(string content, string filename = null)
+        {
+            if (String.IsNullOrWhiteSpace(filename))
+                filename = String.Format("Batch Download on {0}.txt", DateTime.Now.ToString("yyyy-MM-dd"));
+
+            if (File.Exists(filename))
+            {
+                using (TextWriter tw = File.AppendText(filename))
+                {
+                    tw.Write(content);
+                }
+            }
+            else
+            {
+                using (TextWriter tw = File.CreateText(filename))
+                {
+                    tw.Write(content);
+                }
+            }
+        }
     }
 }

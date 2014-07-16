@@ -948,13 +948,7 @@ namespace DanbooruDownloader3
 
                                         if (download)
                                         {
-#if DEBUG
-                                            Thread.Sleep(100);
-                                            imgCount = 1;
-                                            ++batchJob[i].Downloaded;
-#else
                                             imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
-#endif
                                         }
 
                                         #endregion download
@@ -1109,6 +1103,9 @@ namespace DanbooruDownloader3
                 try
                 {
                     var filename2 = filename + ".!tmp";
+#if DEBUG
+                    Thread.Sleep(100);
+#else
                     if (File.Exists(filename2))
                     {
                         UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
@@ -1117,8 +1114,12 @@ namespace DanbooruDownloader3
                     _clientBatch.DownloadFile(targetUrl, filename2);
                     File.Move(filename2, filename);
                     UpdateLog("DoBatchJob", "Saved To: " + filename);
-
+#endif
                     ++job.Downloaded;
+
+                    // write to text file for downloaded file.
+                    Helper.WriteTextFile(filename + Environment.NewLine);
+
                     return 1;
                 }
                 catch (System.Net.WebException ex)
