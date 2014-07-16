@@ -568,18 +568,7 @@ namespace DanbooruDownloader3
         /// </summary>
         private void GetList()
         {
-            string authString = "";
-            if (_currProvider.UseAuth)
-            {
-                var hash = _currProvider.PasswordHash;
-                if (String.IsNullOrWhiteSpace(hash))
-                {
-                    hash = Helper.GeneratePasswordHash(_currProvider.Password, _currProvider.PasswordSalt);
-                    _currProvider.PasswordHash = hash;
-                }
-                authString = "login=" + _currProvider.UserName + "&password_hash=" + hash;
-            }
-            var queryUrl = GetQueryUrl(authString);
+            var queryUrl = GetQueryUrl();
             Program.Logger.Info("Getting list: " + Helper.RemoveAuthInfo(queryUrl));
 
             if (chkSaveQuery.Checked)
@@ -770,81 +759,30 @@ namespace DanbooruDownloader3
                             DanbooruPostDao d = null;
                             int imgCount = 0;
                             int skipCount = 0;
-                            int currLimit = 0;
 
                             string url;
                             string query = "";
 
                             #region Construct the searchParam
 
-                            // check if given limit is more than the hard limit
-                            if (batchJob[i].Limit > batchJob[i].Provider.HardLimit) currLimit = batchJob[i].Provider.HardLimit;
-                            else currLimit = batchJob[i].Limit;
-
-                            batchJob[i].CurrentPage = batchJob[i].StartPage + currPage;
-
-                            if (batchJob[i].Provider.BoardType == BoardType.Shimmie2)
+                            if (batchJob[i].Provider.BoardType == BoardType.Danbooru)
                             {
-                                query += batchJob[i].TagQuery;
-                                if (!string.IsNullOrWhiteSpace(batchJob[i].TagQuery)) query += "/";
-                                query += batchJob[i].CurrentPage;
-                                url = query;
+                                currPage = batchJob[i].CurrentPage;
                             }
-                            else
+                            else if (batchJob[i].Provider.BoardType == BoardType.Gelbooru)
                             {
-                                query = "tags=" + System.Web.HttpUtility.UrlEncode(batchJob[i].TagQuery);
-                                if (batchJob[i].Rating != null) query += (batchJob[i].TagQuery == null ? "" : "+") + batchJob[i].Rating;
-
-                                query += "&limit=" + currLimit;
-
-                                if (batchJob[i].Provider.BoardType == BoardType.Danbooru)
+                                if (batchJob[i].Provider.Preferred == PreferredMethod.Html)
                                 {
-                                    query += "&page=" + batchJob[i].CurrentPage;
+                                    currPage = batchJob[i].CurrentPage * postCount;
                                 }
-                                else if (batchJob[i].Provider.BoardType == BoardType.Gelbooru)
+                                else
                                 {
-                                    if (batchJob[i].Provider.Preferred == PreferredMethod.Html)
-                                    {
-                                        query += "&pid=" + batchJob[i].CurrentPage * postCount;
-                                    }
-                                    else
-                                    {
-                                        query += "&pid=" + batchJob[i].CurrentPage;
-                                    }
+                                    currPage = batchJob[i].CurrentPage;
                                 }
                             }
+                            DanbooruSearchParam searchParam = GetSearchParamsFromJob(batchJob[i], currPage);
 
-                            var queryTmp = "";
-                            switch (batchJob[i].Provider.Preferred)
-                            {
-                                case PreferredMethod.Xml:
-                                    queryTmp = batchJob[i].Provider.QueryStringXml;
-                                    break;
-
-                                case PreferredMethod.Json:
-                                    queryTmp = batchJob[i].Provider.QueryStringJson;
-                                    break;
-
-                                case PreferredMethod.Html:
-                                    queryTmp = batchJob[i].Provider.QueryStringHtml;
-                                    break;
-
-                                default:
-                                    break;
-                            }
-                            url = batchJob[i].Provider.Url + queryTmp.Replace("%_query%", query);
-
-                            if (batchJob[i].Provider.UseAuth)
-                            {
-                                var hash = batchJob[i].Provider.PasswordHash;
-                                if (String.IsNullOrWhiteSpace(hash))
-                                {
-                                    hash = Helper.GeneratePasswordHash(batchJob[i].Provider.Password, batchJob[i].Provider.PasswordSalt);
-                                    batchJob[i].Provider.PasswordHash = hash;
-                                }
-                                string authString = "login=" + batchJob[i].Provider.UserName + "&password_hash=" + hash;
-                                url = url + "&" + authString;
-                            }
+                            url = batchJob[i].Provider.GetQueryUrl(searchParam);
 
                             #endregion Construct the searchParam
 
