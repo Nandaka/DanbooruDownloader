@@ -37,7 +37,7 @@ namespace DanbooruDownloader3.Engine
                             file_url = Helper.FixUrl(link.GetAttributeValue("href", ""), isHttps(post.Provider));
                             // http://cs.sankakucomplex.com/data/f6/23/f623ea7559ef39d96ebb0ca7530586b8.swf
                             post.MD5 = file_url.Substring(file_url.LastIndexOf("/") + 1);
-                            post.MD5 = post.MD5.Substring(0, post.MD5.Length - 4);
+                            post.MD5 = post.MD5.Substring(0, 32);
 
                             break;
                         }

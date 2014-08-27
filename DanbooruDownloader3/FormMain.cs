@@ -436,7 +436,7 @@ namespace DanbooruDownloader3
                             Program.Logger.Info("[DownloadRow] Saved to    " + filename);
                             row.Cells["colDownloadStart2"].Value = DateTime.Now;
                             _clientFile.DownloadFileAsync(uri, filename2, row);
-
+                            txtLog.AppendText("[clientFileDownload] Saving to " + filename2 + Environment.NewLine);
                             return;
                         }
                         else
