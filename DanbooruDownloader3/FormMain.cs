@@ -563,6 +563,7 @@ namespace DanbooruDownloader3
                 timGifAnimation.Enabled = true;
                 _clientThumb.Referer = _postsDao.Posts[i].Referer;
                 _clientThumb.DownloadDataAsync(new Uri(_postsDao.Posts[_loadedThumbnail].PreviewUrl), _loadedThumbnail);
+                txtLog.AppendText("[clientThumbnail] Downloading thumbnail from " + _postsDao.Posts[_loadedThumbnail].PreviewUrl + Environment.NewLine);
             }
         }
 

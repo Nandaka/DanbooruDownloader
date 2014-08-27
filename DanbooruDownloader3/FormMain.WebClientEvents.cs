@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Net;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using DanbooruDownloader3.DAO;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading;
-using DanbooruDownloader3.Entity;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
     public partial class FormMain : Form
     {
-        int currThumbRetry = 0;
+        private int currThumbRetry = 0;
         //int currFileRetry = 0;
 
-        void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             object[] param = (object[])e.Argument;
@@ -29,7 +29,7 @@ namespace DanbooruDownloader3
             e.Result = newPosts;
         }
 
-        void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             LoadList((DanbooruPostDao)e.Result);
             tsProgressBar.Visible = false;
@@ -40,10 +40,10 @@ namespace DanbooruDownloader3
             _isLoadingList = false;
             tsStatus.Text = "Ready.";
         }
-        
 
         #region clientList event handler
-        void clientList_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+
+        private void clientList_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             try
             {
@@ -59,13 +59,12 @@ namespace DanbooruDownloader3
                     SearchTags = txtTags.Text,
                     BlacklistedTags = TagBlacklist,
                     BlacklistedTagsRegex = TagBlacklistRegex,
-                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked, 
+                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                     IgnoredTags = TagIgnore,
                     IgnoredTagsRegex = TagIgnoreRegex,
                     IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
                 };
-                //DanbooruPostDao newPosts = new DanbooruPostDao(ms,option);
-                //LoadList(newPosts);
+
                 tsStatus.Text = "Loading downloaded list...";
                 tsProgressBar.Style = ProgressBarStyle.Marquee;
                 tsProgressBar.Visible = true;
@@ -81,49 +80,47 @@ namespace DanbooruDownloader3
                 if (ex.InnerException != null)
                 {
                     message = ex.InnerException.Message;
-                    if (ex.InnerException.GetType() == typeof(System.Net.WebException))
+                    var wex = ex.InnerException as System.Net.WebException;
+                    if (wex != null && wex.Status == WebExceptionStatus.ProtocolError)
                     {
-                        var wex = (System.Net.WebException)ex.InnerException;
-                        var status = wex.Response != null? wex.Response.Headers["Status"] : null;
-                        if (wex.Status == WebExceptionStatus.ProtocolError)
+                        var status = wex.Response != null ? wex.Response.Headers["Status"] : null;
+                        var response = wex.Response as HttpWebResponse;
+                        if (status == "403" || (response != null && response.StatusCode == HttpStatusCode.Forbidden))
                         {
-                            if (status == "403")
+                            message += Environment.NewLine + "Please check your login information.";
+                        }
+                        else
+                        {
+                            using (var responseStream = wex.Response.GetResponseStream())
                             {
-                                message += Environment.NewLine + "Please check your login information.";
-                            }
-                            else
-                            {
-                                using (var response = wex.Response.GetResponseStream())
+                                if (responseStream != null)
                                 {
-                                    if (response != null)
+                                    DanbooruPostDaoOption option = new DanbooruPostDaoOption()
                                     {
-                                        DanbooruPostDaoOption option = new DanbooruPostDaoOption()
-                                        {
-                                            Provider = _currProvider,
-                                            //Url = "",
-                                            Referer = "",
-                                            Query = "",
-                                            SearchTags = "",
-                                            BlacklistedTags = TagBlacklist,
-                                            BlacklistedTagsRegex = TagBlacklistRegex,
-                                            BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
-                                            IgnoredTags = TagIgnore,
-                                            IgnoredTagsRegex = TagIgnoreRegex,
-                                            IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
-                                        };
-                                        var resp = new DanbooruPostDao(response, option);
-                                        message = "Server Message: " + resp.ResponseMessage;
-                                        if (status != "200")
-                                        {
-                                            message += "\nStatus Code: " + wex.Status.ToString() + " (" + status + ")";
-                                        }
+                                        Provider = _currProvider,
+                                        //Url = "",
+                                        Referer = "",
+                                        Query = "",
+                                        SearchTags = "",
+                                        BlacklistedTags = TagBlacklist,
+                                        BlacklistedTagsRegex = TagBlacklistRegex,
+                                        BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                                        IgnoredTags = TagIgnore,
+                                        IgnoredTagsRegex = TagIgnoreRegex,
+                                        IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                                    };
+                                    var resp = new DanbooruPostDao(responseStream, option);
+                                    message = "Server Message: " + resp.ResponseMessage;
+                                    if (status != "200")
+                                    {
+                                        message += "\nStatus Code: " + wex.Status.ToString() + " (" + status + ")";
                                     }
                                 }
                             }
                         }
                     }
                 }
-                
+
                 MessageBox.Show(message, "Download List");
                 Program.Logger.Error(message, ex);
 
@@ -136,8 +133,8 @@ namespace DanbooruDownloader3
                 _isLoadingList = false;
             }
         }
-        
-        void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+
+        private void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             tsProgressBar.Visible = false;
             UpdateLog("clientList_DownloadFileCompleted", "Download Complete: " + e.UserState);
@@ -167,10 +164,11 @@ namespace DanbooruDownloader3
                 DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);
             }
+
             _isLoadingList = false;
         }
 
-        void clientList_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void clientList_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             tsProgressBar.Visible = true;
             txtLog.AppendText("[clientList]" + e.UserState + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
@@ -189,10 +187,12 @@ namespace DanbooruDownloader3
             }
             else tsProgressBar.Style = ProgressBarStyle.Marquee;
         }
-        #endregion
+
+        #endregion clientList event handler
 
         #region clientThumb event handler
-        void clientThumb_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+
+        private void clientThumb_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             try
             {
@@ -212,7 +212,7 @@ namespace DanbooruDownloader3
             }
         }
 
-        void clientThumb_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+        private void clientThumb_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace DanbooruDownloader3
                 {
                     MemoryStream ms = new MemoryStream(e.Result);
                     int i = (int)e.UserState;
-                    
+
                     _postsDao.Posts[i].ThumbnailImage = new Bitmap(ms);
                     if (dgvList.Columns["colPreview"].Width < _postsDao.Posts[i].ThumbnailImage.Width)
                     {
@@ -267,12 +267,13 @@ namespace DanbooruDownloader3
                 }
                 if (FormMain.Debug) throw;
             }
-
         }
-        #endregion
+
+        #endregion clientThumb event handler
 
         #region clientDownloadFile event handler
-        void clientFile_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+
+        private void clientFile_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             tsProgressBar.Visible = true;
             tsProgress2.Visible = true;
@@ -294,14 +295,14 @@ namespace DanbooruDownloader3
             else tsProgressBar.Style = ProgressBarStyle.Marquee;
         }
 
-        void clientFile_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void clientFile_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             DataGridViewRow row = (DataGridViewRow)e.UserState;
 
             var status = e.Error == null ? "OK" : e.Error.InnerException == null ? e.Error.Message : e.Error.InnerException.Message;
             UpdateLog("clientFileDownload", "Url: " + row.Cells["colUrl2"].Value.ToString() + " Completed, Status: " + status);
             UpdateLog("clientFileDownload", "Ref: " + _clientFile.Referer);
-            
+
             if (e.Error == null)
             {
                 Program.Logger.Info("[clientFileDownload] Download complete: " + row.Cells["colUrl2"].Value.ToString());
@@ -325,7 +326,7 @@ namespace DanbooruDownloader3
             }
             else
             {
-                row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + status;                
+                row.Cells["colProgress2"].Value += Environment.NewLine + "Error, Status: " + status;
                 Program.Logger.Error("Download Error: " + row.Cells["colUrl2"].Value.ToString(), e.Error);
                 row.DefaultCellStyle.BackColor = Color.Red;
             }
@@ -344,7 +345,8 @@ namespace DanbooruDownloader3
                 tsProgress2.Visible = false;
             }
         }
-        #endregion
+
+        #endregion clientDownloadFile event handler
 
         #region clientBatch event handler
 
@@ -356,11 +358,9 @@ namespace DanbooruDownloader3
 
         //void _clientBatch_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         //{
-            
-
         //    tsProgressBar.Visible = false;
         //}
-        #endregion
 
+        #endregion clientBatch event handler
     }
 }
