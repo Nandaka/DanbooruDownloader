@@ -1471,7 +1471,12 @@ namespace DanbooruDownloader3
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Save();
+            if (txtFilenameFormat.Text.Any(x => { return ":*?\"<>|".Contains(x); }))
+            {
+                MessageBox.Show("':*?\"<>|' characters in the filename format not allowed.");
+                txtFilenameFormat.Focus();
+            }
+            else Properties.Settings.Default.Save();
             //MessageBox.Show("Saved!");
         }
 

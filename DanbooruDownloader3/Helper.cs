@@ -65,15 +65,18 @@ namespace DanbooruDownloader3
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static string SanitizeFilename(string input)
+        public static string SanitizeFilename(string input, bool allowPathSeparator = false)
         {
             if (input == null) return "";
             foreach (char c in Path.GetInvalidFileNameChars())
             {
+                if (allowPathSeparator && (c == '\\' || c == '/'))
+                    continue;
                 input = input.Replace(c, '_');
             }
             input = input.Replace(':', '_');
-            input = input.Replace('\\', '_');
+            if (!allowPathSeparator)
+                input = input.Replace('\\', '_');
             return input;
         }
 
@@ -92,6 +95,10 @@ namespace DanbooruDownloader3
             string query = post.Query;
             string searchTags = post.SearchTags;
             string originalFileName = post.FileUrl.Split('/').Last();
+
+            // sanitizing the format
+            filename = Helper.SanitizeFilename(filename, true);
+
             //remove extension
             originalFileName = originalFileName.Substring(0, originalFileName.LastIndexOf('.'));
             originalFileName = Uri.UnescapeDataString(originalFileName);
