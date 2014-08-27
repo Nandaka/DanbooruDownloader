@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20140827
+  - Implement HTTPS handler based on provider url.
+  - Update Feature #41: use urlencode on both main tab and batch download tab
+  - Update filename sanitizer to handler issue #45
+  - Update http error code handler.
+
 - DanbooruDownloader20140705
   - Update Sankaku Parser: fix url resolution.
   - Fix Issue #41: use url encoding for tags search.
