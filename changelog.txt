@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20150116
+  - Add option to disable list file generation of downloaded images (Issue #53).
+  - Update message for Batch Job (Issue #48).
+
 - DanbooruDownloader20140827
   - Implement HTTPS handler based on provider url.
   - Update Feature #41: use urlencode on both main tab and batch download tab

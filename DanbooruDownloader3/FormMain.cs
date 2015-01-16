@@ -795,7 +795,7 @@ namespace DanbooruDownloader3
                             {
                                 #region Get and load the image list
 
-                                batchJob[i].Status = "Getting list for page " + batchJob[i].CurrentPage;
+                                batchJob[i].Status = "Getting list for page: " + searchParam.Page;
                                 BeginInvoke(del);
                                 UpdateLog("DoBatchJob", "Downloading list: " + url);
 
@@ -1118,8 +1118,11 @@ namespace DanbooruDownloader3
 #endif
                     ++job.Downloaded;
 
-                    // write to text file for downloaded file.
-                    Helper.WriteTextFile(filename + Environment.NewLine);
+                    if (Properties.Settings.Default.WriteDownloadedFile)
+                    {
+                        // write to text file for downloaded file.
+                        Helper.WriteTextFile(filename + Environment.NewLine);
+                    }
 
                     return 1;
                 }

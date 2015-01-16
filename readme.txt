@@ -80,6 +80,37 @@ Settings
 “Empty Tag Repl.” [____] => For filename formatting, for example you use %artist% meta for filename format 
                             but the image doesn't have this information, then it will replaced based on this value.
 
+How to Use
+=============================
+A. Getting tags.xml:
+1. Download tags.xml from Settings tab => Click update tags.xml
+2. Select the provider from the URL combo box then press download, I recommend to use yande.re.
+3. Wait untik the download complete.
+
+B. To search:
+1. Go to main tab, select one of the provider.
+2. Key in the search term like you do in the website on the Tag text box, the other text boxes are just a shortcut for specific search term (e.g. rating, order, etc). Check the Search Help for syntax.
+3. Make sure to tick Load Preview  in the Danbooru Listing group.
+4. Click the Get button and wait until it finished download the list.
+5. Click the '<' or '>' button to move between page.
+
+C. To download individual image
+1. Load the image list following the steps from section B.
+2. Select the images by ticking the checkbox.
+3. Click the Add button, it will show the Download List tab.
+4. Set the Save Folder by pressing the browse button.
+5. Click the Download button to start.
+6. You can also add image by right clicking and select Add Selected Rows.
+
+D. To do Batch Download
+1. Go to Full Batch Mode.
+2. Click Add Batch Job.
+3. Key in the tag query, this follow the same rule like in the main tab.
+4. Select the provider.
+5. Press OK, the job will be added to the list.
+6. Press Start Batch job to start the download.
+
+
 FAQ
 =============================
 Q1: I cannot download from Danbooru (403 Forbidden)!
