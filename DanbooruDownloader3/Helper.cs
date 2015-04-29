@@ -116,22 +116,7 @@ namespace DanbooruDownloader3
             groupedTags.Sort();
 
             // remove ignored tags
-            foreach (DanbooruTag ignoredTag in format.IgnoredTags)
-            {
-                if (format.IgnoreTagsUseRegex)
-                {
-                    if (!String.IsNullOrWhiteSpace(format.IgnoredTagsRegex))
-                    {
-                        //Program.Logger.Debug("Ignore Regex: " + format.IgnoredTagsRegex);
-                        Regex re = new Regex(format.IgnoredTagsRegex, RegexOptions.IgnoreCase);
-                        groupedTags.RemoveAll(x => re.IsMatch(x.Name));
-                    }
-                }
-                else
-                {
-                    groupedTags.RemoveAll(x => x.Name == ignoredTag.Name);
-                }
-            }
+            groupedTags = RemoveIgnoredTags(format, groupedTags);
 
             // artist
             var artist = FilterTags(post,
@@ -202,6 +187,35 @@ namespace DanbooruDownloader3
             }
 
             return filename;
+        }
+
+        private static List<DanbooruTag> RemoveIgnoredTags(DanbooruFilenameFormat format, List<DanbooruTag> groupedTags)
+        {
+            foreach (DanbooruTag ignoredTag in format.IgnoredTags)
+            {
+                if (format.IgnoreTagsUseRegex)
+                {
+                    if (!String.IsNullOrWhiteSpace(format.IgnoredTagsRegex))
+                    {
+                        Regex re = new Regex(format.IgnoredTagsRegex, RegexOptions.IgnoreCase);
+
+                        if (format.IgnoredTagsOnlyForGeneral)
+                        {
+                            groupedTags.RemoveAll(x => x.Type == DanbooruTagType.General && re.IsMatch(x.Name));
+                        }
+                        else
+                        {
+                            groupedTags.RemoveAll(x => re.IsMatch(x.Name));
+                        }
+                    }
+                }
+                else
+                {
+                    groupedTags.RemoveAll(x => x.Name == ignoredTag.Name);
+                }
+            }
+
+            return groupedTags;
         }
 
         private static string FilterTags(DanbooruPost post,
@@ -331,14 +345,29 @@ namespace DanbooruDownloader3
         {
             if (option.BlacklistedTagsUseRegex)
             {
-                return post.TagsEntity.Any(x => option.BlacklistedTagsRegex.IsMatch(x.Name));
+                if (option.IsBlacklistOnlyForGeneral)
+                {
+                    return post.TagsEntity.Any(x => x.Type == DanbooruTagType.General && option.BlacklistedTagsRegex.IsMatch(x.Name));
+                }
+                else return post.TagsEntity.Any(x => option.BlacklistedTagsRegex.IsMatch(x.Name));
             }
             else
             {
-                foreach (var tag in option.BlacklistedTags)
+                if (option.IsBlacklistOnlyForGeneral)
                 {
-                    if (post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase)))
-                        return true;
+                    foreach (var tag in option.BlacklistedTags)
+                    {
+                        if (post.TagsEntity.Any(x => x.Type == DanbooruTagType.General && x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase)))
+                            return true;
+                    }
+                }
+                else
+                {
+                    foreach (var tag in option.BlacklistedTags)
+                    {
+                        if (post.TagsEntity.Any(x => x.Name.Equals(tag.Name, StringComparison.InvariantCultureIgnoreCase)))
+                            return true;
+                    }
                 }
             }
             return false;

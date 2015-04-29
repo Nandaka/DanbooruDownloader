@@ -182,5 +182,7 @@ namespace DanbooruDownloader3.Entity
         public bool IgnoreTagsUseRegex { get; set; }
 
         public bool IsReplaceMode { get; set; }
+
+        public bool IgnoredTagsOnlyForGeneral { get; set; }
     }
 }

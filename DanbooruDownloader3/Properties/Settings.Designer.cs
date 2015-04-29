@@ -731,5 +731,29 @@ namespace DanbooruDownloader3.Properties {
                 this["isReplaceMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsIgnoreForGeneralTagOnly {
+            get {
+                return ((bool)(this["IsIgnoreForGeneralTagOnly"]));
+            }
+            set {
+                this["IsIgnoreForGeneralTagOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsBlacklistOnlyForGeneralTags {
+            get {
+                return ((bool)(this["IsBlacklistOnlyForGeneralTags"]));
+            }
+            set {
+                this["IsBlacklistOnlyForGeneralTags"] = value;
+            }
+        }
     }
 }

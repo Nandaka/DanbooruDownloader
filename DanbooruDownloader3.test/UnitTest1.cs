@@ -1,28 +1,28 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using DanbooruDownloader3.CustomControl;
+﻿using DanbooruDownloader3.CustomControl;
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.RegularExpressions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.test
 {
     [TestClass]
     public class UnitTest1
     {
-        string sourceProvider = @"../../../DanbooruDownloader3.test/DanbooruProviderList.xml";
-        string sourceDanbooruXml = @"../../../DanbooruDownloader3.test/TestXml/danbooru.xml";
-        string sourceYandereXml = @"../../../DanbooruDownloader3.test/TestXml/yande.re.xml";
+        private string sourceProvider = @"../../../DanbooruDownloader3.test/DanbooruProviderList.xml";
+        private string sourceDanbooruXml = @"../../../DanbooruDownloader3.test/TestXml/danbooru.xml";
+        private string sourceYandereXml = @"../../../DanbooruDownloader3.test/TestXml/yande.re.xml";
 
-        string sourceDanbooruTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_danbooru.xml";
+        private string sourceDanbooruTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_danbooru.xml";
         //string sourceYandereTagsXml = @"../../../DanbooruDownloader3.test/TestXml/tags_yande.re.xml";
 
         [TestMethod]
@@ -43,7 +43,8 @@ namespace DanbooruDownloader3.test
                 SearchTags = "",
                 BlacklistedTags = null,
                 BlacklistedTagsRegex = new Regex("$^"),
-                BlacklistedTagsUseRegex = false
+                BlacklistedTagsUseRegex = false,
+                IsBlacklistOnlyForGeneral = false,
             };
 
             var list = ShimmieEngine.ParseRSS(xml, option);
@@ -54,7 +55,7 @@ namespace DanbooruDownloader3.test
 
         [TestMethod]
         public void TestProviderSave()
-        {            
+        {
             string target = @"../../../DanbooruDownloader3.test/testSave.xml";
             var list = DanbooruProviderDao.GetInstance().Read(sourceProvider);
             list[0].Name = "hahaha";
@@ -186,7 +187,6 @@ namespace DanbooruDownloader3.test
             Assert.IsTrue(uri.ToString() == url);
         }
 
-
         [TestMethod]
         public void TestSankakuTagParser()
         {
@@ -211,7 +211,6 @@ namespace DanbooruDownloader3.test
             var filename = "dummy.xml";
             DanbooruTagsDao.Save(filename, result.Tag.ToList());
             DanbooruTagsDao dao = new DanbooruTagsDao(filename);
-            
         }
 
         [TestMethod]
@@ -270,7 +269,7 @@ namespace DanbooruDownloader3.test
             DanbooruPost post = new DanbooruPost();
             post.Id = "123";
             post.Query = "";
-            post.Provider = new DanbooruProvider() {Name = "TestProvider"};
+            post.Provider = new DanbooruProvider() { Name = "TestProvider" };
 
             string filename = "Dump for Post " + post.Id + post.Provider.Name + " Query " + post.Query + ".txt";
             bool result = Helper.DumpRawData(dump, filename);
@@ -288,7 +287,6 @@ namespace DanbooruDownloader3.test
             tempList = new DanbooruTagsDao(tempName).Tags;
             Assert.IsTrue(tempList.Tag != null);
             Assert.IsTrue(tempList.Tag.Length == 1000);
-
         }
     }
 }

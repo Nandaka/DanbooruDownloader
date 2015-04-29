@@ -29,5 +29,7 @@ namespace DanbooruDownloader3.Entity
         public Regex IgnoredTagsRegex { get; set; }
 
         public bool IgnoredTagsUseRegex { get; set; }
+
+        public bool IsBlacklistOnlyForGeneral { get; set; }
     }
 }

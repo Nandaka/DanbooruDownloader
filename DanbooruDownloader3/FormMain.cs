@@ -412,7 +412,8 @@ namespace DanbooruDownloader3
                             IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
                             IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                             IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                            IsReplaceMode = chkReplaceMode.Checked
+                            IsReplaceMode = chkReplaceMode.Checked,
+                            IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked
                         };
 
                         string extension = Helper.getFileExtensions(url);
@@ -907,7 +908,8 @@ namespace DanbooruDownloader3
                                                 IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
                                                 IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                                                 IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                                                IsReplaceMode = chkReplaceMode.Checked
+                                                IsReplaceMode = chkReplaceMode.Checked,
+                                                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked
                                             };
                                             string extension = Helper.getFileExtensions(targetUrl);
                                             filename = Helper.MakeFilename(format, post) + extension;
@@ -1009,7 +1011,7 @@ namespace DanbooruDownloader3
                                         {
                                             if (response != null)
                                             {
-                                                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                                                var option = new DanbooruPostDaoOption()
                                                 {
                                                     Provider = _currProvider,
                                                     Query = query,
@@ -1021,7 +1023,8 @@ namespace DanbooruDownloader3
                                                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                                                     IgnoredTags = TagIgnore,
                                                     IgnoredTagsRegex = TagIgnoreRegex,
-                                                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                                                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                                                    IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                                                 };
                                                 var resp = new DanbooruPostDao(response, option);
                                                 responseMessage = resp.ResponseMessage;
@@ -1234,7 +1237,7 @@ namespace DanbooruDownloader3
                     var strs = _clientBatch.DownloadString(url);
                     using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
                     {
-                        DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                        var option = new DanbooruPostDaoOption()
                         {
                             Provider = job.Provider,
                             Query = query,
@@ -1245,7 +1248,8 @@ namespace DanbooruDownloader3
                             BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                             IgnoredTags = TagIgnore,
                             IgnoredTagsRegex = TagIgnoreRegex,
-                            IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                            IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                            IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                         };
                         d = new DanbooruPostDao(ms, option);
                     }
@@ -1434,7 +1438,7 @@ namespace DanbooruDownloader3
         {
             if (txtListFile.Text.Length > 0)
             {
-                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                var option = new DanbooruPostDaoOption()
                 {
                     Provider = _currProvider,
                     Url = txtListFile.Text,

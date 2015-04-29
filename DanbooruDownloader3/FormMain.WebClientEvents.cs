@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,8 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -50,7 +50,7 @@ namespace DanbooruDownloader3
                 Program.Logger.Debug("Download list completed");
                 tsProgressBar.Visible = false;
                 MemoryStream ms = new MemoryStream(e.Result);
-                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                var option = new DanbooruPostDaoOption()
                 {
                     Provider = _currProvider,
                     //Url = txtListFile.Text,
@@ -62,7 +62,8 @@ namespace DanbooruDownloader3
                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                     IgnoredTags = TagIgnore,
                     IgnoredTagsRegex = TagIgnoreRegex,
-                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                    IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                 };
 
                 tsStatus.Text = "Loading downloaded list...";
@@ -95,7 +96,7 @@ namespace DanbooruDownloader3
                             {
                                 if (responseStream != null)
                                 {
-                                    DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                                    var option = new DanbooruPostDaoOption()
                                     {
                                         Provider = _currProvider,
                                         //Url = "",
@@ -107,7 +108,8 @@ namespace DanbooruDownloader3
                                         BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                                         IgnoredTags = TagIgnore,
                                         IgnoredTagsRegex = TagIgnoreRegex,
-                                        IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                                        IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                                        IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                                     };
                                     var resp = new DanbooruPostDao(responseStream, option);
                                     message = "Server Message: " + resp.ResponseMessage;
@@ -147,7 +149,7 @@ namespace DanbooruDownloader3
 
             if (chkAutoLoadList.Checked)
             {
-                DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+                var option = new DanbooruPostDaoOption()
                 {
                     Provider = _currProvider,
                     Url = txtListFile.Text,
@@ -159,7 +161,8 @@ namespace DanbooruDownloader3
                     BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
                     IgnoredTags = TagIgnore,
                     IgnoredTagsRegex = TagIgnoreRegex,
-                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                    IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                 };
                 DanbooruPostDao newPosts = new DanbooruPostDao(option);
                 LoadList(newPosts);

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using DanbooruDownloader3.CustomControl;
-using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -216,7 +216,7 @@ namespace DanbooruDownloader3
         /// <returns></returns>
         public DanbooruSearchParam GetSearchParams()
         {
-            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+            var option = new DanbooruPostDaoOption()
             {
                 BlacklistedTags = TagBlacklist,
                 BlacklistedTagsRegex = TagBlacklistRegex,
@@ -225,7 +225,8 @@ namespace DanbooruDownloader3
                 IgnoredTagsRegex = TagIgnoreRegex,
                 IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                 Provider = _currProvider,
-                SearchTags = !String.IsNullOrWhiteSpace(txtTags.Text) ? txtTags.Text : ""
+                SearchTags = !String.IsNullOrWhiteSpace(txtTags.Text) ? txtTags.Text : "",
+                IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
             };
 
             DanbooruSearchParam searchParam = new DanbooruSearchParam();
@@ -277,7 +278,7 @@ namespace DanbooruDownloader3
         /// <returns></returns>
         public DanbooruSearchParam GetSearchParamsFromJob(DanbooruBatchJob job, int currPage)
         {
-            DanbooruPostDaoOption option = new DanbooruPostDaoOption()
+            var option = new DanbooruPostDaoOption()
             {
                 BlacklistedTags = TagBlacklist,
                 BlacklistedTagsRegex = TagBlacklistRegex,
@@ -286,7 +287,8 @@ namespace DanbooruDownloader3
                 IgnoredTagsRegex = TagIgnoreRegex,
                 IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                 Provider = _currProvider,
-                SearchTags = !String.IsNullOrWhiteSpace(job.TagQuery) ? job.TagQuery : ""
+                SearchTags = !String.IsNullOrWhiteSpace(job.TagQuery) ? job.TagQuery : "",
+                IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
             };
 
             DanbooruSearchParam searchParam = new DanbooruSearchParam();
