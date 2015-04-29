@@ -8,6 +8,7 @@ namespace DanbooruDownloader3.Entity
     public class DanbooruFilenameFormat
     {
         private string _FilenameFormat;
+
         public string FilenameFormat
         {
             get
@@ -20,11 +21,12 @@ namespace DanbooruDownloader3.Entity
             }
             set
             {
-                _FilenameFormat = value;   
+                _FilenameFormat = value;
             }
         }
 
         private int _Limit;
+
         public int Limit
         {
             get
@@ -42,6 +44,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _BaseFolder;
+
         public string BaseFolder
         {
             get
@@ -59,6 +62,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _MissingTagReplacement;
+
         public string MissingTagReplacement
         {
             get
@@ -82,6 +86,7 @@ namespace DanbooruDownloader3.Entity
         private string _faultsGroupReplacement;
 
         public int ArtistGroupLimit { get; set; }
+
         public string ArtistGroupReplacement
         {
             get
@@ -92,12 +97,14 @@ namespace DanbooruDownloader3.Entity
                 }
                 return _artistGroupReplacement;
             }
-            set 
+            set
             {
                 _artistGroupReplacement = value;
             }
         }
+
         public int CopyrightGroupLimit { get; set; }
+
         public string CopyrightGroupReplacement
         {
             get
@@ -113,7 +120,9 @@ namespace DanbooruDownloader3.Entity
                 _copyrightGroupReplacement = value;
             }
         }
+
         public int CharacterGroupLimit { get; set; }
+
         public string CharacterGroupReplacement
         {
             get
@@ -129,7 +138,9 @@ namespace DanbooruDownloader3.Entity
                 _characterGroupReplacement = value;
             }
         }
+
         public int CircleGroupLimit { get; set; }
+
         public string CircleGroupReplacement
         {
             get
@@ -145,7 +156,9 @@ namespace DanbooruDownloader3.Entity
                 _circleGroupReplacement = value;
             }
         }
+
         public int FaultsGroupLimit { get; set; }
+
         public string FaultsGroupReplacement
         {
             get
@@ -163,7 +176,11 @@ namespace DanbooruDownloader3.Entity
         }
 
         public List<DanbooruTag> IgnoredTags { get; set; }
+
         public String IgnoredTagsRegex { get; set; }
+
         public bool IgnoreTagsUseRegex { get; set; }
+
+        public bool IsReplaceMode { get; set; }
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Engine;
+using DanbooruDownloader3.Entity;
+using DanbooruDownloader3.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,11 +20,6 @@ using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using DanbooruDownloader3.CustomControl;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Engine;
-using DanbooruDownloader3.Entity;
-using DanbooruDownloader3.Utils;
 
 namespace DanbooruDownloader3
 {
@@ -411,7 +411,8 @@ namespace DanbooruDownloader3
                             FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
                             IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
                             IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
-                            IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                            IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                            IsReplaceMode = chkReplaceMode.Checked
                         };
 
                         string extension = Helper.getFileExtensions(url);
@@ -905,7 +906,8 @@ namespace DanbooruDownloader3
                                                 FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
                                                 IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
                                                 IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
-                                                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked
+                                                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                                                IsReplaceMode = chkReplaceMode.Checked
                                             };
                                             string extension = Helper.getFileExtensions(targetUrl);
                                             filename = Helper.MakeFilename(format, post) + extension;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -7,8 +9,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3
 {
@@ -113,6 +113,7 @@ namespace DanbooruDownloader3
 
             // copy the tags entity to be grouped.
             var groupedTags = post.TagsEntity;
+            groupedTags.Sort();
 
             // remove ignored tags
             foreach (DanbooruTag ignoredTag in format.IgnoredTags)
@@ -132,105 +133,59 @@ namespace DanbooruDownloader3
                 }
             }
 
-            var artistSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Artist).Select(x => x.Name);
-            var artist = "";
-            if (artistSelection != null)
-            {
-                if (artistSelection.Count() >= format.ArtistGroupLimit && !string.IsNullOrWhiteSpace(format.ArtistGroupReplacement))
-                {
-                    artist = format.ArtistGroupReplacement;
-                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Artist);
-                    groupedTags.Add(new DanbooruTag() { Name = format.ArtistGroupReplacement });
-                }
-                else
-                {
-                    artist = string.Join(" ", artistSelection);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(artist)) artist = format.MissingTagReplacement;
+            // artist
+            var artist = FilterTags(post,
+                                    groupedTags,
+                                    DanbooruTagType.Artist,
+                                    format.ArtistGroupLimit,
+                                    format.ArtistGroupReplacement,
+                                    format.MissingTagReplacement,
+                                    format.IsReplaceMode);
             filename = filename.Replace("%artist%", Helper.SanitizeFilename(artist).Trim());
 
-            var copyrightSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Copyright).Select(x => x.Name);
-            var copyright = "";
-            if (copyrightSelection != null)
-            {
-                if (copyrightSelection.Count() >= format.CopyrightGroupLimit &&
-                    format.CopyrightGroupLimit > 1 &&
-                    !string.IsNullOrWhiteSpace(format.CopyrightGroupReplacement))
-                {
-                    copyright = format.CopyrightGroupReplacement;
-                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Artist);
-                    groupedTags.Add(new DanbooruTag() { Name = format.ArtistGroupReplacement });
-                }
-                else
-                {
-                    copyright = string.Join(" ", copyrightSelection);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(copyright)) copyright = format.MissingTagReplacement;
+            // copyright
+            var copyright = FilterTags(post,
+                                       groupedTags,
+                                       DanbooruTagType.Copyright,
+                                       format.CopyrightGroupLimit,
+                                       format.CopyrightGroupReplacement,
+                                       format.MissingTagReplacement,
+                                    format.IsReplaceMode);
             filename = filename.Replace("%copyright%", Helper.SanitizeFilename(copyright.Trim()));
 
-            var characterSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Character).Select(x => x.Name);
-            var character = "";
-            if (characterSelection != null)
-            {
-                if (characterSelection.Count() >= format.CharacterGroupLimit &&
-                    format.CharacterGroupLimit > 1 &&
-                    !string.IsNullOrWhiteSpace(format.CharacterGroupReplacement))
-                {
-                    character = format.CharacterGroupReplacement;
-                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Character);
-                    groupedTags.Add(new DanbooruTag() { Name = format.CharacterGroupReplacement });
-                }
-                else
-                {
-                    character = string.Join(" ", characterSelection);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(character)) character = format.MissingTagReplacement;
+            // character
+            var character = FilterTags(post,
+                                       groupedTags,
+                                       DanbooruTagType.Character,
+                                       format.CharacterGroupLimit,
+                                       format.CharacterGroupReplacement,
+                                       format.MissingTagReplacement,
+                                    format.IsReplaceMode);
             filename = filename.Replace("%character%", Helper.SanitizeFilename(character.Trim()));
 
+            // cirle
             var circleSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name);
-            var circle = "";
-            if (circleSelection != null)
-            {
-                if (circleSelection.Count() >= format.CircleGroupLimit &&
-                    format.CircleGroupLimit > 1 &&
-                    !string.IsNullOrWhiteSpace(format.CircleGroupReplacement))
-                {
-                    circle = format.CircleGroupReplacement;
-                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Circle);
-                    groupedTags.Add(new DanbooruTag() { Name = format.CircleGroupReplacement });
-                }
-                else
-                {
-                    circle = string.Join(" ", circleSelection);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(circle)) circle = format.MissingTagReplacement;
+            var circle = FilterTags(post,
+                                    groupedTags,
+                                    DanbooruTagType.Circle,
+                                    format.CircleGroupLimit,
+                                    format.CircleGroupReplacement,
+                                    format.MissingTagReplacement,
+                                    format.IsReplaceMode);
             filename = filename.Replace("%circle%", Helper.SanitizeFilename(circle.Trim()));
 
+            // faults
             var faultsSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name);
-            var faults = "";
-            if (faultsSelection != null)
-            {
-                if (faultsSelection.Count() >= format.FaultsGroupLimit &&
-                    format.FaultsGroupLimit > 1 &&
-                    !string.IsNullOrWhiteSpace(format.FaultsGroupReplacement))
-                {
-                    faults = format.FaultsGroupReplacement;
-                    groupedTags.RemoveAll(x => x.Type == DanbooruTagType.Faults);
-                    groupedTags.Add(new DanbooruTag() { Name = format.FaultsGroupReplacement });
-                }
-                else
-                {
-                    faults = string.Join(" ", faultsSelection);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(faults)) faults = format.MissingTagReplacement;
+            var faults = FilterTags(post,
+                                    groupedTags,
+                                    DanbooruTagType.Faults,
+                                    format.FaultsGroupLimit,
+                                    format.FaultsGroupReplacement,
+                                    format.MissingTagReplacement,
+                                    format.IsReplaceMode);
             filename = filename.Replace("%faults%", Helper.SanitizeFilename(faults.Trim()));
 
-            groupedTags.Sort();
+            // all tags
             filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", groupedTags.Select(x => x.Name))));
 
             // append base folder from Save Folder text box
@@ -247,6 +202,42 @@ namespace DanbooruDownloader3
             }
 
             return filename;
+        }
+
+        private static string FilterTags(DanbooruPost post,
+                                         List<DanbooruTag> groupedTags,
+                                         DanbooruTagType tagType,
+                                         int tagLimit,
+                                         string tagReplacement,
+                                         string missingTagReplacement,
+                                         bool isReplaceMode)
+        {
+            var selectedTags = post.TagsEntity.Where<DanbooruTag>(x => x.Type == tagType).Select(x => x.Name);
+            var tagStr = "";
+            if (selectedTags != null)
+            {
+                if (selectedTags.Count() >= tagLimit)
+                {
+                    if (isReplaceMode && !string.IsNullOrWhiteSpace(tagReplacement))
+                    {
+                        tagStr = tagReplacement;
+                        groupedTags.RemoveAll(x => x.Type == tagType);
+                        groupedTags.Add(new DanbooruTag() { Name = tagReplacement });
+                    }
+                    else
+                    {
+                        var tempTags = selectedTags.Take(tagLimit);
+                        tagStr = String.Join(" ", tempTags);
+                    }
+                }
+                else
+                {
+                    tagStr = string.Join(" ", selectedTags);
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(tagStr)) tagStr = missingTagReplacement;
+            return tagStr;
         }
 
         /// <summary>
