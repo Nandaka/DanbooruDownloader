@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20150429
+  - Implement Feature #51: Allow option to ignore/blacklist only for General tags.
+  - Fix Issue #57: Replace tags if over the limit with 'multiple_tag_type'.
+  - Implement Feature #57: Take tags only the specified limit option.
+
 - DanbooruDownloader20150116
   - Add option to disable list file generation of downloaded images (Issue #53).
   - Update message for Batch Job (Issue #48).
