@@ -755,5 +755,65 @@ namespace DanbooruDownloader3.Properties {
                 this["IsBlacklistOnlyForGeneralTags"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Artist")]
+        public string tagNoArtistValue {
+            get {
+                return ((string)(this["tagNoArtistValue"]));
+            }
+            set {
+                this["tagNoArtistValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Copyright")]
+        public string tagNoCopyrightValue {
+            get {
+                return ((string)(this["tagNoCopyrightValue"]));
+            }
+            set {
+                this["tagNoCopyrightValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Character")]
+        public string tagNoCharaValue {
+            get {
+                return ((string)(this["tagNoCharaValue"]));
+            }
+            set {
+                this["tagNoCharaValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Circle")]
+        public string tagNoCircleValue {
+            get {
+                return ((string)(this["tagNoCircleValue"]));
+            }
+            set {
+                this["tagNoCircleValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Fault")]
+        public string tagNoFaultValue {
+            get {
+                return ((string)(this["tagNoFaultValue"]));
+            }
+            set {
+                this["tagNoFaultValue"] = value;
+            }
+        }
     }
 }

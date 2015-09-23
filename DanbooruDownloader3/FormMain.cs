@@ -2385,8 +2385,17 @@ namespace DanbooruDownloader3
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtLog.SelectedText))
-                Clipboard.SetText(txtLog.SelectedText);
+            var source = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+            if (source == txtLog)
+            {
+                if (!String.IsNullOrWhiteSpace(txtLog.SelectedText))
+                    Clipboard.SetText(txtLog.SelectedText);
+            }
+            //else if (source == txtQuery)
+            //{
+            //    if (!String.IsNullOrWhiteSpace(txtQuery.Text))
+            //        Clipboard.SetText(txtQuery.Text);
+            //}
         }
 
         private void btnPrevPage_Click(object sender, EventArgs e)

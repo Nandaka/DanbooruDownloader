@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Entity;
-using HtmlAgilityPack;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -233,7 +233,7 @@ namespace DanbooruDownloader3.Engine
                 {
                     tmp += "+";
                 }
-                tmp += "order:" + query.OrderBy;
+                tmp += query.OrderBy;
             }
             if (!String.IsNullOrWhiteSpace(query.Rating))
             {
@@ -241,7 +241,7 @@ namespace DanbooruDownloader3.Engine
                 {
                     tmp += "+";
                 }
-                tmp += "rating:" + query.Rating;
+                tmp += query.Rating;
             }
             if (!string.IsNullOrWhiteSpace(tmp))
             {
@@ -258,15 +258,16 @@ namespace DanbooruDownloader3.Engine
                 tmp += "page=" + query.Page.Value.ToString();
             }
 
-            // limit
-            if (query.Limit.HasValue)
-            {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "&";
-                }
-                tmp += "limit=" + query.Limit.Value.ToString();
-            }
+            // remove limit counter as it is not useful for sankaku
+            //// limit
+            //if (query.Limit.HasValue)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(tmp))
+            //    {
+            //        tmp += "&";
+            //    }
+            //    tmp += "limit=" + query.Limit.Value.ToString();
+            //}
             return tmp;
         }
 

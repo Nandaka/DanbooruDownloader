@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20150923
+  - Fix Issue#58: Add scroll bar on main window.
+  - Fix Issue#61: remove limit parameter for sankakucomplex.
+  - Add option to replace empty tag with default value.
+
 - DanbooruDownloader20150429
   - Implement Feature #51: Allow option to ignore/blacklist only for General tags.
   - Fix Issue #57: Replace tags if over the limit with 'multiple_tag_type'.

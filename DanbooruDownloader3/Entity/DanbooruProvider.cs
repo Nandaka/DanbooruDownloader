@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Engine;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -126,6 +127,10 @@ namespace DanbooruDownloader3.Entity
             if (this.BoardType == BoardType.Shimmie2)
             {
                 queryStr = DanbooruDownloader3.Engine.ShimmieEngine.GetQueryString(this, searchParam);
+            }
+            else if (this.Url.Contains("sankakucomplex.com"))
+            {
+                queryStr = new SankakuComplexParser().GenerateQueryString(searchParam);
             }
             else
             {

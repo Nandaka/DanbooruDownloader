@@ -185,5 +185,20 @@
     <Setting Name="IsBlacklistOnlyForGeneralTags" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="tagNoArtistValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No Artist</Value>
+    </Setting>
+    <Setting Name="tagNoCopyrightValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No Copyright</Value>
+    </Setting>
+    <Setting Name="tagNoCharaValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No Character</Value>
+    </Setting>
+    <Setting Name="tagNoCircleValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No Circle</Value>
+    </Setting>
+    <Setting Name="tagNoFaultValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No Fault</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
