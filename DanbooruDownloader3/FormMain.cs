@@ -151,6 +151,8 @@ namespace DanbooruDownloader3
             ExtendedWebClient.EnableCookie = Properties.Settings.Default.enableCookie;
             ExtendedWebClient.EnableCompression = Properties.Settings.Default.EnableCompression;
             ExtendedWebClient.AcceptLanguage = Properties.Settings.Default.AcceptLanguage;
+
+            UpdateImageSizeOption();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -2069,6 +2071,11 @@ namespace DanbooruDownloader3
         private string _ImageSize;
 
         private void cbxImageSize_TextChanged(object sender, EventArgs e)
+        {
+            UpdateImageSizeOption();
+        }
+
+        private void UpdateImageSizeOption()
         {
             if (cbxImageSize.Text == "Thumb")
             {
