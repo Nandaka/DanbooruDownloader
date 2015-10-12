@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using System.ComponentModel;
 using System.Xml.Serialization;
-using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -25,6 +25,7 @@ namespace DanbooruDownloader3.Entity
         public bool Completed { get; set; }
 
         private string _id;
+
         public string Id
         {
             get { return _id; }
@@ -32,6 +33,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _tags;
+
         public string Tags
         {
             get { return _tags; }
@@ -39,6 +41,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _source;
+
         public string Source
         {
             get { return _source; }
@@ -46,6 +49,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _score;
+
         public string Score
         {
             get { return _score; }
@@ -53,6 +57,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _rating;
+
         public string Rating
         {
             get { return _rating; }
@@ -60,6 +65,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _status = "-";
+
         public string Status
         {
             get { return _status; }
@@ -67,6 +73,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private bool _has_children;
+
         [Browsable(false)]
         public bool HasChildren
         {
@@ -75,6 +82,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _parent_id;
+
         [Browsable(false)]
         public string ParentId
         {
@@ -83,6 +91,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _change;
+
         [Browsable(false)]
         public string Change
         {
@@ -91,6 +100,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _creator_id;
+
         [Browsable(false)]
         public string CreatorId
         {
@@ -99,6 +109,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _created_at;
+
         [Browsable(false)]
         public string CreatedAt
         {
@@ -107,6 +118,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _md5;
+
         public string MD5
         {
             get { return _md5; }
@@ -115,6 +127,7 @@ namespace DanbooruDownloader3.Entity
 
         [XmlIgnore]
         private Image thumbnailImage;
+
         [Browsable(true)]
         [XmlIgnore]
         public Image ThumbnailImage
@@ -128,6 +141,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private List<DanbooruTag> tagsEntity;
+
         [XmlIgnore]
         //[Browsable(false)]
         public List<DanbooruTag> TagsEntity
@@ -152,7 +166,8 @@ namespace DanbooruDownloader3.Entity
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, e);
         }
-        #endregion
+
+        #endregion INotifyPropertyChanged Members
 
         public int Filesize { get; set; }
 
@@ -162,10 +177,12 @@ namespace DanbooruDownloader3.Entity
         public bool Hidden { get; set; }
 
         #region image/thumbnail url related
+
         /* if jpeg_url not exist, then the url will be taken from sample_url
          * if sample_url not exist, then the url will be taken from file_url
          */
         private string _file_url;
+
         public string FileUrl
         {
             get { return _file_url; }
@@ -173,6 +190,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _width;
+
         public int Width
         {
             get { return _width; }
@@ -180,6 +198,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _height;
+
         public int Height
         {
             get { return _height; }
@@ -187,6 +206,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _preview_url;
+
         public string PreviewUrl
         {
             get { return _preview_url; }
@@ -194,6 +214,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _preview_width;
+
         [Browsable(false)]
         public int PreviewWidth
         {
@@ -202,6 +223,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _preview_height;
+
         [Browsable(false)]
         public int PreviewHeight
         {
@@ -210,6 +232,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _sample_url;
+
         public string SampleUrl
         {
             get
@@ -224,6 +247,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _sample_width;
+
         [Browsable(false)]
         public int SampleWidth
         {
@@ -239,6 +263,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _sample_height;
+
         [Browsable(false)]
         public int SampleHeight
         {
@@ -254,6 +279,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private string _jpeg_url;
+
         public string JpegUrl
         {
             get
@@ -268,6 +294,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _jpeg_width;
+
         [Browsable(false)]
         public int JpegWidth
         {
@@ -283,6 +310,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private int _jpeg_height;
+
         [Browsable(false)]
         public int JpegHeight
         {
@@ -296,7 +324,7 @@ namespace DanbooruDownloader3.Entity
             }
             set { this._jpeg_height = value; }
         }
-        #endregion
 
+        #endregion image/thumbnail url related
     }
 }

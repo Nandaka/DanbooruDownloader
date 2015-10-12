@@ -1,17 +1,18 @@
-﻿using System;
+﻿using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using DanbooruDownloader3.Entity;
-using System.Xml.Serialization;
-using System.IO;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.DAO
 {
     public class DanbooruTagsDao
     {
         public DanbooruTagCollection Tags { get; set; }
+
         public DanbooruTagsDao(string xmlTagFile)
         {
             XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
@@ -25,6 +26,7 @@ namespace DanbooruDownloader3.DAO
 
         public bool IsArtistTag(string tag)
         {
+            if (Tags.ArtistTag == null) return false;
             var result = Tags.ArtistTag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result == null) return false;
             return true;
@@ -32,6 +34,7 @@ namespace DanbooruDownloader3.DAO
 
         public bool IsCopyrightTag(string tag)
         {
+            if (Tags.CopyrightTag == null) return false;
             var result = Tags.CopyrightTag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result == null) return false;
             return true;
@@ -39,6 +42,7 @@ namespace DanbooruDownloader3.DAO
 
         public bool IsCharacterTag(string tag)
         {
+            if (Tags.CharacterTag == null) return false;
             var result = Tags.CharacterTag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result == null) return false;
             return true;
@@ -46,6 +50,7 @@ namespace DanbooruDownloader3.DAO
 
         public bool IsCircleTag(string tag)
         {
+            if (Tags.CircleTag == null) return false;
             var result = Tags.CircleTag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result == null) return false;
             return true;
@@ -53,6 +58,7 @@ namespace DanbooruDownloader3.DAO
 
         public bool IsFaultsTag(string tag)
         {
+            if (Tags.FaultsTag == null) return false;
             var result = Tags.FaultsTag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result == null) return false;
             return true;
@@ -60,6 +66,7 @@ namespace DanbooruDownloader3.DAO
 
         public DanbooruTagType GetTagType(string tag)
         {
+            if (Tags.Tag == null) return DanbooruTagType.General;
             var result = Tags.Tag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
             if (result != null) return result.Type;
             return DanbooruTagType.General;
@@ -67,20 +74,21 @@ namespace DanbooruDownloader3.DAO
 
         public DanbooruTag GetTag(string tag)
         {
-            // TODO: Hot spot for perfomance
-            var result = Tags.Tag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
-            if (result != null) return result;
-            else
+            if (Tags.Tag != null)
             {
-                var unknownTag = new DanbooruTag()
-                {
-                    Name = tag,
-                    Type = DanbooruTagType.Unknown,
-                    Count = -1,
-                    Id = "-1"
-                };
-                return unknownTag;
+                // TODO: Hot spot for perfomance
+                var result = Tags.Tag.FirstOrDefault<DanbooruTag>(x => x.Name == tag);
+                if (result != null) return result;
             }
+
+            var unknownTag = new DanbooruTag()
+            {
+                Name = tag,
+                Type = DanbooruTagType.Unknown,
+                Count = -1,
+                Id = "-1"
+            };
+            return unknownTag;
         }
 
         public DanbooruTag GetTag(string tag, DanbooruTagCollection tagCollection)
@@ -124,6 +132,7 @@ namespace DanbooruDownloader3.DAO
         }
 
         private static DanbooruTagsDao _DefaultTagsDao;
+
         public static DanbooruTagsDao Instance
         {
             get
