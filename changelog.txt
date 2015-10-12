@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20151012
+  - Fix Issue #62: Refresh image size on start.
+  - Fix Issue #63: Shimmie rss page batch bug.
+  - Add null check if tags.xml is empty (xml must be valid!)
+  - Update sankaku parser to parse tags directly from post (Global Tags XML must not be ticked).
+
 - DanbooruDownloader20150923
   - Fix Issue#58: Add scroll bar on main window.
   - Fix Issue#61: remove limit parameter for sankakucomplex.
