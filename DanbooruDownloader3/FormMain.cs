@@ -147,12 +147,12 @@ namespace DanbooruDownloader3
 
             _ImageSize = cbxImageSize.Text;
 
-            ToggleTagsColor();
             ExtendedWebClient.EnableCookie = Properties.Settings.Default.enableCookie;
             ExtendedWebClient.EnableCompression = Properties.Settings.Default.EnableCompression;
             ExtendedWebClient.AcceptLanguage = Properties.Settings.Default.AcceptLanguage;
 
             UpdateImageSizeOption();
+            ToggleTagsColor();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -290,7 +290,7 @@ namespace DanbooruDownloader3
                 if (e.Error == null)
                 {
                     string html = e.Result;
-                    post = SankakuComplexParser.ParsePost(post, html);
+                    post = SankakuComplexParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
                     UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
                 }
@@ -1114,6 +1114,7 @@ namespace DanbooruDownloader3
                 {
                     var filename2 = filename + ".!tmp";
 #if DEBUG
+                    UpdateLog("DoBatchJob", "DEBUG Saved To: " + filename);
                     Thread.Sleep(100);
 #else
                     if (File.Exists(filename2))
@@ -1181,9 +1182,9 @@ namespace DanbooruDownloader3
 
                         if (post.Provider.BoardType == BoardType.Danbooru)
                         {
-                            var tempPost = SankakuComplexParser.ParsePost(post, html);
-                            post.FileUrl = tempPost.FileUrl;
-                            post.PreviewUrl = tempPost.PreviewUrl;
+                            post = SankakuComplexParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
+                            //post.FileUrl = tempPost.FileUrl;
+                            //post.PreviewUrl = tempPost.PreviewUrl;
                         }
                         else if (post.Provider.BoardType == BoardType.Gelbooru)
                         {

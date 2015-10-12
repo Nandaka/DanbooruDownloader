@@ -16,7 +16,7 @@ namespace DanbooruDownloader3.Engine
             return provider.Url.ToLowerInvariant().StartsWith("https");
         }
 
-        public static DanbooruPost ParsePost(DanbooruPost post, string postHtml)
+        public static DanbooruPost ParsePost(DanbooruPost post, string postHtml, bool overideTagParsing)
         {
             try
             {
@@ -24,6 +24,12 @@ namespace DanbooruDownloader3.Engine
                 doc.LoadHtml(postHtml);
                 string file_url = "";
                 string sample_url = "";
+
+                // reparse tags with type
+                if (overideTagParsing)
+                {
+                    ReparseTags(post, doc);
+                }
 
                 // Flash Game or bmp
                 if (post.PreviewUrl.EndsWith("download-preview.png"))
@@ -75,6 +81,56 @@ namespace DanbooruDownloader3.Engine
                 bool result = Helper.DumpRawData(postHtml, filename);
                 if (!result) Program.Logger.Error("Failed to dump rawdata to: " + filename, ex);
                 throw;
+            }
+        }
+
+        private static void ReparseTags(DanbooruPost post, HtmlDocument doc)
+        {
+            post.TagsEntity.Clear();
+            var tagsElement = doc.DocumentNode.SelectNodes("//ul[@id='tag-sidebar']/li");
+            foreach (var tag in tagsElement)
+            {
+                HtmlDocument tagDoc = new HtmlDocument();
+                tagDoc.LoadHtml(tag.OuterHtml);
+
+                var tagEntity = new DanbooruTag();
+                var el = tagDoc.DocumentNode.SelectSingleNode("//li");
+                var cls = el.Attributes["class"].Value;
+                switch (cls)
+                {
+                    case "tag-type-general":
+                        tagEntity.Type = DanbooruTagType.General;
+                        break;
+
+                    case "tag-type-artist":
+                        tagEntity.Type = DanbooruTagType.Artist;
+                        break;
+
+                    case "tag-type-copyright":
+                        tagEntity.Type = DanbooruTagType.Copyright;
+                        break;
+
+                    case "tag-type-character":
+                        tagEntity.Type = DanbooruTagType.Character;
+                        break;
+
+                    //case "tag-type-medium":
+                    //    tagEntity.Type = DanbooruTagType.Circle;
+                    //    break;
+
+                    case "tag-type-medium":
+                        tagEntity.Type = DanbooruTagType.Faults;
+                        break;
+
+                    default:
+                        tagEntity.Type = DanbooruTagType.Unknown;
+                        break;
+                }
+                tagEntity.Name = tagDoc.DocumentNode.SelectSingleNode("//li/a").InnerText;
+                var countStr = tagDoc.DocumentNode.SelectSingleNode("//li//span[@class='post-count']").InnerText.Trim();
+                tagEntity.Count = Int32.Parse(countStr);
+
+                post.TagsEntity.Add(tagEntity);
             }
         }
 

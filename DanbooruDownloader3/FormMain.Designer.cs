@@ -1024,7 +1024,7 @@
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.colPreview.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colPreview.FillWeight = 500F;
+            this.colPreview.FillWeight = 200F;
             this.colPreview.Frozen = true;
             this.colPreview.HeaderText = "Preview";
             this.colPreview.Image = global::DanbooruDownloader3.Properties.Resources.NOT_AVAILABLE;
@@ -3824,21 +3824,6 @@
         private System.Windows.Forms.CheckBox chkEnableCompression;
         private System.Windows.Forms.CheckBox chkHideBlaclistedImage;
         private System.Windows.Forms.CheckBox chkProcessDeletedPost;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
-        private System.Windows.Forms.DataGridViewImageColumn colPreview;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colScore;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
-        private CustomControl.TagsColumn colTagsE;
-        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
-        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
-        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.TextBox txtBatchJobDelay;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox chkDelayIncludeSkip;
@@ -3866,6 +3851,21 @@
         private System.Windows.Forms.TextBox txtNoArtist;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNumber;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
+        private System.Windows.Forms.DataGridViewImageColumn colPreview;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProvider;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colScore;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
+        private CustomControl.TagsColumn colTagsE;
+        private System.Windows.Forms.DataGridViewLinkColumn colUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMD5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuery;
+        private System.Windows.Forms.DataGridViewLinkColumn colSourceUrl;
+        private System.Windows.Forms.DataGridViewLinkColumn colReferer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
     }
 }
 
