@@ -772,7 +772,8 @@ namespace DanbooruDownloader3
 
                             #region Construct the searchParam
 
-                            if (batchJob[i].Provider.BoardType == BoardType.Danbooru)
+                            if (batchJob[i].Provider.BoardType == BoardType.Danbooru
+                                || batchJob[i].Provider.BoardType == BoardType.Shimmie2)
                             {
                                 currPage = batchJob[i].CurrentPage;
                             }
@@ -787,6 +788,7 @@ namespace DanbooruDownloader3
                                     currPage = batchJob[i].CurrentPage;
                                 }
                             }
+
                             DanbooruSearchParam searchParam = GetSearchParamsFromJob(batchJob[i], currPage);
 
                             url = batchJob[i].Provider.GetQueryUrl(searchParam);
