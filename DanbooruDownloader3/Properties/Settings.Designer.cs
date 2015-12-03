@@ -815,5 +815,17 @@ namespace DanbooruDownloader3.Properties {
                 this["tagNoFaultValue"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsReplaceUnderscoreTag {
+            get {
+                return ((bool)(this["IsReplaceUnderscoreTag"]));
+            }
+            set {
+                this["IsReplaceUnderscoreTag"] = value;
+            }
+        }
     }
 }

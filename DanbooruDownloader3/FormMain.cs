@@ -415,7 +415,8 @@ namespace DanbooruDownloader3
                             IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                             IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                             IsReplaceMode = chkReplaceMode.Checked,
-                            IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked
+                            IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
+                            TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
                         };
 
                         string extension = Helper.getFileExtensions(url);
@@ -913,7 +914,8 @@ namespace DanbooruDownloader3
                                                 IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                                                 IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                                                 IsReplaceMode = chkReplaceMode.Checked,
-                                                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked
+                                                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
+                                                TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
                                             };
                                             string extension = Helper.getFileExtensions(targetUrl);
                                             filename = Helper.MakeFilename(format, post) + extension;

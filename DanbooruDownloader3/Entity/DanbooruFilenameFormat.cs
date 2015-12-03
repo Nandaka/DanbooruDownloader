@@ -184,5 +184,7 @@ namespace DanbooruDownloader3.Entity
         public bool IsReplaceMode { get; set; }
 
         public bool IgnoredTagsOnlyForGeneral { get; set; }
+
+        public bool TagReplaceUnderscoreToSpace { get; set; }
     }
 }

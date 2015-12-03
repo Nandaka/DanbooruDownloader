@@ -126,7 +126,8 @@ namespace DanbooruDownloader3
                                     format.ArtistGroupLimit,
                                     format.ArtistGroupReplacement,
                                     format.MissingTagReplacement,
-                                    format.IsReplaceMode);
+                                    format.IsReplaceMode,
+                                    format.TagReplaceUnderscoreToSpace);
             var artistStr = Helper.SanitizeFilename(artist).Trim();
             if (String.IsNullOrEmpty(artistStr)) artistStr = DanbooruDownloader3.Properties.Settings.Default.tagNoArtistValue;
             filename = filename.Replace("%artist%", artistStr);
@@ -138,7 +139,8 @@ namespace DanbooruDownloader3
                                        format.CopyrightGroupLimit,
                                        format.CopyrightGroupReplacement,
                                        format.MissingTagReplacement,
-                                       format.IsReplaceMode);
+                                       format.IsReplaceMode,
+                                       format.TagReplaceUnderscoreToSpace);
             var copyStr = Helper.SanitizeFilename(copyright.Trim());
             if (String.IsNullOrEmpty(copyStr)) copyStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCopyrightValue;
             filename = filename.Replace("%copyright%", copyStr);
@@ -150,7 +152,8 @@ namespace DanbooruDownloader3
                                        format.CharacterGroupLimit,
                                        format.CharacterGroupReplacement,
                                        format.MissingTagReplacement,
-                                    format.IsReplaceMode);
+                                       format.IsReplaceMode,
+                                       format.TagReplaceUnderscoreToSpace);
             var charaStr = Helper.SanitizeFilename(character.Trim());
             if (String.IsNullOrEmpty(charaStr)) charaStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCharaValue;
             filename = filename.Replace("%character%", charaStr);
@@ -163,7 +166,8 @@ namespace DanbooruDownloader3
                                     format.CircleGroupLimit,
                                     format.CircleGroupReplacement,
                                     format.MissingTagReplacement,
-                                    format.IsReplaceMode);
+                                    format.IsReplaceMode,
+                                    format.TagReplaceUnderscoreToSpace);
             var circleStr = Helper.SanitizeFilename(circle.Trim());
             if (String.IsNullOrEmpty(circleStr)) circleStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCircleValue;
             filename = filename.Replace("%circle%", circleStr);
@@ -176,13 +180,22 @@ namespace DanbooruDownloader3
                                     format.FaultsGroupLimit,
                                     format.FaultsGroupReplacement,
                                     format.MissingTagReplacement,
-                                    format.IsReplaceMode);
+                                    format.IsReplaceMode,
+                                    format.TagReplaceUnderscoreToSpace);
             var faultStr = Helper.SanitizeFilename(faults.Trim());
             if (String.IsNullOrEmpty(faultStr)) faultStr = DanbooruDownloader3.Properties.Settings.Default.tagNoFaultValue;
             filename = filename.Replace("%faults%", faultStr);
 
             // all tags
-            filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", groupedTags.Select(x => x.Name))));
+            var allTempTags = groupedTags.Select(x => x.Name).ToList();
+            if (format.TagReplaceUnderscoreToSpace)
+            {
+                for (int i = 0; i < allTempTags.Count; i++)
+                {
+                    allTempTags[i] = allTempTags[i].Replace("_", " ").Trim();
+                }
+            }
+            filename = filename.Replace("%tags%", Helper.SanitizeFilename(string.Join(" ", allTempTags)));
 
             // append base folder from Save Folder text box
             if (format.BaseFolder.EndsWith(@"\")) filename = format.BaseFolder + filename;
@@ -235,17 +248,27 @@ namespace DanbooruDownloader3
                                          int tagLimit,
                                          string tagReplacement,
                                          string missingTagReplacement,
-                                         bool isReplaceMode)
+                                         bool isReplaceMode,
+                                         bool isReplaceUnderScore)
         {
-            var selectedTags = post.TagsEntity.Where<DanbooruTag>(x => x.Type == tagType).Select(x => x.Name);
+            var selectedTags = post.TagsEntity.Where<DanbooruTag>(x => x.Type == tagType).Select(x => x.Name).ToList();
             var tagStr = "";
             if (selectedTags != null)
             {
+                if (isReplaceUnderScore)
+                {
+                    for (int i = 0; i < selectedTags.Count; i++)
+                    {
+                        selectedTags[i] = selectedTags[i].Replace("_", " ").Trim();
+                    }
+                }
                 if (selectedTags.Count() >= tagLimit)
                 {
                     if (isReplaceMode && !string.IsNullOrWhiteSpace(tagReplacement))
                     {
                         tagStr = tagReplacement;
+                        if (isReplaceUnderScore)
+                            tagStr = tagReplacement.Replace("_", " ").Trim();
                         groupedTags.RemoveAll(x => x.Type == tagType);
                         groupedTags.Add(new DanbooruTag() { Name = tagReplacement });
                     }
