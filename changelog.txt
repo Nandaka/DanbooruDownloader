@@ -2,6 +2,7 @@ Change Log:
 =============================
 - DanbooruDownloader20151203
   - Fix Issue #64: Add warning when file exists.
+  - Fix Issue #66: Empty folder created for Blacklisted tag when use custom filename.
   - Implement Feature #67: Option to replace underscore in Tag to space
   - Add Context Menu to open downloaded files.
   - Set max width for data grid column to 300px.

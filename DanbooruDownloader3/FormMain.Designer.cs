@@ -329,6 +329,7 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
+            this.label31 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -2066,6 +2067,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label31);
             this.groupBox2.Controls.Add(this.chkIsReplaceUnderscoreTag);
             this.groupBox2.Controls.Add(this.txtNoFault);
             this.groupBox2.Controls.Add(this.txtNoCircle);
@@ -3562,6 +3564,16 @@
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
             // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(224, 21);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(111, 17);
+            this.label31.TabIndex = 43;
+            this.label31.Text = "Blacklisted Tags";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3896,6 +3908,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFilename;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDownloadStart2;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
+        private System.Windows.Forms.Label label31;
     }
 }
 

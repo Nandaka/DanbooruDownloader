@@ -920,8 +920,19 @@ namespace DanbooruDownloader3
                                         //if (post.Query == null) post.Query = txtQuery.Text;
                                         //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
 
+                                        bool download = true;
+
+                                        // check if blacklisted
+                                        if (download && post.Hidden)
+                                        {
+                                            ++skipCount;
+                                            ++batchJob[i].Skipped;
+                                            download = false;
+                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
+                                        }
+
                                         string filename = "";
-                                        if (!string.IsNullOrWhiteSpace(targetUrl))
+                                        if (download && !string.IsNullOrWhiteSpace(targetUrl))
                                         {
                                             var format = new DanbooruFilenameFormat()
                                             {
@@ -944,7 +955,7 @@ namespace DanbooruDownloader3
                                             string extension = Helper.getFileExtensions(targetUrl);
                                             filename = Helper.MakeFilename(format, post) + extension;
                                         }
-                                        bool download = true;
+
                                         // check if exist
                                         if (download && !chkOverwrite.Checked)
                                         {
@@ -955,13 +966,6 @@ namespace DanbooruDownloader3
                                                 download = false;
                                                 UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
                                             }
-                                        }
-                                        if (download && post.Hidden)
-                                        {
-                                            ++skipCount;
-                                            ++batchJob[i].Skipped;
-                                            download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
                                         }
                                         if (download && String.IsNullOrWhiteSpace(targetUrl))
                                         {
