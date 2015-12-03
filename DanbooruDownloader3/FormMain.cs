@@ -234,24 +234,42 @@ namespace DanbooruDownloader3
 
                     if (chkValue == true)
                     {
-                        if (_downloadList.IndexOf(_postsDao.Posts[row.Index]) < 0)
+                        var post = _postsDao.Posts[row.Index];
+                        if (_downloadList.IndexOf(post) < 0)
                         {
-                            var post = _postsDao.Posts[row.Index];
-                            // try to get the file url if empty
-                            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
-                            {
-                                if (!string.IsNullOrWhiteSpace(post.Referer))
-                                {
-                                    ResolveFileUrl(post);
-                                }
-                            }
-                            _downloadList.Add(post);
+                            TransferDownloadRow(post);
                             row.Cells["colCheck"].Value = false;
                         }
                     }
                     dgvDownload.DataSource = _downloadList;
                 }
             }
+        }
+
+        private void TransferDownloadRow(DanbooruPost post)
+        {
+            // try to get the file url if empty
+            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
+            {
+                if (!string.IsNullOrWhiteSpace(post.Referer))
+                {
+                    ResolveFileUrl(post);
+                }
+            }
+
+            // reset status
+            post.Completed = false;
+            // resolve filename
+            if (String.IsNullOrWhiteSpace(post.Filename) && !String.IsNullOrWhiteSpace(post.FileUrl))
+            {
+                post.Filename = MakeCompleteFilename(post, post.FileUrl);
+            }
+            if (!String.IsNullOrWhiteSpace(post.Filename) && File.Exists(post.Filename))
+            {
+                post.Progress = "File exists!";
+            }
+
+            _downloadList.Add(post);
         }
 
         private Queue<DanbooruPost> resolveQueue = new Queue<DanbooruPost>();
@@ -400,27 +418,7 @@ namespace DanbooruDownloader3
                         if (post.Query == null) post.Query = txtQuery.Text;
                         if (post.SearchTags == null) post.SearchTags = txtTags.Text;
 
-                        var format = new DanbooruFilenameFormat()
-                        {
-                            FilenameFormat = txtFilenameFormat.Text,
-                            Limit = Convert.ToInt32(txtFilenameLength.Text),
-                            BaseFolder = txtSaveFolder.Text,
-                            MissingTagReplacement = txtTagReplacement.Text,
-                            ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
-                            CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
-                            CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
-                            CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
-                            FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
-                            IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
-                            IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
-                            IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                            IsReplaceMode = chkReplaceMode.Checked,
-                            IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
-                            TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
-                        };
-
-                        string extension = Helper.getFileExtensions(url);
-                        string filename = Helper.MakeFilename(format, post) + extension;
+                        string filename = MakeCompleteFilename(post, url);
 
                         if (chkOverwrite.Checked || !File.Exists(filename))
                         {
@@ -474,6 +472,32 @@ namespace DanbooruDownloader3
                     tsProgress2.Visible = false;
                 }
             }
+        }
+
+        private string MakeCompleteFilename(DanbooruPost post, string url)
+        {
+            var format = new DanbooruFilenameFormat()
+            {
+                FilenameFormat = txtFilenameFormat.Text,
+                Limit = Convert.ToInt32(txtFilenameLength.Text),
+                BaseFolder = txtSaveFolder.Text,
+                MissingTagReplacement = txtTagReplacement.Text,
+                ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
+                CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
+                CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
+                CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
+                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
+                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
+                IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
+                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                IsReplaceMode = chkReplaceMode.Checked,
+                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
+                TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
+            };
+
+            string extension = Helper.getFileExtensions(url);
+            string filename = Helper.MakeFilename(format, post) + extension;
+            return filename;
         }
 
         /// <summary>
@@ -1857,14 +1881,10 @@ namespace DanbooruDownloader3
 
                 foreach (DataGridViewCell cell in dgvList.SelectedCells)
                 {
-                    if (_downloadList.IndexOf(_postsDao.Posts[cell.RowIndex]) < 0)
+                    var post = _postsDao.Posts[cell.RowIndex];
+                    if (_downloadList.IndexOf(post) < 0)
                     {
-                        _downloadList.Add(_postsDao.Posts[cell.RowIndex]);
-
-                        if (String.IsNullOrEmpty(_postsDao.Posts[cell.RowIndex].FileUrl))
-                        {
-                            ResolveFileUrl(_postsDao.Posts[cell.RowIndex]);
-                        }
+                        TransferDownloadRow(post);
                     }
                 }
             }
@@ -2608,6 +2628,21 @@ namespace DanbooruDownloader3
         private void chkEnableCompression_CheckedChanged(object sender, EventArgs e)
         {
             ExtendedWebClient.EnableCompression = chkEnableCompression.Checked;
+        }
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvDownload.SelectedRows.Count > 5)
+            {
+                var result = MessageBox.Show("You are going to open too many images (>5), proceed?", "Warning", MessageBoxButtons.OKCancel);
+                if (result == System.Windows.Forms.DialogResult.Cancel)
+                    return;
+            }
+            foreach (DataGridViewRow row in dgvDownload.SelectedRows)
+            {
+                string path = row.Cells["colFilename"].Value.ToString();
+                if (!String.IsNullOrWhiteSpace(path)) System.Diagnostics.Process.Start(path);
+            }
         }
     }
 }

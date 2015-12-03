@@ -24,6 +24,8 @@ namespace DanbooruDownloader3.Entity
         [Browsable(false)]
         public bool Completed { get; set; }
 
+        public string Progress { get; set; }
+
         private string _id;
 
         public string Id
