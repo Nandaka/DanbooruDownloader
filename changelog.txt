@@ -1,5 +1,12 @@
 Change Log:
 =============================
+- DanbooruDownloader20151203
+  - Fix Issue #64: Add warning when file exists.
+  - Implement Feature #67: Option to replace underscore in Tag to space
+  - Add Context Menu to open downloaded files.
+  - Set max width for data grid column to 300px.
+  - Add cookie login method for Gelbooru. Deprecate the UseAuth, replace with LoginType.
+
 - DanbooruDownloader20151012
   - Fix Issue #62: Refresh image size on start.
   - Fix Issue #63: Shimmie rss page batch bug.

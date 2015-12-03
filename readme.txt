@@ -29,7 +29,7 @@ The contents structure are:
 - PasswordSalt: choujin-steiner--%PASSWORD%-- for danbooru.donmai.us.
 - UserName    : Your username.
 - Password    : Your password, in plain text.
-- UseAuth     : true/false. Use authentication/login.
+- LoginType   : Anonymous/UserPass/Cookie. If set to cookie, paste your full cookie information to UserName field.
 
 
 Filename Format
@@ -135,6 +135,14 @@ A5: Sent me a message in the comment with the details, such as:
 
 Q6: I got a lot of skipped files when do batch download!
 A6: It is caused of the target filename is already exists. Add %md5% in your filename format.
+
+Q7: How to get cookie value?
+A7: Follow this step:
+    1. Press F12 on your Chrome browser and select Network tab.
+    2. Go to the booru site and login.
+    3. Click one of the entry and copy the Cookie value from the Request Header. 
+       For gelbooru, it should like this: user_id=<number>; pass_hash=<long string>
+    4. Paste the Cookie value to the Username field.
 
 Supported Board
 =============================
