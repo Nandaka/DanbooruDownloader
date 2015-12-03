@@ -11,7 +11,7 @@
     <Url>http://danbooru.donmai.us</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -28,7 +28,7 @@
     <Url>http://chan.sankakucomplex.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -45,7 +45,7 @@
     <Url>https://chan.sankakucomplex.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -62,7 +62,7 @@
     <Url>http://idol.sankakucomplex.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -79,7 +79,7 @@
     <Url>http://konachan.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -96,7 +96,7 @@
     <Url>https://yande.re</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -113,7 +113,7 @@
     <Url>http://gelbooru.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
@@ -130,7 +130,7 @@
     <Url>http://nekobooru.net</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -147,7 +147,7 @@
     <Url>http://safebooru.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
@@ -164,7 +164,7 @@
     <Url>http://ichijou.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -181,7 +181,7 @@
     <Url>http://thedoujin.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
@@ -198,7 +198,7 @@
     <Url>http://behoimi.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -215,7 +215,7 @@
     <Url>http://e621.net</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -232,7 +232,7 @@
     <Url>http://rule34.xxx</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
@@ -249,7 +249,7 @@
     <Url>http://www.dollbooru.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
@@ -266,7 +266,7 @@
     <Url>http://shimmie.4chanhouse.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
@@ -283,7 +283,7 @@
     <Url>http://fairygarden.no-ip.org/shimmie2</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
@@ -300,7 +300,7 @@
     <Url>http://megabooru.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
@@ -317,7 +317,7 @@
     <Url>http://nis.tinybooru.com</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>
@@ -334,7 +334,7 @@
     <Url>http://hypnohub.net</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -351,7 +351,7 @@
     <Url>http://tbib.org</Url>
     <UserName />
     <Password />
-    <UseAuth>false</UseAuth>
+    <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>

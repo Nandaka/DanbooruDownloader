@@ -1,10 +1,12 @@
-﻿using DanbooruDownloader3.DAO;
+﻿using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -22,6 +24,13 @@ namespace DanbooruDownloader3.Entity
         Danbooru,
         Gelbooru,
         Shimmie2
+    }
+
+    public enum LoginType
+    {
+        Anonymous,
+        UserPass,
+        Cookie
     }
 
     public class DanbooruProvider
@@ -47,7 +56,8 @@ namespace DanbooruDownloader3.Entity
 
         public string Password { get; set; }
 
-        public bool UseAuth { get; set; }
+        //public bool UseAuth { get; set; }
+        public LoginType LoginType { get; set; }
 
         public string PasswordSalt { get; set; }
 
@@ -165,16 +175,32 @@ namespace DanbooruDownloader3.Entity
 
             queryStr = queryRootUrl.Replace("%_query%", queryStr);
 
-            if (this.UseAuth)
+            switch (this.LoginType)
             {
-                var hash = this.PasswordHash;
-                if (String.IsNullOrWhiteSpace(hash))
-                {
-                    hash = Helper.GeneratePasswordHash(this.Password, this.PasswordSalt);
-                    this.PasswordHash = hash;
-                }
-                string authString = "login=" + this.UserName + "&password_hash=" + hash;
-                queryStr = queryStr + "&" + authString;
+                case Entity.LoginType.UserPass:
+                    {
+                        var hash = this.PasswordHash;
+                        if (String.IsNullOrWhiteSpace(hash))
+                        {
+                            hash = Helper.GeneratePasswordHash(this.Password, this.PasswordSalt);
+                            this.PasswordHash = hash;
+                        }
+                        string authString = "login=" + this.UserName + "&password_hash=" + hash;
+                        queryStr = queryStr + "&" + authString;
+                    }
+                    break;
+
+                case Entity.LoginType.Cookie:
+                    // need to inject csv cookie  to the webclient
+                    var cookies = Helper.ParseCookie(this.UserName, this.Url);
+                    foreach (var cookie in cookies)
+                    {
+                        ExtendedWebClient.CookieJar.Add(cookie);
+                    }
+                    break;
+
+                default:
+                    break;
             }
 
             return this.Url + queryStr;

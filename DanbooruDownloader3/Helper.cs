@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -504,6 +505,23 @@ namespace DanbooruDownloader3
                     tw.Write(content);
                 }
             }
+        }
+
+        public static List<Cookie> ParseCookie(string cookiesStr, string url)
+        {
+            var cookies = new List<Cookie>();
+            var temp = cookiesStr.Split(';');
+            foreach (var cookieStr in temp)
+            {
+                var temp2 = cookieStr.Split('=');
+                var name = temp2[0].Trim();
+                var value = temp2[1];
+                var path = "/";
+                Uri uri = new Uri(url);
+                var c = new Cookie(name, value, path, uri.Authority);
+                cookies.Add(c);
+            }
+            return cookies;
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿using System;
+﻿using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
-using DanbooruDownloader3.Entity;
-using System.Reflection;
 
 namespace DanbooruDownloader3.DAO
 {
     public class DanbooruProviderDao
     {
         private static DanbooruProviderDao _instance;
+
         public static DanbooruProviderDao GetInstance()
         {
             if (_instance == null)
@@ -20,8 +21,9 @@ namespace DanbooruDownloader3.DAO
             return _instance;
         }
 
-        private DanbooruProviderDao() { }
-            
+        private DanbooruProviderDao()
+        {
+        }
 
         public List<DanbooruProvider> Read(string filename = @"DanbooruProviderList.xml")
         {
@@ -59,27 +61,45 @@ namespace DanbooruDownloader3.DAO
                                                     case "json":
                                                         newProvider.Preferred = PreferredMethod.Json;
                                                         break;
+
                                                     case "xml":
                                                         newProvider.Preferred = PreferredMethod.Xml;
                                                         break;
+
                                                     case "html":
                                                         newProvider.Preferred = PreferredMethod.Html;
                                                         break;
+
                                                     default:
                                                         throw new Exception("Invalid Provider Type in DanbooruProviderList.xml: " + preferred);
                                                 }
                                                 break;
+
                                             case "DefaultLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
                                             case "HardLimit": newProvider.HardLimit = reader.ReadElementContentAsInt(); break;
                                             case "UserName": newProvider.UserName = reader.ReadElementContentAsString(); break;
                                             case "Password": newProvider.Password = reader.ReadElementContentAsString(); break;
-                                            case "UseAuth": newProvider.UseAuth = reader.ReadElementContentAsBoolean(); break;
+                                            case "UseAuth":
+                                                // compat
+                                                var isAuth = reader.ReadElementContentAsBoolean();
+                                                if (isAuth)
+                                                {
+                                                    newProvider.LoginType = LoginType.UserPass;
+                                                }
+                                                break;
+
+                                            case "LoginType":
+                                                string ltype = reader.ReadElementContentAsString();
+                                                newProvider.LoginType = (LoginType)Enum.Parse(typeof(LoginType), ltype);
+                                                break;
+
                                             case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
                                             case "PasswordHash": newProvider.PasswordHash = reader.ReadElementContentAsString(); break;
                                             case "BoardType":
                                                 string type = reader.ReadElementContentAsString();
-                                                newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ; 
+                                                newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ;
                                                 break;
+
                                             case "TagDownloadUseLoop": newProvider.TagDownloadUseLoop = reader.ReadElementContentAsBoolean(); break;
                                             default: break;
                                         }
@@ -88,6 +108,7 @@ namespace DanbooruDownloader3.DAO
                                 list.Add(newProvider);
                             }
                             break;
+
                         default: break;
                     }
                 }
@@ -99,9 +120,9 @@ namespace DanbooruDownloader3.DAO
         {
             XmlWriterSettings setting = new XmlWriterSettings();
             setting.Indent = true;
-            
+
             using (XmlWriter writer = XmlWriter.Create(filename, setting))
-            {                
+            {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("DanbooruProviderList");
                 foreach (DanbooruProvider p in list)
@@ -117,7 +138,7 @@ namespace DanbooruDownloader3.DAO
                             continue;
                         }
                         var value = info.GetValue(p, null);
-                        if(value == null) value = "";
+                        if (value == null) value = "";
                         if (info.Name == "Password") value = ""; //Blank the password.
 
                         if (info.PropertyType.Name == "Boolean")
@@ -138,6 +159,5 @@ namespace DanbooruDownloader3.DAO
                 writer.Close();
             }
         }
-
     }
 }
