@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using System.Drawing;
-using System.Configuration;
 using System.Windows.Forms;
 
 namespace DanbooruDownloader3.CustomControl
@@ -16,6 +16,22 @@ namespace DanbooruDownloader3.CustomControl
     [ToolboxBitmap(typeof(System.Windows.Forms.DataGridView))]
     public class gfDataGridView : System.Windows.Forms.DataGridView
     {
+        private int maxWidth;
+
+        [Description("MaxWidth for column"), Category("Data"), DefaultValue(300)]
+        public int MaxWidth
+        {
+            get
+            {
+                return maxWidth;
+            }
+            set
+            {
+                if (value < 0) value = 300;
+                this.maxWidth = value;
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             SaveColumnOrder();
@@ -64,7 +80,7 @@ namespace DanbooruDownloader3.CustomControl
                 {
                     this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
                     this.Columns[item.ColumnIndex].Visible = item.Visible;
-                    this.Columns[item.ColumnIndex].Width = item.Width;
+                    this.Columns[item.ColumnIndex].Width = item.Width > MaxWidth ? item.Width : MaxWidth;
                 }
             }
         }
@@ -77,11 +93,13 @@ namespace DanbooruDownloader3.CustomControl
         internal sealed class gfDataGridViewSetting : ApplicationSettingsBase
         {
             private static gfDataGridViewSetting _defaultInstace = (gfDataGridViewSetting)ApplicationSettingsBase.Synchronized(new gfDataGridViewSetting());
+
             //---------------------------------------------------------------------
             public static gfDataGridViewSetting Default
             {
                 get { return _defaultInstace; }
             }
+
             //---------------------------------------------------------------------
             // Because there can be more than one DGV in the user-application
             // a dictionary is used to save the settings for this DGV.
@@ -103,8 +121,11 @@ namespace DanbooruDownloader3.CustomControl
         public sealed class ColumnOrderItem
         {
             public int DisplayIndex { get; set; }
+
             public int Width { get; set; }
+
             public bool Visible { get; set; }
+
             public int ColumnIndex { get; set; }
         }
     }
