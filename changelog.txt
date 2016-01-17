@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20160117
+  - Fix Issue #70: Update url handler for rule34.xxx
+
+
 - DanbooruDownloader20151203
   - Fix Issue #64: Add warning when file exists.
   - Fix Issue #66: Empty folder created for Blacklisted tag when use custom filename.

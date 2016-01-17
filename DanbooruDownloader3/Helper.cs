@@ -495,15 +495,31 @@ namespace DanbooruDownloader3
             return extension;
         }
 
-        public static string FixUrl(string url, bool useHttps = false)
+        public static string FixUrl(string url, bool useHttps = false, string hostname = null)
         {
             if (String.IsNullOrWhiteSpace(url)) return url;
-            if (!url.StartsWith("http"))
+
+            // prefix with http/https if start without protocol
+            // e.g.: //example.com/something.jpg
+            if (url.StartsWith("//"))
             {
                 if (useHttps)
                     url = "https:" + url;
                 else
                     url = "http:" + url;
+            }
+            // relative url, append with hostname
+            // e.g.: /some/relative/url.jpg
+            else if (url.StartsWith("/") && hostname != null)
+            {
+                if (!hostname.StartsWith("http"))
+                {
+                    if (useHttps)
+                        hostname = "https://" + hostname;
+                    else
+                        hostname = "http://" + hostname;
+                }
+                url = hostname + url;
             }
 
             return url;
