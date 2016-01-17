@@ -20,7 +20,14 @@ namespace DanbooruDownloader3.DAO
             if (!File.Exists(xmlTagFile)) throw new FileNotFoundException("Cannot load tags.xml", xmlTagFile);
             using (StreamReader s = File.OpenText(xmlTagFile))
             {
-                this.Tags = (DanbooruTagCollection)ser.Deserialize(s);
+                try
+                {
+                    this.Tags = (DanbooruTagCollection)ser.Deserialize(s);
+                }
+                catch (Exception ex)
+                {
+                    Program.Logger.Error("Failed to parse: " + xmlTagFile, ex);
+                }
             }
         }
 

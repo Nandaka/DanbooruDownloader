@@ -1,18 +1,18 @@
-﻿using System;
+﻿using DanbooruDownloader3.CustomControl;
+using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Engine;
+using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DanbooruDownloader3.CustomControl;
 using System.IO;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Entity;
+using System.Linq;
 using System.Net;
-using DanbooruDownloader3.Engine;
+using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace DanbooruDownloader3
 {
@@ -23,8 +23,10 @@ namespace DanbooruDownloader3
         private List<DanbooruProvider> list;
 
         private bool isClosing = false;
+        private bool hasError = false;
 
         private int _page = 1;
+
         private int Page
         {
             get
@@ -53,13 +55,15 @@ namespace DanbooruDownloader3
         }
 
         #region webclient async event
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+
+        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             btnDownload.Enabled = true;
             if (e.Error != null)
             {
                 if (retry > Int32.Parse(DanbooruDownloader3.Properties.Settings.Default.retry))
                 {
+                    hasError = true;
                     var message = e.Error.InnerException == null ? e.Error.Message : e.Error.InnerException.Message;
                     if (File.Exists(TAGS_FILENAME + ".bak"))
                     {
@@ -108,7 +112,7 @@ namespace DanbooruDownloader3
             }
         }
 
-        void client_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
+        private void client_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
         {
             lblStatus.Text = "Status: Downloading";
             if (chkUseLoop.Checked)
@@ -127,7 +131,8 @@ namespace DanbooruDownloader3
                 progressBar1.Style = ProgressBarStyle.Marquee;
             }
         }
-        #endregion
+
+        #endregion webclient async event
 
         #region event handlers
 
@@ -145,6 +150,7 @@ namespace DanbooruDownloader3
         private void btnDownload_Click(object sender, EventArgs e)
         {
             retry = 0;
+            hasError = false;
             if (!String.IsNullOrWhiteSpace(txtUrl.Text))
             {
                 SelectedProvider = list[cbxProvider.SelectedIndex];
@@ -197,7 +203,7 @@ namespace DanbooruDownloader3
             UpdateQueryString();
         }
 
-        #endregion
+        #endregion event handlers
 
         private void WaitForDelay(string message, int sleepTime = -1)
         {
@@ -277,6 +283,7 @@ namespace DanbooruDownloader3
         }
 
         private DanbooruTagCollection prevTag = null;
+
         private void HandleLoop(string tempName)
         {
             DanbooruTagCollection tempTags = null;
@@ -371,7 +378,7 @@ namespace DanbooruDownloader3
             }
             else
             {
-                // continue next page 
+                // continue next page
                 ProcessLoop(Page);
                 prevTag = tempTags;
             }
@@ -437,7 +444,15 @@ namespace DanbooruDownloader3
             if (File.Exists(tempFile)) File.Delete(tempFile);
 
             Program.Logger.Info("[Download Tags] Start downloading page: " + page);
-            string url = txtUrl.Text + "&order=name&page=" + page;
+            string url = txtUrl.Text;
+            if (SelectedProvider.BoardType == BoardType.Gelbooru)
+            {
+                url = txtUrl.Text + "&order=name&pid=" + page;
+            }
+            else
+            {
+                url = txtUrl.Text + "&order=name&page=" + page;
+            }
             Program.Logger.Info("[Download Tags] Start downloading url: " + url);
             client.DownloadFileAsync(new Uri(url), tempFile);
         }
@@ -478,6 +493,16 @@ namespace DanbooruDownloader3
                 {
                     txtUrl.Text = cbxProvider.SelectedValue + @"/index.php?page=dapi&s=tag&q=index&limit=" + limit;
                     pbIcon.Image = Properties.Resources.Gelbooru;
+                }
+
+                if (SelectedProvider.LoginType == LoginType.Cookie)
+                {
+                    // need to inject csv cookie  to the webclient
+                    var cookies = Helper.ParseCookie(SelectedProvider.UserName, SelectedProvider.Url);
+                    foreach (var cookie in cookies)
+                    {
+                        ExtendedWebClient.CookieJar.Add(cookie);
+                    }
                 }
             }
             else
@@ -524,7 +549,7 @@ namespace DanbooruDownloader3
 
         private void RestoreBackup()
         {
-            if (chkBackup.Checked)
+            if (chkBackup.Checked && hasError)
             {
                 // main tags.xml
                 var backup = TAGS_FILENAME + ".bak";

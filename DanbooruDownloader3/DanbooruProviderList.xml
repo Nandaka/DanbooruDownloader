@@ -117,7 +117,7 @@
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Gelbooru</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>nekobooru.net</Name>
