@@ -208,7 +208,7 @@
     <Name>e621 (Furry)</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
-    <Preferred>Xml</Preferred>
+    <Preferred>Json</Preferred>
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml />

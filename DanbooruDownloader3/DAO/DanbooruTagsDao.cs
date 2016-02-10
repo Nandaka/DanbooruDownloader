@@ -27,6 +27,7 @@ namespace DanbooruDownloader3.DAO
                 catch (Exception ex)
                 {
                     Program.Logger.Error("Failed to parse: " + xmlTagFile, ex);
+                    this.Tags = new DanbooruTagCollection();
                 }
             }
         }
@@ -119,10 +120,13 @@ namespace DanbooruDownloader3.DAO
         public List<DanbooruTag> ParseTagsString(string tagsStr)
         {
             List<DanbooruTag> tags = new List<DanbooruTag>();
-            var tokens = tagsStr.Split(' ');
-            foreach (var item in tokens)
+            if (!String.IsNullOrWhiteSpace(tagsStr))
             {
-                tags.Add(GetTag(item.Trim()));
+                var tokens = tagsStr.Split(' ');
+                foreach (var item in tokens)
+                {
+                    tags.Add(GetTag(item.Trim()));
+                }
             }
             return tags;
         }
