@@ -357,4 +357,21 @@
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>rule34.paheal.net</Name>
+    <DefaultLimit>0</DefaultLimit>
+    <HardLimit>0</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <QueryStringHtml />
+    <Url>http://rule34.paheal.net</Url>
+    <UserName>ui-sidebar-hidden=; ui-tnc-agreed=true; ui-image-zoom=full</UserName>
+    <Password />
+    <LoginType>Cookie</LoginType>
+    <PasswordSalt />
+    <PasswordHash />
+    <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+  </DanbooruProvider>
 </DanbooruProviderList>
