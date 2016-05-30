@@ -144,8 +144,7 @@ A7: Follow this step:
        For gelbooru, it should like this: user_id=<number>; pass_hash=<long string>
        For sankaku, login=<username>; pass_hash=<long string>;
     4. Paste the Cookie value to the Username field.
-    5. Set Login Type to Cookie.
-    6. Set Use Auth to True. Refer to http://i.imgur.com/rCCjnPs.png
+    5. Set Login Type to Cookie. Refer to http://i.imgur.com/rCCjnPs.png
 
 Supported Board
 =============================
