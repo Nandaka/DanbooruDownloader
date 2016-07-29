@@ -18,23 +18,6 @@
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
-    <Name>Sankaku Complex</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>1000</HardLimit>
-    <Preferred>Html</Preferred>
-    <QueryStringXml />
-    <QueryStringJson />
-    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
-    <Url>http://chan.sankakucomplex.com</Url>
-    <UserName />
-    <Password />
-    <LoginType>Anonymous</LoginType>
-    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash />
-    <BoardType>Danbooru</BoardType>
-    <TagDownloadUseLoop>true</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
     <Name>Sankaku Complex (HTTPS)</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>1000</HardLimit>
@@ -59,7 +42,7 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
-    <Url>http://idol.sankakucomplex.com</Url>
+    <Url>https://idol.sankakucomplex.com</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
