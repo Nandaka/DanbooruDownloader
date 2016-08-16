@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20160816
+  - Implement #79: Add option to allow filepath exceeding 260 characters.
+  - Implement #80: Create extra text file containing tags.
+  - Fix Issue #77: Update provider list.
+  - Update readme.txt
+
 - DanbooruDownloader20160117
   - Fix Issue #70: Update url handler for rule34.xxx
   - Fix Issue #68: Update gelbooru tags downloader, need cookie for login.
