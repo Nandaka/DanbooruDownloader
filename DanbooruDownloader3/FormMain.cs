@@ -1163,6 +1163,10 @@ namespace DanbooruDownloader3
                         // write to text file for downloaded file.
                         Helper.WriteTextFile(filename + Environment.NewLine);
                     }
+                    if (Properties.Settings.Default.WriteTagFile)
+                    {
+                        Helper.WriteTagFile(post, filename + ".txt");
+                    }
 
                     return 1;
                 }

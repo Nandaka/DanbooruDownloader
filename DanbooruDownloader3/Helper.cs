@@ -562,5 +562,21 @@ namespace DanbooruDownloader3
             }
             return cookies;
         }
+
+        internal static void WriteTagFile(DanbooruPost post, string filename)
+        {
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+
+            using (TextWriter tw = File.CreateText(filename))
+            {
+                foreach (var item in post.TagsEntity)
+                {
+                    tw.WriteLine(item.Name);
+                }
+            }
+        }
     }
 }
