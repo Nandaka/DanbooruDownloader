@@ -1652,8 +1652,32 @@ namespace DanbooruDownloader3
 
                 if (i > MAX_FILENAME_LENGTH)
                 {
-                    ShowMessage("Filename Length Limit", "Maximum " + MAX_FILENAME_LENGTH.ToString() + "!");
-                    txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
+                    var ok = false;
+                    // Feature #79
+                    DialogResult result = MessageBox.Show(String.Format("Maximum filename length exceeding limit ({0}). This might cause the file cannot be saved, continue?", MAX_FILENAME_LENGTH),
+                                                "Warning", MessageBoxButtons.YesNo);
+
+                    // test if can create long file name
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        try
+                        {
+                            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                            tempDirectory = tempDirectory.PadRight(300, 'x');
+                            Directory.CreateDirectory(tempDirectory);
+                            ok = true;
+                            Directory.Delete(tempDirectory);
+                        }
+                        catch (PathTooLongException ex)
+                        {
+                            ShowMessage("Error", String.Format("Cannot create long file name {0}!\r\n{1}", i, ex.Message));
+                        }
+                    }
+
+                    if (!ok)
+                    {
+                        txtFilenameLength.Text = MAX_FILENAME_LENGTH.ToString();
+                    }
                 }
             }
             catch (Exception)

@@ -193,6 +193,7 @@
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.chkIsReplaceUnderscoreTag = new System.Windows.Forms.CheckBox();
             this.txtNoFault = new System.Windows.Forms.TextBox();
             this.txtNoCircle = new System.Windows.Forms.TextBox();
@@ -329,7 +330,6 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
-            this.label31 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -1042,7 +1042,7 @@
             this.colProvider.DataPropertyName = "provider";
             this.colProvider.HeaderText = "Provider";
             this.colProvider.Name = "colProvider";
-            this.colProvider.Width = 86;
+            this.colProvider.Width = 90;
             // 
             // colId
             // 
@@ -1052,7 +1052,7 @@
             this.colId.HeaderText = "Id";
             this.colId.Name = "colId";
             this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colId.Width = 44;
+            this.colId.Width = 48;
             // 
             // colRating
             // 
@@ -1069,7 +1069,7 @@
             this.colScore.DataPropertyName = "Score";
             this.colScore.HeaderText = "Score";
             this.colScore.Name = "colScore";
-            this.colScore.Width = 70;
+            this.colScore.Width = 74;
             // 
             // colTags
             // 
@@ -1111,14 +1111,14 @@
             this.colMD5.DataPropertyName = "MD5";
             this.colMD5.HeaderText = "MD5";
             this.colMD5.Name = "colMD5";
-            this.colMD5.Width = 62;
+            this.colMD5.Width = 66;
             // 
             // colQuery
             // 
             this.colQuery.DataPropertyName = "Query";
             this.colQuery.HeaderText = "Query";
             this.colQuery.Name = "colQuery";
-            this.colQuery.Width = 72;
+            this.colQuery.Width = 76;
             // 
             // colSourceUrl
             // 
@@ -1127,7 +1127,7 @@
             this.colSourceUrl.MinimumWidth = 25;
             this.colSourceUrl.Name = "colSourceUrl";
             this.colSourceUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSourceUrl.Width = 78;
+            this.colSourceUrl.Width = 82;
             // 
             // colReferer
             // 
@@ -1136,7 +1136,7 @@
             this.colReferer.Name = "colReferer";
             this.colReferer.ReadOnly = true;
             this.colReferer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colReferer.Width = 81;
+            this.colReferer.Width = 85;
             // 
             // colStatus
             // 
@@ -1144,7 +1144,7 @@
             this.colStatus.HeaderText = "Status";
             this.colStatus.Name = "colStatus";
             this.colStatus.ReadOnly = true;
-            this.colStatus.Width = 73;
+            this.colStatus.Width = 77;
             // 
             // ctxMenuList
             // 
@@ -1447,7 +1447,7 @@
             this.colProvider2.Frozen = true;
             this.colProvider2.HeaderText = "Provider";
             this.colProvider2.Name = "colProvider2";
-            this.colProvider2.Width = 86;
+            this.colProvider2.Width = 90;
             // 
             // colId2
             // 
@@ -1500,34 +1500,34 @@
             this.colReferer2.Name = "colReferer2";
             this.colReferer2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colReferer2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colReferer2.Width = 81;
+            this.colReferer2.Width = 85;
             // 
             // colMD52
             // 
             this.colMD52.DataPropertyName = "MD5";
             this.colMD52.HeaderText = "MD5";
             this.colMD52.Name = "colMD52";
-            this.colMD52.Width = 62;
+            this.colMD52.Width = 66;
             // 
             // colQuery2
             // 
             this.colQuery2.DataPropertyName = "Query";
             this.colQuery2.HeaderText = "Query";
             this.colQuery2.Name = "colQuery2";
-            this.colQuery2.Width = 72;
+            this.colQuery2.Width = 76;
             // 
             // colFilename
             // 
             this.colFilename.DataPropertyName = "Filename";
             this.colFilename.HeaderText = "Filename";
             this.colFilename.Name = "colFilename";
-            this.colFilename.Width = 90;
+            this.colFilename.Width = 94;
             // 
             // colDownloadStart2
             // 
             this.colDownloadStart2.HeaderText = "Download Start";
             this.colDownloadStart2.Name = "colDownloadStart2";
-            this.colDownloadStart2.Width = 118;
+            this.colDownloadStart2.Width = 122;
             // 
             // ctxMenuDownload
             // 
@@ -2110,6 +2110,16 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tagging";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(224, 21);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(111, 17);
+            this.label31.TabIndex = 43;
+            this.label31.Text = "Blacklisted Tags";
             // 
             // chkIsReplaceUnderscoreTag
             // 
@@ -3192,7 +3202,7 @@
             // tsTotalCount
             // 
             this.tsTotalCount.Name = "tsTotalCount";
-            this.tsTotalCount.Size = new System.Drawing.Size(120, 20);
+            this.tsTotalCount.Size = new System.Drawing.Size(119, 20);
             this.tsTotalCount.Text = "| Total Count = 0";
             // 
             // tsProgressBar
@@ -3563,16 +3573,6 @@
             this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(224, 21);
-            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(111, 17);
-            this.label31.TabIndex = 43;
-            this.label31.Text = "Blacklisted Tags";
             // 
             // FormMain
             // 
