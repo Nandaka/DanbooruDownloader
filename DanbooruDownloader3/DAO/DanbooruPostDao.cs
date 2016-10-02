@@ -156,6 +156,11 @@ namespace DanbooruDownloader3.DAO
         {
             posts = new BindingList<DanbooruPost>();
             actualCount = 0;
+
+            // Issue #60
+            // modify xml to insert html entity
+            rawData = Regex.Replace(rawData, @"(<?xml .* ?>)", "$1<!DOCTYPE document SYSTEM \"xhtml.ent\">");
+
             ProcessXML(rawData);
         }
 

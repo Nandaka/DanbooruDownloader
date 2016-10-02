@@ -357,4 +357,21 @@
     <BoardType>Shimmie2</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>rule34hentai.net</Name>
+    <DefaultLimit>0</DefaultLimit>
+    <HardLimit>0</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <QueryStringJson />
+    <QueryStringHtml />
+    <Url>http://rule34hentai.net</Url>
+    <UserName />
+    <Password />
+    <LoginType>Anonymous</LoginType>
+    <PasswordSalt />
+    <PasswordHash />
+    <BoardType>Shimmie2</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+  </DanbooruProvider>
 </DanbooruProviderList>
