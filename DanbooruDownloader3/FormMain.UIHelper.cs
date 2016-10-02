@@ -171,18 +171,22 @@ namespace DanbooruDownloader3
 
         private delegate void SetUpdateStatusCallback(string message, bool showDialogBox);
 
-        private void UpdateStatus2(string message, bool showDialogBox = false)
+        private void UpdateStatus2(string message, bool isCompleted = false)
         {
             if (statusStrip1.InvokeRequired && statusStrip1.IsHandleCreated)
             {
                 SetUpdateStatusCallback d = new SetUpdateStatusCallback(UpdateStatus2);
-                this.Invoke(d, new object[] { message, showDialogBox });
+                this.Invoke(d, new object[] { message, isCompleted });
             }
             else
             {
                 if (IsDisposed && IsHandleCreated) return;
                 tsStatus.Text = message;
-                if (showDialogBox)
+                if (Properties.Settings.Default.ShutdownAfterCompleteBatchJob)
+                {
+                    Helper.Shutdown();
+                }
+                else if (isCompleted)
                 {
                     ShowMessage("Batch Download", message);
                 }

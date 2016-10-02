@@ -578,5 +578,13 @@ namespace DanbooruDownloader3
                 }
             }
         }
+
+        public static void Shutdown()
+        {
+            var psi = new System.Diagnostics.ProcessStartInfo("shutdown", "/s /t 60 /c \"Danbooru Downloader batch job completed.\" ");
+            psi.CreateNoWindow = true;
+            psi.UseShellExecute = false;
+            System.Diagnostics.Process.Start(psi);
+        }
     }
 }

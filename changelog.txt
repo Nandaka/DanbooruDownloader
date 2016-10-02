@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20161002
+  - Fix Issue #60: Handle undefined xml entity.
+  - Fix thumbnail resize if thumb size bigger than column size.
+  - Implement #86: Shutdown after batch job completed.
+  - Add new provider: rule34hentai.net.
+
 - DanbooruDownloader20160816
   - Implement #79: Add option to allow filepath exceeding 260 characters.
   - Implement #80: Create extra text file containing tags.

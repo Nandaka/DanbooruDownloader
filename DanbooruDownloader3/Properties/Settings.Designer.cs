@@ -839,5 +839,17 @@ namespace DanbooruDownloader3.Properties {
                 this["WriteTagFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShutdownAfterCompleteBatchJob {
+            get {
+                return ((bool)(this["ShutdownAfterCompleteBatchJob"]));
+            }
+            set {
+                this["ShutdownAfterCompleteBatchJob"] = value;
+            }
+        }
     }
 }
