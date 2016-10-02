@@ -233,11 +233,16 @@ namespace DanbooruDownloader3
                     MemoryStream ms = new MemoryStream(e.Result);
                     int i = (int)e.UserState;
 
-                    _postsDao.Posts[i].ThumbnailImage = new Bitmap(ms);
-                    if (dgvList.Columns["colPreview"].Width < _postsDao.Posts[i].ThumbnailImage.Width)
+                    var bitmap = new Bitmap(ms);
+                    if (dgvList.Columns["colPreview"].Width < bitmap.Width)
                     {
-                        dgvList.Columns["colPreview"].Width = _postsDao.Posts[i].ThumbnailImage.Width;
+                        // resize thumbnail to column size
+                        double scale = (double)dgvList.Columns["colPreview"].Width / (double)bitmap.Width;
+                        int width = dgvList.Columns["colPreview"].Width;
+                        var height = bitmap.Height * scale;
+                        bitmap = new Bitmap(bitmap, width, (int)height);
                     }
+                    _postsDao.Posts[i].ThumbnailImage = bitmap;
                     dgvList.Refresh();
 
                     i++;
