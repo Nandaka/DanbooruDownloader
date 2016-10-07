@@ -159,7 +159,7 @@ namespace DanbooruDownloader3.DAO
 
             // Issue #60
             // modify xml to insert html entity
-            rawData = Regex.Replace(rawData, @"(<?xml .* ?>)", "$1<!DOCTYPE document SYSTEM \"xhtml.ent\">");
+            rawData = Regex.Replace(rawData, @"(<?xml.*?>)", "$1<!DOCTYPE document SYSTEM \"xhtml.ent\">");
 
             ProcessXML(rawData);
         }

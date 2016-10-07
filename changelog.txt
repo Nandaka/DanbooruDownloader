@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20161008
+  - Update regex to insert xml entity dtd.
+  - Update xhtml.ent to include special character and math symbol.
+
 - DanbooruDownloader20161002
   - Fix Issue #60: Handle undefined xml entity.
   - Fix thumbnail resize if thumb size bigger than column size.
