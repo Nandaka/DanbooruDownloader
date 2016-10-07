@@ -119,6 +119,13 @@ namespace DanbooruDownloader3.Entity
             set { this._created_at = value; }
         }
 
+        [XmlIgnore]
+        public DateTime CreatedAtDateTime
+        {
+            get;
+            set;
+        }
+
         private string _md5;
 
         public string MD5

@@ -126,7 +126,8 @@ namespace DanbooruDownloader3
                                     "%circle% = Circle Tag" + Environment.NewLine +
                                     "%faults% = Faults Tag" + Environment.NewLine +
                                     "%originalFilename% = Original Filename" + Environment.NewLine +
-                                    "%searchtag% = Search tag";
+                                    "%searchtag% = Search tag" + Environment.NewLine +
+                                    "%uploadDateTime% = Upload Date Time";
 
             pbLoading.Image = DanbooruDownloader3.Properties.Resources.AJAX_LOADING;
             _retry = Convert.ToInt32(txtRetry.Text);
@@ -311,6 +312,7 @@ namespace DanbooruDownloader3
                     post = SankakuComplexParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
                     UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
+                    post.Filename = MakeCompleteFilename(post, post.FileUrl);
                 }
                 else
                 {
@@ -327,6 +329,7 @@ namespace DanbooruDownloader3
                     post = GelbooruHtmlParser.ParsePost(post, html);
                     UpdateLog("GelbooruHtmlParser", "Resolved to file_url: " + post.FileUrl);
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
+                    post.Filename = MakeCompleteFilename(post, post.FileUrl);
                 }
                 else
                 {
@@ -472,32 +475,6 @@ namespace DanbooruDownloader3
                     tsProgress2.Visible = false;
                 }
             }
-        }
-
-        private string MakeCompleteFilename(DanbooruPost post, string url)
-        {
-            var format = new DanbooruFilenameFormat()
-            {
-                FilenameFormat = txtFilenameFormat.Text,
-                Limit = Convert.ToInt32(txtFilenameLength.Text),
-                BaseFolder = txtSaveFolder.Text,
-                MissingTagReplacement = txtTagReplacement.Text,
-                ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
-                CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
-                CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
-                CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
-                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
-                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
-                IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
-                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                IsReplaceMode = chkReplaceMode.Checked,
-                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
-                TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
-            };
-
-            string extension = Helper.getFileExtensions(url);
-            string filename = Helper.MakeFilename(format, post) + extension;
-            return filename;
         }
 
         /// <summary>
@@ -2675,6 +2652,32 @@ namespace DanbooruDownloader3
                 string path = row.Cells["colFilename"].Value.ToString();
                 if (!String.IsNullOrWhiteSpace(path)) System.Diagnostics.Process.Start(path);
             }
+        }
+
+        private string MakeCompleteFilename(DanbooruPost post, string url)
+        {
+            var format = new DanbooruFilenameFormat()
+            {
+                FilenameFormat = txtFilenameFormat.Text,
+                Limit = Convert.ToInt32(txtFilenameLength.Text),
+                BaseFolder = txtSaveFolder.Text,
+                MissingTagReplacement = txtTagReplacement.Text,
+                ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
+                CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
+                CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
+                CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
+                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
+                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
+                IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
+                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                IsReplaceMode = chkReplaceMode.Checked,
+                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
+                TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
+            };
+
+            string extension = Helper.getFileExtensions(url);
+            string filename = Helper.MakeFilename(format, post) + extension;
+            return filename;
         }
     }
 }

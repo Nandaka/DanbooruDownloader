@@ -10,6 +10,9 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruProviderDao
     {
+        public const string DATETIME_FORMAT_UNIX = "unix-timestamp";
+        public const string DATETIME_FORMAT_NA = "not-available";
+
         private static DanbooruProviderDao _instance;
 
         public static DanbooruProviderDao GetInstance()
@@ -101,6 +104,7 @@ namespace DanbooruDownloader3.DAO
                                                 break;
 
                                             case "TagDownloadUseLoop": newProvider.TagDownloadUseLoop = reader.ReadElementContentAsBoolean(); break;
+                                            case "DateTimeFormat": newProvider.DateTimeFormat = reader.ReadElementContentAsString(); break;
                                             default: break;
                                         }
                                     }

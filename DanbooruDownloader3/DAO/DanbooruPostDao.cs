@@ -3,6 +3,7 @@ using DanbooruDownloader3.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -159,7 +160,7 @@ namespace DanbooruDownloader3.DAO
 
             // Issue #60
             // modify xml to insert html entity
-            rawData = Regex.Replace(rawData, @"(<?xml.*?>)", "$1<!DOCTYPE document SYSTEM \"xhtml.ent\">");
+            rawData = Regex.Replace(rawData, @"(<\?xml.*\?>)", "$1<!DOCTYPE document SYSTEM \"xhtml.ent\">");
 
             ProcessXML(rawData);
         }
@@ -280,7 +281,11 @@ namespace DanbooruDownloader3.DAO
                     case "rating": post.Rating = reader.Value; break;
                     case "status": post.Status = reader.Value; break;
                     case "has_children": post.HasChildren = Boolean.Parse(reader.Value); break;
-                    case "created_at": post.CreatedAt = reader.Value; break;
+                    case "created_at":
+                        post.CreatedAt = reader.Value;
+                        post.CreatedAtDateTime = ParseDateTime(post.CreatedAt, Option.Provider);
+                        break;
+
                     case "md5": post.MD5 = reader.Value; break;
                     case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
                     case "preview_width": post.PreviewWidth = -1;
@@ -335,6 +340,34 @@ namespace DanbooruDownloader3.DAO
                         break;
                 }
             }
+        }
+
+        public static DateTime ParseDateTime(string dtStr, DanbooruProvider provider)
+        {
+            DateTime dt = DateTime.MinValue;
+            if (!String.IsNullOrWhiteSpace(dtStr) &&
+                provider.DateTimeFormat != DanbooruProviderDao.DATETIME_FORMAT_NA)
+            {
+                if (provider.DateTimeFormat == DanbooruProviderDao.DATETIME_FORMAT_UNIX)
+                {
+                    double timestamp = 0;
+                    double.TryParse(dtStr, out timestamp);
+                    dt = new DateTime(1970, 1, 1).AddSeconds(timestamp);
+                }
+                else
+                {
+                    var result = DateTime.TryParseExact(dtStr,
+                                           provider.DateTimeFormat,
+                                           CultureInfo.InvariantCulture,
+                                           DateTimeStyles.None,
+                                           out dt);
+                    if (!result)
+                    {
+                        Program.Logger.WarnFormat("Invalid format: {1} for {2} ==> {0}.", dt, provider.DateTimeFormat, provider.Name);
+                    }
+                }
+            }
+            return dt;
         }
 
         public void ReadJSON(string filename)
@@ -511,6 +544,7 @@ namespace DanbooruDownloader3.DAO
 
                             case "\"created_at\"":
                                 post.CreatedAt = val[1];
+                                post.CreatedAtDateTime = ParseDateTime(post.CreatedAt, Option.Provider);
                                 break;
 
                             case "\"has_children\"":

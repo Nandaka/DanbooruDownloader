@@ -112,6 +112,11 @@ namespace DanbooruDownloader3
             filename = filename.Replace("%searchtag%", Helper.SanitizeFilename(searchTags));
             filename = filename.Replace("%originalFilename%", Helper.SanitizeFilename(originalFileName));
 
+            string dtFormat = Properties.Settings.Default.DateTimeFormat;
+            if (String.IsNullOrWhiteSpace(dtFormat))
+                dtFormat = "yyyy-mm-dd HH:mm:ss";
+            filename = filename.Replace("%uploadDateTime%", Helper.SanitizeFilename(post.CreatedAtDateTime.ToString(dtFormat)));
+
             // copy the tags entity to be grouped.
             var groupedTags = post.TagsEntity;
             groupedTags.Sort();
@@ -203,12 +208,12 @@ namespace DanbooruDownloader3
 
             filename = filename.Substring(0, filename.Length < format.Limit ? filename.Length : format.Limit).Trim();
 
-            // check if contains subdirectory
-            if (filename.Contains(@"\"))
-            {
-                string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-            }
+            //// check if contains subdirectory
+            //if (filename.Contains(@"\"))
+            //{
+            //    string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+            //    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            //}
 
             return filename;
         }

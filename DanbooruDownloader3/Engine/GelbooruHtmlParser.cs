@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using HtmlAgilityPack;
-using DanbooruDownloader3.Entity;
-using System.ComponentModel;
-using DanbooruDownloader3.DAO;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -64,6 +64,19 @@ namespace DanbooruDownloader3.Engine
             if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(sample_url))
                 sample_url = file_url;
             post.SampleUrl = sample_url;
+
+            // parse datetime
+            // TODO: untested
+            var statsLIs = doc.DocumentNode.SelectNodes("//div[@id='stats']//li");
+            foreach (var item in statsLIs)
+            {
+                if (item.InnerHtml.StartsWith("Posted: "))
+                {
+                    post.CreatedAt = System.Text.RegularExpressions.Regex.Match(item.InnerHtml, "Posted: (.*)<").Value;
+                    post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
+                    break;
+                }
+            }
             return post;
         }
 
@@ -149,7 +162,7 @@ namespace DanbooruDownloader3.Engine
 
             return posts;
         }
-        
+
         public int? TotalPost { get; set; }
 
         public int? Offset { get; set; }
@@ -219,7 +232,7 @@ namespace DanbooruDownloader3.Engine
             }
             return tmp;
         }
-        
+
         public DanbooruSearchParam SearchParam { get; set; }
 
         public int GetNextPage()

@@ -56,7 +56,6 @@ namespace DanbooruDownloader3.Entity
 
         public string Password { get; set; }
 
-        //public bool UseAuth { get; set; }
         public LoginType LoginType { get; set; }
 
         public string PasswordSalt { get; set; }
@@ -66,6 +65,8 @@ namespace DanbooruDownloader3.Entity
         public BoardType BoardType { get; set; }
 
         public bool TagDownloadUseLoop { get; set; }
+
+        public string DateTimeFormat { get; set; }
 
         private bool _hasPrivateTags;
 

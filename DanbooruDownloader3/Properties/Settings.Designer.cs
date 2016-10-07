@@ -851,5 +851,17 @@ namespace DanbooruDownloader3.Properties {
                 this["ShutdownAfterCompleteBatchJob"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("yyyy-MM-dd HH:mm:ss")]
+        public string DateTimeFormat {
+            get {
+                return ((string)(this["DateTimeFormat"]));
+            }
+            set {
+                this["DateTimeFormat"] = value;
+            }
+        }
     }
 }

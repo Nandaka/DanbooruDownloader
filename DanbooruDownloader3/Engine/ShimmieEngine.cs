@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DanbooruDownloader3.DAO;
+using DanbooruDownloader3.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,8 +10,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
-using DanbooruDownloader3.DAO;
-using DanbooruDownloader3.Entity;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -50,6 +50,7 @@ namespace DanbooruDownloader3.Engine
             post.Query = option.Query;
             post.SearchTags = option.SearchTags;
             post.Provider = option.Provider;
+            post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, option.Provider);
         }
 
         private static void ReadRssMethod2(DanbooruPostDaoOption option, BindingList<DanbooruPost> posts, string xmldoc)

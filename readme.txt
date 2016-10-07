@@ -152,24 +152,25 @@ Currently only supporting Danbooru-type, Gelbooru-type with Danbooru API,
 and Shimmie2 with RSS enabled.
 For Sankaku-related board, using HTML parser.
 
-- danbooru (http://danbooru.donmai.us)				NSFW
-- Sankaku Complex (http://chan.sankakucomplex.com)		NSFW
+- danbooru (http://danbooru.donmai.us)						NSFW
+- Sankaku Complex (http://chan.sankakucomplex.com)			NSFW
 - Sankaku Complex (Idol) (http://idol.sankakucomplex.com)	NSFW
-- Konachan (http://konachan.com)				NSFW
-- oreno.imouto.org (http://oreno.imouto.org)			NSFW
-- gelbooru.com (http://gelbooru.com)				NSFW
-- nekobooru.net (http://nekobooru.net)				NSFW
+- Konachan (http://konachan.com)							NSFW
+- oreno.imouto.org (http://yande.re)						NSFW
+- gelbooru.com (http://gelbooru.com)						NSFW	Cookie Login Required
 - safebooru (http://safebooru.org)
-- ichijou (ichijou.org)
-- TheDoujin.com (http://thedoujin.com)				NSFW
-- 3dbooru (http://behoimi.org)
-- e621 (http://e621.net)					NSFW, Furry
-- rule34 (http://rule34.xxx)					NSFW
-- dollbooru
-- 4chanhouse
-- fairygarden
-- NIS ImageBoard (http://nis.tinybooru.com)
-- 3dBooru (http://behoimi.org)
+- TheDoujin.com (http://thedoujin.com)						NSFW
+- 3dbooru (http://behoimi.org)								NSFW	Cookie Login Required
+- vectorbooru (ichijou.org)											Cookie Login Required
+- e621 (http://e621.net)									NSFW, Furry
+- rule34 (http://rule34.xxx)								NSFW
+- dollbooru (http://www.dollbooru.org)
+- 4chanhouse (http://shimmie.4chanhouse.org)
+- fairygarden (http://www.tfgmush.org/shimmie2)
+- megabooru (http://megabooru.com)
+- hypnohub (http://hypnohub.net/)
+- rule34.paheal.net (http://rule34.paheal.net)				NSFW
+- rule34hentai.net (http://rule34hentai.net)				NSFW	Cookie Login Required for some image type.
 
 License Agreement
 =============================

@@ -73,6 +73,36 @@ namespace DanbooruDownloader3.Engine
                 if (!string.IsNullOrWhiteSpace(file_url) && string.IsNullOrWhiteSpace(sample_url))
                     sample_url = file_url;
                 post.SampleUrl = sample_url;
+
+                // Created datetime
+                post.CreatedAt = "N/A";
+                post.CreatedAtDateTime = DateTime.MinValue;
+                try
+                {
+                    var lis = doc.DocumentNode.SelectNodes("//div[@id='post-view']//div[@id='stats']//li");
+                    foreach (var item in lis)
+                    {
+                        if (item.InnerText.Contains("Posted:"))
+                        {
+                            var links = item.SelectNodes("//div[@id='post-view']//div[@id='stats']//li//a");
+                            foreach (var link in links)
+                            {
+                                if (link.Attributes.Contains("href") && link.Attributes["href"].Value.Contains("?tags=date"))
+                                {
+                                    post.CreatedAt = link.Attributes["title"].Value;
+                                    post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Program.Logger.Error("Unable to parse date", ex);
+                }
+
                 return post;
             }
             catch (Exception ex)
