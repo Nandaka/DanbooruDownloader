@@ -208,13 +208,6 @@ namespace DanbooruDownloader3
 
             filename = filename.Substring(0, filename.Length < format.Limit ? filename.Length : format.Limit).Trim();
 
-            //// check if contains subdirectory
-            //if (filename.Contains(@"\"))
-            //{
-            //    string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-            //    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-            //}
-
             return filename;
         }
 

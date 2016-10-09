@@ -964,6 +964,12 @@ namespace DanbooruDownloader3
 
                                         if (download)
                                         {
+                                            // delay subdir creation just before download
+                                            if (filename.Contains(@"\"))
+                                            {
+                                                string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+                                                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                                            }
                                             imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
                                         }
 
