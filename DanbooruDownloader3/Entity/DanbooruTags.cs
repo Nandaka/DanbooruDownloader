@@ -85,7 +85,7 @@ namespace DanbooruDownloader3.Entity
 
         public override string ToString()
         {
-            return "Tags Count: " + Tag.Length;
+            return "Tags Count: " + (Tag == null? "N/A" : Tag.Length.ToString());
         }
     }
 

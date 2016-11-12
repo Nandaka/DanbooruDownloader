@@ -16,6 +16,13 @@ namespace DanbooruDownloader3.Engine
             return provider.Url.ToLowerInvariant().StartsWith("https");
         }
 
+        /// <summary>
+        /// Parse the post details after added to the download list or from batch job.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="postHtml"></param>
+        /// <param name="overideTagParsing"></param>
+        /// <returns></returns>
         public static DanbooruPost ParsePost(DanbooruPost post, string postHtml, bool overideTagParsing)
         {
             try
@@ -114,6 +121,11 @@ namespace DanbooruDownloader3.Engine
             }
         }
 
+        /// <summary>
+        /// Reparse tags from post details.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="doc"></param>
         private static void ReparseTags(DanbooruPost post, HtmlDocument doc)
         {
             post.TagsEntity.Clear();
@@ -128,28 +140,43 @@ namespace DanbooruDownloader3.Engine
                 var cls = el.Attributes["class"].Value;
                 switch (cls)
                 {
-                    case "tag-type-general":
-                        tagEntity.Type = DanbooruTagType.General;
-                        break;
-
-                    case "tag-type-artist":
+                    case "tag-type-idol":
+                        // idol complex
                         tagEntity.Type = DanbooruTagType.Artist;
                         break;
+                    case "tag-type-artist":
+                        // sankaku
+                        tagEntity.Type = DanbooruTagType.Artist;
+                        break;
+                    
+                    case "tag-type-photo_set":
+                        // idol complex: usually album name
+                        tagEntity.Type = DanbooruTagType.Circle;
+                        break;
+                    case "tag-type-studio":
+                        // sankaku: circlename
+                        tagEntity.Type = DanbooruTagType.Circle;
+                        break;
 
+                    case "tag-type-meta":
+                        // both
+                        tagEntity.Type = DanbooruTagType.Faults;
+                        break;
+                    case "tag-type-medium":
+                        // both
+                        tagEntity.Type = DanbooruTagType.Faults;
+                        break;
+                    case "tag-type-general":
+                        // both
+                        tagEntity.Type = DanbooruTagType.General;
+                        break;
                     case "tag-type-copyright":
+                        // both
                         tagEntity.Type = DanbooruTagType.Copyright;
                         break;
-
                     case "tag-type-character":
+                        // both
                         tagEntity.Type = DanbooruTagType.Character;
-                        break;
-
-                    //case "tag-type-medium":
-                    //    tagEntity.Type = DanbooruTagType.Circle;
-                    //    break;
-
-                    case "tag-type-medium":
-                        tagEntity.Type = DanbooruTagType.Faults;
                         break;
 
                     default:
@@ -162,6 +189,7 @@ namespace DanbooruDownloader3.Engine
 
                 post.TagsEntity.Add(tagEntity);
             }
+            post.TagsEntity = post.TagsEntity.OrderByDescending(x => x.Type).ThenBy(x => x.Name).ToList();
         }
 
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)

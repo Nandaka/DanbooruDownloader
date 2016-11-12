@@ -22,11 +22,15 @@ namespace DanbooruDownloader3
             {
                 dgvList.Columns["colTagsE"].Visible = true;
                 dgvList.Columns["colTags"].Visible = false;
+                dgvDownload.Columns["colTagsE2"].Visible = true;
+                dgvDownload.Columns["colTags2"].Visible = false;
             }
             else
             {
                 dgvList.Columns["colTagsE"].Visible = false;
                 dgvList.Columns["colTags"].Visible = true;
+                dgvDownload.Columns["colTagsE2"].Visible = false;
+                dgvDownload.Columns["colTags2"].Visible = true;
             }
             dgvList.Refresh();
         }

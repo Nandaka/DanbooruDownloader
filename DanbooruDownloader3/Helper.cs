@@ -134,7 +134,6 @@ namespace DanbooruDownloader3
                                     format.IsReplaceMode,
                                     format.TagReplaceUnderscoreToSpace);
             var artistStr = Helper.SanitizeFilename(artist).Trim();
-            if (String.IsNullOrEmpty(artistStr)) artistStr = DanbooruDownloader3.Properties.Settings.Default.tagNoArtistValue;
             filename = filename.Replace("%artist%", artistStr);
 
             // copyright
@@ -147,7 +146,6 @@ namespace DanbooruDownloader3
                                        format.IsReplaceMode,
                                        format.TagReplaceUnderscoreToSpace);
             var copyStr = Helper.SanitizeFilename(copyright.Trim());
-            if (String.IsNullOrEmpty(copyStr)) copyStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCopyrightValue;
             filename = filename.Replace("%copyright%", copyStr);
 
             // character
@@ -160,11 +158,9 @@ namespace DanbooruDownloader3
                                        format.IsReplaceMode,
                                        format.TagReplaceUnderscoreToSpace);
             var charaStr = Helper.SanitizeFilename(character.Trim());
-            if (String.IsNullOrEmpty(charaStr)) charaStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCharaValue;
             filename = filename.Replace("%character%", charaStr);
 
             // cirle
-            var circleSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Circle).Select(x => x.Name);
             var circle = FilterTags(post,
                                     groupedTags,
                                     DanbooruTagType.Circle,
@@ -174,11 +170,9 @@ namespace DanbooruDownloader3
                                     format.IsReplaceMode,
                                     format.TagReplaceUnderscoreToSpace);
             var circleStr = Helper.SanitizeFilename(circle.Trim());
-            if (String.IsNullOrEmpty(circleStr)) circleStr = DanbooruDownloader3.Properties.Settings.Default.tagNoCircleValue;
             filename = filename.Replace("%circle%", circleStr);
 
             // faults
-            var faultsSelection = post.TagsEntity.Where<DanbooruTag>(x => x.Type == DanbooruTagType.Faults).Select(x => x.Name);
             var faults = FilterTags(post,
                                     groupedTags,
                                     DanbooruTagType.Faults,
@@ -188,8 +182,19 @@ namespace DanbooruDownloader3
                                     format.IsReplaceMode,
                                     format.TagReplaceUnderscoreToSpace);
             var faultStr = Helper.SanitizeFilename(faults.Trim());
-            if (String.IsNullOrEmpty(faultStr)) faultStr = DanbooruDownloader3.Properties.Settings.Default.tagNoFaultValue;
             filename = filename.Replace("%faults%", faultStr);
+
+            // general 
+            var general = FilterTags(post,
+                                    groupedTags,
+                                    DanbooruTagType.General,
+                                    0,
+                                    "",
+                                    "",
+                                    format.IsReplaceMode,
+                                    format.TagReplaceUnderscoreToSpace);
+            var generalStr = Helper.SanitizeFilename(general.Trim());
+            filename = filename.Replace("%general%", generalStr);
 
             // all tags
             var allTempTags = groupedTags.Select(x => x.Name).ToList();
@@ -240,6 +245,20 @@ namespace DanbooruDownloader3
             return groupedTags;
         }
 
+        /// <summary>
+        /// Return string from tag filtered by tag type.
+        /// Replace the returned string with tagReplacement if tag count over tagLimit.
+        /// Replace the returned string with missingTagReplacement if tag count is 0.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="groupedTags"></param>
+        /// <param name="tagType"></param>
+        /// <param name="tagLimit"></param>
+        /// <param name="tagReplacement"></param>
+        /// <param name="missingTagReplacement"></param>
+        /// <param name="isReplaceMode"></param>
+        /// <param name="isReplaceUnderScore"></param>
+        /// <returns>Return string from tag filtered by tag type.</returns>
         private static string FilterTags(DanbooruPost post,
                                          List<DanbooruTag> groupedTags,
                                          DanbooruTagType tagType,
@@ -260,15 +279,15 @@ namespace DanbooruDownloader3
                         selectedTags[i] = selectedTags[i].Replace("_", " ").Trim();
                     }
                 }
-                if (selectedTags.Count() >= tagLimit)
+                if (tagLimit > 0 && selectedTags.Count() >= tagLimit)
                 {
                     if (isReplaceMode && !string.IsNullOrWhiteSpace(tagReplacement))
                     {
                         tagStr = tagReplacement;
                         if (isReplaceUnderScore)
                             tagStr = tagReplacement.Replace("_", " ").Trim();
-                        groupedTags.RemoveAll(x => x.Type == tagType);
-                        groupedTags.Add(new DanbooruTag() { Name = tagReplacement });
+                        //groupedTags.RemoveAll(x => x.Type == tagType);
+                        //groupedTags.Add(new DanbooruTag() { Name = tagReplacement });
                     }
                     else
                     {

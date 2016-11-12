@@ -125,6 +125,7 @@ namespace DanbooruDownloader3
                                     "%character% = Character Tag" + Environment.NewLine +
                                     "%circle% = Circle Tag" + Environment.NewLine +
                                     "%faults% = Faults Tag" + Environment.NewLine +
+                                    "%general% = General Tag" + Environment.NewLine +
                                     "%originalFilename% = Original Filename" + Environment.NewLine +
                                     "%searchtag% = Search tag" + Environment.NewLine +
                                     "%uploadDateTime% = Upload Date Time";
@@ -911,26 +912,7 @@ namespace DanbooruDownloader3
                                         string filename = "";
                                         if (download && !string.IsNullOrWhiteSpace(targetUrl))
                                         {
-                                            var format = new DanbooruFilenameFormat()
-                                            {
-                                                FilenameFormat = batchJob[i].SaveFolder,
-                                                Limit = Convert.ToInt32(txtFilenameLength.Text),
-                                                BaseFolder = txtSaveFolder.Text,
-                                                MissingTagReplacement = txtTagReplacement.Text,
-                                                ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
-                                                CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
-                                                CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
-                                                CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
-                                                FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
-                                                IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
-                                                IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
-                                                IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                                                IsReplaceMode = chkReplaceMode.Checked,
-                                                IgnoredTagsOnlyForGeneral = chkIgnoreForGeneralTag.Checked,
-                                                TagReplaceUnderscoreToSpace = chkIsReplaceUnderscoreTag.Checked
-                                            };
-                                            string extension = Helper.getFileExtensions(targetUrl);
-                                            filename = Helper.MakeFilename(format, post) + extension;
+                                            filename = MakeCompleteFilename(post, targetUrl);
                                         }
 
                                         // check if exist
@@ -2669,10 +2651,15 @@ namespace DanbooruDownloader3
                 BaseFolder = txtSaveFolder.Text,
                 MissingTagReplacement = txtTagReplacement.Text,
                 ArtistGroupLimit = Convert.ToInt32(txtArtistTagGrouping.Text),
+                ArtistGroupReplacement = txtNoArtist.Text,
                 CharacterGroupLimit = Convert.ToInt32(txtCharaTagGrouping.Text),
+                CharacterGroupReplacement = txtNoChara.Text,
                 CopyrightGroupLimit = Convert.ToInt32(txtCopyTagGrouping.Text),
+                CopyrightGroupReplacement = txtNoCopyright.Text,
                 CircleGroupLimit = Convert.ToInt32(txtCircleTagGrouping.Text),
+                CircleGroupReplacement = txtNoCircle.Text,
                 FaultsGroupLimit = Convert.ToInt32(txtFaultsTagGrouping.Text),
+                FaultsGroupReplacement = txtNoFault.Text,
                 IgnoredTags = DanbooruTagsDao.Instance.ParseTagsString(txtIgnoredTags.Text.Replace(Environment.NewLine, " ")),
                 IgnoredTagsRegex = txtIgnoredTags.Text.Trim().Replace(Environment.NewLine, "|"),
                 IgnoreTagsUseRegex = chkIgnoreTagsUseRegex.Checked,

@@ -119,25 +119,29 @@ namespace DanbooruDownloader3.DAO
 
         public List<DanbooruTag> ParseTagsString(string tagsStr)
         {
-            List<DanbooruTag> tags = new List<DanbooruTag>();
-            if (!String.IsNullOrWhiteSpace(tagsStr))
-            {
-                var tokens = tagsStr.Split(' ');
-                foreach (var item in tokens)
-                {
-                    tags.Add(GetTag(item.Trim()));
-                }
-            }
-            return tags;
+            return ParseTagsString(tagsStr, null);
         }
 
         public List<DanbooruTag> ParseTagsString(string tagsStr, DanbooruTagCollection tagCollection)
         {
             List<DanbooruTag> tags = new List<DanbooruTag>();
-            var tokens = tagsStr.Split(' ');
-            foreach (var item in tokens)
+            if (!String.IsNullOrWhiteSpace(tagsStr))
             {
-                tags.Add(GetTag(item.Trim(), tagCollection));
+                var tokens = tagsStr.Split(' ');
+                if (tagCollection == null)
+                {
+                    foreach (var item in tokens)
+                    {
+                        tags.Add(GetTag(item.Trim()));
+                    }
+                }
+                else
+                {
+                    foreach (var item in tokens)
+                    {
+                        tags.Add(GetTag(item.Trim(), tagCollection));
+                    }
+                }
             }
             return tags;
         }
