@@ -102,13 +102,13 @@ namespace DanbooruDownloader3
                         // do encoding later on main form.
                         Job.TagQuery = txtTagQuery.Text;
 
-                        if (string.IsNullOrWhiteSpace(txtSave.Text))
+                        if (string.IsNullOrWhiteSpace(txtFilenameFormat.Text))
                         {
-                            MessageBox.Show("Save destination is empty!");
-                            txtSave.Focus();
+                            MessageBox.Show("Filename Format is empty!");
+                            txtFilenameFormat.Focus();
                             return;
                         }
-                        Job.SaveFolder = txtSave.Text;
+                        Job.SaveFolder = txtFilenameFormat.Text;
                         Jobs.Add(Job);
                     }
                 }
@@ -145,9 +145,9 @@ namespace DanbooruDownloader3
 
         private void pnlProvider_ControlAdded(object sender, ControlEventArgs e)
         {
-            if (txtSave.Top < pnlProvider.Top + pnlProvider.Height)
+            if (txtFilenameFormat.Top < pnlProvider.Top + pnlProvider.Height)
             {
-                this.Height = this.Height + pnlProvider.Top + pnlProvider.Height - txtSave.Top;
+                this.Height = this.Height + pnlProvider.Top + pnlProvider.Height - txtFilenameFormat.Top;
             }
         }
     }

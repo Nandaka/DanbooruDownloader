@@ -912,7 +912,7 @@ namespace DanbooruDownloader3
                                         string filename = "";
                                         if (download && !string.IsNullOrWhiteSpace(targetUrl))
                                         {
-                                            filename = MakeCompleteFilename(post, targetUrl);
+                                            filename = MakeCompleteFilename(post, targetUrl, batchJob[i].SaveFolder);
                                         }
 
                                         // check if exist
@@ -2642,11 +2642,23 @@ namespace DanbooruDownloader3
             }
         }
 
-        private string MakeCompleteFilename(DanbooruPost post, string url)
+        /// <summary>
+        /// make complete filename
+        /// filename format will be overwritten based on each job settings.
+        /// save folder follow txtSaveFolder in settings tab.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="url"></param>
+        /// <param name="filenameFormat"></param>
+        /// <returns></returns>
+        private string MakeCompleteFilename(DanbooruPost post, string url, string filenameFormat=null)
         {
+            if (String.IsNullOrWhiteSpace(filenameFormat))
+                filenameFormat = txtFilenameFormat.Text;
+
             var format = new DanbooruFilenameFormat()
             {
-                FilenameFormat = txtFilenameFormat.Text,
+                FilenameFormat = filenameFormat,
                 Limit = Convert.ToInt32(txtFilenameLength.Text),
                 BaseFolder = txtSaveFolder.Text,
                 MissingTagReplacement = txtTagReplacement.Text,

@@ -1,5 +1,16 @@
 Change Log:
 =============================
+- DanbooruDownloader20161114
+  - Fix Issue #97: Use per-job filename format.
+
+- DanbooruDownloader20161112
+  - Fix Issue #91: update website url.
+  - Implement #96: Add %general% for the filename format.
+  - Add colored tag column in download grid.
+  - Update tag parser for sankaku.
+  - Update tag replacement behaviour for tags exceeding limit to use Over Value.
+  - Update tag replacement behaviour for missing tag to always use empty tag replacement.
+
 - DanbooruDownloader20161009
   - Fix path error when do batch download.
 
