@@ -1094,7 +1094,10 @@ namespace DanbooruDownloader3
                             prevDao.Posts.Clear();
                             prevDao = null;
                         }
+                        // Fix issue #99: memory leak
+                        // might increase cpu usage (reparse tags.xml).
                         DanbooruTagsDao.Instance = null;
+                        GC.Collect();
 
                         UpdateLog("DoBatchJob", "Batch Job #" + i + ": Done");
                         if (batchJob[i].isError)

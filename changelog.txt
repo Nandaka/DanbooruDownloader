@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20161120
+  - Fix Issue #100: update job numbering.
+  - Try Fix Issue #99: memory leak at batch download.
+
 - DanbooruDownloader20161114
   - Fix Issue #97: Use per-job filename format.
 
