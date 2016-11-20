@@ -280,7 +280,18 @@ namespace DanbooruDownloader3.DAO
                     case "score": post.Score = reader.Value; break;
                     case "rating": post.Rating = reader.Value; break;
                     case "status": post.Status = reader.Value; break;
-                    case "has_children": post.HasChildren = Convert.ToBoolean(Convert.ToInt32(reader.Value)); break;
+                    case "has_children":
+                        int num;
+                        bool isNum = Int32.TryParse(reader.Value, out num);
+                        if (isNum)
+                        { 
+                            post.HasChildren = Convert.ToBoolean(num);
+                        }
+                        else
+                        {
+                            post.HasChildren = Convert.ToBoolean(reader.Value);
+                        }
+                        break;
                     case "created_at":
                         post.CreatedAt = reader.Value;
                         post.CreatedAtDateTime = ParseDateTime(post.CreatedAt, Option.Provider);
