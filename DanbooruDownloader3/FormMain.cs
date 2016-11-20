@@ -686,7 +686,8 @@ namespace DanbooruDownloader3
                 dgvBatchJob.DataSource = batchJob;
                 foreach (DataGridViewRow row in dgvBatchJob.Rows)
                 {
-                    row.Cells["colBatchId"].Value = row.Index;
+                    // Fix Issue #100
+                    row.Cells["colBatchId"].Value = row.Index + 1;
                 }
             }
         }
@@ -751,6 +752,8 @@ namespace DanbooruDownloader3
                         UpdateLog("DoBatchJob", "Processing Batch Job#" + i);
 
                         DanbooruPostDao prevDao = null;
+                        DanbooruPostDao d = null;
+
                         bool flag = true;
                         int currPage = 0;
                         int postCount = 0;
@@ -768,7 +771,6 @@ namespace DanbooruDownloader3
                                 return;
                             }
 
-                            DanbooruPostDao d = null;
                             int imgCount = 0;
                             int skipCount = 0;
 
@@ -943,7 +945,9 @@ namespace DanbooruDownloader3
                                         }
 
                                         #region download
-
+#if DEBUG
+                                        download = false;
+#endif
                                         if (download)
                                         {
                                             // delay subdir creation just before download
@@ -954,8 +958,18 @@ namespace DanbooruDownloader3
                                             }
                                             imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
                                         }
-
+#if DEBUG
+                                        batchJob[i].Downloaded++;
+                                        batchJob[i].ProcessedTotal++;
+#endif
                                         #endregion download
+
+                                        // clean up for post tag
+                                        var index = d.Posts.IndexOf(post);
+                                        var tempPost = d.Posts[index];
+                                        tempPost.TagsEntity.Clear();
+                                        tempPost.TagsEntity = null;
+                                        tempPost = null;
 
                                         // check if more than available post
                                         if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
@@ -1069,6 +1083,18 @@ namespace DanbooruDownloader3
                             }
                             ++batchJob[i].CurrentPage;
                         } while (flag);
+
+                        if (d != null)
+                        {
+                            d.Posts.Clear();
+                            d = null;
+                        }
+                        if (prevDao != null)
+                        {
+                            prevDao.Posts.Clear();
+                            prevDao = null;
+                        }
+                        DanbooruTagsDao.Instance = null;
 
                         UpdateLog("DoBatchJob", "Batch Job #" + i + ": Done");
                         if (batchJob[i].isError)
@@ -1907,6 +1933,7 @@ namespace DanbooruDownloader3
             {
                 if (batchJob[i].isCompleted)
                 {
+                    batchJob[i] = null;
                     batchJob.RemoveAt(i);
                     --i;
                 }
@@ -1916,7 +1943,13 @@ namespace DanbooruDownloader3
 
         private void btnClearAll_Click(object sender, EventArgs e)
         {
+            dgvBatchJob.DataSource = null;
+            batchJob.AllowEdit = false;
+            batchJob.AllowNew = false;
             batchJob.Clear();
+            batchJob = null;
+            batchJob = new BindingList<DanbooruBatchJob>();
+            dgvBatchJob.DataSource = batchJob;
             dgvBatchJob.Refresh();
         }
 
