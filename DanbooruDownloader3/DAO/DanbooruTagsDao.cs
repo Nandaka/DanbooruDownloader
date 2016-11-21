@@ -11,18 +11,17 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruTagsDao
     {
+        public static XmlSerializer _ser = new XmlSerializer(typeof(DanbooruTagCollection));
         public DanbooruTagCollection Tags { get; set; }
 
         public DanbooruTagsDao(string xmlTagFile)
         {
-            XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
-
             if (!File.Exists(xmlTagFile)) throw new FileNotFoundException("Cannot load tags.xml", xmlTagFile);
             using (StreamReader s = File.OpenText(xmlTagFile))
             {
                 try
                 {
-                    this.Tags = (DanbooruTagCollection)ser.Deserialize(s);
+                    this.Tags = (DanbooruTagCollection)_ser.Deserialize(s);
                 }
                 catch (Exception ex)
                 {
@@ -202,12 +201,11 @@ namespace DanbooruDownloader3.DAO
 
         public static void Save(string target, List<DanbooruTag> sourceInstance)
         {
-            XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
             using (StreamWriter s = File.CreateText(target))
             {
                 DanbooruTagCollection col = new DanbooruTagCollection();
                 col.Tag = sourceInstance.ToArray();
-                ser.Serialize(s, col);
+                _ser.Serialize(s, col);
             }
         }
     }

@@ -265,7 +265,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.Width = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "height": post.Height = -1;
@@ -273,7 +278,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.Height = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "change": post.Change = reader.Value; break;
@@ -284,7 +294,7 @@ namespace DanbooruDownloader3.DAO
                         int num;
                         bool isNum = Int32.TryParse(reader.Value, out num);
                         if (isNum)
-                        { 
+                        {
                             post.HasChildren = Convert.ToBoolean(num);
                         }
                         else
@@ -304,7 +314,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.PreviewWidth = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "preview_height": post.PreviewHeight = -1;
@@ -312,7 +327,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.PreviewHeight = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "parent_id": post.ParentId = reader.Value; break;
@@ -322,7 +342,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.SampleWidth = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "sample_height": post.SampleHeight = -1;
@@ -330,7 +355,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.SampleHeight = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "jpeg_url": post.JpegUrl = AppendHttp(reader.Value); break;
@@ -339,7 +369,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.JpegWidth = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
 
                     case "jpeg_height": post.JpegHeight = -1;
@@ -347,7 +382,12 @@ namespace DanbooruDownloader3.DAO
                         {
                             post.JpegHeight = Int32.Parse(reader.Value);
                         }
-                        catch (Exception) { if (FormMain.Debug) throw; }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            throw;
+#endif
+                        }
                         break;
                 }
             }
@@ -490,7 +530,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.Width = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"height\"":
@@ -499,7 +544,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.Height = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"score\"":
@@ -524,7 +574,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.PreviewWidth = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"preview_height\"":
@@ -533,7 +588,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.PreviewHeight = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"file_size\"":
@@ -542,7 +602,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.Filesize = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"parent_id\"":
@@ -564,7 +629,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.HasChildren = Convert.ToBoolean(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"sample_width\"":
@@ -573,7 +643,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.SampleWidth = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"sample_height\"":
@@ -582,7 +657,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.SampleHeight = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"sample_url\"":
@@ -595,7 +675,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.JpegWidth = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"jpeg_height\"":
@@ -604,7 +689,12 @@ namespace DanbooruDownloader3.DAO
                                 {
                                     post.JpegHeight = Convert.ToInt32(val[1]);
                                 }
-                                catch (Exception) { if (FormMain.Debug) throw; }
+                                catch (Exception)
+                                {
+#if DEBUG
+                                    throw;
+#endif
+                                }
                                 break;
 
                             case "\"jpeg_url\"":

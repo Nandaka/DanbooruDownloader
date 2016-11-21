@@ -26,8 +26,8 @@ namespace DanbooruDownloader3
     public partial class FormMain : Form
     {
         #region property
-
-        public static bool Debug = false;
+        private static XmlSerializer postSerializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
+        private static XmlSerializer jobSerializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
 
         private List<DanbooruProvider> _listProvider;
         private DanbooruProvider _currProvider;
@@ -812,6 +812,7 @@ namespace DanbooruDownloader3
 
                                 d = GetBatchImageList(url, query, batchJob[i]);
 
+                                #endregion Get and load the image list
                                 if (d == null)
                                 {
                                     // Cannot get list.
@@ -847,9 +848,7 @@ namespace DanbooruDownloader3
                                     batchJob[i].Total = d.PostCount;
                                     batchJob[i].CurrentPageTotal = d.Posts.Count;
                                     batchJob[i].CurrentPageOffset = d.Offset;
-
-                                #endregion Get and load the image list
-
+                                    
                                     postCount = d.Posts.Count;
 
                                     foreach (DanbooruPost post in d.Posts)
@@ -873,96 +872,7 @@ namespace DanbooruDownloader3
                                             return;
                                         }
 
-                                        // check if have url and post is not deleted
-                                        if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
-                                        {
-                                            ResolveFileUrlBatch(_clientPost, post);
-                                        }
-
-                                        //Choose the correct urls
-                                        var targetUrl = post.FileUrl;
-                                        if (_ImageSize == "Thumb" && !String.IsNullOrWhiteSpace(post.PreviewUrl))
-                                        {
-                                            targetUrl = post.PreviewUrl;
-                                        }
-                                        else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
-                                        {
-                                            targetUrl = post.JpegUrl;
-                                        }
-                                        else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
-                                        {
-                                            targetUrl = post.SampleUrl;
-                                        }
-
-                                        batchJob[i].Status = "Downloading: " + targetUrl;
-                                        BeginInvoke(del);
-                                        //if (post.Provider == null) post.Provider = cbxProvider.Text;
-                                        //if (post.Query == null) post.Query = txtQuery.Text;
-                                        //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-
-                                        bool download = true;
-
-                                        // check if blacklisted
-                                        if (download && post.Hidden)
-                                        {
-                                            ++skipCount;
-                                            ++batchJob[i].Skipped;
-                                            download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
-                                        }
-
-                                        string filename = "";
-                                        if (download && !string.IsNullOrWhiteSpace(targetUrl))
-                                        {
-                                            filename = MakeCompleteFilename(post, targetUrl, batchJob[i].SaveFolder);
-                                        }
-
-                                        // check if exist
-                                        if (download && !chkOverwrite.Checked)
-                                        {
-                                            if (File.Exists(filename))
-                                            {
-                                                ++skipCount;
-                                                ++batchJob[i].Skipped;
-                                                download = false;
-                                                UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
-                                            }
-                                        }
-                                        if (download && String.IsNullOrWhiteSpace(targetUrl))
-                                        {
-                                            ++skipCount;
-                                            ++batchJob[i].Skipped;
-                                            download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
-                                        }
-                                        Uri uri = null;
-                                        if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
-                                        {
-                                            ++skipCount;
-                                            ++batchJob[i].Skipped;
-                                            download = false;
-                                            UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
-                                        }
-
-                                        #region download
-#if DEBUG
-                                        download = false;
-#endif
-                                        if (download)
-                                        {
-                                            // delay subdir creation just before download
-                                            if (filename.Contains(@"\"))
-                                            {
-                                                string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-                                                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                                            }
-                                            imgCount = DoDownloadBatch(targetUrl, batchJob[i], post, filename);
-                                        }
-#if DEBUG
-                                        batchJob[i].Downloaded++;
-                                        batchJob[i].ProcessedTotal++;
-#endif
-                                        #endregion download
+                                        bool download = ProcessBatchJobPost(batchJob[i], del, _clientPost, ref imgCount, ref skipCount, post);
 
                                         // clean up for post tag
                                         var index = d.Posts.IndexOf(post);
@@ -1000,6 +910,7 @@ namespace DanbooruDownloader3
                             }
                             catch (Exception ex)
                             {
+                                #region batch job exception
                                 string message = ex.Message;
                                 string responseMessage = "";
                                 if (ex.InnerException != null)
@@ -1062,6 +973,7 @@ namespace DanbooruDownloader3
                                     MessageBox.Show(message, "Batch Download");
                                     break;
                                 }
+                                #endregion
                             }
                             finally
                             {
@@ -1098,6 +1010,7 @@ namespace DanbooruDownloader3
                         // might increase cpu usage (reparse tags.xml).
                         DanbooruTagsDao.Instance = null;
                         GC.Collect();
+                        GC.WaitForPendingFinalizers();
 
                         UpdateLog("DoBatchJob", "Batch Job #" + i + ": Done");
                         if (batchJob[i].isError)
@@ -1121,6 +1034,102 @@ namespace DanbooruDownloader3
                 myArray[1] = -1;
                 BeginInvoke(del2, myArray);
             }
+        }
+
+        private bool ProcessBatchJobPost(DanbooruBatchJob currentJob, UpdateUiDelegate del, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, DanbooruPost post)
+        {
+            // check if have url and post is not deleted
+            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
+            {
+                ResolveFileUrlBatch(_clientPost, post);
+            }
+
+            //Choose the correct urls
+            var targetUrl = post.FileUrl;
+            if (_ImageSize == "Thumb" && !String.IsNullOrWhiteSpace(post.PreviewUrl))
+            {
+                targetUrl = post.PreviewUrl;
+            }
+            else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
+            {
+                targetUrl = post.JpegUrl;
+            }
+            else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
+            {
+                targetUrl = post.SampleUrl;
+            }
+
+            currentJob.Status = "Downloading: " + targetUrl;
+            BeginInvoke(del);
+            //if (post.Provider == null) post.Provider = cbxProvider.Text;
+            //if (post.Query == null) post.Query = txtQuery.Text;
+            //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+
+            bool download = true;
+
+            // check if blacklisted
+            if (download && post.Hidden)
+            {
+                ++skipCount;
+                ++currentJob.Skipped;
+                download = false;
+                UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
+            }
+
+            string filename = "";
+            if (download && !string.IsNullOrWhiteSpace(targetUrl))
+            {
+                filename = MakeCompleteFilename(post, targetUrl, currentJob.SaveFolder);
+            }
+
+            // check if exist
+            if (download && !chkOverwrite.Checked)
+            {
+                if (File.Exists(filename))
+                {
+                    ++skipCount;
+                    ++currentJob.Skipped;
+                    download = false;
+                    UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                }
+            }
+            if (download && String.IsNullOrWhiteSpace(targetUrl))
+            {
+                ++skipCount;
+                ++currentJob.Skipped;
+                download = false;
+                UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
+            }
+            Uri uri = null;
+            if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
+            {
+                ++skipCount;
+                ++currentJob.Skipped;
+                download = false;
+                UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
+            }
+
+            #region download
+#if DEBUG
+            download = false;
+#endif
+            if (download)
+            {
+                // delay subdir creation just before download
+                if (filename.Contains(@"\"))
+                {
+                    string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                }
+                imgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
+            }
+#if DEBUG
+            currentJob.Downloaded++;
+            currentJob.ProcessedTotal++;
+#endif
+            #endregion download
+
+            return download;
         }
 
         private int DoDownloadBatch(string targetUrl, DanbooruBatchJob job, DanbooruPost post, string filename)
@@ -1762,12 +1771,11 @@ namespace DanbooruDownloader3
         private void btnSaveDownloadList_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
+            {                
                 //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
                 StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
 
-                serializer.Serialize(writer, _downloadList);
+                postSerializer.Serialize(writer, _downloadList);
 
                 writer.Close();
             }
@@ -1777,10 +1785,9 @@ namespace DanbooruDownloader3
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
                 StreamReader reader = new StreamReader(openFileDialog2.FileName);
 
-                _downloadList = (BindingList<DanbooruPost>)serializer.Deserialize(reader);
+                _downloadList = (BindingList<DanbooruPost>)postSerializer.Deserialize(reader);
                 reader.Close();
             }
             dgvDownload.DataSource = _downloadList;
@@ -2588,12 +2595,11 @@ namespace DanbooruDownloader3
         private void btnSaveBatchList_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
+            {                
                 //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
                 StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
 
-                serializer.Serialize(writer, batchJob);
+                jobSerializer.Serialize(writer, batchJob);
 
                 writer.Close();
             }
@@ -2603,10 +2609,9 @@ namespace DanbooruDownloader3
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
                 StreamReader reader = new StreamReader(openFileDialog2.FileName);
 
-                batchJob = (BindingList<DanbooruBatchJob>)serializer.Deserialize(reader);
+                batchJob = (BindingList<DanbooruBatchJob>)jobSerializer.Deserialize(reader);
                 reader.Close();
             }
             dgvBatchJob.DataSource = batchJob;

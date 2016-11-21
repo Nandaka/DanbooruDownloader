@@ -18,6 +18,7 @@ namespace DanbooruDownloader3.test
     [TestClass]
     public class UnitTest1
     {
+        private static XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
         private string sourceProvider = @"../../../DanbooruDownloader3.test/DanbooruProviderList.xml";
         private string sourceDanbooruXml = @"../../../DanbooruDownloader3.test/TestXml/danbooru.xml";
         private string sourceYandereXml = @"../../../DanbooruDownloader3.test/TestXml/yande.re.xml";
@@ -100,8 +101,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestDanbooruTags()
         {
-            {
-                XmlSerializer ser = new XmlSerializer(typeof(DanbooruTagCollection));
+            {                                           
                 DanbooruTagCollection tags = (DanbooruTagCollection)ser.Deserialize(File.OpenText(sourceDanbooruTagsXml));
 
                 Assert.IsTrue(tags.Tag.Length == 151190);
