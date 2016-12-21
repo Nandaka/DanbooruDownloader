@@ -516,6 +516,9 @@ namespace DanbooruDownloader3
         {
             if (String.IsNullOrWhiteSpace(url)) return url;
 
+            // escape json url
+            url = url.Replace(@"\/", @"/");
+
             // prefix with http/https if start without protocol
             // e.g.: //example.com/something.jpg
             if (url.StartsWith("//"))
