@@ -47,6 +47,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -55,8 +57,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lbxAutoComplete = new System.Windows.Forms.ListBox();
@@ -167,6 +167,14 @@
             this.btnAddBatchJob = new System.Windows.Forms.Button();
             this.cbxAbortOnError = new System.Windows.Forms.CheckBox();
             this.dgvBatchJob = new DanbooruDownloader3.CustomControl.gfDataGridView();
+            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStartPage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ctxMenuBatch = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -327,14 +335,6 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
-            this.colBatchId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchTagQuery = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchLimit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStartPage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchProviders = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchSaveFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBatchStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -1162,44 +1162,44 @@
             this.toolStripMenuItem4,
             this.resetColumnOrderToolStripMenuItem});
             this.ctxMenuList.Name = "contextMenuStrip3";
-            this.ctxMenuList.Size = new System.Drawing.Size(218, 120);
+            this.ctxMenuList.Size = new System.Drawing.Size(212, 112);
             this.ctxMenuList.Text = "ListGrid Menu";
             // 
             // searchByParentToolStripMenuItem
             // 
             this.searchByParentToolStripMenuItem.Name = "searchByParentToolStripMenuItem";
-            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.searchByParentToolStripMenuItem.Size = new System.Drawing.Size(211, 24);
             this.searchByParentToolStripMenuItem.Text = "Search by parent";
             this.searchByParentToolStripMenuItem.Click += new System.EventHandler(this.searchByParentToolStripMenuItem_Click);
             // 
             // addSelectedRowsToolStripMenuItem
             // 
             this.addSelectedRowsToolStripMenuItem.Name = "addSelectedRowsToolStripMenuItem";
-            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.addSelectedRowsToolStripMenuItem.Size = new System.Drawing.Size(211, 24);
             this.addSelectedRowsToolStripMenuItem.Text = "Add selected rows";
             this.addSelectedRowsToolStripMenuItem.Click += new System.EventHandler(this.addSelectedRowsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(214, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(208, 6);
             // 
             // reloadThumbnailToolStripMenuItem
             // 
             this.reloadThumbnailToolStripMenuItem.Name = "reloadThumbnailToolStripMenuItem";
-            this.reloadThumbnailToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.reloadThumbnailToolStripMenuItem.Size = new System.Drawing.Size(211, 24);
             this.reloadThumbnailToolStripMenuItem.Text = "Reload Thumbnail";
             this.reloadThumbnailToolStripMenuItem.Click += new System.EventHandler(this.reloadThumbnailToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(214, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(208, 6);
             // 
             // resetColumnOrderToolStripMenuItem
             // 
             this.resetColumnOrderToolStripMenuItem.Name = "resetColumnOrderToolStripMenuItem";
-            this.resetColumnOrderToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.resetColumnOrderToolStripMenuItem.Size = new System.Drawing.Size(211, 24);
             this.resetColumnOrderToolStripMenuItem.Text = "Reset Column Order";
             this.resetColumnOrderToolStripMenuItem.Click += new System.EventHandler(this.resetColumnOrderToolStripMenuItem_Click);
             // 
@@ -1555,31 +1555,31 @@
             this.deleteToolStripMenuItem,
             this.openFileToolStripMenuItem});
             this.ctxMenuDownload.Name = "contextMenuStrip1";
-            this.ctxMenuDownload.Size = new System.Drawing.Size(239, 88);
+            this.ctxMenuDownload.Size = new System.Drawing.Size(233, 82);
             // 
             // resolveFileUrlToolStripMenuItem
             // 
             this.resolveFileUrlToolStripMenuItem.Name = "resolveFileUrlToolStripMenuItem";
-            this.resolveFileUrlToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.resolveFileUrlToolStripMenuItem.Size = new System.Drawing.Size(232, 24);
             this.resolveFileUrlToolStripMenuItem.Text = "Resolve File Url";
             this.resolveFileUrlToolStripMenuItem.Click += new System.EventHandler(this.resolveFileUrlToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(235, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(229, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(232, 24);
             this.deleteToolStripMenuItem.Text = "&Delete Selected Row(s)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(232, 24);
             this.openFileToolStripMenuItem.Text = "&Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -1767,18 +1767,92 @@
             this.dgvBatchJob.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvBatchJob_RowsAdded);
             this.dgvBatchJob.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvBatchJob_MouseDown);
             // 
+            // colBatchId
+            // 
+            this.colBatchId.FillWeight = 50F;
+            this.colBatchId.Frozen = true;
+            this.colBatchId.HeaderText = "#";
+            this.colBatchId.MinimumWidth = 30;
+            this.colBatchId.Name = "colBatchId";
+            this.colBatchId.ReadOnly = true;
+            this.colBatchId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colBatchId.Width = 30;
+            // 
+            // colBatchTagQuery
+            // 
+            this.colBatchTagQuery.DataPropertyName = "TagQuery";
+            this.colBatchTagQuery.HeaderText = "Tags Query";
+            this.colBatchTagQuery.Name = "colBatchTagQuery";
+            this.colBatchTagQuery.ReadOnly = true;
+            // 
+            // colBatchLimit
+            // 
+            this.colBatchLimit.DataPropertyName = "Limit";
+            this.colBatchLimit.FillWeight = 50F;
+            this.colBatchLimit.HeaderText = "Limit";
+            this.colBatchLimit.Name = "colBatchLimit";
+            this.colBatchLimit.ReadOnly = true;
+            this.colBatchLimit.Width = 50;
+            // 
+            // colBatchRating
+            // 
+            this.colBatchRating.DataPropertyName = "Rating";
+            this.colBatchRating.FillWeight = 75F;
+            this.colBatchRating.HeaderText = "Rating";
+            this.colBatchRating.Name = "colBatchRating";
+            this.colBatchRating.Width = 75;
+            // 
+            // colBatchStartPage
+            // 
+            this.colBatchStartPage.DataPropertyName = "StartPage";
+            this.colBatchStartPage.FillWeight = 50F;
+            this.colBatchStartPage.HeaderText = "Start Page";
+            this.colBatchStartPage.Name = "colBatchStartPage";
+            this.colBatchStartPage.Width = 50;
+            // 
+            // colBatchProviders
+            // 
+            this.colBatchProviders.DataPropertyName = "ProviderName";
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
+            this.colBatchProviders.FillWeight = 150F;
+            this.colBatchProviders.HeaderText = "Providers";
+            this.colBatchProviders.MinimumWidth = 150;
+            this.colBatchProviders.Name = "colBatchProviders";
+            this.colBatchProviders.ReadOnly = true;
+            this.colBatchProviders.Width = 150;
+            // 
+            // colBatchSaveFolder
+            // 
+            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
+            this.colBatchSaveFolder.HeaderText = "Save Folder";
+            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
+            this.colBatchSaveFolder.ReadOnly = true;
+            // 
+            // colBatchStatus
+            // 
+            this.colBatchStatus.DataPropertyName = "Status";
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
+            this.colBatchStatus.FillWeight = 300F;
+            this.colBatchStatus.HeaderText = "Status";
+            this.colBatchStatus.MinimumWidth = 300;
+            this.colBatchStatus.Name = "colBatchStatus";
+            this.colBatchStatus.ReadOnly = true;
+            this.colBatchStatus.Width = 351;
+            // 
             // ctxMenuBatch
             // 
             this.ctxMenuBatch.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ctxMenuBatch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem1});
             this.ctxMenuBatch.Name = "contextMenuStrip5";
-            this.ctxMenuBatch.Size = new System.Drawing.Size(156, 30);
+            this.ctxMenuBatch.Size = new System.Drawing.Size(150, 28);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(155, 26);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(149, 24);
             this.deleteToolStripMenuItem1.Text = "Delete Job";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
@@ -3131,19 +3205,19 @@
             this.copyToolStripMenuItem,
             this.clearLogToolStripMenuItem});
             this.ctxMenuLog.Name = "contextMenuStrip2";
-            this.ctxMenuLog.Size = new System.Drawing.Size(148, 56);
+            this.ctxMenuLog.Size = new System.Drawing.Size(142, 52);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // clearLogToolStripMenuItem
             // 
             this.clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
-            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
             this.clearLogToolStripMenuItem.Text = "Clear Log";
             this.clearLogToolStripMenuItem.Click += new System.EventHandler(this.clearLogToolStripMenuItem_Click);
             // 
@@ -3234,24 +3308,24 @@
             this.toolStripSeparator1,
             this.toolStripMenuItem2});
             this.ctxMenuSysTray.Name = "contextMenuStrip4";
-            this.ctxMenuSysTray.Size = new System.Drawing.Size(121, 62);
+            this.ctxMenuSysTray.Size = new System.Drawing.Size(115, 58);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(114, 24);
             this.toolStripMenuItem1.Text = "Show";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(117, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(120, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(114, 24);
             this.toolStripMenuItem2.Text = "Close";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -3563,80 +3637,6 @@
             this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
-            // 
-            // colBatchId
-            // 
-            this.colBatchId.FillWeight = 50F;
-            this.colBatchId.Frozen = true;
-            this.colBatchId.HeaderText = "#";
-            this.colBatchId.MinimumWidth = 30;
-            this.colBatchId.Name = "colBatchId";
-            this.colBatchId.ReadOnly = true;
-            this.colBatchId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colBatchId.Width = 30;
-            // 
-            // colBatchTagQuery
-            // 
-            this.colBatchTagQuery.DataPropertyName = "TagQuery";
-            this.colBatchTagQuery.HeaderText = "Tags Query";
-            this.colBatchTagQuery.Name = "colBatchTagQuery";
-            this.colBatchTagQuery.ReadOnly = true;
-            // 
-            // colBatchLimit
-            // 
-            this.colBatchLimit.DataPropertyName = "Limit";
-            this.colBatchLimit.FillWeight = 50F;
-            this.colBatchLimit.HeaderText = "Limit";
-            this.colBatchLimit.Name = "colBatchLimit";
-            this.colBatchLimit.ReadOnly = true;
-            this.colBatchLimit.Width = 50;
-            // 
-            // colBatchRating
-            // 
-            this.colBatchRating.DataPropertyName = "Rating";
-            this.colBatchRating.FillWeight = 75F;
-            this.colBatchRating.HeaderText = "Rating";
-            this.colBatchRating.Name = "colBatchRating";
-            this.colBatchRating.Width = 75;
-            // 
-            // colBatchStartPage
-            // 
-            this.colBatchStartPage.DataPropertyName = "StartPage";
-            this.colBatchStartPage.FillWeight = 50F;
-            this.colBatchStartPage.HeaderText = "Start Page";
-            this.colBatchStartPage.Name = "colBatchStartPage";
-            this.colBatchStartPage.Width = 50;
-            // 
-            // colBatchProviders
-            // 
-            this.colBatchProviders.DataPropertyName = "ProviderName";
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchProviders.DefaultCellStyle = dataGridViewCellStyle14;
-            this.colBatchProviders.FillWeight = 150F;
-            this.colBatchProviders.HeaderText = "Providers";
-            this.colBatchProviders.MinimumWidth = 150;
-            this.colBatchProviders.Name = "colBatchProviders";
-            this.colBatchProviders.ReadOnly = true;
-            this.colBatchProviders.Width = 150;
-            // 
-            // colBatchSaveFolder
-            // 
-            this.colBatchSaveFolder.DataPropertyName = "SaveFolder";
-            this.colBatchSaveFolder.HeaderText = "Save Folder";
-            this.colBatchSaveFolder.Name = "colBatchSaveFolder";
-            this.colBatchSaveFolder.ReadOnly = true;
-            // 
-            // colBatchStatus
-            // 
-            this.colBatchStatus.DataPropertyName = "Status";
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBatchStatus.DefaultCellStyle = dataGridViewCellStyle15;
-            this.colBatchStatus.FillWeight = 300F;
-            this.colBatchStatus.HeaderText = "Status";
-            this.colBatchStatus.MinimumWidth = 300;
-            this.colBatchStatus.Name = "colBatchStatus";
-            this.colBatchStatus.ReadOnly = true;
-            this.colBatchStatus.Width = 351;
             // 
             // FormMain
             // 

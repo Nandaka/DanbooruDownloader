@@ -2003,7 +2003,7 @@ namespace DanbooruDownloader3
 
         private void linkUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(@"http://nandaka.wordpress.com/tag/danbooru-batch-download/");
+            Process.Start(linkUrl.Text);
         }
 
         private void chkUseTagColor_CheckedChanged(object sender, EventArgs e)
