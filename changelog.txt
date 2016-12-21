@@ -1,5 +1,12 @@
 Change Log:
 =============================
+- DanbooruDownloader20161221
+  - Implement #46 and #81: prioritize tags based on define list.
+    Please create a file called 'included_tags.txt' containing tags separated by lines.
+    Regex is supported.
+  - Fix Issue #102: hypnohub url fixes.
+  - Fix Issue #91: update website url again.
+
 - DanbooruDownloader20161122
   - Fix Issue #100: update job numbering.
   - Try Fix Issue #99: memory leak at batch download.

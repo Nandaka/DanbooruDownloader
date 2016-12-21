@@ -24,6 +24,7 @@ namespace DanbooruDownloader3
         public static Color ColorBlacklisted = Color.LightGray;
         public static Color ColorUnknown = Color.Gray;
         public static Color ColorDeleted = Color.FromArgb(255, 241, 243, 244);
+        public const String PRIORITY_TAGS = @"included_tags.txt";
 
         /// <summary>
         /// Generate hashed password+salt using SHA1
@@ -119,7 +120,31 @@ namespace DanbooruDownloader3
 
             // copy the tags entity to be grouped.
             var groupedTags = post.TagsEntity;
-            groupedTags.Sort();
+
+
+            // custom sort to prioritize some tags based on file definition
+            // Issue #46 and #81
+            // regex support
+            if (File.Exists(PRIORITY_TAGS))
+            {
+                var priorityTags = ReadTagsFromTextFile(PRIORITY_TAGS);
+                groupedTags.Sort((a, b) =>
+                {
+                    var containA = priorityTags.Exists(x => Regex.IsMatch(a.Name, x.Name));
+                    var containB = priorityTags.Exists(x => Regex.IsMatch(b.Name, x.Name));
+
+                    if (containA && !containB)
+                        return -1;
+                    if (!containA && containB)
+                        return 1;
+                    else
+                        return a.CompareTo(b);
+                });
+            }
+            else
+            {
+                groupedTags.Sort();
+            }
 
             // remove ignored tags
             groupedTags = RemoveIgnoredTags(format, groupedTags);
@@ -214,6 +239,32 @@ namespace DanbooruDownloader3
             filename = filename.Substring(0, filename.Length < format.Limit ? filename.Length : format.Limit).Trim();
 
             return filename;
+        }
+
+        private static List<DanbooruTag> ReadTagsFromTextFile(string filename)
+        {
+            var list = new List<DanbooruTag>();
+
+            // Read the file and display it line by line.
+            using (var file = new System.IO.StreamReader(filename))
+            {
+                var line = "";
+                while ((line = file.ReadLine()) != null)
+                {
+                    var tag = new DanbooruTag()
+                    {
+                        Name = line,
+                        Id = "-1",
+                        Count = -1,
+                        Type = DanbooruTagType.Unknown
+                    };
+                    
+                    list.Add(tag);
+                };
+            }
+
+            return list;
+
         }
 
         private static List<DanbooruTag> RemoveIgnoredTags(DanbooruFilenameFormat format, List<DanbooruTag> groupedTags)

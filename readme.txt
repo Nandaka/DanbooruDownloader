@@ -80,6 +80,10 @@ Settings
 “Empty Tag Repl.” [____] => For filename formatting, for example you use %artist% meta for filename format 
                             but the image doesn't have this information, then it will replaced based on this value.
 
+file:included_tags.txt => If this file exists in the application folder, the tags defined in the file will be prioritized for filename.
+                       Separate each tags with new line. Regular expression is supported.
+                       Please note that it still depends on the filename format for ordering.
+
 How to Use
 =============================
 A. Getting tags.xml:
