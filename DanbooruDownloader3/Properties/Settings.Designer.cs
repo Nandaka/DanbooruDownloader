@@ -863,5 +863,17 @@ namespace DanbooruDownloader3.Properties {
                 this["DateTimeFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string filterExtensions {
+            get {
+                return ((string)(this["filterExtensions"]));
+            }
+            set {
+                this["filterExtensions"] = value;
+            }
+        }
     }
 }

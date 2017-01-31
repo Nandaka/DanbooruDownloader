@@ -212,5 +212,8 @@
     <Setting Name="DateTimeFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">yyyy-MM-dd HH:mm:ss</Value>
     </Setting>
+    <Setting Name="filterExtensions" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

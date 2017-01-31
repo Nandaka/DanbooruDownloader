@@ -109,6 +109,9 @@ namespace DanbooruDownloader3
                             return;
                         }
                         Job.SaveFolder = txtFilenameFormat.Text;
+                        Job.Filter = txtFilter.Text;
+                        Job.IsExclude = chkIsExclude.Checked;
+
                         Jobs.Add(Job);
                     }
                 }

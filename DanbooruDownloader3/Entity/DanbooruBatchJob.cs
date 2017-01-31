@@ -21,7 +21,7 @@ namespace DanbooruDownloader3.Entity
             }
             set { }
         }
-            
+
         public string SaveFolder { get; set; }
         public string TagQuery { get; set; }
 
@@ -94,7 +94,7 @@ namespace DanbooruDownloader3.Entity
         public int Skipped { get; set; }
         [XmlIgnore]
         public int Error { get; set; }
-        
+
         [Browsable(false)]
         [XmlIgnore]
         public int Total { get; set; }
@@ -118,5 +118,21 @@ namespace DanbooruDownloader3.Entity
         [Browsable(false)]
         [XmlIgnore]
         public int CurrentPageOffset { get; set; }
+
+        // Feature #95
+
+        private string filter;
+        public string Filter
+        {
+            get { return filter; }
+            set { filter = value; }
+        }
+
+        private bool isExclude;
+        public bool IsExclude
+        {
+            get { return isExclude; }
+            set { isExclude = value; }
+        }
     }
 }

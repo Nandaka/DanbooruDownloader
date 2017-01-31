@@ -213,6 +213,17 @@ namespace DanbooruDownloader3.DAO
                                             }
                                         }
                                     }
+                                    else if (nodeName.Equals("result"))
+                                    {
+                                        while (reader.MoveToNextAttribute())
+                                        {
+                                            if (reader.Name.ToLowerInvariant().Equals("success"))
+                                            {
+                                                Success = bool.Parse(reader.Value);
+                                                ResponseMessage = reader.ReadString();
+                                            }
+                                        }
+                                    }
                                     else if (nodeName.Equals("post"))
                                     {
                                         DanbooruPost post = new DanbooruPost();

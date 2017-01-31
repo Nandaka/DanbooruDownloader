@@ -1076,6 +1076,30 @@ namespace DanbooruDownloader3
                 UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
             }
 
+            // Feature #95: filter by extensions
+            if (!String.IsNullOrWhiteSpace(currentJob.Filter))
+            {
+                // get file extensions
+                var ext = Helper.getFileExtensions(targetUrl);
+                bool tempResult = false;
+
+                if (currentJob.IsExclude)
+                {
+                    // skip if match
+                    tempResult = !Regex.IsMatch(ext, currentJob.Filter);
+                    if (!tempResult)
+                        UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} matching with filter: {1} (Exclude Mode) in url {2}.", ext, currentJob.Filter, targetUrl));
+                }
+                else
+                {
+                    // download if match
+                    tempResult = Regex.IsMatch(ext, currentJob.Filter);
+                    if(!tempResult)
+                        UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} doesn't match with filter: {1} in url {2}.", ext, currentJob.Filter, targetUrl));
+                }
+                download = tempResult;
+            }
+
             string filename = "";
             if (download && !string.IsNullOrWhiteSpace(targetUrl))
             {

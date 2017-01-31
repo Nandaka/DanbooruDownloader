@@ -37,13 +37,16 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtFilenameFormat = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPage = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.chkNotRating = new System.Windows.Forms.CheckBox();
             this.cbxRating = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.txtFilenameFormat = new System.Windows.Forms.TextBox();
+            this.chkIsExclude = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -59,7 +62,7 @@
             // txtTagQuery
             // 
             this.txtTagQuery.Location = new System.Drawing.Point(109, 15);
-            this.txtTagQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTagQuery.Margin = new System.Windows.Forms.Padding(4);
             this.txtTagQuery.Name = "txtTagQuery";
             this.txtTagQuery.Size = new System.Drawing.Size(551, 22);
             this.txtTagQuery.TabIndex = 1;
@@ -67,7 +70,7 @@
             // txtLimit
             // 
             this.txtLimit.Location = new System.Drawing.Point(109, 47);
-            this.txtLimit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLimit.Margin = new System.Windows.Forms.Padding(4);
             this.txtLimit.Name = "txtLimit";
             this.txtLimit.Size = new System.Drawing.Size(99, 22);
             this.txtLimit.TabIndex = 3;
@@ -90,7 +93,7 @@
             this.pnlProvider.AutoScroll = true;
             this.pnlProvider.AutoSize = true;
             this.pnlProvider.Location = new System.Drawing.Point(109, 79);
-            this.pnlProvider.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlProvider.Margin = new System.Windows.Forms.Padding(4);
             this.pnlProvider.Name = "pnlProvider";
             this.pnlProvider.Size = new System.Drawing.Size(800, 111);
             this.pnlProvider.TabIndex = 4;
@@ -99,7 +102,7 @@
             // btnSelectAll
             // 
             this.btnSelectAll.Location = new System.Drawing.Point(16, 103);
-            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(85, 86);
             this.btnSelectAll.TabIndex = 0;
@@ -111,7 +114,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.Location = new System.Drawing.Point(811, 234);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 28);
             this.btnOK.TabIndex = 5;
@@ -123,7 +126,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(703, 234);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 6;
@@ -141,18 +144,6 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "provider";
             // 
-            // txtFilenameFormat
-            // 
-            this.txtFilenameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilenameFormat.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtFilenameFormat.Location = new System.Drawing.Point(137, 202);
-            this.txtFilenameFormat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtFilenameFormat.Name = "txtFilenameFormat";
-            this.txtFilenameFormat.Size = new System.Drawing.Size(773, 22);
-            this.txtFilenameFormat.TabIndex = 9;
-            this.txtFilenameFormat.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameFormat;
-            // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -167,7 +158,7 @@
             // txtPage
             // 
             this.txtPage.Location = new System.Drawing.Point(301, 47);
-            this.txtPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPage.Margin = new System.Windows.Forms.Padding(4);
             this.txtPage.Name = "txtPage";
             this.txtPage.Size = new System.Drawing.Size(99, 22);
             this.txtPage.TabIndex = 11;
@@ -186,7 +177,7 @@
             // 
             this.chkNotRating.AutoSize = true;
             this.chkNotRating.Location = new System.Drawing.Point(604, 49);
-            this.chkNotRating.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkNotRating.Margin = new System.Windows.Forms.Padding(4);
             this.chkNotRating.Name = "chkNotRating";
             this.chkNotRating.Size = new System.Drawing.Size(52, 21);
             this.chkNotRating.TabIndex = 19;
@@ -197,7 +188,7 @@
             // 
             this.cbxRating.FormattingEnabled = true;
             this.cbxRating.Location = new System.Drawing.Point(468, 47);
-            this.cbxRating.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbxRating.Margin = new System.Windows.Forms.Padding(4);
             this.cbxRating.Name = "cbxRating";
             this.cbxRating.Size = new System.Drawing.Size(127, 24);
             this.cbxRating.TabIndex = 18;
@@ -212,11 +203,60 @@
             this.label7.TabIndex = 17;
             this.label7.Text = "Rating";
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 234);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(104, 17);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Filter Extension";
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilter.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filterExtensions", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtFilter.Location = new System.Drawing.Point(137, 231);
+            this.txtFilter.Margin = new System.Windows.Forms.Padding(4);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(208, 22);
+            this.txtFilter.TabIndex = 21;
+            this.txtFilter.Text = global::DanbooruDownloader3.Properties.Settings.Default.filterExtensions;
+            // 
+            // txtFilenameFormat
+            // 
+            this.txtFilenameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilenameFormat.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::DanbooruDownloader3.Properties.Settings.Default, "filenameFormat", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtFilenameFormat.Location = new System.Drawing.Point(137, 202);
+            this.txtFilenameFormat.Margin = new System.Windows.Forms.Padding(4);
+            this.txtFilenameFormat.Name = "txtFilenameFormat";
+            this.txtFilenameFormat.Size = new System.Drawing.Size(773, 22);
+            this.txtFilenameFormat.TabIndex = 9;
+            this.txtFilenameFormat.Text = global::DanbooruDownloader3.Properties.Settings.Default.filenameFormat;
+            // 
+            // chkIsExclude
+            // 
+            this.chkIsExclude.AutoSize = true;
+            this.chkIsExclude.Location = new System.Drawing.Point(353, 233);
+            this.chkIsExclude.Margin = new System.Windows.Forms.Padding(4);
+            this.chkIsExclude.Name = "chkIsExclude";
+            this.chkIsExclude.Size = new System.Drawing.Size(118, 21);
+            this.chkIsExclude.TabIndex = 22;
+            this.chkIsExclude.Text = "Exclude Mode";
+            this.chkIsExclude.UseVisualStyleBackColor = true;
+            // 
             // FormAddBatchJob
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 277);
+            this.Controls.Add(this.chkIsExclude);
+            this.Controls.Add(this.txtFilter);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.chkNotRating);
             this.Controls.Add(this.cbxRating);
@@ -233,7 +273,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtTagQuery);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormAddBatchJob";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormAddBatchJob";
@@ -261,5 +301,8 @@
         private System.Windows.Forms.ComboBox cbxRating;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chkIsExclude;
     }
 }
