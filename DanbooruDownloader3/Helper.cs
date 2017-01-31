@@ -359,11 +359,15 @@ namespace DanbooruDownloader3
         /// <summary>
         /// Decode JSON Encoded Unicode Character to C# string.
         /// http://stackoverflow.com/questions/1615559/converting-unicode-strings-to-escaped-ascii-string
+        /// http://stackoverflow.com/questions/6665488/htmlagilitypack-and-htmldecode
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static string DecodeEncodedNonAsciiCharacters(string value)
         {
+            // Fix #106
+            value = HtmlAgilityPack.HtmlEntity.DeEntitize(value);
+
             return Regex.Replace(
                 value,
                 @"\\u(?<Value>[a-zA-Z0-9]{4})",

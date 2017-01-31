@@ -183,7 +183,7 @@ namespace DanbooruDownloader3.Engine
                         tagEntity.Type = DanbooruTagType.Unknown;
                         break;
                 }
-                tagEntity.Name = tagDoc.DocumentNode.SelectSingleNode("//li/a").InnerText;
+                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tagDoc.DocumentNode.SelectSingleNode("//li/a").InnerText);
                 var countStr = tagDoc.DocumentNode.SelectSingleNode("//li//span[@class='post-count']").InnerText.Trim();
                 tagEntity.Count = Int32.Parse(countStr);
 
@@ -192,6 +192,12 @@ namespace DanbooruDownloader3.Engine
             post.TagsEntity = post.TagsEntity.OrderByDescending(x => x.Type).ThenBy(x => x.Name).ToList();
         }
 
+        /// <summary>
+        /// Parse search page result and return the images with initial tags.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="searchParam"></param>
+        /// <returns></returns>
         public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
         {
             try

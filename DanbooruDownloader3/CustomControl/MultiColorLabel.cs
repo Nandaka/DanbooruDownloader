@@ -55,6 +55,16 @@ namespace DanbooruDownloader3.CustomControl
             {
                 List<DanbooruDownloader3.Entity.DanbooruTag> tags = value as List<DanbooruDownloader3.Entity.DanbooruTag>;
 
+                // sort?
+                tags = tags.OrderBy(x =>
+                    x.Type == Entity.DanbooruTagType.Copyright ? 1 :
+                    x.Type == Entity.DanbooruTagType.Character ? 2 :
+                    x.Type == Entity.DanbooruTagType.Artist ? 3 :
+                    x.Type == Entity.DanbooruTagType.Circle ? 4 :
+                    x.Type == Entity.DanbooruTagType.Faults ? 5 :
+                    x.Type == Entity.DanbooruTagType.General ? 6 : 7
+                    ).ToList();
+
                 //Rectangle newRect = new Rectangle(cellBounds.X + 1, cellBounds.Y + 1, cellBounds.Width - 4, cellBounds.Height - 4);
                 
                 using (Brush backColorBrush = new SolidBrush(cellStyle.BackColor), selectedBrush = new SolidBrush(cellStyle.SelectionBackColor))
