@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20170131
+  - Implement #95: Filter images by extension in batch mode (using regex).
+  - Fix Issue #90: Cannot select Use Regex in Settings Tab (UI issue).
+  - Fix Issue #106: Update tags parsing for Sankaku.
+
 - DanbooruDownloader20161221
   - Implement #46 and #81: prioritize tags based on define list.
     Please create a file called 'included_tags.txt' containing tags separated by lines.
