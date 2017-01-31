@@ -186,19 +186,19 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="tagNoArtistValue" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Artist</Value>
+      <Value Profile="(Default)">Multiple Artist</Value>
     </Setting>
     <Setting Name="tagNoCopyrightValue" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Copyright</Value>
+      <Value Profile="(Default)">Multiple Copyright</Value>
     </Setting>
     <Setting Name="tagNoCharaValue" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Character</Value>
+      <Value Profile="(Default)">Multiple Character</Value>
     </Setting>
     <Setting Name="tagNoCircleValue" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Circle</Value>
+      <Value Profile="(Default)">Multiple Circle</Value>
     </Setting>
     <Setting Name="tagNoFaultValue" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Fault</Value>
+      <Value Profile="(Default)">Multiple Fault</Value>
     </Setting>
     <Setting Name="IsReplaceUnderscoreTag" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

@@ -758,7 +758,7 @@ namespace DanbooruDownloader3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Artist")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Multiple Artist")]
         public string tagNoArtistValue {
             get {
                 return ((string)(this["tagNoArtistValue"]));
@@ -770,7 +770,7 @@ namespace DanbooruDownloader3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Copyright")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Multiple Copyright")]
         public string tagNoCopyrightValue {
             get {
                 return ((string)(this["tagNoCopyrightValue"]));
@@ -782,7 +782,7 @@ namespace DanbooruDownloader3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Character")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Multiple Character")]
         public string tagNoCharaValue {
             get {
                 return ((string)(this["tagNoCharaValue"]));
@@ -794,7 +794,7 @@ namespace DanbooruDownloader3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Circle")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Multiple Circle")]
         public string tagNoCircleValue {
             get {
                 return ((string)(this["tagNoCircleValue"]));
@@ -806,7 +806,7 @@ namespace DanbooruDownloader3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Fault")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Multiple Fault")]
         public string tagNoFaultValue {
             get {
                 return ((string)(this["tagNoFaultValue"]));
