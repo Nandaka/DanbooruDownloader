@@ -26,11 +26,11 @@
     <Preferred>Html</Preferred>
     <QueryStringXml />
     <QueryStringJson />
-    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
+    <QueryStringHtml>/?%_query%</QueryStringHtml>
     <Url>https://chan.sankakucomplex.com</Url>
-    <UserName />
+    <UserName>login=required; pass_hash=required</UserName>
     <Password />
-    <LoginType>Anonymous</LoginType>
+    <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <!-- 2016-10-07 12:06 -->
