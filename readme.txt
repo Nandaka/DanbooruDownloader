@@ -150,6 +150,21 @@ A7: Follow this step:
     4. Paste the Cookie value to the Username field.
     5. Set Login Type to Cookie. Refer to http://i.imgur.com/rCCjnPs.png
 
+Q8: Downloading tags.xml from Sankaku is too slow, what I can do?
+A7: Sankaku doesn't allow to download the tags json/xml directly, so the application need to
+    parse each individual tag pages, which over 16k pages. To avoid this, the application can
+    reparse the tags again so it can get the actual tag type from the post page itself.
+    To enable it:
+    1. Disable "Use Global Tags.xml" in the settings page.
+    2. The actual tags type will be displayed after the post is added to the download list 
+       (together with image url resolution).
+    3. For batch download, the tags will be reparsed just before the actual download.
+    The disadvantage of this feature:
+    1. Tags autocomplete might not working or show incorrect value, as it depends on local 
+       tags.xml.
+    2. Wrong tags type will be displayed before the image url is resolved, as it depends on 
+       local tags.xml.
+
 Supported Board
 =============================
 Currently only supporting Danbooru-type, Gelbooru-type with Danbooru API,
