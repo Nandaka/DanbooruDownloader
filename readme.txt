@@ -10,8 +10,8 @@ For linux/Mac, you can try to compile the source code using:
 - SharpDevelop (http://www.icsharpcode.net/OpenSource/SD/Download/)
 
 The latest source code can be pulled from https://github.com/Nandaka/DanbooruDownloader.
-The compiled binary can be downloaded at http://nandaka.wordpress.com/tag/danbooru-batch-download/
-The previous version of compiled binary can be downloaded at http://www.mediafire.com/?tglaujm3ylc88
+The compiled binary can be downloaded at http://nandaka.devnull.zone/tag/danbooru-batch-download/
+The previous version of compiled binary can be downloaded at https://github.com/Nandaka/DanbooruDownloader/releases
 
 DanbooruProvider.xml
 =============================
