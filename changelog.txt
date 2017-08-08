@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20170808
+  - Fix Issue #128: Fix Danbooru updating API to block loli/shota for non-gold account.
+
 - DanbooruDownloader20170131
   - Implement #95: Filter images by extension in batch mode (using regex).
   - Fix Issue #90: Cannot select Use Regex in Settings Tab (UI issue).

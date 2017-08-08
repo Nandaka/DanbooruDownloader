@@ -563,14 +563,23 @@ namespace DanbooruDownloader3
                     _clientThumb.CancelAsync();
                     return;
                 }
-
                 _isLoadingThumb = true;
                 tsProgressBar.Visible = true;
                 _loadedThumbnail = i;
                 timGifAnimation.Enabled = true;
                 _clientThumb.Referer = _postsDao.Posts[i].Referer;
-                _clientThumb.DownloadDataAsync(new Uri(_postsDao.Posts[_loadedThumbnail].PreviewUrl), _loadedThumbnail);
-                txtLog.AppendText("[clientThumbnail] Downloading thumbnail from " + _postsDao.Posts[_loadedThumbnail].PreviewUrl + Environment.NewLine);
+
+                if (!String.IsNullOrWhiteSpace(_postsDao.Posts[_loadedThumbnail].PreviewUrl))
+                {
+                    _clientThumb.DownloadDataAsync(new Uri(_postsDao.Posts[_loadedThumbnail].PreviewUrl), _loadedThumbnail);
+                    txtLog.AppendText("[clientThumbnail] Downloading thumbnail from " + _postsDao.Posts[_loadedThumbnail].PreviewUrl + Environment.NewLine);
+                }
+                else
+                {
+                    txtLog.AppendText("[clientThumbnail] No url for thumbnails for post: " + _postsDao.Posts[_loadedThumbnail].Id + Environment.NewLine);
+                    if (_postsDao.Posts.Count > i)
+                        LoadThumbnailLater(++i);
+                }
             }
         }
 
@@ -1241,7 +1250,7 @@ namespace DanbooruDownloader3
                         string html = _clientPost.DownloadString(post.Referer);
                         _clientPost.Timeout = Convert.ToInt32(txtTimeout.Text);
 
-                        if (post.Provider.BoardType == BoardType.Danbooru)
+                        if (post.Provider.BoardType == BoardType.Danbooru && post.Provider.Name.ToLower().Contains("sankaku"))
                         {
                             post = SankakuComplexParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
                             //post.FileUrl = tempPost.FileUrl;
@@ -1329,6 +1338,7 @@ namespace DanbooruDownloader3
                     {
                         //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
                         Thread.Sleep(1000);
+
                     }
                     UpdateLog("DoBatchJob", "Retrying...");
                 }
