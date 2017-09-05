@@ -250,13 +250,14 @@ namespace DanbooruDownloader3
 
         private void TransferDownloadRow(DanbooruPost post)
         {
-            // try to get the file url if empty
-            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
+            // try to get the file url if empty only for sankaku 
+            // Fix issue #130
+            if (string.IsNullOrWhiteSpace(post.FileUrl) &&
+                (post.Status != "deleted" || chkProcessDeletedPost.Checked) &&
+                !string.IsNullOrWhiteSpace(post.Referer) &&
+                post.Provider.Name.ToLower().Contains("sankaku"))
             {
-                if (!string.IsNullOrWhiteSpace(post.Referer))
-                {
-                    ResolveFileUrl(post);
-                }
+                ResolveFileUrl(post);
             }
 
             // reset status
@@ -304,21 +305,30 @@ namespace DanbooruDownloader3
         private void _clientPost_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             DanbooruPost post = (DanbooruPost)e.UserState;
-            //if (post.Provider.Contains("Sankaku Complex"))
             if (post.Provider.BoardType == BoardType.Danbooru)
             {
-                if (e.Error == null)
+                // Fix #130
+                if (e.Error == null && post.Provider.Name.ToLower().Contains("sankaku"))
                 {
                     string html = e.Result;
                     post = SankakuComplexParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
                     UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
                     post.Filename = MakeCompleteFilename(post, post.FileUrl);
-                }
+                }                
                 else
                 {
-                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "SankakuComplexParser " + e.Error.Message;
-                    UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
+                    if (post.Provider.Name.ToLower().Contains("sankaku"))
+                    {
+                        dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "SankakuComplexParser " + e.Error.Message;
+                        UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> " + e.Error.Message, e.Error);
+                    }
+                    else
+                    {
+                        dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "Failed to get Image Url, restricted tags?";
+                        UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> Restricted tags?");
+                    }
+                    
                     post.FileUrl = "";
                 }
             }
