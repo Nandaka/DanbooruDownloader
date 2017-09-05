@@ -336,8 +336,8 @@ namespace DanbooruDownloader3.Engine
 
             if (!String.IsNullOrWhiteSpace(query.Tag))
             {
-                // convert spaces into '_'
-                tmp += query.Tag.Replace(' ', '_');
+                // convert spaces into '+'
+                tmp += query.Tag.Replace(' ', '+');
             }
             if (!String.IsNullOrWhiteSpace(query.Source))
             {
