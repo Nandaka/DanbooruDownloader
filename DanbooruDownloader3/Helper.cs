@@ -597,6 +597,8 @@ namespace DanbooruDownloader3
                 url = hostname + url;
             }
 
+            url = WebUtility.HtmlDecode(url);
+
             return url;
         }
 
