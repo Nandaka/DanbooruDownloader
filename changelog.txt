@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20170906
+  - Fix Issue #130: Fix Danbooru updating API to block loli/shota for non-gold account.
+  - Fix Issue #133: Update Sankaku Parser to unescape the image url.
+  - Update Sankaku Parser to replace space with '+' for building tag query.
+
 - DanbooruDownloader20170808
   - Fix Issue #128: Fix Danbooru updating API to block loli/shota for non-gold account.
 
