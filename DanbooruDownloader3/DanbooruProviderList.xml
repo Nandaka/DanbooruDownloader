@@ -380,4 +380,22 @@
     <BoardType>Shimmie2</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>lolibooru.moe</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
+    <Url>https://lolibooru.moe</Url>
+    <UserName />
+    <Password />
+    <LoginType>Anonymous</LoginType>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash />
+    <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-dd HH:mm:ss</DateTimeFormat>
+  </DanbooruProvider>
 </DanbooruProviderList>
