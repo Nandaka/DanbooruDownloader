@@ -20,5 +20,7 @@ namespace DanbooruDownloader3.Entity
 
         public DanbooruPostDaoOption Option { get; set; }
 
+        public string NextKey { get; set; }
+
     }
 }

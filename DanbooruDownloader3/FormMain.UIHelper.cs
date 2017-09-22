@@ -207,7 +207,7 @@ namespace DanbooruDownloader3
             if (_currProvider == null) return "";
 
             DanbooruSearchParam searchParam = GetSearchParams();
-
+            
             if (chkGenerate.Checked)
             {
                 txtQuery.Text = _currProvider.GetQueryString(searchParam);
@@ -275,6 +275,7 @@ namespace DanbooruDownloader3
             }
 
             searchParam.Option = option;
+            searchParam.NextKey = _lastId;
 
             return searchParam;
         }

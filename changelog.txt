@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20170922
+  - Fix Issue #111: Fix sankaku batch download, append next parameter in the url based on last imageid.
+
 - DanbooruDownloader20170906
   - Fix Issue #130: Fix Danbooru updating API to block loli/shota for non-gold account.
   - Fix Issue #133: Update Sankaku Parser to unescape the image url.

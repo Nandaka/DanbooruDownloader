@@ -53,6 +53,7 @@ namespace DanbooruDownloader3
         private bool _resetLoadedThumbnail = false;
         private int _retry;
         private int _delay;
+        private string _lastId; // Issue #111, used in main tab.
 
         public const int MAX_FILENAME_LENGTH = 255;
 
@@ -511,6 +512,7 @@ namespace DanbooruDownloader3
                         foreach (DanbooruPost po in postDao.Posts)
                         {
                             _postsDao.Posts.Add(po);
+                            _lastId = po.Id;
                         }
                         dgvList.DataSource = _postsDao.Posts;
 
@@ -759,6 +761,9 @@ namespace DanbooruDownloader3
             UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
             UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
             ExtendedWebClient _clientPost = new ExtendedWebClient();
+
+            string lastId = "";
+
             if (batchJob != null)
             {
                 UpdateStatus2("Starting Batch Job");
@@ -816,6 +821,7 @@ namespace DanbooruDownloader3
                             }
 
                             DanbooruSearchParam searchParam = GetSearchParamsFromJob(batchJob[i], currPage);
+                            searchParam.NextKey = lastId;
 
                             url = batchJob[i].Provider.GetQueryUrl(searchParam);
 
@@ -892,6 +898,7 @@ namespace DanbooruDownloader3
                                         }
 
                                         bool download = ProcessBatchJobPost(batchJob[i], del, _clientPost, ref imgCount, ref skipCount, post);
+                                        lastId = post.Id;
 
                                         // clean up for post tag
                                         var index = d.Posts.IndexOf(post);
@@ -1507,6 +1514,7 @@ namespace DanbooruDownloader3
 
         private void btnGet_Click(object sender, EventArgs e)
         {
+            _lastId = ""; // reset the last id upon clicking get button.
             doGetList();
         }
 

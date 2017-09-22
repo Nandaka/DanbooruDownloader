@@ -378,6 +378,16 @@ namespace DanbooruDownloader3.Engine
                 tmp += "page=" + query.Page.Value.ToString();
             }
 
+            // next key
+            if (query.Page > 50)
+            {
+                if (!string.IsNullOrWhiteSpace(tmp))
+                {
+                    tmp += "&";
+                }
+                tmp += "next=" + query.NextKey;
+            }
+            
             // remove limit counter as it is not useful for sankaku
             //// limit
             //if (query.Limit.HasValue)
@@ -396,6 +406,7 @@ namespace DanbooruDownloader3.Engine
         public int GetNextPage()
         {
             if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+
             return SearchParam.Page.Value + 1;
         }
 

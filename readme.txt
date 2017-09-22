@@ -151,7 +151,7 @@ A7: Follow this step:
     5. Set Login Type to Cookie. Refer to http://i.imgur.com/rCCjnPs.png
 
 Q8: Downloading tags.xml from Sankaku is too slow, what I can do?
-A7: Sankaku doesn't allow to download the tags json/xml directly, so the application need to
+A8: Sankaku doesn't allow to download the tags json/xml directly, so the application need to
     parse each individual tag pages, which over 16k pages. To avoid this, the application can
     reparse the tags again so it can get the actual tag type from the post page itself.
     To enable it:
@@ -164,6 +164,10 @@ A7: Sankaku doesn't allow to download the tags json/xml directly, so the applica
        tags.xml.
     2. Wrong tags type will be displayed before the image url is resolved, as it depends on 
        local tags.xml.
+
+Q8: Sankaku only download maximum 500 images?
+A8: You need to supply the login information, see Q7.
+
 
 Supported Board
 =============================
