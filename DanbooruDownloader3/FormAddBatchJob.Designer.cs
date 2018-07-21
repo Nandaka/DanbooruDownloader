@@ -240,6 +240,7 @@
             // 
             // chkIsExclude
             // 
+            this.chkIsExclude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIsExclude.AutoSize = true;
             this.chkIsExclude.Location = new System.Drawing.Point(353, 233);
             this.chkIsExclude.Margin = new System.Windows.Forms.Padding(4);

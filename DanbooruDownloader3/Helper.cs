@@ -121,7 +121,6 @@ namespace DanbooruDownloader3
             // copy the tags entity to be grouped.
             var groupedTags = post.TagsEntity;
 
-
             // custom sort to prioritize some tags based on file definition
             // Issue #46 and #81
             // regex support
@@ -209,7 +208,7 @@ namespace DanbooruDownloader3
             var faultStr = Helper.SanitizeFilename(faults.Trim());
             filename = filename.Replace("%faults%", faultStr);
 
-            // general 
+            // general
             var general = FilterTags(post,
                                     groupedTags,
                                     DanbooruTagType.General,
@@ -258,13 +257,12 @@ namespace DanbooruDownloader3
                         Count = -1,
                         Type = DanbooruTagType.Unknown
                     };
-                    
+
                     list.Add(tag);
                 };
             }
 
             return list;
-
         }
 
         private static List<DanbooruTag> RemoveIgnoredTags(DanbooruFilenameFormat format, List<DanbooruTag> groupedTags)
@@ -352,7 +350,35 @@ namespace DanbooruDownloader3
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(tagStr)) tagStr = missingTagReplacement;
+            if (string.IsNullOrWhiteSpace(tagStr))
+            {
+                switch (tagType)
+                {
+                    case DanbooruTagType.Artist:
+                        tagStr = Properties.Settings.Default.tagNoArtistValue;
+                        break;
+
+                    case DanbooruTagType.Character:
+                        tagStr = Properties.Settings.Default.tagNoCharacterValue;
+                        break;
+
+                    case DanbooruTagType.Circle:
+                        tagStr = Properties.Settings.Default.tagNoCircleValue;
+                        break;
+
+                    case DanbooruTagType.Copyright:
+                        tagStr = Properties.Settings.Default.tagNoCopyrightValue;
+                        break;
+
+                    case DanbooruTagType.Faults:
+                        tagStr = Properties.Settings.Default.tagNoFaultValue;
+                        break;
+
+                    default:
+                        tagStr = missingTagReplacement;
+                        break;
+                }
+            }
             return tagStr;
         }
 
@@ -626,16 +652,23 @@ namespace DanbooruDownloader3
         public static List<Cookie> ParseCookie(string cookiesStr, string url)
         {
             var cookies = new List<Cookie>();
-            var temp = cookiesStr.Split(';');
-            foreach (var cookieStr in temp)
+            try
             {
-                var temp2 = cookieStr.Split('=');
-                var name = temp2[0].Trim();
-                var value = temp2[1];
-                var path = "/";
-                Uri uri = new Uri(url);
-                var c = new Cookie(name, value, path, uri.Authority);
-                cookies.Add(c);
+                var temp = cookiesStr.Split(';');
+                foreach (var cookieStr in temp)
+                {
+                    var temp2 = cookieStr.Split('=');
+                    var name = temp2[0].Trim();
+                    var value = temp2[1];
+                    var path = "/";
+                    Uri uri = new Uri(url);
+                    var c = new Cookie(name, value, path, uri.Authority);
+                    cookies.Add(c);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error(ex.Message + "\r\ncookie: " + cookiesStr, ex);
             }
             return cookies;
         }

@@ -746,60 +746,60 @@ namespace DanbooruDownloader3.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Multiple Artist")]
-        public string tagNoArtistValue {
+        public string tagOverArtistValue {
             get {
-                return ((string)(this["tagNoArtistValue"]));
+                return ((string)(this["tagOverArtistValue"]));
             }
             set {
-                this["tagNoArtistValue"] = value;
+                this["tagOverArtistValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Multiple Copyright")]
-        public string tagNoCopyrightValue {
+        public string tagOverCopyrightValue {
             get {
-                return ((string)(this["tagNoCopyrightValue"]));
+                return ((string)(this["tagOverCopyrightValue"]));
             }
             set {
-                this["tagNoCopyrightValue"] = value;
+                this["tagOverCopyrightValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Multiple Character")]
-        public string tagNoCharaValue {
+        public string tagOverCharaValue {
             get {
-                return ((string)(this["tagNoCharaValue"]));
+                return ((string)(this["tagOverCharaValue"]));
             }
             set {
-                this["tagNoCharaValue"] = value;
+                this["tagOverCharaValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Multiple Circle")]
-        public string tagNoCircleValue {
+        public string tagOverCircleValue {
             get {
-                return ((string)(this["tagNoCircleValue"]));
+                return ((string)(this["tagOverCircleValue"]));
             }
             set {
-                this["tagNoCircleValue"] = value;
+                this["tagOverCircleValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Multiple Fault")]
-        public string tagNoFaultValue {
+        public string tagOverFaultValue {
             get {
-                return ((string)(this["tagNoFaultValue"]));
+                return ((string)(this["tagOverFaultValue"]));
             }
             set {
-                this["tagNoFaultValue"] = value;
+                this["tagOverFaultValue"] = value;
             }
         }
         
@@ -873,6 +873,66 @@ namespace DanbooruDownloader3.Properties {
             }
             set {
                 this["UserAgent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Artist")]
+        public string tagNoArtistValue {
+            get {
+                return ((string)(this["tagNoArtistValue"]));
+            }
+            set {
+                this["tagNoArtistValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Copyright")]
+        public string tagNoCopyrightValue {
+            get {
+                return ((string)(this["tagNoCopyrightValue"]));
+            }
+            set {
+                this["tagNoCopyrightValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Character")]
+        public string tagNoCharacterValue {
+            get {
+                return ((string)(this["tagNoCharacterValue"]));
+            }
+            set {
+                this["tagNoCharacterValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Circle")]
+        public string tagNoCircleValue {
+            get {
+                return ((string)(this["tagNoCircleValue"]));
+            }
+            set {
+                this["tagNoCircleValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No Fault")]
+        public string tagNoFaultValue {
+            get {
+                return ((string)(this["tagNoFaultValue"]));
+            }
+            set {
+                this["tagNoFaultValue"] = value;
             }
         }
     }
