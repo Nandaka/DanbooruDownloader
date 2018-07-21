@@ -12,8 +12,12 @@ namespace DanbooruDownloader3.CustomControl
     public class ExtendedWebClient : WebClient
     {
         #region ctor
+
         public ExtendedWebClient(int timeout = -1, CookieContainer cookieJar = null, String userAgent = null)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             if (timeout > 0)
             {
                 this.Timeout = timeout;
@@ -37,9 +41,11 @@ namespace DanbooruDownloader3.CustomControl
                 this.UserAgent = userAgent;
             }
         }
-        #endregion
+
+        #endregion ctor
 
         private static IWebProxy globalProxy;
+
         public static IWebProxy GlobalProxy
         {
             get
@@ -66,6 +72,7 @@ namespace DanbooruDownloader3.CustomControl
         }
 
         private int timeout;
+
         public int Timeout
         {
             get { return this.timeout; }
@@ -77,6 +84,7 @@ namespace DanbooruDownloader3.CustomControl
         }
 
         private static bool enableCookie;
+
         public static bool EnableCookie
         {
             get
@@ -96,6 +104,7 @@ namespace DanbooruDownloader3.CustomControl
         public static bool EnableCompression { get; set; }
 
         private static string _acceptLanguage;
+
         public static string AcceptLanguage
         {
             get
@@ -107,6 +116,7 @@ namespace DanbooruDownloader3.CustomControl
         }
 
         private static CookieContainer cookieJar;
+
         public static CookieContainer CookieJar
         {
             get
@@ -121,6 +131,7 @@ namespace DanbooruDownloader3.CustomControl
         }
 
         private string referer;
+
         public string Referer
         {
             get { return this.referer; }
@@ -139,6 +150,7 @@ namespace DanbooruDownloader3.CustomControl
         }
 
         private string userAgent;
+
         public string UserAgent
         {
             get
