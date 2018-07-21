@@ -140,9 +140,6 @@
     <Setting Name="delay" Type="System.String" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
-    <Setting Name="UserAgent" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36</Value>
-    </Setting>
     <Setting Name="enableCookie" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -214,6 +211,9 @@
     </Setting>
     <Setting Name="filterExtensions" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserAgent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36</Value>
     </Setting>
   </Settings>
 </SettingsFile>

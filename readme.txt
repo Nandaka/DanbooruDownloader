@@ -1,7 +1,7 @@
 ﻿Requirement:
 =============================
-- Windows XP or later.
-- .Net Framework 4.0
+- Windows 7 or later (Vista might be able to run, but no promise).
+- .Net Framework 4.5
 - log4net 1.2.11 (newkey)
 - HtmlAgilityPack 
 
