@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20180721
+  - Implement #168: tag replacement if no valid tag.
+  - Fix Issue #127: update user agent.
+  - Fix Issue #172: Upgrade project to .Net 4.5 due to security reason (TLS1.2 support).
+  - Update provider list, remove dead board and switch to https if possible.
+
 - DanbooruDownloader20170922
   - Fix Issue #111: Fix sankaku batch download, append next parameter in the url based on last imageid.
 
