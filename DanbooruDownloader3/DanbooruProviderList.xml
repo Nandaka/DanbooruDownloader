@@ -8,16 +8,15 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
-    <Url>http://danbooru.donmai.us</Url>
+    <Url>https://danbooru.donmai.us</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 2016-10-07 19:00:29 -->
-    <DateTimeFormat>yyyy-MM-dd HH:mm:ss</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-dd HH:mm:ss</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex (HTTPS)</Name>
@@ -28,15 +27,14 @@
     <QueryStringJson />
     <QueryStringHtml>/?%_query%</QueryStringHtml>
     <Url>https://chan.sankakucomplex.com</Url>
-    <UserName>login=required; pass_hash=required</UserName>
+    <UserName>***REMOVED***</UserName>
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 2016-10-07 12:06 -->
-    <DateTimeFormat>yyyy-MM-dd HH:mm</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-dd HH:mm</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Sankaku Complex (Idol)</Name>
@@ -52,10 +50,9 @@
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 2016-10-07 12:06 -->
-    <DateTimeFormat>yyyy-MM-dd HH:mm</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-dd HH:mm</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>Konachan</Name>
@@ -65,16 +62,15 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml />
-    <Url>http://konachan.com</Url>
+    <Url>https://konachan.com</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 1475861189 -->
-    <DateTimeFormat>unix-timestamp</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>unix-timestamp</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>yande.re (oreno.imouto.org)</Name>
@@ -90,10 +86,9 @@
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 1475861189 -->
-    <DateTimeFormat>unix-timestamp</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>unix-timestamp</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>gelbooru.com</Name>
@@ -103,16 +98,15 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://gelbooru.com</Url>
-    <UserName>required=see.readme.txt</UserName>
+    <Url>https://gelbooru.com</Url>
+    <UserName></UserName>
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- Sun Sep 11 06:53:18 -0500 2016 -->
-    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>safebooru.org</Name>
@@ -122,35 +116,33 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://safebooru.org</Url>
+    <Url>https://safebooru.org</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- Thu Jun 16 11:35:06 +0200 2016 -->
-    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>TheDoujin.com</Name>
     <DefaultLimit>20</DefaultLimit>
     <HardLimit>100</HardLimit>
     <Preferred>Xml</Preferred>
-    <QueryStringXml>/index.php/api/categories?tags=%_query%</QueryStringXml>
+    <QueryStringXml>/index.php/api/categories?%_query%</QueryStringXml>
     <QueryStringJson />
-    <QueryStringHtml />
-    <Url>http://thedoujin.com</Url>
+    <QueryStringHtml>/index.php/api/categories?json=1&amp;%_query%</QueryStringHtml>
+    <Url>https://thedoujin.com</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- not available -->
-    <DateTimeFormat>not-available</DateTimeFormat>
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>not-available</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>3dbooru</Name>
@@ -166,29 +158,9 @@
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- Wed Oct 05 07:45:16 -0700 2016 -->
-    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>vectorbooru (ichijou.org)</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
-    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
-    <QueryStringHtml />
-    <Url>http://ichijou.org</Url>
-    <UserName>required=see.readme.txt</UserName>
-    <Password />
-    <LoginType>Cookie</LoginType>
-    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash />
-    <!-- Wed Oct 05 07:45:16 -0700 2016 -->
     <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
-    <BoardType>Danbooru</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>e621 (Furry)</Name>
@@ -198,16 +170,15 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml />
-    <Url>http://e621.net</Url>
+    <Url>https://e621.net</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- 2016-10-07T18:10:11+00:00 -->
-    <DateTimeFormat>yyyy-MM-ddTHH:mm:sszzz</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-ddTHH:mm:sszzz</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>rule34.xxx</Name>
@@ -217,35 +188,15 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://rule34.xxx</Url>
+    <Url>https://rule34.xxx</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- Sep 21 20:10:07 +0200 2016 -->
-    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>dollbooru</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/rss/images/%_query%</QueryStringXml>
-    <QueryStringJson />
-    <QueryStringHtml />
-    <Url>http://www.dollbooru.org</Url>
-    <UserName />
-    <Password />
-    <LoginType>Anonymous</LoginType>
-    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash />
-    <!-- Sun, 18 Sep 2016 13:54:08 +0000 -->
-    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
-    <BoardType>Shimmie2</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>4chanhouse</Name>
@@ -255,54 +206,15 @@
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://shimmie.4chanhouse.org</Url>
+    <Url>https://shimmie.4chanhouse.org</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
-    <!-- Fri, 07 Oct 2016 04:46:30 CDT -->
-    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
     <BoardType>Shimmie2</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>fairygarden</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>100</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
-    <QueryStringJson />
-    <QueryStringHtml />
-    <Url>http://www.tfgmush.org/shimmie2</Url>
-    <UserName />
-    <Password />
-    <LoginType>Anonymous</LoginType>
-    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
-    <PasswordHash />
-    <!-- Mon, 12 Mar 2012 16:15:32 MDT -->
     <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
-    <BoardType>Shimmie2</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
-  </DanbooruProvider>
-  <DanbooruProvider>
-    <Name>megabooru</Name>
-    <DefaultLimit>20</DefaultLimit>
-    <HardLimit>20</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
-    <QueryStringJson />
-    <QueryStringHtml />
-    <Url>http://megabooru.com</Url>
-    <UserName />
-    <Password />
-    <LoginType>Anonymous</LoginType>
-    <PasswordSalt />
-    <PasswordHash />
-    <!-- Wed, 21 Sep 2016 09:13:51 -0400 -->
-    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
-    <BoardType>Shimmie2</BoardType>
-    <TagDownloadUseLoop>false</TagDownloadUseLoop>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>hypnohub.net</Name>
@@ -312,16 +224,15 @@
     <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
-    <Url>http://hypnohub.net</Url>
+    <Url>https://hypnohub.net</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
-    <!-- 1475864579 -->
-    <DateTimeFormat>unix-timestamp</DateTimeFormat>
     <BoardType>Danbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>unix-timestamp</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>tbib.org</Name>
@@ -331,16 +242,15 @@
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
-    <Url>http://tbib.org</Url>
+    <Url>https://tbib.org</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
-    <!-- Sun Sep 25 07:26:04 +0200 2016 -->
-    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
     <BoardType>Gelbooru</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>rule34.paheal.net</Name>
@@ -350,16 +260,15 @@
     <QueryStringXml>/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://rule34.paheal.net</Url>
+    <Url>https://rule34.paheal.net</Url>
     <UserName>ui-sidebar-hidden=; ui-tnc-agreed=true; ui-image-zoom=full</UserName>
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt />
     <PasswordHash />
-    <!-- Fri, 07 Oct 2016 17:36:59 -0000 -->
-    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
     <BoardType>Shimmie2</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>rule34hentai.net</Name>
@@ -369,16 +278,15 @@
     <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
     <QueryStringJson />
     <QueryStringHtml />
-    <Url>http://rule34hentai.net</Url>
+    <Url>https://rule34hentai.net</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
     <PasswordSalt />
     <PasswordHash />
-    <!-- Fri, 07 Oct 2016 18:14:21 +0000 -->
-    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
     <BoardType>Shimmie2</BoardType>
     <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd, dd MMM yyyy HH:mm:ss zzz</DateTimeFormat>
   </DanbooruProvider>
   <DanbooruProvider>
     <Name>lolibooru.moe</Name>
@@ -389,6 +297,24 @@
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>https://lolibooru.moe</Url>
+    <UserName />
+    <Password />
+    <LoginType>Anonymous</LoginType>
+    <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
+    <PasswordHash />
+    <BoardType>Danbooru</BoardType>
+    <TagDownloadUseLoop>true</TagDownloadUseLoop>
+    <DateTimeFormat>yyyy-MM-dd HH:mm:ss</DateTimeFormat>
+  </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>hijiribe</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>1000</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/post/index.xml?%_query%</QueryStringXml>
+    <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
+    <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
+    <Url>https://hijiribe.donmai.us</Url>
     <UserName />
     <Password />
     <LoginType>Anonymous</LoginType>
