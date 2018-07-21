@@ -27,7 +27,7 @@
     <QueryStringJson />
     <QueryStringHtml>/?%_query%</QueryStringHtml>
     <Url>https://chan.sankakucomplex.com</Url>
-    <UserName>***REMOVED***</UserName>
+    <UserName></UserName>
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
