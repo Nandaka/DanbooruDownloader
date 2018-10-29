@@ -129,30 +129,28 @@ namespace DanbooruDownloader3.Engine
         private static void ReparseTags(DanbooruPost post, HtmlDocument doc)
         {
             post.TagsEntity.Clear();
-            var tagsElement = doc.DocumentNode.SelectNodes("//ul[@id='tag-sidebar']/li");
-            foreach (var tag in tagsElement)
+            var tags = doc.DocumentNode.SelectNodes("//ul[@id='tag-sidebar']/li");
+            foreach (var tag in tags)
             {
-                HtmlDocument tagDoc = new HtmlDocument();
-                tagDoc.LoadHtml(tag.OuterHtml);
-
                 var tagEntity = new DanbooruTag();
-                var el = tagDoc.DocumentNode.SelectSingleNode("//li");
-                var cls = el.Attributes["class"].Value;
+                var cls = tag.Attributes["class"].Value;    // Fix Issue #146
                 switch (cls)
                 {
                     case "tag-type-idol":
                         // idol complex
                         tagEntity.Type = DanbooruTagType.Artist;
                         break;
+
                     case "tag-type-artist":
                         // sankaku
                         tagEntity.Type = DanbooruTagType.Artist;
                         break;
-                    
+
                     case "tag-type-photo_set":
                         // idol complex: usually album name
                         tagEntity.Type = DanbooruTagType.Circle;
                         break;
+
                     case "tag-type-studio":
                         // sankaku: circlename
                         tagEntity.Type = DanbooruTagType.Circle;
@@ -162,18 +160,22 @@ namespace DanbooruDownloader3.Engine
                         // both
                         tagEntity.Type = DanbooruTagType.Faults;
                         break;
+
                     case "tag-type-medium":
                         // both
                         tagEntity.Type = DanbooruTagType.Faults;
                         break;
+
                     case "tag-type-general":
                         // both
                         tagEntity.Type = DanbooruTagType.General;
                         break;
+
                     case "tag-type-copyright":
                         // both
                         tagEntity.Type = DanbooruTagType.Copyright;
                         break;
+
                     case "tag-type-character":
                         // both
                         tagEntity.Type = DanbooruTagType.Character;
@@ -183,11 +185,12 @@ namespace DanbooruDownloader3.Engine
                         tagEntity.Type = DanbooruTagType.Unknown;
                         break;
                 }
-                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tagDoc.DocumentNode.SelectSingleNode("//li/a").InnerText);
-                var countStr = tagDoc.DocumentNode.SelectSingleNode("//li//span[@class='post-count']").InnerText.Trim();
+                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode("//ul[@id='tag-sidebar']/li/a").InnerText);
+                var countStr = tag.SelectSingleNode("//ul[@id='tag-sidebar']/li//span[@class='post-count']").InnerText.Trim();
                 tagEntity.Count = Int32.Parse(countStr);
 
                 post.TagsEntity.Add(tagEntity);
+                tag.Remove();
             }
             post.TagsEntity = post.TagsEntity.OrderByDescending(x => x.Type).ThenBy(x => x.Name).ToList();
         }
@@ -387,7 +390,7 @@ namespace DanbooruDownloader3.Engine
                 }
                 tmp += "next=" + query.NextKey;
             }
-            
+
             // remove limit counter as it is not useful for sankaku
             //// limit
             //if (query.Limit.HasValue)

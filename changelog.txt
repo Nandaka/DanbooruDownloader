@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20181029
+  - Fix Issue #146: Reduce memory usage when reparsing Sankaku post.
+
 - DanbooruDownloader20180721
   - Implement #168: tag replacement if no valid tag.
   - Fix Issue #127: update user agent.
