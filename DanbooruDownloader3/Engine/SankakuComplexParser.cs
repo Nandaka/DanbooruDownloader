@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 
 namespace DanbooruDownloader3.Engine
@@ -289,7 +290,36 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
 
-                TotalPost = posts.Count;
+                var siteTitle = doc.DocumentNode.SelectSingleNode("//h1[@id='site-title']");
+                if (siteTitle != null)
+                {
+                    var strTitle = siteTitle.InnerText.Split('\n').First();
+                    var strCount = "-1";
+
+                    if (!Regex.IsMatch(strTitle, @".* = \d+"))
+                    {
+                        // single tag
+                        // Sankaku Channel/ginhaha (1,198)
+                        strCount = strTitle.Substring(strTitle.LastIndexOf("("));
+                    }
+                    else
+                    {
+                        // compound tag
+                        // Sankaku Channel/= = (13,957) + rating:e = 585
+                        strCount = strTitle.Split('=').Last().Trim();
+                    }
+                    strCount = strCount.Replace("(", "");
+                    strCount = strCount.Replace(",", "");
+                    strCount = strCount.Replace(".", "");
+                    strCount = strCount.Replace(")", "");
+                    Int32.TryParse(strCount, out int count);
+                    TotalPost = count;
+                }
+                else
+                {
+                    TotalPost = posts.Count;
+                }
+
                 if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
                 Offset = TotalPost * SearchParam.Page;
                 return posts;
@@ -363,6 +393,10 @@ namespace DanbooruDownloader3.Engine
                 if (!string.IsNullOrWhiteSpace(tmp))
                 {
                     tmp += "+";
+                }
+                if (query.IsNotRating)
+                {
+                    tmp += "-";
                 }
                 tmp += query.Rating;
             }

@@ -66,6 +66,8 @@ namespace DanbooruDownloader3.DAO
                         {
                             SankakuComplexParser parser = new SankakuComplexParser();
                             posts = parser.Parse(rawData, param);
+                            if (parser.TotalPost.HasValue)
+                                postCount = parser.TotalPost.Value;
                         }
                         else if (option.Provider.BoardType == BoardType.Gelbooru)
                         {
@@ -271,7 +273,8 @@ namespace DanbooruDownloader3.DAO
                     case "source": post.Source = reader.Value; break;
                     case "creator_id": post.CreatorId = reader.Value; break;
                     case "file_url": post.FileUrl = AppendHttp(reader.Value); break;
-                    case "width": post.Width = -1;
+                    case "width":
+                        post.Width = -1;
                         try
                         {
                             post.Width = Int32.Parse(reader.Value);
@@ -284,7 +287,8 @@ namespace DanbooruDownloader3.DAO
                         }
                         break;
 
-                    case "height": post.Height = -1;
+                    case "height":
+                        post.Height = -1;
                         try
                         {
                             post.Height = Int32.Parse(reader.Value);
@@ -313,6 +317,7 @@ namespace DanbooruDownloader3.DAO
                             post.HasChildren = Convert.ToBoolean(reader.Value);
                         }
                         break;
+
                     case "created_at":
                         post.CreatedAt = reader.Value;
                         post.CreatedAtDateTime = ParseDateTime(post.CreatedAt, Option.Provider);
@@ -320,7 +325,8 @@ namespace DanbooruDownloader3.DAO
 
                     case "md5": post.MD5 = reader.Value; break;
                     case "preview_url": post.PreviewUrl = AppendHttp(reader.Value); break;
-                    case "preview_width": post.PreviewWidth = -1;
+                    case "preview_width":
+                        post.PreviewWidth = -1;
                         try
                         {
                             post.PreviewWidth = Int32.Parse(reader.Value);
@@ -333,7 +339,8 @@ namespace DanbooruDownloader3.DAO
                         }
                         break;
 
-                    case "preview_height": post.PreviewHeight = -1;
+                    case "preview_height":
+                        post.PreviewHeight = -1;
                         try
                         {
                             post.PreviewHeight = Int32.Parse(reader.Value);
@@ -348,7 +355,8 @@ namespace DanbooruDownloader3.DAO
 
                     case "parent_id": post.ParentId = reader.Value; break;
                     case "sample_url": post.SampleUrl = AppendHttp(reader.Value); break;
-                    case "sample_width": post.SampleWidth = -1;
+                    case "sample_width":
+                        post.SampleWidth = -1;
                         try
                         {
                             post.SampleWidth = Int32.Parse(reader.Value);
@@ -361,7 +369,8 @@ namespace DanbooruDownloader3.DAO
                         }
                         break;
 
-                    case "sample_height": post.SampleHeight = -1;
+                    case "sample_height":
+                        post.SampleHeight = -1;
                         try
                         {
                             post.SampleHeight = Int32.Parse(reader.Value);
@@ -375,7 +384,8 @@ namespace DanbooruDownloader3.DAO
                         break;
 
                     case "jpeg_url": post.JpegUrl = AppendHttp(reader.Value); break;
-                    case "jpeg_width": post.JpegWidth = -1;
+                    case "jpeg_width":
+                        post.JpegWidth = -1;
                         try
                         {
                             post.JpegWidth = Int32.Parse(reader.Value);
@@ -388,7 +398,8 @@ namespace DanbooruDownloader3.DAO
                         }
                         break;
 
-                    case "jpeg_height": post.JpegHeight = -1;
+                    case "jpeg_height":
+                        post.JpegHeight = -1;
                         try
                         {
                             post.JpegHeight = Int32.Parse(reader.Value);

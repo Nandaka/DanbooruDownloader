@@ -26,6 +26,7 @@ namespace DanbooruDownloader3
     public partial class FormMain : Form
     {
         #region property
+
         private static XmlSerializer postSerializer = new XmlSerializer(typeof(BindingList<DanbooruPost>));
         private static XmlSerializer jobSerializer = new XmlSerializer(typeof(BindingList<DanbooruBatchJob>));
 
@@ -251,7 +252,7 @@ namespace DanbooruDownloader3
 
         private void TransferDownloadRow(DanbooruPost post)
         {
-            // try to get the file url if empty only for sankaku 
+            // try to get the file url if empty only for sankaku
             // Fix issue #130
             if (string.IsNullOrWhiteSpace(post.FileUrl) &&
                 (post.Status != "deleted" || chkProcessDeletedPost.Checked) &&
@@ -316,7 +317,7 @@ namespace DanbooruDownloader3
                     UpdateLog("SankakuComplexParser", "Resolved to file_url: " + post.FileUrl);
                     dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
                     post.Filename = MakeCompleteFilename(post, post.FileUrl);
-                }                
+                }
                 else
                 {
                     if (post.Provider.Name.ToLower().Contains("sankaku"))
@@ -329,7 +330,7 @@ namespace DanbooruDownloader3
                         dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "Failed to get Image Url, restricted tags?";
                         UpdateLog("SankakuComplexParser", "Unable to get file_url for: " + post.Referer + " ==> Restricted tags?");
                     }
-                    
+
                     post.FileUrl = "";
                 }
             }
@@ -838,6 +839,7 @@ namespace DanbooruDownloader3
                                 d = GetBatchImageList(url, query, batchJob[i]);
 
                                 #endregion Get and load the image list
+
                                 if (d == null)
                                 {
                                     // Cannot get list.
@@ -873,7 +875,7 @@ namespace DanbooruDownloader3
                                     batchJob[i].Total = d.PostCount;
                                     batchJob[i].CurrentPageTotal = d.Posts.Count;
                                     batchJob[i].CurrentPageOffset = d.Offset;
-                                    
+
                                     postCount = d.Posts.Count;
 
                                     foreach (DanbooruPost post in d.Posts)
@@ -937,6 +939,7 @@ namespace DanbooruDownloader3
                             catch (Exception ex)
                             {
                                 #region batch job exception
+
                                 string message = ex.Message;
                                 string responseMessage = "";
                                 if (ex.InnerException != null)
@@ -999,7 +1002,8 @@ namespace DanbooruDownloader3
                                     MessageBox.Show(message, "Batch Download");
                                     break;
                                 }
-                                #endregion
+
+                                #endregion batch job exception
                             }
                             finally
                             {
@@ -1120,7 +1124,7 @@ namespace DanbooruDownloader3
                 {
                     // download if match
                     tempResult = Regex.IsMatch(ext, currentJob.Filter);
-                    if(!tempResult)
+                    if (!tempResult)
                         UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} doesn't match with filter: {1} in url {2}.", ext, currentJob.Filter, targetUrl));
                 }
                 download = tempResult;
@@ -1160,6 +1164,7 @@ namespace DanbooruDownloader3
             }
 
             #region download
+
 #if DEBUG
             download = false;
 #endif
@@ -1177,6 +1182,7 @@ namespace DanbooruDownloader3
             currentJob.Downloaded++;
             currentJob.ProcessedTotal++;
 #endif
+
             #endregion download
 
             return download;
@@ -1355,7 +1361,6 @@ namespace DanbooruDownloader3
                     {
                         //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
                         Thread.Sleep(1000);
-
                     }
                     UpdateLog("DoBatchJob", "Retrying...");
                 }
@@ -1823,7 +1828,7 @@ namespace DanbooruDownloader3
         private void btnSaveDownloadList_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-            {                
+            {
                 //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
                 StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
 
@@ -2160,16 +2165,20 @@ namespace DanbooruDownloader3
             string queryStr = "";
             switch (_currProvider.Preferred)
             {
-                case PreferredMethod.Html: queryStr = _currProvider.QueryStringHtml;
+                case PreferredMethod.Html:
+                    queryStr = _currProvider.QueryStringHtml;
                     break;
 
-                case PreferredMethod.Json: queryStr = _currProvider.QueryStringJson;
+                case PreferredMethod.Json:
+                    queryStr = _currProvider.QueryStringJson;
                     break;
 
-                case PreferredMethod.Xml: queryStr = _currProvider.QueryStringXml;
+                case PreferredMethod.Xml:
+                    queryStr = _currProvider.QueryStringXml;
                     break;
 
-                default: queryStr = "Invalid Prefered Method!";
+                default:
+                    queryStr = "Invalid Prefered Method!";
                     break;
             }
             tsStatus.Text = "Query URL: " + _currProvider.Url + queryStr.Replace("%_query%", txtQuery.Text);
@@ -2220,8 +2229,8 @@ namespace DanbooruDownloader3
         private void dgvDownload_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == dgvDownload.Columns["colUrl2"].Index//||
-                //e.ColumnIndex == dgvDownload.Columns["colSourceUrl"].Index ||
-                //e.ColumnIndex == dgvDownload.Columns["colReferer"].Index
+                                                                     //e.ColumnIndex == dgvDownload.Columns["colSourceUrl"].Index ||
+                                                                     //e.ColumnIndex == dgvDownload.Columns["colReferer"].Index
                  )
             {
                 if (e.RowIndex == -1) return;
@@ -2647,7 +2656,7 @@ namespace DanbooruDownloader3
         private void btnSaveBatchList_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-            {                
+            {
                 //XmlIncludeAttribute include = new XmlIncludeAttribute(typeof(Image));
                 StreamWriter writer = new StreamWriter(saveFileDialog2.FileName);
 
@@ -2744,7 +2753,7 @@ namespace DanbooruDownloader3
         /// <param name="url"></param>
         /// <param name="filenameFormat"></param>
         /// <returns></returns>
-        private string MakeCompleteFilename(DanbooruPost post, string url, string filenameFormat=null)
+        private string MakeCompleteFilename(DanbooruPost post, string url, string filenameFormat = null)
         {
             if (String.IsNullOrWhiteSpace(filenameFormat))
                 filenameFormat = txtFilenameFormat.Text;
