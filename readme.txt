@@ -166,7 +166,7 @@ A8: Sankaku doesn't allow to download the tags json/xml directly, so the applica
     2. Wrong tags type will be displayed before the image url is resolved, as it depends on 
        local tags.xml.
 
-Q8: Sankaku only download maximum 500 images?
+Q8: Sankaku only download maximum 500 images? Why the application doesn't download all images? etc.
 A8: You need to supply the login information, see Q7.
 
 
