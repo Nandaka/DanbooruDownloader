@@ -58,6 +58,12 @@ namespace DanbooruDownloader3.Engine
                         break;
                     }
                 }
+                
+                // Some Gelbooru sites (*.booru.org) serve full resolution in the img tag
+                if (file_url == "")
+                {
+                    file_url = sample_url;
+                }
             }
 
             post.FileUrl = file_url;
@@ -68,15 +74,19 @@ namespace DanbooruDownloader3.Engine
             // parse datetime
             // TODO: untested
             var statsLIs = doc.DocumentNode.SelectNodes("//div[@id='stats']//li");
-            foreach (var item in statsLIs)
+            if (statsLIs != null)
             {
-                if (item.InnerHtml.StartsWith("Posted: "))
+                foreach (var item in statsLIs)
                 {
-                    post.CreatedAt = System.Text.RegularExpressions.Regex.Match(item.InnerHtml, "Posted: (.*)<").Value;
-                    post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
-                    break;
+                    if (item.InnerHtml.StartsWith("Posted: "))
+                    {
+                        post.CreatedAt = System.Text.RegularExpressions.Regex.Match(item.InnerHtml, "Posted: (.*)<").Value;
+                        post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
+                        break;
+                    }
                 }
             }
+
             return post;
         }
 
