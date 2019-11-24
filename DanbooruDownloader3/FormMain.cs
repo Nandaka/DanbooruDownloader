@@ -295,6 +295,7 @@ namespace DanbooruDownloader3
                 var post = resolveQueue.Dequeue();
                 UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
                 ExtendedWebClient _clientPost = new ExtendedWebClient();
+                _clientPost.Encoding = System.Text.Encoding.UTF8;
                 _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
                 _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
             }
@@ -1259,6 +1260,7 @@ namespace DanbooruDownloader3
         /// <param name="post"></param>
         private void ResolveFileUrlBatch(ExtendedWebClient _clientPost, DanbooruPost post)
         {
+            _clientPost.Encoding = System.Text.Encoding.UTF8;
             if (!string.IsNullOrWhiteSpace(post.Referer))
             {
                 UpdateLog("DoBatchJob", "Getting file_url from " + post.Referer);

@@ -290,13 +290,13 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
 
-                var siteTitle = doc.DocumentNode.SelectSingleNode("//h1[@id='site-title']");
+                var siteTitle = doc.DocumentNode.SelectSingleNode("//h2[@id='site-title']");
                 if (siteTitle != null)
                 {
                     var strTitle = siteTitle.InnerText.Split('\n').First();
                     var strCount = "-1";
 
-                    if (!Regex.IsMatch(strTitle, @".* = \d+"))
+                    if (!Regex.IsMatch(strTitle, @".* = \d+") && strTitle.LastIndexOf("(") > 0)
                     {
                         // single tag
                         // Sankaku Channel/ginhaha (1,198)

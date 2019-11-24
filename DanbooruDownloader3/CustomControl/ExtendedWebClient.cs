@@ -16,7 +16,10 @@ namespace DanbooruDownloader3.CustomControl
         public ExtendedWebClient(int timeout = -1, CookieContainer cookieJar = null, String userAgent = null)
         {
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                                    | SecurityProtocolType.Tls11
+                                                    | SecurityProtocolType.Tls12
+                                                    | SecurityProtocolType.Ssl3;
 
             if (timeout > 0)
             {
