@@ -290,7 +290,8 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
 
-                var siteTitle = doc.DocumentNode.SelectSingleNode("//h2[@id='site-title']");
+                // idol complex
+                var siteTitle = doc.DocumentNode.SelectSingleNode("//*[@id='site-title']");
                 if (siteTitle != null)
                 {
                     var strTitle = siteTitle.InnerText.Split('\n').First();
