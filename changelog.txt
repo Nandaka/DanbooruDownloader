@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20191125
+  - Fix Issue #191: fix encoding issue for sankaku and last post detection.
+
 - DanbooruDownloader20181029
   - Fix Issue #146: Reduce memory usage when reparsing Sankaku post.
 
