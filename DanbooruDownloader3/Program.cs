@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+using DanbooruDBProvider;
 using log4net;
+using System;
+using System.Windows.Forms;
 
 namespace DanbooruDownloader3
 {
-    static class Program
+    internal static class Program
     {
         public static ILog Logger;
+        public static readonly SQLiteProvider DB = new SQLiteProvider("downloaded.sqlite");
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             PrepareLogger();
-            SetLogger(DanbooruDownloader3.Properties.Settings.Default.EnableLogging);            
+            SetLogger(DanbooruDownloader3.Properties.Settings.Default.EnableLogging);
 
             try
             {
+                DB.Create();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new FormMain());

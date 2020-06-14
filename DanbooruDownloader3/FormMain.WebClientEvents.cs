@@ -1,15 +1,12 @@
 ﻿using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Entity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DanbooruDownloader3
@@ -327,6 +324,11 @@ namespace DanbooruDownloader3
                         File.Move(filename + ".!tmp", filename);
                     }
                     row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: OK";
+
+                    var provider = row.Cells["colProvider2"].Value.ToString();
+                    var postId = row.Cells["colId2"].Value.ToString();
+                    var fileInfo = new FileInfo(row.Cells["colFilename"].Value.ToString());
+                    Program.DB.Insert(provider, postId, fileInfo.Name, fileInfo.DirectoryName);
                 }
                 catch (IOException ex)
                 {

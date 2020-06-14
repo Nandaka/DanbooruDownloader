@@ -230,5 +230,8 @@
     <Setting Name="tagNoFaultValue" Type="System.String" Scope="User">
       <Value Profile="(Default)">No Fault</Value>
     </Setting>
+    <Setting Name="checkDBIfExists" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

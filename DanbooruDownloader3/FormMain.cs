@@ -2,7 +2,6 @@
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
-using DanbooruDownloader3.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -437,33 +433,47 @@ namespace DanbooruDownloader3
 
                         string filename = MakeCompleteFilename(post, url);
 
-                        if (chkOverwrite.Checked || !File.Exists(filename))
+                        var skip = false;
+                        if (chkDBIfExists.Checked)
                         {
-                            string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-                            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-
-                            row.Cells["colFilename"].Value = filename;
-                            var filename2 = filename + ".!tmp";
-                            if (File.Exists(filename2))
+                            var result = Program.DB.GetDownloadedFileByProviderAndPostId(post.Provider.Name, post.Id.ToString());
+                            if (result.Count > 0)
                             {
-                                row.Cells["colProgress2"].Value = "Deleting temporary file: " + filename2;
-                                File.Delete(filename2);
+                                skip = true;
+                                row.Cells["colProgress2"].Value = "File exists in DB!";
+                                UpdateLog("[DownloadRow]", "File exists DB: " + result[0].Path + "\\" + result[0].Filename);
                             }
-
-                            // the actual download
-                            _clientFile.Referer = post.Referer;
-                            Program.Logger.Info("[DownloadRow] Downloading " + url);
-                            Program.Logger.Info("[DownloadRow] Saved to    " + filename);
-                            row.Cells["colDownloadStart2"].Value = DateTime.Now;
-                            _clientFile.DownloadFileAsync(uri, filename2, row);
-                            txtLog.AppendText("[clientFileDownload] Saving to " + filename2 + Environment.NewLine);
-                            return;
                         }
-                        else
+                        if (!skip)
                         {
-                            // File exist and overwrite is no checked.
-                            row.Cells["colProgress2"].Value = "File exists!";
-                            UpdateLog("[DownloadRow]", "File exists: " + filename);
+                            if (chkOverwrite.Checked || !File.Exists(filename))
+                            {
+                                string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+                                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
+                                row.Cells["colFilename"].Value = filename;
+                                var filename2 = filename + ".!tmp";
+                                if (File.Exists(filename2))
+                                {
+                                    row.Cells["colProgress2"].Value = "Deleting temporary file: " + filename2;
+                                    File.Delete(filename2);
+                                }
+
+                                // the actual download
+                                _clientFile.Referer = post.Referer;
+                                Program.Logger.Info("[DownloadRow] Downloading " + url);
+                                Program.Logger.Info("[DownloadRow] Saved to    " + filename);
+                                row.Cells["colDownloadStart2"].Value = DateTime.Now;
+                                _clientFile.DownloadFileAsync(uri, filename2, row);
+                                txtLog.AppendText("[clientFileDownload] Saving to " + filename2 + Environment.NewLine);
+                                return;
+                            }
+                            else
+                            {
+                                // File exist and overwrite is no checked.
+                                row.Cells["colProgress2"].Value = "File exists!";
+                                UpdateLog("[DownloadRow]", "File exists: " + filename);
+                            }
                         }
                     }
                     else
@@ -1098,6 +1108,18 @@ namespace DanbooruDownloader3
 
             bool download = true;
 
+            if (chkDBIfExists.Checked)
+            {
+                var result = Program.DB.GetDownloadedFileByProviderAndPostId(post.Provider.Name, post.Id.ToString());
+                if (result.Count > 0)
+                {
+                    ++skipCount;
+                    ++currentJob.Skipped;
+                    download = false;
+                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " File exists in DB: " + result[0].Path + "\\" + result[0].Filename);
+                }
+            }
+
             // check if blacklisted
             if (download && post.Hidden)
             {
@@ -1215,6 +1237,9 @@ namespace DanbooruDownloader3
                     _clientBatch.DownloadFile(targetUrl, filename2);
                     File.Move(filename2, filename);
                     UpdateLog("DoBatchJob", "Saved To: " + filename);
+
+                    var fileInfo = new FileInfo(filename);
+                    Program.DB.Insert(post.Provider.Name, post.Id.ToString(), fileInfo.Name, fileInfo.DirectoryName);
 #endif
                     ++job.Downloaded;
 
