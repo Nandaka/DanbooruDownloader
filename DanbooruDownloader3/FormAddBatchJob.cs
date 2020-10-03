@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DanbooruDownloader3.DAO;
+﻿using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Entity;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DanbooruDownloader3
 {
@@ -18,7 +15,7 @@ namespace DanbooruDownloader3
         private List<CheckBox> chkList;
         private List<DanbooruProvider> providerList;
 
-        public FormAddBatchJob()
+        public FormAddBatchJob(List<DanbooruProvider> ProviderList)
         {
             InitializeComponent();
 
@@ -29,11 +26,15 @@ namespace DanbooruDownloader3
             cbxRating.SelectedIndex = 0;
 
             chkList = new List<CheckBox>();
+            this.providerList = ProviderList;
         }
 
         private void FillProvider()
         {
-            providerList = DanbooruProviderDao.GetInstance().Read();
+            if (providerList == null)
+            {
+                providerList = DanbooruProviderDao.GetInstance().Read();
+            }
 
             foreach (DanbooruProvider p in providerList)
             {

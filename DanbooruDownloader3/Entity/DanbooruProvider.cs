@@ -2,12 +2,7 @@
 using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Engine;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.Entity
@@ -30,7 +25,8 @@ namespace DanbooruDownloader3.Entity
     {
         Anonymous,
         UserPass,
-        Cookie
+        Cookie,
+        CookieAlwaysAsk
     }
 
     public class DanbooruProvider
@@ -192,6 +188,7 @@ namespace DanbooruDownloader3.Entity
                     break;
 
                 case Entity.LoginType.Cookie:
+                case Entity.LoginType.CookieAlwaysAsk:
                     // need to inject csv cookie  to the webclient
                     var cookies = Helper.ParseCookie(this.UserName, this.Url);
                     foreach (var cookie in cookies)

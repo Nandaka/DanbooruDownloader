@@ -704,7 +704,7 @@ namespace DanbooruDownloader3
         {
             if (f == null)
             {
-                f = new FormAddBatchJob();
+                f = new FormAddBatchJob(_listProvider);
             }
             if (f.ShowDialog() == DialogResult.OK)
             {
@@ -928,7 +928,10 @@ namespace DanbooruDownloader3
                                             break;
                                         }
                                         // check if over given limit
-                                        if (batchJob[i].ProcessedTotal >= batchJob[i].Limit)
+                                        bool isLimitReached = Properties.Settings.Default.IgnoreSkipLimit ?
+                                                              ((batchJob[i].ProcessedTotal - batchJob[i].Skipped) >= batchJob[i].Limit) :
+                                                              (batchJob[i].ProcessedTotal >= batchJob[i].Limit);
+                                        if (isLimitReached)
                                         {
                                             UpdateLog("DoBatchJob", "Limit Reached.");
                                             flag = false;

@@ -947,5 +947,17 @@ namespace DanbooruDownloader3.Properties {
                 this["checkDBIfExists"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreSkipLimit {
+            get {
+                return ((bool)(this["IgnoreSkipLimit"]));
+            }
+            set {
+                this["IgnoreSkipLimit"] = value;
+            }
+        }
     }
 }

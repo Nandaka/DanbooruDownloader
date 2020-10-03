@@ -1,9 +1,7 @@
 ﻿using DanbooruDownloader3.Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Xml;
 
 namespace DanbooruDownloader3.DAO
@@ -43,6 +41,7 @@ namespace DanbooruDownloader3.DAO
                             else if (reader.Name.Equals("DanbooruProvider"))
                             {
                                 Console.WriteLine(reader.Value);
+                                var cookieAlwaysAskValue = "";
 
                                 DanbooruProvider newProvider = new DanbooruProvider();
                                 do
@@ -80,7 +79,14 @@ namespace DanbooruDownloader3.DAO
 
                                             case "DefaultLimit": newProvider.DefaultLimit = reader.ReadElementContentAsInt(); break;
                                             case "HardLimit": newProvider.HardLimit = reader.ReadElementContentAsInt(); break;
-                                            case "UserName": newProvider.UserName = reader.ReadElementContentAsString(); break;
+                                            case "UserName":
+                                                // skip reading if it is already updated for LoginType.CookieAlwaysAsk
+                                                if (String.IsNullOrWhiteSpace(cookieAlwaysAskValue))
+                                                    newProvider.UserName = reader.ReadElementContentAsString();
+                                                else
+                                                    newProvider.UserName = cookieAlwaysAskValue;
+                                                break;
+
                                             case "Password": newProvider.Password = reader.ReadElementContentAsString(); break;
                                             case "UseAuth":
                                                 // compat
@@ -94,6 +100,15 @@ namespace DanbooruDownloader3.DAO
                                             case "LoginType":
                                                 string ltype = reader.ReadElementContentAsString();
                                                 newProvider.LoginType = (LoginType)Enum.Parse(typeof(LoginType), ltype);
+                                                if (newProvider.LoginType == LoginType.CookieAlwaysAsk)
+                                                {
+                                                    // ask for the new cookie here
+                                                    var title = newProvider.Name;
+                                                    var prompt = String.Format("Please input the cookie value for {0}: ", newProvider.Name);
+                                                    newProvider.UserName = Microsoft.VisualBasic.Interaction.InputBox(prompt, title, "");
+                                                    cookieAlwaysAskValue = newProvider.UserName;
+                                                    Program.Logger.InfoFormat("Using cookie value for {0} = {1}", newProvider.Name, newProvider.UserName);
+                                                }
                                                 break;
 
                                             case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;

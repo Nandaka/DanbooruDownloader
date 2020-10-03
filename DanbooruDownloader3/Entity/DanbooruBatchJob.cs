@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
@@ -26,6 +23,7 @@ namespace DanbooruDownloader3.Entity
         public string TagQuery { get; set; }
 
         private int _Limit = -1;
+
         public int Limit
         {
             get
@@ -44,6 +42,7 @@ namespace DanbooruDownloader3.Entity
 
         [XmlIgnore]
         private string _status;
+
         [XmlIgnore]
         public string Status
         {
@@ -68,6 +67,7 @@ namespace DanbooruDownloader3.Entity
         public string Rating { get; set; }
 
         private int _Page = -1;
+
         public int StartPage
         {
             get
@@ -90,8 +90,10 @@ namespace DanbooruDownloader3.Entity
 
         [XmlIgnore]
         public int Downloaded { get; set; }
+
         [XmlIgnore]
         public int Skipped { get; set; }
+
         [XmlIgnore]
         public int Error { get; set; }
 
@@ -112,9 +114,11 @@ namespace DanbooruDownloader3.Entity
         [Browsable(false)]
         [XmlIgnore]
         public int CurrentPage { get; set; }
+
         [Browsable(false)]
         [XmlIgnore]
         public int CurrentPageTotal { get; set; }
+
         [Browsable(false)]
         [XmlIgnore]
         public int CurrentPageOffset { get; set; }
@@ -122,6 +126,7 @@ namespace DanbooruDownloader3.Entity
         // Feature #95
 
         private string filter;
+
         public string Filter
         {
             get { return filter; }
@@ -129,6 +134,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private bool isExclude;
+
         public bool IsExclude
         {
             get { return isExclude; }

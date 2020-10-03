@@ -6,11 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -495,8 +492,12 @@ namespace DanbooruDownloader3
                     pbIcon.Image = Properties.Resources.Gelbooru;
                 }
 
-                if (SelectedProvider.LoginType == LoginType.Cookie)
+                if (SelectedProvider.LoginType == LoginType.Cookie || SelectedProvider.LoginType == LoginType.CookieAlwaysAsk)
                 {
+                    if (String.IsNullOrWhiteSpace(SelectedProvider.UserName))
+                        Program.Logger.Info("[UpdateQueryString] Missing cookie value for : " + SelectedProvider.Name);
+                    else
+                        Program.Logger.Info("[UpdateQueryString] Using cookie value: " + SelectedProvider.UserName);
                     // need to inject csv cookie  to the webclient
                     var cookies = Helper.ParseCookie(SelectedProvider.UserName, SelectedProvider.Url);
                     foreach (var cookie in cookies)
