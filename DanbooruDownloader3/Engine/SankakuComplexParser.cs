@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Text;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -246,6 +245,11 @@ namespace DanbooruDownloader3.Engine
                             post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
 
                             var img = a.ChildNodes[i];
+                            if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
+                            {
+                                Program.Logger.Warn(String.Format("No access for post {0}.", post.Id));
+                                continue;
+                            }
                             var title = img.GetAttributeValue("title", "");
                             post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
                             post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
@@ -323,6 +327,18 @@ namespace DanbooruDownloader3.Engine
 
                 if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
                 Offset = TotalPost * SearchParam.Page;
+
+                // check pagination for next key
+                var nextPageUrl = doc.DocumentNode.SelectSingleNode("//div[@next-page-url]");
+                if (nextPageUrl != null)
+                {
+                    var nextUrl = nextPageUrl.GetAttributeValue("next-page-url", null);
+                    // /?next=6137629&tags=neocoill&page=101
+                    var match = Regex.Match(nextUrl, @"next=(\d+)&");
+                    var nextId = match.Result("$1");
+                    SearchParam.NextKey = nextId;
+                }
+
                 return posts;
             }
             catch (Exception ex)
@@ -417,7 +433,7 @@ namespace DanbooruDownloader3.Engine
             }
 
             // next key
-            if (query.Page > 50)
+            if (!String.IsNullOrEmpty(query.NextKey))
             {
                 if (!string.IsNullOrWhiteSpace(tmp))
                 {

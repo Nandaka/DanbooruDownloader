@@ -517,15 +517,16 @@ namespace DanbooruDownloader3
                 {
                     if (chkAppendList.Checked || chkAutoLoadNext.Checked)
                     {
-                        UpdateLog("[LoadList]", "Appending: " + postDao.Option.SearchTags + " Offset: " + postDao.Offset);
+                        UpdateLog("[LoadList]", String.Format("Appending {2} posts: {0} Offset: {1}", postDao.Option.SearchTags, postDao.Offset, postDao.Posts.Count));
 
                         int oldCount = _postsDao.Posts.Count;
 
                         foreach (DanbooruPost po in postDao.Posts)
                         {
                             _postsDao.Posts.Add(po);
-                            _lastId = po.Id;
                         }
+
+                        _lastId = postDao.NextId;
                         dgvList.DataSource = _postsDao.Posts;
 
                         if (chkLoadPreview.Checked && !_clientThumb.IsBusy && !_isLoadingThumb) LoadThumbnailLater(oldCount);
@@ -833,7 +834,8 @@ namespace DanbooruDownloader3
                             }
 
                             DanbooruSearchParam searchParam = GetSearchParamsFromJob(batchJob[i], currPage);
-                            searchParam.NextKey = lastId;
+                            if (prevDao != null)
+                                searchParam.NextKey = prevDao.NextId;
 
                             url = batchJob[i].Provider.GetQueryUrl(searchParam);
 

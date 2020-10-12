@@ -171,7 +171,13 @@ namespace DanbooruDownloader3
         private void clientList_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             tsProgressBar.Visible = true;
-            txtLog.AppendText("[clientList]" + e.UserState + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
+            var msg = String.Format("[clientList] {0}    downloaded {1} of {2} bytes. {3} % complete...{4}",
+                                    e.UserState,
+                                    e.BytesReceived,
+                                    e.TotalBytesToReceive,
+                                    e.ProgressPercentage,
+                                    Environment.NewLine);
+
             if (e.TotalBytesToReceive > 0)
             {
                 tsProgressBar.Style = ProgressBarStyle.Continuous;
@@ -197,7 +203,14 @@ namespace DanbooruDownloader3
             try
             {
                 tsProgress2.Visible = true;
-                txtLog.AppendText("[clientThumbnail]" + e.UserState + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
+
+                var msg = String.Format("[clientThumbnail] {0}    downloaded {1} of {2} bytes. {3} % complete...{4}",
+                                        e.UserState,
+                                        e.BytesReceived,
+                                        e.TotalBytesToReceive,
+                                        e.ProgressPercentage,
+                                        Environment.NewLine);
+
                 if (e.TotalBytesToReceive > 0)
                 {
                     tsProgress2.Style = ProgressBarStyle.Continuous;

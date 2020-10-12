@@ -19,12 +19,15 @@ namespace DanbooruDownloader3
             PrepareLogger();
             SetLogger(DanbooruDownloader3.Properties.Settings.Default.EnableLogging);
 
+#if !DEBUG
             try
             {
-                DB.Create();
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new FormMain());
+#endif
+            DB.Create();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormMain());
+#if !DEBUG
             }
             catch (Exception ex)
             {
@@ -33,6 +36,7 @@ namespace DanbooruDownloader3
                 Logger.Error("############################################################################");
                 throw;
             }
+#endif
             Logger.Info("Closing down Danbooru Downloader.");
             Logger.Info("############################################################################");
         }

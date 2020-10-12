@@ -1,12 +1,9 @@
 ﻿using DanbooruDownloader3.Engine;
 using DanbooruDownloader3.Entity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -66,6 +63,7 @@ namespace DanbooruDownloader3.DAO
                         {
                             SankakuComplexParser parser = new SankakuComplexParser();
                             posts = parser.Parse(rawData, param);
+                            NextId = param.NextKey;
                             if (parser.TotalPost.HasValue)
                                 postCount = parser.TotalPost.Value;
                         }
@@ -91,6 +89,9 @@ namespace DanbooruDownloader3.DAO
         #endregion ctor
 
         #region property
+
+        // used by sankaku
+        public string NextId { get; set; }
 
         public DanbooruPostDaoOption Option { get; set; }
 
