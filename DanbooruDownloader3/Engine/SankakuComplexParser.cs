@@ -382,77 +382,45 @@ namespace DanbooruDownloader3.Engine
 
         public string GenerateQueryString(DanbooruSearchParam query)
         {
-            string tmp = "";
+            var parameters = new List<String>();
+            var tags = new List<String>();
+            // https://chan.sankakucomplex.com/?next=20614511&tags=neocoill&page=26
+
+            // next key
+            if (!String.IsNullOrEmpty(query.NextKey))
+            {
+                parameters.Add("next=" + query.NextKey);
+            }
 
             if (!String.IsNullOrWhiteSpace(query.Tag))
             {
                 // convert spaces into '+'
-                tmp += query.Tag.Replace(' ', '+');
+                tags.Add(query.Tag.Replace(' ', '+'));
             }
             if (!String.IsNullOrWhiteSpace(query.Source))
             {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "+";
-                }
-                tmp += "source:" + query.Source;
+                tags.Add("source:" + query.Source);
             }
             if (!String.IsNullOrWhiteSpace(query.OrderBy))
             {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "+";
-                }
-                tmp += query.OrderBy;
+                tags.Add(query.OrderBy);
             }
             if (!String.IsNullOrWhiteSpace(query.Rating))
             {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "+";
-                }
-                if (query.IsNotRating)
-                {
-                    tmp += "-";
-                }
-                tmp += query.Rating;
+                tags.Add(query.IsNotRating ? "-" + query.Rating : query.Rating);
             }
-            if (!string.IsNullOrWhiteSpace(tmp))
+            if (tags.Count > 0)
             {
-                tmp = "tags=" + tmp;
+                parameters.Add("tags=" + String.Join("+", tags));
             }
 
             // page
             if (query.Page.HasValue)
             {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "&";
-                }
-                tmp += "page=" + query.Page.Value.ToString();
+                parameters.Add("page=" + query.Page.Value.ToString());
             }
 
-            // next key
-            if (!String.IsNullOrEmpty(query.NextKey))
-            {
-                if (!string.IsNullOrWhiteSpace(tmp))
-                {
-                    tmp += "&";
-                }
-                tmp += "next=" + query.NextKey;
-            }
-
-            // remove limit counter as it is not useful for sankaku
-            //// limit
-            //if (query.Limit.HasValue)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(tmp))
-            //    {
-            //        tmp += "&";
-            //    }
-            //    tmp += "limit=" + query.Limit.Value.ToString();
-            //}
-            return tmp;
+            return String.Join("&", parameters);
         }
 
         public DanbooruSearchParam SearchParam { get; set; }

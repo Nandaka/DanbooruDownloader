@@ -177,6 +177,7 @@ namespace DanbooruDownloader3
                                     e.TotalBytesToReceive,
                                     e.ProgressPercentage,
                                     Environment.NewLine);
+            txtLog.AppendText(msg);
 
             if (e.TotalBytesToReceive > 0)
             {

@@ -615,18 +615,26 @@ namespace DanbooruDownloader3
         {
             var queryUrl = GetQueryUrl();
             Program.Logger.Info("Getting list: " + Helper.RemoveAuthInfo(queryUrl));
+            var provider = _listProvider[cbxProvider.SelectedIndex];
+            if (provider.LoginType == LoginType.Cookie ||
+                provider.LoginType == LoginType.CookieAlwaysAsk)
+                _clientList.Headers.Add("Cookie", provider.UserName);
+
+            string referer = provider.Url;
 
             if (chkSaveQuery.Checked)
             {
-                saveFileDialog1.FileName = cbxProvider.Text + " - " + txtTags.Text + " " + txtPage.Text + "." + _currProvider.Preferred.ToString().ToLower();
+                saveFileDialog1.FileName = String.Format("{0} - {1} {2}.{3}",
+                                                         cbxProvider.Text,
+                                                         txtTags.Text,
+                                                         txtPage.Text,
+                                                         _currProvider.Preferred.ToString().ToLower());
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     gbxSearch.Enabled = false;
                     gbxList.Enabled = false;
 
                     tsProgressBar.Value = 0;
-
-                    string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     _clientList.DownloadFileAsync(new Uri(queryUrl), saveFileDialog1.FileName, saveFileDialog1.FileName.Clone());
                     tsProgressBar.Visible = true;
@@ -638,11 +646,15 @@ namespace DanbooruDownloader3
                 if (!_clientList.IsBusy)
                 {
                     tsProgressBar.Value = 0;
-                    string referer = _listProvider[cbxProvider.SelectedIndex].Url;
                     _clientList.Referer = referer;
                     _clientList.DownloadDataAsync(new Uri(queryUrl), queryUrl);
+
                     tsProgressBar.Visible = true;
-                    if (chkLoadPreview.Checked && !chkAutoLoadNext.Checked && !chkAppendList.Checked && _clientThumb.IsBusy) _resetLoadedThumbnail = true;
+                    if (chkLoadPreview.Checked &&
+                        !chkAutoLoadNext.Checked &&
+                        !chkAppendList.Checked &&
+                        _clientThumb.IsBusy)
+                        _resetLoadedThumbnail = true;
                 }
             }
         }
