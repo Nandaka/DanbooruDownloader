@@ -1,7 +1,7 @@
 ﻿Requirement:
 =============================
 - Windows 7 or later (Vista might be able to run, but no promise).
-- .Net Framework 4.5
+- .Net Framework 4.6.1
 - log4net 1.2.11 (newkey)
 - HtmlAgilityPack 
 
@@ -29,8 +29,9 @@ The contents structure are:
 - PasswordSalt: choujin-steiner--%PASSWORD%-- for danbooru.donmai.us.
 - UserName    : Your username.
 - Password    : Your password, in plain text.
-- LoginType   : Anonymous/UserPass/Cookie. If set to cookie, paste your full cookie information to UserName field.
-
+- LoginType   : Anonymous/UserPass/Cookie/CookieAlwaysAsk.
+                If set to Cookie, paste your full cookie information to UserName field.
+                If set to CookieAlwaysAsk, it will ask for new cookie everytime you run the application.
 
 Filename Format
 =============================

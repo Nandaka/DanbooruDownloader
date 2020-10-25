@@ -1,5 +1,13 @@
 Change Log:
 =============================
+- DanbooruDownloader20201025
+  - Fix Cookie Handling
+  - Update &next= parameter handling for page > 25 for sankaku and general parser issue.
+  - Add login type = CookieAlwaysAsk
+    - This will ask for new cookie everytime you open the application (no need to edit the provider list everytime).
+  - Update to .Net 4.6.1
+  - Implement DB tracking and add option to skip if already downloaded before.
+
 - DanbooruDownloader20191125
   - Fix Issue #191: fix encoding issue for sankaku and last post detection.
 
