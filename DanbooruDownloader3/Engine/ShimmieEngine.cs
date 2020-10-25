@@ -1,11 +1,11 @@
 ﻿using DanbooruDownloader3.DAO;
 using DanbooruDownloader3.Entity;
+using DanbooruDownloader3.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
@@ -55,9 +55,14 @@ namespace DanbooruDownloader3.Engine
 
         private static void ReadRssMethod2(DanbooruPostDaoOption option, BindingList<DanbooruPost> posts, string xmldoc)
         {
+            XmlReaderSettings readerSettings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Parse,
+                XmlResolver = new LocalXhtmlXmlResolver()
+            };
             using (StringReader strReader = new StringReader(xmldoc))
             {
-                using (XmlReader reader = new XmlTextReader(strReader))
+                using (XmlReader reader = XmlReader.Create(strReader, readerSettings))
                 {
                     XDocument doc = XDocument.Load(reader);
                     var feeds = doc.Descendants("item");
@@ -101,9 +106,14 @@ namespace DanbooruDownloader3.Engine
 
         private static void ReadRssMethod1(DanbooruPostDaoOption option, BindingList<DanbooruPost> posts, string xmldoc)
         {
+            XmlReaderSettings readerSettings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Parse,
+                XmlResolver = new LocalXhtmlXmlResolver()
+            };
             using (StringReader strReader = new StringReader(xmldoc))
             {
-                using (XmlReader reader = new XmlTextReader(strReader))
+                using (XmlReader reader = XmlReader.Create(strReader, readerSettings))
                 {
                     XDocument doc = XDocument.Load(reader);
                     string media = doc.Root.Attribute("{http://www.w3.org/2000/xmlns/}media").Value;
