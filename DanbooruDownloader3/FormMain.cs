@@ -402,50 +402,51 @@ namespace DanbooruDownloader3
                     string url = (string)row.Cells["colUrl2"].Value;
                     Uri uri = null;
 
-                    if (string.IsNullOrWhiteSpace(url))
+                    // optimize for sankaku, as only post id is checked, so better check early.
+                    var skip = false;
+                    if (chkDBIfExists.Checked)
                     {
-                        ResolveFileUrl(post);
-                    }
-
-                    if (url == Constants.LOADING_URL)
-                    {
-                        // still loading post url
-                        row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
-                        UpdateLog("[DownloadRow]", "Still loading post url, try again later.: " + row.Index);
-                    }
-                    else if (url == Constants.NO_POST_PARSER)
-                    {
-                        // no parser post url
-                        row.Cells["colProgress2"].Value = "No post parser for provider: " + post.Provider;
-                        UpdateLog("[DownloadRow]", "No post parser for provider: " + post.Provider + " at : " + row.Index);
-                    }
-                    else if (post.Status == "deleted" && !chkProcessDeletedPost.Checked)
-                    {
-                        row.Cells["colProgress2"].Value = "Post is deleted.";
-                        UpdateLog("[DownloadRow]", "Post is deleted for row: " + row.Index);
-                    }
-                    else if (!string.IsNullOrWhiteSpace(url) &&
-                             Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)) // check if post active and url valid
-                    {
-                        if (post.Provider == null) post.Provider = _listProvider[cbxProvider.SelectedIndex];
-                        if (post.Query == null) post.Query = txtQuery.Text;
-                        if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-
-                        string filename = MakeCompleteFilename(post, url);
-
-                        var skip = false;
-                        if (chkDBIfExists.Checked)
+                        var result = Program.DB.GetDownloadedFileByProviderAndPostId(post.Provider.Name, post.Id.ToString());
+                        if (result.Count > 0)
                         {
-                            var result = Program.DB.GetDownloadedFileByProviderAndPostId(post.Provider.Name, post.Id.ToString());
-                            if (result.Count > 0)
-                            {
-                                skip = true;
-                                row.Cells["colProgress2"].Value = "File exists in DB!";
-                                UpdateLog("[DownloadRow]", "File exists DB: " + result[0].Path + "\\" + result[0].Filename);
-                            }
+                            skip = true;
+                            row.Cells["colProgress2"].Value = "File exists in DB!";
+                            UpdateLog("[DownloadRow]", "File exists DB: " + result[0].Path + "\\" + result[0].Filename);
                         }
-                        if (!skip)
+                    }
+                    if (!skip)
+                    {
+                        if (string.IsNullOrWhiteSpace(url))
                         {
+                            ResolveFileUrl(post);
+                        }
+
+                        if (url == Constants.LOADING_URL)
+                        {
+                            // still loading post url
+                            row.Cells["colProgress2"].Value = "Still loading post url, try again later.";
+                            UpdateLog("[DownloadRow]", "Still loading post url, try again later.: " + row.Index);
+                        }
+                        else if (url == Constants.NO_POST_PARSER)
+                        {
+                            // no parser post url
+                            row.Cells["colProgress2"].Value = "No post parser for provider: " + post.Provider;
+                            UpdateLog("[DownloadRow]", "No post parser for provider: " + post.Provider + " at : " + row.Index);
+                        }
+                        else if (post.Status == "deleted" && !chkProcessDeletedPost.Checked)
+                        {
+                            row.Cells["colProgress2"].Value = "Post is deleted.";
+                            UpdateLog("[DownloadRow]", "Post is deleted for row: " + row.Index);
+                        }
+                        else if (!string.IsNullOrWhiteSpace(url) &&
+                                 Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)) // check if post active and url valid
+                        {
+                            if (post.Provider == null) post.Provider = _listProvider[cbxProvider.SelectedIndex];
+                            if (post.Query == null) post.Query = txtQuery.Text;
+                            if (post.SearchTags == null) post.SearchTags = txtTags.Text;
+
+                            string filename = MakeCompleteFilename(post, url);
+
                             if (chkOverwrite.Checked || !File.Exists(filename))
                             {
                                 string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
@@ -618,7 +619,10 @@ namespace DanbooruDownloader3
             var provider = _listProvider[cbxProvider.SelectedIndex];
             if (provider.LoginType == LoginType.Cookie ||
                 provider.LoginType == LoginType.CookieAlwaysAsk)
+            {
+                _clientList.Headers.Remove("Cookie");
                 _clientList.Headers.Add("Cookie", provider.UserName);
+            }
 
             string referer = provider.Url;
 
@@ -1007,7 +1011,7 @@ namespace DanbooruDownloader3
                                                     IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                                                     IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                                                 };
-                                                var resp = new DanbooruPostDao(response, option);
+                                                var resp = new DanbooruPostDao(response, option, currPage);
                                                 responseMessage = resp.ResponseMessage;
                                                 flag = false;
                                             }
@@ -1096,33 +1100,6 @@ namespace DanbooruDownloader3
 
         private bool ProcessBatchJobPost(DanbooruBatchJob currentJob, UpdateUiDelegate del, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, DanbooruPost post)
         {
-            // check if have url and post is not deleted
-            if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
-            {
-                ResolveFileUrlBatch(_clientPost, post);
-            }
-
-            //Choose the correct urls
-            var targetUrl = post.FileUrl;
-            if (_ImageSize == "Thumb" && !String.IsNullOrWhiteSpace(post.PreviewUrl))
-            {
-                targetUrl = post.PreviewUrl;
-            }
-            else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
-            {
-                targetUrl = post.JpegUrl;
-            }
-            else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
-            {
-                targetUrl = post.SampleUrl;
-            }
-
-            currentJob.Status = "Downloading: " + targetUrl;
-            BeginInvoke(del);
-            //if (post.Provider == null) post.Provider = cbxProvider.Text;
-            //if (post.Query == null) post.Query = txtQuery.Text;
-            //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
-
             bool download = true;
 
             if (chkDBIfExists.Checked)
@@ -1137,94 +1114,123 @@ namespace DanbooruDownloader3
                 }
             }
 
-            // check if blacklisted
-            if (download && post.Hidden)
+            if (download)
             {
-                ++skipCount;
-                ++currentJob.Skipped;
-                download = false;
-                UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
-            }
-
-            // Feature #95: filter by extensions
-            if (!String.IsNullOrWhiteSpace(currentJob.Filter))
-            {
-                // get file extensions
-                var ext = Helper.getFileExtensions(targetUrl);
-                bool tempResult = false;
-
-                if (currentJob.IsExclude)
+                // check if have url and post is not deleted
+                if (string.IsNullOrWhiteSpace(post.FileUrl) && (post.Status != "deleted" || chkProcessDeletedPost.Checked))
                 {
-                    // skip if match
-                    tempResult = !Regex.IsMatch(ext, currentJob.Filter);
-                    if (!tempResult)
-                        UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} matching with filter: {1} (Exclude Mode) in url {2}.", ext, currentJob.Filter, targetUrl));
+                    ResolveFileUrlBatch(_clientPost, post);
                 }
-                else
+
+                //Choose the correct urls
+                var targetUrl = post.FileUrl;
+                if (_ImageSize == "Thumb" && !String.IsNullOrWhiteSpace(post.PreviewUrl))
                 {
-                    // download if match
-                    tempResult = Regex.IsMatch(ext, currentJob.Filter);
-                    if (!tempResult)
-                        UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} doesn't match with filter: {1} in url {2}.", ext, currentJob.Filter, targetUrl));
+                    targetUrl = post.PreviewUrl;
                 }
-                download = tempResult;
-            }
+                else if (_ImageSize == "Jpeg" && !String.IsNullOrWhiteSpace(post.JpegUrl))
+                {
+                    targetUrl = post.JpegUrl;
+                }
+                else if (_ImageSize == "Sample" && !String.IsNullOrWhiteSpace(post.SampleUrl))
+                {
+                    targetUrl = post.SampleUrl;
+                }
 
-            string filename = "";
-            if (download && !string.IsNullOrWhiteSpace(targetUrl))
-            {
-                filename = MakeCompleteFilename(post, targetUrl, currentJob.SaveFolder);
-            }
+                currentJob.Status = "Downloading: " + targetUrl;
+                BeginInvoke(del);
+                //if (post.Provider == null) post.Provider = cbxProvider.Text;
+                //if (post.Query == null) post.Query = txtQuery.Text;
+                //if (post.SearchTags == null) post.SearchTags = txtTags.Text;
 
-            // check if exist
-            if (download && !chkOverwrite.Checked)
-            {
-                if (File.Exists(filename))
+                // check if blacklisted
+                if (download && post.Hidden)
                 {
                     ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                    UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
                 }
-            }
-            if (download && String.IsNullOrWhiteSpace(targetUrl))
-            {
-                ++skipCount;
-                ++currentJob.Skipped;
-                download = false;
-                UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
-            }
-            Uri uri = null;
-            if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
-            {
-                ++skipCount;
-                ++currentJob.Skipped;
-                download = false;
-                UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
-            }
 
-            #region download
-
-#if DEBUG
-            download = false;
-#endif
-            if (download)
-            {
-                // delay subdir creation just before download
-                if (filename.Contains(@"\"))
+                // Feature #95: filter by extensions
+                if (!String.IsNullOrWhiteSpace(currentJob.Filter))
                 {
-                    string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
-                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                    // get file extensions
+                    var ext = Helper.getFileExtensions(targetUrl);
+                    bool tempResult = false;
+
+                    if (currentJob.IsExclude)
+                    {
+                        // skip if match
+                        tempResult = !Regex.IsMatch(ext, currentJob.Filter);
+                        if (!tempResult)
+                            UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} matching with filter: {1} (Exclude Mode) in url {2}.", ext, currentJob.Filter, targetUrl));
+                    }
+                    else
+                    {
+                        // download if match
+                        tempResult = Regex.IsMatch(ext, currentJob.Filter);
+                        if (!tempResult)
+                            UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} doesn't match with filter: {1} in url {2}.", ext, currentJob.Filter, targetUrl));
+                    }
+                    download = tempResult;
                 }
-                imgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
-            }
+
+                string filename = "";
+                if (download && !string.IsNullOrWhiteSpace(targetUrl))
+                {
+                    filename = MakeCompleteFilename(post, targetUrl, currentJob.SaveFolder);
+                }
+
+                // check if exist
+                if (download && !chkOverwrite.Checked)
+                {
+                    if (File.Exists(filename))
+                    {
+                        ++skipCount;
+                        ++currentJob.Skipped;
+                        download = false;
+                        UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                    }
+                }
+                if (download && String.IsNullOrWhiteSpace(targetUrl))
+                {
+                    ++skipCount;
+                    ++currentJob.Skipped;
+                    download = false;
+                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
+                }
+                Uri uri = null;
+                if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
+                {
+                    ++skipCount;
+                    ++currentJob.Skipped;
+                    download = false;
+                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
+                }
+
+                #region download
+
 #if DEBUG
-            currentJob.Downloaded++;
-            currentJob.ProcessedTotal++;
+                download = false;
+#endif
+                if (download)
+                {
+                    // delay subdir creation just before download
+                    if (filename.Contains(@"\"))
+                    {
+                        string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
+                        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                    }
+                    imgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
+                }
+#if DEBUG
+                currentJob.Downloaded++;
+                currentJob.ProcessedTotal++;
 #endif
 
-            #endregion download
-
+                #endregion download
+            }
             return download;
         }
 
@@ -1393,7 +1399,7 @@ namespace DanbooruDownloader3
                             IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                             IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                         };
-                        d = new DanbooruPostDao(ms, option);
+                        d = new DanbooruPostDao(ms, option, job.CurrentPage);
                     }
                     break;
                 }
@@ -1503,6 +1509,7 @@ namespace DanbooruDownloader3
         private void txtTags_TextChanged(object sender, EventArgs e)
         {
             txtPage.Text = "";
+            _lastId = "";
             if (chkTagAutoComplete.Checked)
             {
                 DoAutoComplete();

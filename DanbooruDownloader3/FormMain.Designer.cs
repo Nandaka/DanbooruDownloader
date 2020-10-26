@@ -238,6 +238,7 @@
             this.lblColorArtist = new System.Windows.Forms.Label();
             this.lblColorGeneral = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkIgnoreSkipLimit = new System.Windows.Forms.CheckBox();
             this.chkDBIfExists = new System.Windows.Forms.CheckBox();
             this.txtDateTimeFormat = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
@@ -342,7 +343,6 @@
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tagsColumn2 = new DanbooruDownloader3.CustomControl.TagsColumn();
-            this.chkIgnoreSkipLimit = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbxSearch.SuspendLayout();
@@ -2672,6 +2672,18 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Download";
             // 
+            // chkIgnoreSkipLimit
+            // 
+            this.chkIgnoreSkipLimit.AutoSize = true;
+            this.chkIgnoreSkipLimit.Checked = global::DanbooruDownloader3.Properties.Settings.Default.IgnoreSkipLimit;
+            this.chkIgnoreSkipLimit.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "IgnoreSkipLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkIgnoreSkipLimit.Location = new System.Drawing.Point(714, 91);
+            this.chkIgnoreSkipLimit.Name = "chkIgnoreSkipLimit";
+            this.chkIgnoreSkipLimit.Size = new System.Drawing.Size(225, 21);
+            this.chkIgnoreSkipLimit.TabIndex = 28;
+            this.chkIgnoreSkipLimit.Text = "Ignore skipped image from limit";
+            this.chkIgnoreSkipLimit.UseVisualStyleBackColor = true;
+            // 
             // chkDBIfExists
             // 
             this.chkDBIfExists.AutoSize = true;
@@ -3721,18 +3733,6 @@
             this.tagsColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tagsColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tagsColumn2.Width = 300;
-            // 
-            // chkIgnoreSkipLimit
-            // 
-            this.chkIgnoreSkipLimit.AutoSize = true;
-            this.chkIgnoreSkipLimit.Checked = global::DanbooruDownloader3.Properties.Settings.Default.IgnoreSkipLimit;
-            this.chkIgnoreSkipLimit.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::DanbooruDownloader3.Properties.Settings.Default, "IgnoreSkipLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkIgnoreSkipLimit.Location = new System.Drawing.Point(714, 91);
-            this.chkIgnoreSkipLimit.Name = "chkIgnoreSkipLimit";
-            this.chkIgnoreSkipLimit.Size = new System.Drawing.Size(225, 21);
-            this.chkIgnoreSkipLimit.TabIndex = 28;
-            this.chkIgnoreSkipLimit.Text = "Ignore skipped image from limit";
-            this.chkIgnoreSkipLimit.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 

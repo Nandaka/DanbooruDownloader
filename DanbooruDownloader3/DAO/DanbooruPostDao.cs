@@ -31,7 +31,7 @@ namespace DanbooruDownloader3.DAO
         /// </summary>
         /// <param name="input"></param>
         /// <param name="option"></param>
-        public DanbooruPostDao(Stream input, DanbooruPostDaoOption option)
+        public DanbooruPostDao(Stream input, DanbooruPostDaoOption option, int? currentPage)
         {
             string rawData = "";
             this.Option = option;
@@ -57,6 +57,7 @@ namespace DanbooruDownloader3.DAO
                         {
                             Provider = option.Provider,
                             Tag = option.SearchTags,
+                            Page = currentPage,
                             Option = option
                         };
                         if (option.Provider.BoardType == BoardType.Danbooru)

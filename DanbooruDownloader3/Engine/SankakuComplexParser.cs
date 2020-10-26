@@ -325,18 +325,13 @@ namespace DanbooruDownloader3.Engine
                     TotalPost = posts.Count;
                 }
 
-                if (!SearchParam.Page.HasValue) SearchParam.Page = 1;
+                if (!SearchParam.Page.HasValue && SearchParam.Page > 0) SearchParam.Page = 1;
                 Offset = TotalPost * SearchParam.Page;
 
-                // check pagination for next key
-                var nextPageUrl = doc.DocumentNode.SelectSingleNode("//div[@next-page-url]");
-                if (nextPageUrl != null)
+                // get next id for 26th page and current page return full list (20 posts)
+                if (searchParam.Page >= 25 && posts.Count == 20)
                 {
-                    var nextUrl = nextPageUrl.GetAttributeValue("next-page-url", null);
-                    // /?next=6137629&tags=neocoill&page=101
-                    var match = Regex.Match(nextUrl, @"next=(\d+)&");
-                    var nextId = match.Result("$1");
-                    SearchParam.NextKey = nextId;
+                    searchParam.NextKey = posts[posts.Count - 1].Id;
                 }
 
                 return posts;
@@ -415,9 +410,13 @@ namespace DanbooruDownloader3.Engine
             }
 
             // page
-            if (query.Page.HasValue)
+            if (query.Page.HasValue && query.Page > 1)
             {
                 parameters.Add("page=" + query.Page.Value.ToString());
+            }
+            else
+            {
+                parameters.Add("commit=Search");
             }
 
             return String.Join("&", parameters);

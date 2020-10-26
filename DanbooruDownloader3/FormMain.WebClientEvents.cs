@@ -22,7 +22,8 @@ namespace DanbooruDownloader3
             object[] param = (object[])e.Argument;
             Stream ms = (Stream)param[0];
             DanbooruPostDaoOption option = (DanbooruPostDaoOption)param[1];
-            DanbooruPostDao newPosts = new DanbooruPostDao(ms, option);
+            int curr_page = (int)param[2];
+            DanbooruPostDao newPosts = new DanbooruPostDao(ms, option, curr_page);
             e.Result = newPosts;
         }
 
@@ -70,7 +71,10 @@ namespace DanbooruDownloader3
                 backgroundWorker1 = new BackgroundWorker();
                 backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
                 backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
-                backgroundWorker1.RunWorkerAsync(new object[] { ms, option });
+
+                int curr_page;
+                var result = Int32.TryParse(txtPage.Text, out curr_page);
+                backgroundWorker1.RunWorkerAsync(new object[] { ms, option, curr_page });
             }
             catch (Exception ex)
             {
@@ -108,7 +112,10 @@ namespace DanbooruDownloader3
                                         IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                                         IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                                     };
-                                    var resp = new DanbooruPostDao(responseStream, option);
+
+                                    int curr_page;
+                                    var result = Int32.TryParse(txtPage.Text, out curr_page);
+                                    var resp = new DanbooruPostDao(responseStream, option, curr_page);
                                     message = "Server Message: " + resp.ResponseMessage;
                                     if (status != "200")
                                     {
