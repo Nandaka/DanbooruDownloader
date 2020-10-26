@@ -865,7 +865,7 @@ namespace DanbooruDownloader3
                                 BeginInvoke(del);
                                 UpdateLog("DoBatchJob", "Downloading list: " + url);
 
-                                d = GetBatchImageList(url, query, batchJob[i]);
+                                d = GetBatchImageList(url, query, batchJob[i], searchParam.Page);
 
                                 #endregion Get and load the image list
 
@@ -1372,7 +1372,7 @@ namespace DanbooruDownloader3
         /// <param name="searchParam"></param>
         /// <param name="job"></param>
         /// <returns></returns>
-        private DanbooruPostDao GetBatchImageList(String url, String query, DanbooruBatchJob job)
+        private DanbooruPostDao GetBatchImageList(String url, String query, DanbooruBatchJob job, int? currPage)
         {
             DanbooruPostDao d = null;
             int currRetry = 0;
@@ -1399,7 +1399,7 @@ namespace DanbooruDownloader3
                             IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                             IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                         };
-                        d = new DanbooruPostDao(ms, option, job.CurrentPage);
+                        d = new DanbooruPostDao(ms, option, currPage);
                     }
                     break;
                 }
