@@ -2,10 +2,7 @@
 using DanbooruDownloader3.Entity;
 using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -58,7 +55,7 @@ namespace DanbooruDownloader3.Engine
                         break;
                     }
                 }
-                
+
                 // Some Gelbooru sites (*.booru.org) serve full resolution in the img tag
                 if (file_url == "")
                 {

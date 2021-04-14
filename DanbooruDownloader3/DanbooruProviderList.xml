@@ -324,4 +324,22 @@
     <TagDownloadUseLoop>true</TagDownloadUseLoop>
     <DateTimeFormat>yyyy-MM-dd HH:mm:ss</DateTimeFormat>
   </DanbooruProvider>
+  <DanbooruProvider>
+    <Name>furry.booru.org</Name>
+    <DefaultLimit>20</DefaultLimit>
+    <HardLimit>20</HardLimit>
+    <Preferred>Xml</Preferred>
+    <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
+    <QueryStringJson />
+    <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
+    <Url>https://furry.booru.org</Url>
+    <UserName></UserName>
+    <Password />
+    <LoginType>Cookie</LoginType>
+    <PasswordSalt />
+    <PasswordHash />
+    <BoardType>Gelbooru</BoardType>
+    <TagDownloadUseLoop>false</TagDownloadUseLoop>
+    <DateTimeFormat>ddd MMM dd HH:mm:ss zzz yyyy</DateTimeFormat>
+  </DanbooruProvider>
 </DanbooruProviderList>
