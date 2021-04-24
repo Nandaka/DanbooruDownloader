@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.Net;
-using System.Threading;
-using System.Security;
-using System.Security.Permissions;
+using System.Threading.Tasks;
 
 namespace DanbooruDownloader3.CustomControl
 {
@@ -225,6 +221,58 @@ namespace DanbooruDownloader3.CustomControl
             {
                 CookieCollection cookies = response.Cookies;
                 cookieJar.Add(cookies);
+            }
+        }
+
+        /// <summary>
+        /// https://stackoverflow.com/a/35282714
+        /// </summary>
+        /// <param name="addressStr"></param>
+        /// <param name="fileName"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
+        public async Task DownloadFileTaskAsync(string addressStr, string fileName, IProgress<Tuple<long, int, long>> progress)
+        {
+            var address = new Uri(addressStr);
+            // Create the task to be returned
+            var tcs = new TaskCompletionSource<object>(address);
+
+            // Setup the callback event handler handlers
+            AsyncCompletedEventHandler completedHandler = (cs, ce) =>
+            {
+                if (ce.UserState == tcs)
+                {
+                    if (ce.Error != null) tcs.TrySetException(ce.Error);
+                    else if (ce.Cancelled) tcs.TrySetCanceled();
+                    else tcs.TrySetResult(null);
+                }
+            };
+
+            DownloadProgressChangedEventHandler progressChangedHandler = (ps, pe) =>
+            {
+                if (pe.UserState == tcs)
+                {
+                    progress.Report(
+                        Tuple.Create(
+                            pe.BytesReceived,
+                            pe.ProgressPercentage,
+                            pe.TotalBytesToReceive));
+                }
+            };
+
+            try
+            {
+                this.DownloadFileCompleted += completedHandler;
+                this.DownloadProgressChanged += progressChangedHandler;
+
+                this.DownloadFileAsync(address, fileName, tcs);
+
+                await tcs.Task;
+            }
+            finally
+            {
+                this.DownloadFileCompleted -= completedHandler;
+                this.DownloadProgressChanged -= progressChangedHandler;
             }
         }
     }

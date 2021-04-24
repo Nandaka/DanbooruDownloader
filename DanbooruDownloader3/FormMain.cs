@@ -1257,7 +1257,12 @@ namespace DanbooruDownloader3
                         UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
                         File.Delete(filename2);
                     }
-                    _clientBatch.DownloadFile(targetUrl, filename2);
+                    //_clientBatch.DownloadFile(targetUrl, filename2);
+                    _clientBatch.DownloadFileTaskAsync(targetUrl, filename2, new Progress<Tuple<long, int, long>>(t =>
+                    {
+                        job.Status = $"Downloading: {targetUrl}\r\n\r\nProgress: {Helper.FormatByteSize(t.Item1)} of {Helper.FormatByteSize(t.Item3)} ({t.Item2}%)";
+                        this.dgvBatchJob.BeginInvoke((Action)(() => { this.Refresh(); }));
+                    })).Wait();
                     File.Move(filename2, filename);
                     UpdateLog("DoBatchJob", "Saved To: " + filename);
 
@@ -1298,6 +1303,7 @@ namespace DanbooruDownloader3
                     if (currRetry > Convert.ToInt32(txtRetry.Text)) ++job.Error;
                 }
             }
+
             return 0; // failed
         }
 
