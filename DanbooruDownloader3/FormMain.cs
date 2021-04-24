@@ -1261,7 +1261,10 @@ namespace DanbooruDownloader3
                     _clientBatch.DownloadFileTaskAsync(targetUrl, filename2, new Progress<Tuple<long, int, long>>(t =>
                     {
                         job.Status = $"Downloading: {targetUrl}\r\n\r\nProgress: {Helper.FormatByteSize(t.Item1)} of {Helper.FormatByteSize(t.Item3)} ({t.Item2}%)";
-                        this.dgvBatchJob.BeginInvoke((Action)(() => { this.Refresh(); }));
+                        this.dgvBatchJob.BeginInvoke((Action)(() =>
+                        {
+                            if (this.Focused) this.Refresh();
+                        }));
                     })).Wait();
                     File.Move(filename2, filename);
                     UpdateLog("DoBatchJob", "Saved To: " + filename);
