@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace DanbooruDownloader3.DAO
@@ -16,7 +14,11 @@ namespace DanbooruDownloader3.DAO
 
         public DanbooruTagsDao(string xmlTagFile)
         {
-            if (!File.Exists(xmlTagFile)) throw new FileNotFoundException("Cannot load tags.xml", xmlTagFile);
+            if (!File.Exists(xmlTagFile))
+            {
+                this.Tags = new DanbooruTagCollection();
+                throw new FileNotFoundException($"Cannot load {xmlTagFile}", xmlTagFile);
+            }
             using (StreamReader s = File.OpenText(xmlTagFile))
             {
                 try

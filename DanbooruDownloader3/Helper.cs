@@ -657,6 +657,7 @@ namespace DanbooruDownloader3
                 var temp = cookiesStr.Split(';');
                 foreach (var cookieStr in temp)
                 {
+                    if (!cookieStr.Contains("=")) continue;
                     var temp2 = cookieStr.Split('=');
                     var name = temp2[0].Trim();
                     var value = temp2[1];

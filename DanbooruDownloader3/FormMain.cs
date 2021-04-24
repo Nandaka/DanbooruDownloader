@@ -1339,6 +1339,7 @@ namespace DanbooruDownloader3
                         {
                             UpdateLog("DoBatchJob", "No HTML Parser available for : " + post.Provider.Name + "(" + post.Provider.BoardType.ToString() + ")");
                         }
+                        UpdateLog("DoBatchJob", $"File Url: {post.FileUrl}");
                         break;
                     }
                     catch (Exception ex)

@@ -104,15 +104,18 @@ namespace DanbooruDownloader3.Entity
         {
             try
             {
-                DanbooruTagsDao dao = new DanbooruTagsDao("tags-" + Name + ".xml");
-                _hasPrivateTags = true;
-                return dao.Tags;
+                if (_hasPrivateTags)
+                {
+                    DanbooruTagsDao dao = new DanbooruTagsDao($"tags-{Name}.xml");
+                    _hasPrivateTags = true;
+                    return dao.Tags;
+                }
             }
             catch (FileNotFoundException)
             {
                 _hasPrivateTags = false;
-                return DanbooruTagsDao.Instance.Tags;
             }
+            return DanbooruTagsDao.Instance.Tags;
         }
 
         public override string ToString()
