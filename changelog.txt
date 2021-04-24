@@ -1,5 +1,11 @@
 Change Log:
 =============================
+- DanbooruDownloader20210424
+  - Issue #236: update cookie handling.
+  - Update shimmie parser to resolve additional xhtml entities
+  - Update #225: sankaku next param handler
+  - Add custom exception for cloudflare
+
 - DanbooruDownloader20201025
   - Fix Cookie Handling
   - Update &next= parameter handling for page > 25 for sankaku and general parser issue.
