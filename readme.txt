@@ -147,7 +147,7 @@ A7: Follow this step:
     2. Go to the booru site and login.
     3. Click one of the entry and copy the Cookie value from the Request Header. 
        For gelbooru, it should like this: user_id=<number>; pass_hash=<long string>
-       For sankaku, login=<username>; pass_hash=<long string>
+       For sankaku, paste the whole cookie string.
        For shimmie based board, shm_user=<username; shm_session=<long string>
     4. Paste the Cookie value to the Username field.
     5. Set Login Type to Cookie. Refer to http://i.imgur.com/rCCjnPs.png
