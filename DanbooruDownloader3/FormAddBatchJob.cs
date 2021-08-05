@@ -61,59 +61,64 @@ namespace DanbooruDownloader3
             this.DialogResult = DialogResult.OK;
             Jobs = new List<DanbooruBatchJob>();
 
-            foreach (CheckBox c in chkList)
+            var jobTags = txtTagQuery.Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+            foreach (var tags in jobTags)
             {
-                if (c.Checked)
+                foreach (CheckBox c in chkList)
                 {
-                    var p = providerList.Where(x => x.Name == c.Text).FirstOrDefault();
-                    if (p != null)
+                    if (c.Checked)
                     {
-                        providerFlag = true;
-                        DanbooruBatchJob Job = new DanbooruBatchJob();
-                        Job.Provider = p;
-
-                        try
+                        var p = providerList.Where(x => x.Name == c.Text).FirstOrDefault();
+                        if (p != null)
                         {
-                            if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error at Limit." + Environment.NewLine + ex.Message);
-                            txtLimit.Focus();
-                            txtLimit.SelectAll();
-                            return;
-                        }
+                            providerFlag = true;
+                            DanbooruBatchJob Job = new DanbooruBatchJob();
+                            Job.Provider = p;
 
-                        try
-                        {
-                            if (!string.IsNullOrWhiteSpace(txtPage.Text)) Job.StartPage = Convert.ToInt32(txtPage.Text);
-                            else Job.StartPage = -1;
+                            try
+                            {
+                                if (!string.IsNullOrWhiteSpace(txtLimit.Text)) Job.Limit = Convert.ToInt32(txtLimit.Text);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error at Limit." + Environment.NewLine + ex.Message);
+                                txtLimit.Focus();
+                                txtLimit.SelectAll();
+                                return;
+                            }
+
+                            try
+                            {
+                                if (!string.IsNullOrWhiteSpace(txtPage.Text)) Job.StartPage = Convert.ToInt32(txtPage.Text);
+                                else Job.StartPage = -1;
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error at StartPage." + Environment.NewLine + ex.Message);
+                                txtPage.Focus();
+                                txtPage.SelectAll();
+                                return;
+                            }
+
+                            if (cbxRating.SelectedValue != null && chkNotRating.Checked) Job.Rating = "-" + cbxRating.SelectedValue;
+                            else Job.Rating = (string)cbxRating.SelectedValue;
+
+                            // do encoding later on main form.
+                            Job.TagQuery = tags;
+
+                            if (string.IsNullOrWhiteSpace(txtFilenameFormat.Text))
+                            {
+                                MessageBox.Show("Filename Format is empty!");
+                                txtFilenameFormat.Focus();
+                                return;
+                            }
+                            Job.SaveFolder = txtFilenameFormat.Text;
+                            Job.Filter = txtFilter.Text;
+                            Job.IsExclude = chkIsExclude.Checked;
+
+                            Jobs.Add(Job);
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error at StartPage." + Environment.NewLine + ex.Message);
-                            txtPage.Focus();
-                            txtPage.SelectAll();
-                            return;
-                        }
-
-                        if (cbxRating.SelectedValue != null && chkNotRating.Checked) Job.Rating = "-" + cbxRating.SelectedValue;
-                        else Job.Rating = (string)cbxRating.SelectedValue;
-
-                        // do encoding later on main form.
-                        Job.TagQuery = txtTagQuery.Text;
-
-                        if (string.IsNullOrWhiteSpace(txtFilenameFormat.Text))
-                        {
-                            MessageBox.Show("Filename Format is empty!");
-                            txtFilenameFormat.Focus();
-                            return;
-                        }
-                        Job.SaveFolder = txtFilenameFormat.Text;
-                        Job.Filter = txtFilter.Text;
-                        Job.IsExclude = chkIsExclude.Checked;
-
-                        Jobs.Add(Job);
                     }
                 }
             }
