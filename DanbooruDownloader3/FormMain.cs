@@ -453,6 +453,7 @@ namespace DanbooruDownloader3
                                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
                                 row.Cells["colFilename"].Value = filename;
+                                // check if there is existing temporary file then delete it.
                                 var filename2 = filename + ".!tmp";
                                 if (File.Exists(filename2))
                                 {
@@ -1245,18 +1246,20 @@ namespace DanbooruDownloader3
 
             while (currRetry <= maxRetry)
             {
+                // check if temporary file exists and then delete it.
+                var filename2 = filename + ".!tmp";
+                if (File.Exists(filename2))
+                {
+                    UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
+                    File.Delete(filename2);
+                }
+
                 try
                 {
-                    var filename2 = filename + ".!tmp";
 #if DEBUG
                     UpdateLog("DoBatchJob", "DEBUG Saved To: " + filename);
                     Thread.Sleep(100);
 #else
-                    if (File.Exists(filename2))
-                    {
-                        UpdateLog("DoBatchJob", "Deleting temporary file: " + filename2);
-                        File.Delete(filename2);
-                    }
                     //_clientBatch.DownloadFile(targetUrl, filename2);
                     _clientBatch.DownloadFileTaskAsync(targetUrl, filename2, new Progress<Tuple<long, int, long>>(t =>
                     {
@@ -1304,6 +1307,15 @@ namespace DanbooruDownloader3
                     }
                     ++currRetry;
                     if (currRetry > Convert.ToInt32(txtRetry.Text)) ++job.Error;
+                }
+                finally
+                {
+                    // Issue #251 ensure temporary file is deleted
+                    if (File.Exists(filename2))
+                    {
+                        UpdateLog("DoBatchJob", $"Ensure to delete temporary file: {filename2}");
+                        File.Delete(filename2);
+                    }
                 }
             }
 
