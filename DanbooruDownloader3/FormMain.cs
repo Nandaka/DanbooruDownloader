@@ -961,7 +961,7 @@ namespace DanbooruDownloader3
                                         Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
                                         if ((Properties.Settings.Default.DelayIncludeSkipped || download) && delay > 0)
                                         {
-                                            UpdateLog("DoBatchJob", String.Format("Waiting for {0}ms for the next post.", delay));
+                                            // UpdateLog("DoBatchJob", $"Waiting for {delay}ms for the next post.");
                                             Thread.Sleep(delay);
                                         }
                                     }
@@ -1110,7 +1110,7 @@ namespace DanbooruDownloader3
                     ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " File exists in DB: " + result[0].Path + "\\" + result[0].Filename);
+                    // UpdateLog("DoBatchJob", $"Download skipped, ID: {post.Id} File exists in DB: {result[0].Path}\\{result[0].Filename}");
                 }
             }
 
@@ -1286,7 +1286,7 @@ namespace DanbooruDownloader3
 
                     return 1;
                 }
-                catch (System.Net.WebException ex)
+                catch (Exception ex)
                 {
                     if (currRetry < maxRetry && cbxAbortOnError.Checked) throw;
                     else
