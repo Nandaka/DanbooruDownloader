@@ -239,14 +239,14 @@ namespace DanbooruDownloader3
                 IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
             };
 
-            DanbooruSearchParam searchParam = new DanbooruSearchParam();
+            DanbooruSearchParam searchParam = new DanbooruSearchParam
+            {
+                Provider = option.Provider,
+                Tag = option.SearchTags,
+                Source = txtSource.Text.Trim()
+            };
 
-            searchParam.Provider = option.Provider;
-            searchParam.Tag = option.SearchTags;
-            searchParam.Source = txtSource.Text.Trim();
-
-            int limit = 0;
-            if (Int32.TryParse(txtLimit.Text, out limit) && limit > 0) searchParam.Limit = limit;
+            if (Int32.TryParse(txtLimit.Text, out int limit) && limit > 0) searchParam.Limit = limit;
             else searchParam.Limit = null;
 
             int page = _currProvider.BoardType == BoardType.Gelbooru ? 0 : 1;
@@ -288,7 +288,7 @@ namespace DanbooruDownloader3
         /// </summary>
         /// <param name="job"></param>
         /// <returns></returns>
-        public DanbooruSearchParam GetSearchParamsFromJob(DanbooruBatchJob job, int currPage)
+        public DanbooruSearchParam GetSearchParamsFromJob(DanbooruBatchJob job)
         {
             var option = new DanbooruPostDaoOption()
             {
@@ -303,18 +303,19 @@ namespace DanbooruDownloader3
                 IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
             };
 
-            DanbooruSearchParam searchParam = new DanbooruSearchParam();
-
-            searchParam.Provider = option.Provider;
-            searchParam.Tag = option.SearchTags;
-            searchParam.Source = "";
+            DanbooruSearchParam searchParam = new DanbooruSearchParam
+            {
+                Provider = option.Provider,
+                Tag = option.SearchTags,
+                Source = ""
+            };
 
             // check if given limit is more than the hard limit
             if (job.Limit > job.Provider.HardLimit) searchParam.Limit = job.Provider.HardLimit;
             else searchParam.Limit = job.Limit;
 
             // reflect to current page
-            searchParam.Page = job.StartPage + currPage;
+            searchParam.Page = job.StartPage + job.CalculatedCurrentPage;
 
             searchParam.IsNotRating = false;
             searchParam.Rating = job.Rating;

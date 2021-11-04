@@ -52,8 +52,8 @@ namespace DanbooruDownloader3.Entity
             }
             set
             {
-                _status = "Downloaded: " + Downloaded + " Skipped: " + Skipped + " Processed Total: " + ProcessedTotal + " Total Available: " + Total + Environment.NewLine;
-                _status += "Current Page: " + CurrentPage + " Current Page Total: " + CurrentPageTotal + " Offset: " + CurrentPageOffset + Environment.NewLine;
+                _status = $"Downloaded: {Downloaded} Skipped: {Skipped} Processed Total: {ProcessedTotal} Total Available: {Total}{Environment.NewLine}";
+                _status += $"Current Page: {CurrentPage} Current Page Total: {CurrentPageTotal } Offset: {CurrentPageOffset}{Environment.NewLine}";
                 _status += value;
             }
         }
@@ -140,5 +140,50 @@ namespace DanbooruDownloader3.Entity
             get { return isExclude; }
             set { isExclude = value; }
         }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public int ImgCount { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public int PostCount { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public int CalculatedCurrentPage
+        {
+            get
+            {
+                if (this.Provider.BoardType == BoardType.Danbooru || this.Provider.BoardType == BoardType.Shimmie2)
+                {
+                    return this.CurrentPage;
+                }
+                else if (this.Provider.BoardType == BoardType.Gelbooru)
+                {
+                    if (this.Provider.Preferred == PreferredMethod.Html)
+                    {
+                        return this.CurrentPage * this.PostCount;
+                    }
+                    else
+                    {
+                        return this.CurrentPage;
+                    }
+                }
+                return this.CurrentPage;
+            }
+            private set { }
+        }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public string Query { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public string Url { get; set; }
+
+        [XmlIgnore]
+        public string LastFileUrl { get; set; }
     }
 }

@@ -290,8 +290,10 @@ namespace DanbooruDownloader3
                 isResolverRunning = true;
                 var post = resolveQueue.Dequeue();
                 UpdateLog("SankakuComplexParser", "Trying to resolve: " + post.Referer);
-                ExtendedWebClient _clientPost = new ExtendedWebClient();
-                _clientPost.Encoding = System.Text.Encoding.UTF8;
+                ExtendedWebClient _clientPost = new ExtendedWebClient
+                {
+                    Encoding = System.Text.Encoding.UTF8
+                };
                 _clientPost.DownloadStringAsync(new Uri(post.Referer), post);
                 _clientPost.DownloadStringCompleted += new DownloadStringCompletedEventHandler(_clientPost_DownloadStringCompleted);
             }
@@ -785,176 +787,161 @@ namespace DanbooruDownloader3
             DoBatchJob((BindingList<DanbooruBatchJob>)list);
         }
 
-        public void DoBatchJob(BindingList<DanbooruBatchJob> batchJob)
+        public void DoBatchJob(BindingList<DanbooruBatchJob> jobs)
         {
             ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
             UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
             UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
             ExtendedWebClient _clientPost = new ExtendedWebClient();
 
-            string lastId = "";
-
-            if (batchJob != null)
+            if (jobs == null || jobs.Count() == 0)
             {
-                UpdateStatus2("Starting Batch Job");
+                return;
+            }
 
-                for (int i = 0; i < batchJob.Count; i++)
+            UpdateStatus2("Starting Batch Job");
+
+            for (int i = 0; i < jobs.Count; i++)
+            {
+                var job = jobs[i];
+
+                if (job.isCompleted)
                 {
-                    batchJob[i].CurrentPage = 0;
-                    if (!batchJob[i].isCompleted)
+                    UpdateLog("DoBatchJob", $"Skipping Batch Job#{i} because marked as complete.");
+                    continue;
+                }
+
+                UpdateLog("DoBatchJob", $"Processing Batch Job#{i}");
+
+                DanbooruPostDao prevDao = null;
+                DanbooruPostDao d = null;
+
+                bool flag = true;
+                job.CurrentPage = 0;
+                job.PostCount = 0;
+
+                do
+                {
+                    // stop/pause event handling outside
+                    _pauseEvent.WaitOne(Timeout.Infinite);
+                    if (_shutdownEvent.WaitOne(0))
                     {
-                        UpdateLog("DoBatchJob", "Processing Batch Job#" + i);
+                        job.Status = " ==> Stopped.";
+                        // toggle button
+                        BeginInvoke(bjd, new object[] { true });
+                        UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                        UpdateStatus2("Batch Job Stopped.");
+                        return;
+                    }
 
-                        DanbooruPostDao prevDao = null;
-                        DanbooruPostDao d = null;
+                    job.ImgCount = 0;
+                    job.Url = "";
+                    job.Query = "";
 
-                        bool flag = true;
-                        int currPage = 0;
-                        int postCount = 0;
-                        do
+                    #region Construct the searchParam
+
+                    DanbooruSearchParam searchParam = GetSearchParamsFromJob(job);
+                    if (prevDao != null)
+                        searchParam.NextKey = prevDao.NextId;
+                    job.Url = job.Provider.GetQueryUrl(searchParam);
+
+                    #endregion Construct the searchParam
+
+                    try
+                    {
+                        #region Get and load the image list
+
+                        job.Status = $"Getting list for page: {searchParam.Page}";
+                        BeginInvoke(del);
+                        UpdateLog("DoBatchJob", $"Downloading list: {job.Url}");
+
+                        d = GetBatchImageList(job, searchParam.Page);
+
+                        #endregion Get and load the image list
+
+                        if (d == null)
                         {
-                            // stop/pause event handling outside
-                            _pauseEvent.WaitOne(Timeout.Infinite);
-                            if (_shutdownEvent.WaitOne(0))
-                            {
-                                batchJob[i].Status = " ==> Stopped.";
-                                // toggle button
-                                BeginInvoke(bjd, new object[] { true });
-                                UpdateLog("DoBatchJob", "Batch Job Stopped.");
-                                UpdateStatus2("Batch Job Stopped.");
-                                return;
-                            }
-
-                            int imgCount = 0;
-                            int skipCount = 0;
-
-                            string url;
-                            string query = "";
-
-                            #region Construct the searchParam
-
-                            if (batchJob[i].Provider.BoardType == BoardType.Danbooru
-                                || batchJob[i].Provider.BoardType == BoardType.Shimmie2)
-                            {
-                                currPage = batchJob[i].CurrentPage;
-                            }
-                            else if (batchJob[i].Provider.BoardType == BoardType.Gelbooru)
-                            {
-                                if (batchJob[i].Provider.Preferred == PreferredMethod.Html)
-                                {
-                                    currPage = batchJob[i].CurrentPage * postCount;
-                                }
-                                else
-                                {
-                                    currPage = batchJob[i].CurrentPage;
-                                }
-                            }
-
-                            DanbooruSearchParam searchParam = GetSearchParamsFromJob(batchJob[i], currPage);
-                            if (prevDao != null)
-                                searchParam.NextKey = prevDao.NextId;
-
-                            url = batchJob[i].Provider.GetQueryUrl(searchParam);
-
-                            #endregion Construct the searchParam
-
-                            try
-                            {
-                                #region Get and load the image list
-
-                                batchJob[i].Status = "Getting list for page: " + searchParam.Page;
-                                BeginInvoke(del);
-                                UpdateLog("DoBatchJob", "Downloading list: " + url);
-
-                                d = GetBatchImageList(url, query, batchJob[i], searchParam.Page);
-
-                                #endregion Get and load the image list
-
-                                if (d == null)
-                                {
-                                    // Cannot get list.
-                                    UpdateLog("DoBatchJob", "Cannot load list");
-                                    batchJob[i].Status = "Cannot load list.";
-                                    batchJob[i].isCompleted = false;
-                                    batchJob[i].isError = true;
-                                    flag = false;
-                                }
-                                else if (d.Posts == null || d.Posts.Count == 0)
-                                {
-                                    // No more image
-                                    UpdateLog("DoBatchJob", "No more image.");
-                                    batchJob[i].Status = "No more image.";
-                                    flag = false;
-                                    //break;
-                                }
-                                else
-                                {
-                                    lastId = ProcessBatchJobPosts(prevDao, d, i, flag, postCount, _clientPost, ref imgCount, ref skipCount, query, url, currPage);
-                                }
-                                batchJob[i].Status = " ==> Done.";
-                            }
-                            catch (Exception ex)
-                            {
-                                var result = HandleBatchJobException(ex, flag, i, query, url, currPage);
-                                flag = result.Item1;
-                                var message = result.Item2;
-
-                                if (cbxAbortOnError.Checked)
-                                {
-                                    MessageBox.Show(message, "Batch Download");
-                                    break;
-                                }
-                            }
-                            finally
-                            {
-                                BeginInvoke(del);
-                                {
-                                    // Update progress bar
-                                    object[] myArray = new object[2];
-                                    myArray[0] = batchJob[i].ProcessedTotal;
-                                    if (d != null)
-                                    {
-                                        myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
-                                    }
-                                    else
-                                    {
-                                        myArray[1] = -1;
-                                    }
-                                    BeginInvoke(del2, myArray);
-                                }
-                            }
-                            ++batchJob[i].CurrentPage;
-                        } while (flag);
-
-                        if (d != null)
-                        {
-                            d.Posts.Clear();
-                            d = null;
+                            // Cannot get list.
+                            UpdateLog("DoBatchJob", "Cannot load list");
+                            job.Status = "Cannot load list.";
+                            job.isCompleted = false;
+                            job.isError = true;
+                            flag = false;
                         }
-                        if (prevDao != null)
+                        else if (d.Posts == null || d.Posts.Count == 0)
                         {
-                            prevDao.Posts.Clear();
-                            prevDao = null;
-                        }
-                        // Fix issue #99: memory leak
-                        // might increase cpu usage (reparse tags.xml).
-                        DanbooruTagsDao.Instance = null;
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-
-                        UpdateLog("DoBatchJob", "Batch Job #" + i + ": Done");
-                        if (batchJob[i].isError)
-                        {
-                            batchJob[i].isCompleted = false;
+                            // No more image
+                            UpdateLog("DoBatchJob", "No more image.");
+                            job.Status = "No more image.";
+                            flag = false;
                         }
                         else
                         {
-                            batchJob[i].isCompleted = true;
+                            //lastId =
+                            ProcessBatchJobPosts(prevDao, d, ref flag, job, _clientPost);
                         }
-                        BeginInvoke(del);
+                        job.Status = " ==> Done.";
                     }
+                    catch (Exception ex)
+                    {
+                        var message = HandleBatchJobException(ex, ref flag, job);
+
+                        if (cbxAbortOnError.Checked)
+                        {
+                            MessageBox.Show(message, "Batch Download");
+                            break;
+                        }
+                    }
+                    finally
+                    {
+                        BeginInvoke(del);
+                        {
+                            // Update progress bar
+                            object[] myArray = new object[2];
+                            myArray[0] = job.ProcessedTotal;
+                            if (d != null)
+                            {
+                                myArray[1] = d.PostCount < job.Limit ? d.PostCount : job.Limit;
+                            }
+                            else
+                            {
+                                myArray[1] = -1;
+                            }
+                            BeginInvoke(del2, myArray);
+                        }
+                    }
+                    ++job.CurrentPage;
+                } while (flag);
+
+                if (d != null)
+                {
+                    d.Posts.Clear();
+                    d = null;
                 }
+                if (prevDao != null)
+                {
+                    prevDao.Posts.Clear();
+                    prevDao = null;
+                }
+
+                // Fix issue #99: memory leak
+                // might increase cpu usage (reparse tags.xml).
+                DanbooruTagsDao.Instance = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                UpdateLog("DoBatchJob", $"Batch Job #{i}: Done");
+                if (job.isError)
+                {
+                    job.isCompleted = false;
+                }
+                else
+                {
+                    job.isCompleted = true;
+                }
+                BeginInvoke(del);
             }
+
             BeginInvoke(bjd, new object[] { true });
             UpdateStatus2("Batch Job Completed!", true);
             {
@@ -966,17 +953,15 @@ namespace DanbooruDownloader3
             }
         }
 
-        private Tuple<bool, string> HandleBatchJobException(Exception ex, bool flag, int i, string query, string url, int currPage)
+        private string HandleBatchJobException(Exception ex, ref bool flag, DanbooruBatchJob job)
         {
-            #region batch job exception
-
             string message = ResolveInnerExceptionMessages(ex);
             string responseMessage = "";
-            message += Environment.NewLine + "Stack Trace: " + Environment.NewLine + ex.StackTrace;
-            message += Environment.NewLine + "Query: " + batchJob[i].TagQuery;
+            message += Environment.NewLine + $"Stack Trace: {Environment.NewLine}{ex.StackTrace}";
+            message += Environment.NewLine + $"Query: {job.TagQuery}";
 
-            batchJob[i].isError = true;
-            batchJob[i].isCompleted = false;
+            job.isError = true;
+            job.isCompleted = false;
 
             if (ex.GetType() == typeof(System.Net.WebException))
             {
@@ -993,9 +978,9 @@ namespace DanbooruDownloader3
                             var option = new DanbooruPostDaoOption()
                             {
                                 Provider = _currProvider,
-                                Query = query,
-                                SearchTags = batchJob[i].TagQuery,
-                                Url = url,
+                                Query = job.Query,
+                                SearchTags = job.TagQuery,
+                                Url = job.Url,
                                 Referer = "",
                                 BlacklistedTags = TagBlacklist,
                                 BlacklistedTagsRegex = TagBlacklistRegex,
@@ -1005,7 +990,7 @@ namespace DanbooruDownloader3
                                 IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
                                 IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
                             };
-                            var resp = new DanbooruPostDao(response, option, currPage);
+                            var resp = new DanbooruPostDao(response, option, job.CalculatedCurrentPage);
                             responseMessage = resp.ResponseMessage;
                             flag = false;
                         }
@@ -1019,16 +1004,21 @@ namespace DanbooruDownloader3
             {
                 flag = false;
             }
-            batchJob[i].Status = " ==> Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
-            if (!string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
-            else UpdateLog("DoBatchJob", $"Error: {ex}", ex);
 
-            #endregion batch job exception
+            job.Status = $" ==> Error: {(string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage)}{Environment.NewLine}";
+            if (!string.IsNullOrWhiteSpace(responseMessage))
+            {
+                UpdateLog("DoBatchJob", $"Server Message: {responseMessage}", ex);
+            }
+            else
+            {
+                UpdateLog("DoBatchJob", $"Error: {ex}", ex);
+            }
 
-            return new Tuple<bool, string>(flag, message);
+            return message;
         }
 
-        private string ProcessBatchJobPosts(DanbooruPostDao prevDao, DanbooruPostDao d, int i, bool flag, int postCount, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, string query, string url, int currPage)
+        private void ProcessBatchJobPosts(DanbooruPostDao prevDao, DanbooruPostDao d, ref bool flag, DanbooruBatchJob job, ExtendedWebClient clientPost)
         {
             ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
             UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
@@ -1042,25 +1032,25 @@ namespace DanbooruDownloader3
                 if (prevDao.RawData != null && prevDao.RawData.Equals(d.RawData))
                 {
                     UpdateLog("DoBatchJob", "Identical list, probably last page.");
-                    batchJob[i].Status = "Identical list, probably last page.";
+                    job.Status = "Identical list, probably last page.";
                     flag = false;
                     //break;
                 }
             }
             prevDao = d;
 
-            batchJob[i].Total = d.PostCount;
-            batchJob[i].CurrentPageTotal = d.Posts.Count;
-            batchJob[i].CurrentPageOffset = d.Offset;
+            job.Total = d.PostCount;
+            job.CurrentPageTotal = d.Posts.Count;
+            job.CurrentPageOffset = d.Offset;
 
-            postCount = d.Posts.Count;
+            job.PostCount = d.Posts.Count;
 
             foreach (DanbooruPost post in d.Posts)
             {
                 // Update progress bar
                 object[] myArray = new object[2];
-                myArray[0] = batchJob[i].ProcessedTotal;
-                myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                myArray[0] = job.ProcessedTotal;
+                myArray[1] = d.PostCount < job.Limit ? d.PostCount : job.Limit;
                 BeginInvoke(del2, myArray);
 
                 // thread handling
@@ -1068,24 +1058,23 @@ namespace DanbooruDownloader3
 
                 if (_shutdownEvent.WaitOne(0))
                 {
-                    batchJob[i].Status = " ==> Stopped.";
+                    job.Status = " ==> Stopped.";
                     // toggle button
                     BeginInvoke(bjd, new object[] { true });
                     UpdateLog("DoBatchJob", "Batch Job Stopped.");
                     UpdateStatus2("Batch Job Stopped.");
-                    return lastId;
+                    return;
                 }
                 bool download = false;
                 try
                 {
-                    download = ProcessBatchJobPost(batchJob[i], del, _clientPost, ref imgCount, ref skipCount, post);
+                    download = ProcessBatchJobPost(job, clientPost, post);
                     lastId = post.Id;
                 }
                 catch (Exception ex)
                 {
-                    var result = HandleBatchJobException(ex, flag, i, query, url, currPage);
-                    flag = result.Item1;
-                    var message = result.Item2;
+                    var message = HandleBatchJobException(ex, ref flag, job);
+
                     if (cbxAbortOnError.Checked)
                     {
                         MessageBox.Show(message, "Batch Download");
@@ -1101,7 +1090,7 @@ namespace DanbooruDownloader3
                 tempPost = null;
 
                 // check if more than available post
-                if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
+                if (job.ProcessedTotal >= d.PostCount && d.PostCount != 0)
                 {
                     UpdateLog("DoBatchJob", "No more post.");
                     flag = false;
@@ -1109,8 +1098,8 @@ namespace DanbooruDownloader3
                 }
                 // check if over given limit
                 bool isLimitReached = Properties.Settings.Default.IgnoreSkipLimit ?
-                                      ((batchJob[i].ProcessedTotal - batchJob[i].Skipped) >= batchJob[i].Limit) :
-                                      (batchJob[i].ProcessedTotal >= batchJob[i].Limit);
+                                      ((job.ProcessedTotal - job.Skipped) >= job.Limit) :
+                                      (job.ProcessedTotal >= job.Limit);
                 if (isLimitReached)
                 {
                     UpdateLog("DoBatchJob", "Limit Reached.");
@@ -1119,19 +1108,19 @@ namespace DanbooruDownloader3
                 }
 
                 // check batch job delay
-                int delay = 0;
-                Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
+                Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out int delay);
                 if ((Properties.Settings.Default.DelayIncludeSkipped || download) && delay > 0)
                 {
                     // UpdateLog("DoBatchJob", $"Waiting for {delay}ms for the next post.");
                     Thread.Sleep(delay);
                 }
             }
-            return lastId;
+            return;
         }
 
-        private bool ProcessBatchJobPost(DanbooruBatchJob currentJob, UpdateUiDelegate del, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, DanbooruPost post)
+        private bool ProcessBatchJobPost(DanbooruBatchJob currentJob, ExtendedWebClient _clientPost, DanbooruPost post)
         {
+            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
             bool download = true;
 
             if (chkDBIfExists.Checked)
@@ -1139,7 +1128,6 @@ namespace DanbooruDownloader3
                 var result = Program.DB.GetDownloadedFileByProviderAndPostId(post.Provider.Name, post.Id.ToString());
                 if (result.Count > 0)
                 {
-                    ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
                     // UpdateLog("DoBatchJob", $"Download skipped, ID: {post.Id} File exists in DB: {result[0].Path}\\{result[0].Filename}");
@@ -1169,7 +1157,8 @@ namespace DanbooruDownloader3
                     targetUrl = post.SampleUrl;
                 }
 
-                currentJob.Status = "Downloading: " + targetUrl;
+                //currentJob.Status = "Downloading: " + targetUrl;
+
                 BeginInvoke(del);
                 //if (post.Provider == null) post.Provider = cbxProvider.Text;
                 //if (post.Query == null) post.Query = txtQuery.Text;
@@ -1178,10 +1167,9 @@ namespace DanbooruDownloader3
                 // check if blacklisted
                 if (download && post.Hidden)
                 {
-                    ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", "Download skipped, contains blacklisted tag: " + post.Tags + " Url: " + targetUrl);
+                    UpdateLog("DoBatchJob", $"Download skipped, contains blacklisted tag: {post.Tags} Url: {targetUrl}");
                 }
 
                 // Feature #95: filter by extensions
@@ -1196,14 +1184,14 @@ namespace DanbooruDownloader3
                         // skip if match
                         tempResult = !Regex.IsMatch(ext, currentJob.Filter);
                         if (!tempResult)
-                            UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} matching with filter: {1} (Exclude Mode) in url {2}.", ext, currentJob.Filter, targetUrl));
+                            UpdateLog("DoBatchJob", $"Download skipped, file extension: {ext} matching with filter: {currentJob.Filter} (Exclude Mode) in url {targetUrl}.");
                     }
                     else
                     {
                         // download if match
                         tempResult = Regex.IsMatch(ext, currentJob.Filter);
                         if (!tempResult)
-                            UpdateLog("DoBatchJob", String.Format("Download skipped, file extension: {0} doesn't match with filter: {1} in url {2}.", ext, currentJob.Filter, targetUrl));
+                            UpdateLog("DoBatchJob", $"Download skipped, file extension: {ext} doesn't match with filter: {currentJob.Filter} in url {targetUrl}.");
                     }
                     download = tempResult;
                 }
@@ -1219,26 +1207,22 @@ namespace DanbooruDownloader3
                 {
                     if (File.Exists(filename))
                     {
-                        ++skipCount;
                         ++currentJob.Skipped;
                         download = false;
-                        UpdateLog("DoBatchJob", "Download skipped, file exists: " + filename);
+                        UpdateLog("DoBatchJob", $"Download skipped, file exists: {filename}");
                     }
                 }
                 if (download && String.IsNullOrWhiteSpace(targetUrl))
                 {
-                    ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " No file_url, probably deleted");
+                    UpdateLog("DoBatchJob", $"Download skipped, ID: {post.Id} ==> No file_url, probably deleted");
                 }
-                Uri uri = null;
-                if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out uri))
+                if (download && !Uri.TryCreate(targetUrl, UriKind.RelativeOrAbsolute, out Uri uri))
                 {
-                    ++skipCount;
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", "Download skipped, ID: " + post.Id + " Invalid URL: " + targetUrl);
+                    UpdateLog("DoBatchJob", $"Download skipped, ID: {post.Id} ==> Invalid URL: {targetUrl}");
                 }
 
                 #region download
@@ -1254,9 +1238,11 @@ namespace DanbooruDownloader3
                         string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
                         if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                     }
-                    imgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
+                    currentJob.LastFileUrl = targetUrl;
+                    currentJob.ImgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
                 }
 #if DEBUG
+                currentJob.CurrentFileUrl = targetUrl;
                 currentJob.Downloaded++;
                 currentJob.ProcessedTotal++;
 #endif
@@ -1326,10 +1312,21 @@ namespace DanbooruDownloader3
                     else
                     {
                         var message = ResolveInnerExceptionMessages(ex);
-                        UpdateLog("DoBatchJob", "Error Download Batch Image (" + currRetry + " of " + maxRetry + "): " + message + " Wait for " + delay + "s.", ex);
+                        UpdateLog("DoBatchJob", $"Error Download Batch Image ({currRetry} of {maxRetry}): {message} Wait for {delay}s.", ex);
 
                         for (int wait = 0; wait < delay; wait++)
                         {
+                            _pauseEvent.WaitOne(Timeout.Infinite);
+                            if (_shutdownEvent.WaitOne(0))
+                            {
+                                job.Status = " ==> Stopped.";
+                                // toggle button
+                                ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+                                BeginInvoke(bjd, new object[] { true });
+                                UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                                UpdateStatus2("Batch Job Stopped.");
+                                return 0;
+                            }
                             //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
                             Thread.Sleep(1000);
                         }
@@ -1424,7 +1421,7 @@ namespace DanbooruDownloader3
         /// <param name="searchParam"></param>
         /// <param name="job"></param>
         /// <returns></returns>
-        private DanbooruPostDao GetBatchImageList(String url, String query, DanbooruBatchJob job, int? currPage)
+        private DanbooruPostDao GetBatchImageList(DanbooruBatchJob job, int? currPage)
         {
             DanbooruPostDao d = null;
             int currRetry = 0;
@@ -1434,15 +1431,15 @@ namespace DanbooruDownloader3
             {
                 try
                 {
-                    var strs = _clientBatch.DownloadString(url);
-                    using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(url)))
+                    //var strs = _clientBatch.DownloadString(job.Url);
+                    using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(job.Url)))
                     {
                         var option = new DanbooruPostDaoOption()
                         {
                             Provider = job.Provider,
-                            Query = query,
+                            Query = job.Query,
                             SearchTags = job.TagQuery,
-                            Referer = url,
+                            Referer = job.Url,
                             BlacklistedTags = TagBlacklist,
                             BlacklistedTagsRegex = TagBlacklistRegex,
                             BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
@@ -1458,11 +1455,23 @@ namespace DanbooruDownloader3
                 catch (System.Net.WebException ex)
                 {
                     ++currRetry;
-                    UpdateLog("DoBatchJob", "Error Getting List (" + currRetry + " of " + maxRetry + "): " + ex.Message + " Wait for " + delay + "s.", ex);
+                    UpdateLog("DoBatchJob", $"Error Getting List ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
                     for (int wait = 0; wait < delay; ++wait)
                     {
                         //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
                         Thread.Sleep(1000);
+
+                        _pauseEvent.WaitOne(Timeout.Infinite);
+                        if (_shutdownEvent.WaitOne(0))
+                        {
+                            ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+                            job.Status = " ==> Stopped.";
+                            // toggle button
+                            BeginInvoke(bjd, new object[] { true });
+                            UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                            UpdateStatus2("Batch Job Stopped.");
+                            return null;
+                        }
                     }
                     UpdateLog("DoBatchJob", "Retrying...");
                 }
@@ -1602,8 +1611,7 @@ namespace DanbooruDownloader3
 
         private void txtPage_TextChanged(object sender, EventArgs e)
         {
-            uint res = 0;
-            if (!String.IsNullOrWhiteSpace(txtPage.Text) && !UInt32.TryParse(txtPage.Text, out res))
+            if (!String.IsNullOrWhiteSpace(txtPage.Text) && !UInt32.TryParse(txtPage.Text, out uint res))
             {
                 MessageBox.Show("Invalid page value = " + txtPage.Text, "List Page");
                 if (_currProvider.BoardType == BoardType.Gelbooru)
@@ -2540,8 +2548,7 @@ namespace DanbooruDownloader3
 
         private void txtArtistTagGrouping_TextChanged(object sender, EventArgs e)
         {
-            int i;
-            if (!Int32.TryParse(txtArtistTagGrouping.Text, out i))
+            if (!Int32.TryParse(txtArtistTagGrouping.Text, out int i))
             {
                 MessageBox.Show("Invalid value: " + txtArtistTagGrouping.Text, "txtArtistTagGrouping");
                 txtArtistTagGrouping.Text = "5";
@@ -2550,8 +2557,7 @@ namespace DanbooruDownloader3
 
         private void txtCopyTagGrouping_TextChanged(object sender, EventArgs e)
         {
-            int i;
-            if (!Int32.TryParse(txtCopyTagGrouping.Text, out i))
+            if (!Int32.TryParse(txtCopyTagGrouping.Text, out int i))
             {
                 MessageBox.Show("Invalid value: " + txtCopyTagGrouping.Text, "txtCopyTagGrouping");
                 txtCopyTagGrouping.Text = "5";
@@ -2560,8 +2566,7 @@ namespace DanbooruDownloader3
 
         private void txtCharaTagGrouping_TextChanged(object sender, EventArgs e)
         {
-            int i;
-            if (!Int32.TryParse(txtCharaTagGrouping.Text, out i))
+            if (!Int32.TryParse(txtCharaTagGrouping.Text, out int i))
             {
                 MessageBox.Show("Invalid value: " + txtCharaTagGrouping.Text, "txtCharaTagGrouping");
                 txtCharaTagGrouping.Text = "5";
@@ -2570,8 +2575,7 @@ namespace DanbooruDownloader3
 
         private void txtCircleTagGrouping_TextChanged(object sender, EventArgs e)
         {
-            int i;
-            if (!Int32.TryParse(txtCircleTagGrouping.Text, out i))
+            if (!Int32.TryParse(txtCircleTagGrouping.Text, out int i))
             {
                 MessageBox.Show("Invalid value: " + txtCircleTagGrouping.Text, "txtCircleTagGrouping");
                 txtCircleTagGrouping.Text = "5";
@@ -2580,8 +2584,7 @@ namespace DanbooruDownloader3
 
         private void txtFaultsTagGrouping_TextChanged(object sender, EventArgs e)
         {
-            int i;
-            if (!Int32.TryParse(txtFaultsTagGrouping.Text, out i))
+            if (!Int32.TryParse(txtFaultsTagGrouping.Text, out int i))
             {
                 MessageBox.Show("Invalid value: " + txtFaultsTagGrouping.Text, "txtFaultsTagGrouping");
                 txtFaultsTagGrouping.Text = "5";
@@ -2595,8 +2598,7 @@ namespace DanbooruDownloader3
 
         private void txtProxyPort_TextChanged(object sender, EventArgs e)
         {
-            int port = 0;
-            bool result = Int32.TryParse(txtProxyPort.Text, out port);
+            bool result = Int32.TryParse(txtProxyPort.Text, out int port);
             if (result)
             {
                 SetProxy(chkUseProxy.Checked, txtProxyAddress.Text, port, txtProxyUsername.Text, txtProxyPassword.Text);
@@ -2647,8 +2649,7 @@ namespace DanbooruDownloader3
                 {
                     if (!_clientList.IsBusy)
                     {
-                        int page;
-                        var result = Int32.TryParse(txtPage.Text, out page);
+                        var result = Int32.TryParse(txtPage.Text, out int page);
                         if (result)
                         {
                             if ((_currProvider.BoardType == BoardType.Gelbooru && page == 0) || page == 1)
@@ -2689,8 +2690,7 @@ namespace DanbooruDownloader3
             {
                 if (!_isLoadingList && !_clientList.IsBusy)
                 {
-                    int page;
-                    var result = Int32.TryParse(txtPage.Text, out page);
+                    var result = Int32.TryParse(txtPage.Text, out int page);
                     if (result)
                     {
                         if (_currProvider.BoardType == BoardType.Gelbooru && _currProvider.Preferred == PreferredMethod.Html)

@@ -41,10 +41,12 @@ namespace DanbooruDownloader3
                 var controls = pnlProvider.Controls.Find(p.Name, true);
                 if (controls.Length == 0)
                 {
-                    CheckBox chk = new CheckBox();
-                    chk.Name = p.Name;
-                    chk.Text = p.Name;
-                    chk.AutoSize = true;
+                    CheckBox chk = new CheckBox
+                    {
+                        Name = p.Name,
+                        Text = p.Name,
+                        AutoSize = true
+                    };
                     chkList.Add(chk);
                 }
             }
@@ -73,8 +75,10 @@ namespace DanbooruDownloader3
                         if (p != null)
                         {
                             providerFlag = true;
-                            DanbooruBatchJob Job = new DanbooruBatchJob();
-                            Job.Provider = p;
+                            DanbooruBatchJob Job = new DanbooruBatchJob
+                            {
+                                Provider = p
+                            };
 
                             try
                             {

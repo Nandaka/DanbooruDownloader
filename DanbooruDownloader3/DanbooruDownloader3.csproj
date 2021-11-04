@@ -177,6 +177,7 @@
     <Compile Include="FormProvider.Designer.cs">
       <DependentUpon>FormProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="CustomControl\ExtendedWebClient.cs">
       <SubType>Component</SubType>
