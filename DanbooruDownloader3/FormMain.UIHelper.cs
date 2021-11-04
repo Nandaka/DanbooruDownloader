@@ -352,5 +352,20 @@ namespace DanbooruDownloader3
                 MessageBox.Show(this, text, title, MessageBoxButtons.OK);
             }
         }
+
+        public string ResolveInnerExceptionMessages(Exception ex)
+        {
+            var message = ex.Message;
+
+            while (true)
+            {
+                var inner = ex.InnerException;
+
+                if (inner == null) break;
+                message += " ---> " + inner.Message;
+                ex = inner;
+            }
+            return message;
+        }
     }
 }

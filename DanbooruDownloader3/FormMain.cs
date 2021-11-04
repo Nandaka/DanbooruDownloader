@@ -970,12 +970,8 @@ namespace DanbooruDownloader3
         {
             #region batch job exception
 
-            string message = ex.Message;
+            string message = ResolveInnerExceptionMessages(ex);
             string responseMessage = "";
-            if (ex.InnerException != null)
-            {
-                message += Environment.NewLine + "Inner: " + ex.InnerException.Message;
-            }
             message += Environment.NewLine + "Stack Trace: " + Environment.NewLine + ex.StackTrace;
             message += Environment.NewLine + "Query: " + batchJob[i].TagQuery;
 
@@ -1025,7 +1021,7 @@ namespace DanbooruDownloader3
             }
             batchJob[i].Status = " ==> Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
             if (!string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
-            else UpdateLog("DoBatchJob", "Error: " + message, ex);
+            else UpdateLog("DoBatchJob", $"Error: {ex}", ex);
 
             #endregion batch job exception
 
@@ -1329,8 +1325,7 @@ namespace DanbooruDownloader3
                     if (currRetry < maxRetry && cbxAbortOnError.Checked) throw;
                     else
                     {
-                        var message = ex.Message;
-                        if (ex.InnerException != null) message = ex.InnerException.Message;
+                        var message = ResolveInnerExceptionMessages(ex);
                         UpdateLog("DoBatchJob", "Error Download Batch Image (" + currRetry + " of " + maxRetry + "): " + message + " Wait for " + delay + "s.", ex);
 
                         for (int wait = 0; wait < delay; wait++)
