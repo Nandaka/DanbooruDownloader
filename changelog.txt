@@ -5,7 +5,8 @@ Change Log:
   - Fix Issue #250: prevent excessive blinking in batch job.
   - Add support to add multiple job in batch job (separate the tags with new line).
   - Fix Issue #251: always delete .!tmp files for batch job.
-  - Fix Issue #249: add try/catch for each post in batch job. 
+  - Fix Issue #249: add try/catch for each post in batch job.
+  - Refactor batch job.
 
 - DanbooruDownloader20210424
   - Issue #236: update cookie handling.
