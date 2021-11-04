@@ -889,154 +889,21 @@ namespace DanbooruDownloader3
                                 }
                                 else
                                 {
-                                    if (prevDao != null)
-                                    {
-                                        // identical data returned, probably no more new image.
-                                        if (prevDao.RawData != null && prevDao.RawData.Equals(d.RawData))
-                                        {
-                                            UpdateLog("DoBatchJob", "Identical list, probably last page.");
-                                            batchJob[i].Status = "Identical list, probably last page.";
-                                            flag = false;
-                                            //break;
-                                        }
-                                    }
-                                    prevDao = d;
-
-                                    batchJob[i].Total = d.PostCount;
-                                    batchJob[i].CurrentPageTotal = d.Posts.Count;
-                                    batchJob[i].CurrentPageOffset = d.Offset;
-
-                                    postCount = d.Posts.Count;
-
-                                    foreach (DanbooruPost post in d.Posts)
-                                    {
-                                        // Update progress bar
-                                        object[] myArray = new object[2];
-                                        myArray[0] = batchJob[i].ProcessedTotal;
-                                        myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
-                                        BeginInvoke(del2, myArray);
-
-                                        // thread handling
-                                        _pauseEvent.WaitOne(Timeout.Infinite);
-
-                                        if (_shutdownEvent.WaitOne(0))
-                                        {
-                                            batchJob[i].Status = " ==> Stopped.";
-                                            // toggle button
-                                            BeginInvoke(bjd, new object[] { true });
-                                            UpdateLog("DoBatchJob", "Batch Job Stopped.");
-                                            UpdateStatus2("Batch Job Stopped.");
-                                            return;
-                                        }
-
-                                        bool download = ProcessBatchJobPost(batchJob[i], del, _clientPost, ref imgCount, ref skipCount, post);
-                                        lastId = post.Id;
-
-                                        // clean up for post tag
-                                        var index = d.Posts.IndexOf(post);
-                                        var tempPost = d.Posts[index];
-                                        tempPost.TagsEntity.Clear();
-                                        tempPost.TagsEntity = null;
-                                        tempPost = null;
-
-                                        // check if more than available post
-                                        if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
-                                        {
-                                            UpdateLog("DoBatchJob", "No more post.");
-                                            flag = false;
-                                            break;
-                                        }
-                                        // check if over given limit
-                                        bool isLimitReached = Properties.Settings.Default.IgnoreSkipLimit ?
-                                                              ((batchJob[i].ProcessedTotal - batchJob[i].Skipped) >= batchJob[i].Limit) :
-                                                              (batchJob[i].ProcessedTotal >= batchJob[i].Limit);
-                                        if (isLimitReached)
-                                        {
-                                            UpdateLog("DoBatchJob", "Limit Reached.");
-                                            flag = false;
-                                            break;
-                                        }
-
-                                        // check batch job delay
-                                        int delay = 0;
-                                        Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
-                                        if ((Properties.Settings.Default.DelayIncludeSkipped || download) && delay > 0)
-                                        {
-                                            // UpdateLog("DoBatchJob", $"Waiting for {delay}ms for the next post.");
-                                            Thread.Sleep(delay);
-                                        }
-                                    }
+                                    lastId = ProcessBatchJobPosts(prevDao, d, i, flag, postCount, _clientPost, ref imgCount, ref skipCount, query, url, currPage);
                                 }
                                 batchJob[i].Status = " ==> Done.";
                             }
                             catch (Exception ex)
                             {
-                                #region batch job exception
-
-                                string message = ex.Message;
-                                string responseMessage = "";
-                                if (ex.InnerException != null)
-                                {
-                                    message += Environment.NewLine + "Inner: " + ex.InnerException.Message;
-                                }
-                                message += Environment.NewLine + "Stack Trace: " + Environment.NewLine + ex.StackTrace;
-                                message += Environment.NewLine + "Query: " + batchJob[i].TagQuery;
-
-                                batchJob[i].isError = true;
-                                batchJob[i].isCompleted = false;
-
-                                if (ex.GetType() == typeof(System.Net.WebException))
-                                {
-                                    System.Net.WebException wex = (System.Net.WebException)ex;
-
-                                    if (wex.Status == WebExceptionStatus.ProtocolError &&
-                                        wex.Response.Headers.AllKeys.Contains("Status") &&
-                                        wex.Response.Headers["Status"].ToString() == "500")
-                                    {
-                                        using (var response = wex.Response.GetResponseStream())
-                                        {
-                                            if (response != null)
-                                            {
-                                                var option = new DanbooruPostDaoOption()
-                                                {
-                                                    Provider = _currProvider,
-                                                    Query = query,
-                                                    SearchTags = batchJob[i].TagQuery,
-                                                    Url = url,
-                                                    Referer = "",
-                                                    BlacklistedTags = TagBlacklist,
-                                                    BlacklistedTagsRegex = TagBlacklistRegex,
-                                                    BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
-                                                    IgnoredTags = TagIgnore,
-                                                    IgnoredTagsRegex = TagIgnoreRegex,
-                                                    IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
-                                                    IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
-                                                };
-                                                var resp = new DanbooruPostDao(response, option, currPage);
-                                                responseMessage = resp.ResponseMessage;
-                                                flag = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                if (ex.Message.Contains("(400)") ||
-                                    ex.Message.Contains("(403)") ||
-                                    ex.Message.Contains("(500)") ||
-                                    ex.Message.Contains("resolved"))
-                                {
-                                    flag = false;
-                                }
-                                batchJob[i].Status = " ==> Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
-                                if (!string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
-                                else UpdateLog("DoBatchJob", "Error: " + message, ex);
+                                var result = HandleBatchJobException(ex, flag, i, query, url, currPage);
+                                flag = result.Item1;
+                                var message = result.Item2;
 
                                 if (cbxAbortOnError.Checked)
                                 {
                                     MessageBox.Show(message, "Batch Download");
                                     break;
                                 }
-
-                                #endregion batch job exception
                             }
                             finally
                             {
@@ -1097,6 +964,174 @@ namespace DanbooruDownloader3
                 myArray[1] = -1;
                 BeginInvoke(del2, myArray);
             }
+        }
+
+        private Tuple<bool, string> HandleBatchJobException(Exception ex, bool flag, int i, string query, string url, int currPage)
+        {
+            #region batch job exception
+
+            string message = ex.Message;
+            string responseMessage = "";
+            if (ex.InnerException != null)
+            {
+                message += Environment.NewLine + "Inner: " + ex.InnerException.Message;
+            }
+            message += Environment.NewLine + "Stack Trace: " + Environment.NewLine + ex.StackTrace;
+            message += Environment.NewLine + "Query: " + batchJob[i].TagQuery;
+
+            batchJob[i].isError = true;
+            batchJob[i].isCompleted = false;
+
+            if (ex.GetType() == typeof(System.Net.WebException))
+            {
+                System.Net.WebException wex = (System.Net.WebException)ex;
+
+                if (wex.Status == WebExceptionStatus.ProtocolError &&
+                    wex.Response.Headers.AllKeys.Contains("Status") &&
+                    wex.Response.Headers["Status"].ToString() == "500")
+                {
+                    using (var response = wex.Response.GetResponseStream())
+                    {
+                        if (response != null)
+                        {
+                            var option = new DanbooruPostDaoOption()
+                            {
+                                Provider = _currProvider,
+                                Query = query,
+                                SearchTags = batchJob[i].TagQuery,
+                                Url = url,
+                                Referer = "",
+                                BlacklistedTags = TagBlacklist,
+                                BlacklistedTagsRegex = TagBlacklistRegex,
+                                BlacklistedTagsUseRegex = chkBlacklistTagsUseRegex.Checked,
+                                IgnoredTags = TagIgnore,
+                                IgnoredTagsRegex = TagIgnoreRegex,
+                                IgnoredTagsUseRegex = chkIgnoreTagsUseRegex.Checked,
+                                IsBlacklistOnlyForGeneral = chkBlacklistOnlyGeneral.Checked
+                            };
+                            var resp = new DanbooruPostDao(response, option, currPage);
+                            responseMessage = resp.ResponseMessage;
+                            flag = false;
+                        }
+                    }
+                }
+            }
+            if (ex.Message.Contains("(400)") ||
+                ex.Message.Contains("(403)") ||
+                ex.Message.Contains("(500)") ||
+                ex.Message.Contains("resolved"))
+            {
+                flag = false;
+            }
+            batchJob[i].Status = " ==> Error: " + (string.IsNullOrWhiteSpace(responseMessage) ? ex.Message : responseMessage) + Environment.NewLine;
+            if (!string.IsNullOrWhiteSpace(responseMessage)) UpdateLog("DoBatchJob", "Server Message: " + responseMessage, ex);
+            else UpdateLog("DoBatchJob", "Error: " + message, ex);
+
+            #endregion batch job exception
+
+            return new Tuple<bool, string>(flag, message);
+        }
+
+        private string ProcessBatchJobPosts(DanbooruPostDao prevDao, DanbooruPostDao d, int i, bool flag, int postCount, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, string query, string url, int currPage)
+        {
+            ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+            UpdateUiDelegate del = new UpdateUiDelegate(UpdateUi);
+            UpdateUiDelegate2 del2 = new UpdateUiDelegate2(UpdateUi);
+
+            string lastId = "";
+
+            if (prevDao != null)
+            {
+                // identical data returned, probably no more new image.
+                if (prevDao.RawData != null && prevDao.RawData.Equals(d.RawData))
+                {
+                    UpdateLog("DoBatchJob", "Identical list, probably last page.");
+                    batchJob[i].Status = "Identical list, probably last page.";
+                    flag = false;
+                    //break;
+                }
+            }
+            prevDao = d;
+
+            batchJob[i].Total = d.PostCount;
+            batchJob[i].CurrentPageTotal = d.Posts.Count;
+            batchJob[i].CurrentPageOffset = d.Offset;
+
+            postCount = d.Posts.Count;
+
+            foreach (DanbooruPost post in d.Posts)
+            {
+                // Update progress bar
+                object[] myArray = new object[2];
+                myArray[0] = batchJob[i].ProcessedTotal;
+                myArray[1] = d.PostCount < batchJob[i].Limit ? d.PostCount : batchJob[i].Limit;
+                BeginInvoke(del2, myArray);
+
+                // thread handling
+                _pauseEvent.WaitOne(Timeout.Infinite);
+
+                if (_shutdownEvent.WaitOne(0))
+                {
+                    batchJob[i].Status = " ==> Stopped.";
+                    // toggle button
+                    BeginInvoke(bjd, new object[] { true });
+                    UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                    UpdateStatus2("Batch Job Stopped.");
+                    return lastId;
+                }
+                bool download = false;
+                try
+                {
+                    download = ProcessBatchJobPost(batchJob[i], del, _clientPost, ref imgCount, ref skipCount, post);
+                    lastId = post.Id;
+                }
+                catch (Exception ex)
+                {
+                    var result = HandleBatchJobException(ex, flag, i, query, url, currPage);
+                    flag = result.Item1;
+                    var message = result.Item2;
+                    if (cbxAbortOnError.Checked)
+                    {
+                        MessageBox.Show(message, "Batch Download");
+                        break;
+                    }
+                }
+
+                // clean up for post tag
+                var index = d.Posts.IndexOf(post);
+                var tempPost = d.Posts[index];
+                tempPost.TagsEntity.Clear();
+                tempPost.TagsEntity = null;
+                tempPost = null;
+
+                // check if more than available post
+                if (batchJob[i].ProcessedTotal >= d.PostCount && d.PostCount != 0)
+                {
+                    UpdateLog("DoBatchJob", "No more post.");
+                    flag = false;
+                    break;
+                }
+                // check if over given limit
+                bool isLimitReached = Properties.Settings.Default.IgnoreSkipLimit ?
+                                      ((batchJob[i].ProcessedTotal - batchJob[i].Skipped) >= batchJob[i].Limit) :
+                                      (batchJob[i].ProcessedTotal >= batchJob[i].Limit);
+                if (isLimitReached)
+                {
+                    UpdateLog("DoBatchJob", "Limit Reached.");
+                    flag = false;
+                    break;
+                }
+
+                // check batch job delay
+                int delay = 0;
+                Int32.TryParse(Properties.Settings.Default.BatchJobDelay, out delay);
+                if ((Properties.Settings.Default.DelayIncludeSkipped || download) && delay > 0)
+                {
+                    // UpdateLog("DoBatchJob", $"Waiting for {delay}ms for the next post.");
+                    Thread.Sleep(delay);
+                }
+            }
+            return lastId;
         }
 
         private bool ProcessBatchJobPost(DanbooruBatchJob currentJob, UpdateUiDelegate del, ExtendedWebClient _clientPost, ref int imgCount, ref int skipCount, DanbooruPost post)
