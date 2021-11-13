@@ -1169,7 +1169,16 @@ namespace DanbooruDownloader3
                 {
                     ++currentJob.Skipped;
                     download = false;
-                    UpdateLog("DoBatchJob", $"Download skipped, contains blacklisted tag: {post.Tags} Url: {targetUrl}");
+
+                    var matchingBlacklistedTag = post.TagsEntity.Intersect(this.TagBlacklist).ToList();
+                    if (matchingBlacklistedTag.Count > 0)
+                    {
+                        UpdateLog("DoBatchJob", $"Download skipped, contains blacklisted tag: {String.Join(" ", matchingBlacklistedTag.OrderBy(x => x.Name))} Url: {targetUrl}");
+                    }
+                    else
+                    {
+                        UpdateLog("DoBatchJob", $"Download skipped, contains blacklisted tag: {post.Tags} Url: {targetUrl}");
+                    }
                 }
 
                 // Feature #95: filter by extensions
@@ -1238,6 +1247,14 @@ namespace DanbooruDownloader3
                         string dir = filename.Substring(0, filename.LastIndexOf(@"\"));
                         if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                     }
+
+                    var oldUrl = targetUrl;
+                    targetUrl = Helper.ReplaceHost(targetUrl);
+                    if (oldUrl != targetUrl)
+                    {
+                        UpdateLog("DoBatchJob", $"Url updated by host_replacement.txt: {oldUrl} ==> {targetUrl}");
+                    }
+
                     currentJob.LastFileUrl = targetUrl;
                     currentJob.ImgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
                 }

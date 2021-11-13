@@ -697,5 +697,50 @@ namespace DanbooruDownloader3
             psi.UseShellExecute = false;
             System.Diagnostics.Process.Start(psi);
         }
+
+        private static Dictionary<string, string> _hostReplacement = null;
+
+        public static string ReplaceHost(string urlToReplace)
+        {
+            if (Helper._hostReplacement == null)
+            {
+                if (File.Exists("host_replacement.txt"))
+                {
+                    Helper._hostReplacement = new Dictionary<string, string>();
+                    // read from text file
+                    var lines = File.ReadAllLines("host_replacement.txt");
+                    foreach (var line in lines)
+                    {
+                        if (line.StartsWith("#")) continue;
+                        var hostnames = line.Split(new char[] { ' ', '\t' }, 2);
+                        if (hostnames.Length == 2)
+                        {
+                            Helper._hostReplacement.Add(hostnames[0].Trim(), hostnames[1].Trim());
+                        }
+                    }
+                }
+                else
+                {
+                    // no replacement file, return as-is
+                    return urlToReplace;
+                }
+            }
+
+            var hostname = "";
+            if (urlToReplace.StartsWith("https"))
+            {
+                hostname = urlToReplace.Replace("https://", "").Split(new char[] { '/' }, 2)[0];
+            }
+            else if (urlToReplace.StartsWith("http"))
+            {
+                hostname = urlToReplace.Replace("http://", "").Split(new char[] { '/' }, 2)[0];
+            }
+            if (Helper._hostReplacement.ContainsKey(hostname))
+            {
+                urlToReplace = urlToReplace.Replace(hostname, Helper._hostReplacement[hostname]);
+            }
+
+            return urlToReplace;
+        }
     }
 }

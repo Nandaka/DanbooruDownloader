@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
-using System;
 
 namespace DanbooruDownloader3.Entity
 {
@@ -12,6 +11,7 @@ namespace DanbooruDownloader3.Entity
         public DanbooruTag[] Tag { get; set; }
 
         private DanbooruTag[] generalTag;
+
         [XmlIgnore]
         public DanbooruTag[] GeneralTag
         {
@@ -24,6 +24,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTag[] artistTag;
+
         [XmlIgnore]
         public DanbooruTag[] ArtistTag
         {
@@ -36,6 +37,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTag[] copyrightTag;
+
         [XmlIgnore]
         public DanbooruTag[] CopyrightTag
         {
@@ -48,6 +50,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTag[] characterTag;
+
         [XmlIgnore]
         public DanbooruTag[] CharacterTag
         {
@@ -60,6 +63,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTag[] circleTag;
+
         [XmlIgnore]
         public DanbooruTag[] CircleTag
         {
@@ -72,6 +76,7 @@ namespace DanbooruDownloader3.Entity
         }
 
         private DanbooruTag[] faultsTag;
+
         [XmlIgnore]
         public DanbooruTag[] FaultsTag
         {
@@ -85,7 +90,9 @@ namespace DanbooruDownloader3.Entity
 
         public override string ToString()
         {
-            return "Tags Count: " + (Tag == null? "N/A" : Tag.Length.ToString());
+            // return "Tags Count: " + (Tag == null? "N/A" : Tag.Length.ToString());
+            if (Tag == null || Tag.Length == 0) return "";
+            return String.Join(" ", Tag.OrderBy(x => x.Name));
         }
     }
 
@@ -114,23 +121,29 @@ namespace DanbooruDownloader3.Entity
             return string.Compare(this.Name, obj.Name);
         }
 
-        #endregion
+        #endregion IComparable Members
     }
 
     public enum DanbooruTagType
     {
         [XmlEnum(Name = "0")]
         General = 0,
+
         [XmlEnum(Name = "1")]
         Artist = 1,
+
         [XmlEnum(Name = "3")]
         Copyright = 3,
+
         [XmlEnum(Name = "4")]
         Character = 4,
+
         [XmlEnum(Name = "5")]
         Circle = 5,
+
         [XmlEnum(Name = "6")]
         Faults = 6,
+
         [XmlEnum(Name = "-1")]
         Unknown = -1
     }
