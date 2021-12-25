@@ -136,7 +136,14 @@ namespace DanbooruDownloader3.Entity
             var queryStr = "";
             if (this.BoardType == BoardType.Shimmie2)
             {
-                queryStr = DanbooruDownloader3.Engine.ShimmieEngine.GetQueryString(this, searchParam);
+                if (Preferred == PreferredMethod.Html)
+                {
+                    queryStr = new ShimmieHtmlParser().GenerateQueryString(searchParam);
+                }
+                else
+                {
+                    queryStr = DanbooruDownloader3.Engine.ShimmieEngine.GetQueryString(this, searchParam);
+                }
             }
             else if (this.Url.Contains("sankakucomplex.com"))
             {

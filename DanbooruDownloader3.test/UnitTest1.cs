@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -101,7 +100,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestDanbooruTags()
         {
-            {                                           
+            {
                 DanbooruTagCollection tags = (DanbooruTagCollection)ser.Deserialize(File.OpenText(sourceDanbooruTagsXml));
 
                 Assert.IsTrue(tags.Tag.Length == 151190);
@@ -287,6 +286,24 @@ namespace DanbooruDownloader3.test
             tempList = new DanbooruTagsDao(tempName).Tags;
             Assert.IsTrue(tempList.Tag != null);
             Assert.IsTrue(tempList.Tag.Length == 1000);
+        }
+
+        [TestMethod]
+        public void TestShimmieHtmlParser()
+        {
+            DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
+            string target = @"../../../DanbooruDownloader3.test/TestXml/rule34hentai.htm";
+            var data = File.ReadAllText(target);
+            var query = new DanbooruSearchParam();
+            query.Provider = pd.Read(sourceProvider).Where(x => x.Name == "rule34hentai.net").First();
+            query.Tag = "";
+            query.OrderBy = "score";
+
+            var parser = new ShimmieHtmlParser();
+
+            var result = parser.Parse(data, query);
+
+            Assert.IsNotNull(result);
         }
     }
 }

@@ -350,6 +350,22 @@ namespace DanbooruDownloader3
                     post.FileUrl = "";
                 }
             }
+            else if (post.Provider.BoardType == BoardType.Shimmie2 && post.Provider.Preferred == PreferredMethod.Html)
+            {
+                if (e.Error == null)
+                {
+                    string html = e.Result;
+                    post = ShimmieHtmlParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
+                    UpdateLog("ShimmieHtmlParser", $"Resolved to file_url: {post.FileUrl}");
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = "File url resolved!";
+                    post.Filename = MakeCompleteFilename(post, post.FileUrl);
+                }
+                else
+                {
+                    dgvDownload.Rows[_downloadList.IndexOf(post)].Cells["colProgress2"].Value = $"ShimmieHtmlParser {e.Error.Message}";
+                    UpdateLog("SankakuComplexParser", $"Unable to get file_url for: {post.Referer} ==> {e.Error.Message}", e.Error);
+                }
+            }
             else
             {
                 post.FileUrl = Constants.NO_POST_PARSER;
@@ -1259,7 +1275,7 @@ namespace DanbooruDownloader3
                     currentJob.ImgCount = DoDownloadBatch(targetUrl, currentJob, post, filename);
                 }
 #if DEBUG
-                currentJob.CurrentFileUrl = targetUrl;
+                //currentJob.CurrentFileUrl = targetUrl;
                 currentJob.Downloaded++;
                 currentJob.ProcessedTotal++;
 #endif
@@ -1399,6 +1415,10 @@ namespace DanbooruDownloader3
                             var tempPost = GelbooruHtmlParser.ParsePost(post, html);
                             post.FileUrl = tempPost.FileUrl;
                             post.PreviewUrl = tempPost.PreviewUrl;
+                        }
+                        else if (post.Provider.BoardType == BoardType.Shimmie2 && post.Provider.Preferred == PreferredMethod.Html)
+                        {
+                            post = ShimmieHtmlParser.ParsePost(post, html, !chkUseGlobalProviderTags.Checked);
                         }
                         else
                         {

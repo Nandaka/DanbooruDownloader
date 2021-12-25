@@ -78,6 +78,11 @@ namespace DanbooruDownloader3.DAO
                             GelbooruHtmlParser parser = new GelbooruHtmlParser();
                             posts = parser.Parse(rawData, param);
                         }
+                        else if (option.Provider.BoardType == BoardType.Shimmie2)
+                        {
+                            var parser = new ShimmieHtmlParser();
+                            posts = parser.Parse(rawData, param);
+                        }
                         else
                         {
                             throw new NotImplementedException("No HTML Parser for: " + option.Provider.Name);

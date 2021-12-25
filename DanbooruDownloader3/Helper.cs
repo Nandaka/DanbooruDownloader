@@ -475,6 +475,7 @@ namespace DanbooruDownloader3
 
         public static bool CheckBlacklistedTag(DanbooruPost post, DanbooruPostDaoOption option)
         {
+            if (option == null) return false;
             if (option.BlacklistedTagsUseRegex)
             {
                 if (option.IsBlacklistOnlyForGeneral)

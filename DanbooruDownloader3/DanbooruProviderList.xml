@@ -238,14 +238,14 @@
     <Name>rule34hentai.net</Name>
     <DefaultLimit>0</DefaultLimit>
     <HardLimit>0</HardLimit>
-    <Preferred>Xml</Preferred>
-    <QueryStringXml>/index.php?q=/rss/images/%_query%</QueryStringXml>
+    <Preferred>Html</Preferred>
+    <QueryStringXml>/post/list/%_query%</QueryStringXml>
     <QueryStringJson />
-    <QueryStringHtml />
+    <QueryStringHtml>/post/list/%_query%</QueryStringHtml>
     <Url>https://rule34hentai.net</Url>
     <UserName />
     <Password />
-    <LoginType>Anonymous</LoginType>
+    <LoginType>CookieAlwaysAsk</LoginType>
     <PasswordSalt />
     <PasswordHash />
     <BoardType>Shimmie2</BoardType>

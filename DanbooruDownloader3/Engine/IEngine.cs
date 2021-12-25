@@ -1,7 +1,6 @@
-﻿using System;
+﻿using DanbooruDownloader3.Entity;
+using System;
 using System.ComponentModel;
-using DanbooruDownloader3.Entity;
-using System.Xml;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -19,6 +18,7 @@ namespace DanbooruDownloader3.Engine
         String GenerateQueryString(DanbooruSearchParam query);
 
         int GetNextPage();
+
         int GetPrevPage();
     }
 }
