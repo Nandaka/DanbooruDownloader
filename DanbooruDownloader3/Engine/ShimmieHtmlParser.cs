@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace DanbooruDownloader3.Engine
 {
@@ -76,6 +77,13 @@ namespace DanbooruDownloader3.Engine
                             post.CreatedAtDateTime = DateTime.Parse(post.CreatedAt);
                         }
                     }
+                }
+
+                // score
+                var score = Regex.Matches(postHtml, @"Current Score: (\d+)");
+                if (score.Count > 0 && score[0].Groups.Count > 0)
+                {
+                    post.Score = score[0].Groups[0].Value;
                 }
 
                 return post;

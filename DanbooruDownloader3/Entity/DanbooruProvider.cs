@@ -120,21 +120,13 @@ namespace DanbooruDownloader3.Entity
 
         public override string ToString()
         {
-            //return "Name: " + Name +
-            //    " Url: " + Url +
-            //    " QueryJson: " + QueryStringJson +
-            //    " QueryHtml: " + QueryStringHtml +
-            //    " QueryXml: " + QueryStringXml +
-            //    " Preferred: " + Preferred +
-            //    " Default Limit: " + DefaultLimit +
-            //    " Type: " + BoardType.ToString();
             return Name;
         }
 
         public string GetQueryString(DanbooruSearchParam searchParam)
         {
             var queryStr = "";
-            if (this.BoardType == BoardType.Shimmie2)
+            if (BoardType == BoardType.Shimmie2)
             {
                 if (Preferred == PreferredMethod.Html)
                 {
@@ -142,16 +134,16 @@ namespace DanbooruDownloader3.Entity
                 }
                 else
                 {
-                    queryStr = DanbooruDownloader3.Engine.ShimmieEngine.GetQueryString(this, searchParam);
+                    queryStr = ShimmieEngine.GetQueryString(this, searchParam);
                 }
             }
-            else if (this.Url.Contains("sankakucomplex.com"))
+            else if (Url.Contains("sankakucomplex.com"))
             {
                 queryStr = new SankakuComplexParser().GenerateQueryString(searchParam);
             }
             else
             {
-                queryStr = DanbooruDownloader3.Engine.DanbooruXmlEngine.GetQueryString(this, searchParam);
+                queryStr = DanbooruXmlEngine.GetQueryString(this, searchParam);
             }
 
             return queryStr;
@@ -162,18 +154,18 @@ namespace DanbooruDownloader3.Entity
             var queryStr = GetQueryString(searchParam);
 
             var queryRootUrl = ""; ;
-            switch (this.Preferred)
+            switch (Preferred)
             {
                 case PreferredMethod.Xml:
-                    queryRootUrl = this.QueryStringXml;
+                    queryRootUrl = QueryStringXml;
                     break;
 
                 case PreferredMethod.Json:
-                    queryRootUrl = this.QueryStringJson;
+                    queryRootUrl = QueryStringJson;
                     break;
 
                 case PreferredMethod.Html:
-                    queryRootUrl = this.QueryStringHtml;
+                    queryRootUrl = QueryStringHtml;
                     break;
 
                 default:
@@ -182,25 +174,24 @@ namespace DanbooruDownloader3.Entity
 
             queryStr = queryRootUrl.Replace("%_query%", queryStr);
 
-            switch (this.LoginType)
+            switch (LoginType)
             {
-                case Entity.LoginType.UserPass:
+                case LoginType.UserPass:
                     {
-                        var hash = this.PasswordHash;
+                        var hash = PasswordHash;
                         if (String.IsNullOrWhiteSpace(hash))
                         {
-                            hash = Helper.GeneratePasswordHash(this.Password, this.PasswordSalt);
-                            this.PasswordHash = hash;
+                            hash = Helper.GeneratePasswordHash(Password, PasswordSalt);
+                            PasswordHash = hash;
                         }
-                        string authString = "login=" + this.UserName + "&password_hash=" + hash;
-                        queryStr = queryStr + "&" + authString;
+                        queryStr = $"{queryStr}&login={UserName}&password_hash={hash}";
                     }
                     break;
 
-                case Entity.LoginType.Cookie:
-                case Entity.LoginType.CookieAlwaysAsk:
+                case LoginType.Cookie:
+                case LoginType.CookieAlwaysAsk:
                     // need to inject csv cookie  to the webclient
-                    var cookies = Helper.ParseCookie(this.UserName, this.Url);
+                    var cookies = Helper.ParseCookie(UserName, Url);
                     foreach (var cookie in cookies)
                     {
                         ExtendedWebClient.CookieJar.Add(cookie);
@@ -211,7 +202,7 @@ namespace DanbooruDownloader3.Entity
                     break;
             }
 
-            return this.Url + queryStr;
+            return $"{Url}{queryStr}";
         }
     }
 }

@@ -1,6 +1,13 @@
 Change Log:
 =============================
-- DanbooruDownloader2021104
+- DanbooruDownloader20211225
+  - Fix Issue #256: Add ShimmieHtmlParser for rule34hentai[.]net
+    - Update the `DanbooruProviderList.xml`, change the Preferred to Html and update the QueryStringHtml to `/post/list/%_query%`
+  - Add feature to perform hostname replacement for sankaku.
+    - Create a text file named `host_replacement.txt`
+    - Format: `old_hostname	new_hostname`
+
+- DanbooruDownloader20211104
   - Fix Issue #243: update readme for sankaku login.
   - Fix Issue #250: prevent excessive blinking in batch job.
   - Add support to add multiple job in batch job (separate the tags with new line).
