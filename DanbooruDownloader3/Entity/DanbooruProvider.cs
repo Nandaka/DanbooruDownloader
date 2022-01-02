@@ -190,12 +190,8 @@ namespace DanbooruDownloader3.Entity
 
                 case LoginType.Cookie:
                 case LoginType.CookieAlwaysAsk:
-                    // need to inject csv cookie  to the webclient
-                    var cookies = Helper.ParseCookie(UserName, Url);
-                    foreach (var cookie in cookies)
-                    {
-                        ExtendedWebClient.CookieJar.Add(cookie);
-                    }
+                    // need to inject csv cookie to the webclient
+                    ReloadCookie(UserName);
                     break;
 
                 default:
@@ -203,6 +199,16 @@ namespace DanbooruDownloader3.Entity
             }
 
             return $"{Url}{queryStr}";
+        }
+
+        public void ReloadCookie(string newCookie)
+        {
+            UserName = newCookie;
+            var cookies = Helper.ParseCookie(newCookie, Url);
+            foreach (var cookie in cookies)
+            {
+                ExtendedWebClient.CookieJar.Add(cookie);
+            }
         }
     }
 }

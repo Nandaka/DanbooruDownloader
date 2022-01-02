@@ -1499,9 +1499,26 @@ namespace DanbooruDownloader3
                         UpdateLog("DoBatchJob", $"Error Getting List: {ex.Message}", ex);
                         break;
                     }
-                    else if (status.ToString() == "429")
+                    else if ((int)status == 429)
                     {
                         delay = Convert.ToInt32(txtDelay.Text) * currRetry;
+                    }
+                    else if (status == HttpStatusCode.ServiceUnavailable)
+                    {
+                        var html = "";
+                        job.Provider.UserName = "";
+                        using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                        {
+                            html = reader.ReadToEnd();
+                            if (html.Contains("DDoS protection by <a rel=\"noopener noreferrer\" href=\"https://www.cloudflare.com/5xx-error-landing/\" target=\"_blank\">Cloudflare</a>"))
+                            {
+                                UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {job.Provider.Name}, please update the cookie to access.");
+                                var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", job.Provider.Name, "");
+                                job.Provider.ReloadCookie(newCookie);
+                                delay = 0;
+                            }
+                        }
+                        if (job.Provider.UserName == "") break;
                     }
                     UpdateLog("DoBatchJob", $"Error Getting List ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
                     for (int wait = 0; wait < delay; ++wait)

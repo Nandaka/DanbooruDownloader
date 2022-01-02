@@ -45,7 +45,7 @@ namespace DanbooruDownloader3.DAO
 
                 if (rawData.Contains("DDoS protection by <a rel=\"noopener noreferrer\" href=\"https://www.cloudflare.com/5xx-error-landing/\" target=\"_blank\">Cloudflare</a>"))
                 {
-                    throw new NotImplementedException($"Cloudflare DDoS protection enablef for : {option.Provider.Name}, please use the cookie method to access.");
+                    throw new NotImplementedException($"Cloudflare DDoS protection enabled for : {option.Provider.Name}, please use the cookie method to access.");
                 }
                 switch (option.Provider.Preferred)
                 {
