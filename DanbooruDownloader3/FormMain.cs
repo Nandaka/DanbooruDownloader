@@ -1499,10 +1499,13 @@ namespace DanbooruDownloader3
                         UpdateLog("DoBatchJob", $"Error Getting List: {ex.Message}", ex);
                         break;
                     }
+                    else if (status.ToString() == "429")
+                    {
+                        delay = Convert.ToInt32(txtDelay.Text) * currRetry;
+                    }
                     UpdateLog("DoBatchJob", $"Error Getting List ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
                     for (int wait = 0; wait < delay; ++wait)
                     {
-                        //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
                         Thread.Sleep(1000);
 
                         _pauseEvent.WaitOne(Timeout.Infinite);
