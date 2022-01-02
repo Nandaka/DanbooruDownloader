@@ -871,11 +871,12 @@ namespace DanbooruDownloader3
                         BeginInvoke(del);
                         UpdateLog("DoBatchJob", $"Downloading list: {job.Url}");
 
-                        d = GetBatchImageList(job, searchParam.Page);
+                        HttpStatusCode? status = null;
+                        d = GetBatchImageList(job, searchParam.Page, ref status);
 
                         #endregion Get and load the image list
 
-                        if (d == null)
+                        if (d == null && status != HttpStatusCode.NotFound)
                         {
                             // Cannot get list.
                             UpdateLog("DoBatchJob", "Cannot load list");
@@ -884,7 +885,7 @@ namespace DanbooruDownloader3
                             job.isError = true;
                             flag = false;
                         }
-                        else if (d.Posts == null || d.Posts.Count == 0)
+                        else if (status == HttpStatusCode.NotFound || d.Posts == null || d.Posts.Count == 0)
                         {
                             // No more image
                             UpdateLog("DoBatchJob", "No more image.");
@@ -1458,7 +1459,7 @@ namespace DanbooruDownloader3
         /// <param name="searchParam"></param>
         /// <param name="job"></param>
         /// <returns></returns>
-        private DanbooruPostDao GetBatchImageList(DanbooruBatchJob job, int? currPage)
+        private DanbooruPostDao GetBatchImageList(DanbooruBatchJob job, int? currPage, ref HttpStatusCode? status)
         {
             DanbooruPostDao d = null;
             int currRetry = 0;
@@ -1492,6 +1493,12 @@ namespace DanbooruDownloader3
                 catch (System.Net.WebException ex)
                 {
                     ++currRetry;
+                    status = (ex.Response as HttpWebResponse)?.StatusCode;
+                    if (status == HttpStatusCode.NotFound)
+                    {
+                        UpdateLog("DoBatchJob", $"Error Getting List: {ex.Message}", ex);
+                        break;
+                    }
                     UpdateLog("DoBatchJob", $"Error Getting List ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
                     for (int wait = 0; wait < delay; ++wait)
                     {
