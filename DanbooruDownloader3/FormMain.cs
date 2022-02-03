@@ -1428,11 +1428,59 @@ namespace DanbooruDownloader3
                         UpdateLog("DoBatchJob", $"File Url: {post.FileUrl}");
                         break;
                     }
+                    catch (System.Net.WebException ex)
+                    {
+                        ++currRetry;
+                        var status = (ex.Response as HttpWebResponse)?.StatusCode;
+                        if (status == HttpStatusCode.NotFound)
+                        {
+                            UpdateLog("DoBatchJob", $"Error Resolving FileUrl: {ex.Message}", ex);
+                            break;
+                        }
+                        else if ((int)status == 429)
+                        {
+                            delay = Convert.ToInt32(txtDelay.Text) * currRetry;
+                        }
+                        else if (status == HttpStatusCode.ServiceUnavailable)
+                        {
+                            var html = "";
+                            post.Provider.UserName = "";
+                            using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                            {
+                                html = reader.ReadToEnd();
+                                if (html.Contains("DDoS protection by <a rel=\"noopener noreferrer\" href=\"https://www.cloudflare.com/5xx-error-landing/\" target=\"_blank\">Cloudflare</a>"))
+                                {
+                                    UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {post.Provider.Name}, please update the cookie to access.");
+                                    var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", post.Provider.Name, "");
+                                    post.Provider.ReloadCookie(newCookie);
+                                    delay = 0;
+                                }
+                            }
+                            if (post.Provider.UserName == "") break;
+                        }
+                        UpdateLog("DoBatchJob", $"Error Resolving FileUrl ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
+                        for (int wait = 0; wait < delay; ++wait)
+                        {
+                            Thread.Sleep(1000);
+
+                            _pauseEvent.WaitOne(Timeout.Infinite);
+                            if (_shutdownEvent.WaitOne(0))
+                            {
+                                ToggleBatchJobButtonDelegate bjd = new ToggleBatchJobButtonDelegate(ToggleBatchJobButton);
+                                // toggle button
+                                BeginInvoke(bjd, new object[] { true });
+                                UpdateLog("DoBatchJob", "Batch Job Stopped.");
+                                UpdateStatus2("Batch Job Stopped.");
+                                return;
+                            }
+                        }
+                        UpdateLog("DoBatchJob", "Retrying...");
+                    }
                     catch (Exception ex)
                     {
                         if (currRetry >= maxRetry)
                         {
-                            UpdateLog("DoBatchJob", "Giving Up Resolving FileUrl: " + ex.StackTrace, ex);
+                            UpdateLog("DoBatchJob", $"Giving Up Resolving FileUrl: {ex.StackTrace}", ex);
                             post.FileUrl = "";
                             post.JpegUrl = "";
                             post.SampleUrl = "";
@@ -1440,7 +1488,7 @@ namespace DanbooruDownloader3
                         }
                         ++currRetry;
 
-                        UpdateLog("DoBatchJob", "Error Resolving FileUrl (" + currRetry + " of " + maxRetry + "): " + ex.Message + " Wait for " + delay + "s.", ex);
+                        UpdateLog("DoBatchJob", $"Error Resolving FileUrl ({currRetry} of {maxRetry}): {ex.Message} ==> Wait for {delay}s.", ex);
                         for (int wait = 0; wait < delay; ++wait)
                         {
                             //UpdateLog("DoBatchJob", "Wait for " + wait + " of " + delay);
