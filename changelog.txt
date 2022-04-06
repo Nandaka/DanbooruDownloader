@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20220406
+  - Fix Issue #258: update parser for gelbooru.
+  - Add handler to ask cookie again if cloudfire session expired.
+
 - DanbooruDownloader20211225
   - Fix Issue #256: Add ShimmieHtmlParser for rule34hentai[.]net
     - Update the `DanbooruProviderList.xml`, change the Preferred to Html and update the QueryStringHtml to `/post/list/%_query%`
