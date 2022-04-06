@@ -272,6 +272,7 @@ namespace DanbooruDownloader3.DAO
 
         private void ParsePostAttributes(XmlTextReader reader, DanbooruPost post)
         {
+            // Inline attribute type
             while (reader.MoveToNextAttribute())
             {
                 switch (reader.Name.ToLowerInvariant())
@@ -425,6 +426,136 @@ namespace DanbooruDownloader3.DAO
                         break;
                 }
             }
+
+            // Issue #258
+            if (String.IsNullOrEmpty(post.Id))
+            {
+                // most likely using new format
+                using (var innerReader = reader.ReadSubtree())
+                {
+                    innerReader.Read();
+                    while (!innerReader.EOF)
+                    {
+                        switch (innerReader.NodeType)
+                        {
+                            case XmlNodeType.Element:
+                                var nodeName = innerReader.Name.ToLowerInvariant();
+                                Program.Logger.Debug(nodeName);
+                                switch (nodeName)
+                                {
+                                    case "id":
+                                        post.Id = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "created_at":
+                                        post.CreatedAt = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "score":
+                                        post.Score = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "width":
+                                        post.Width = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "height":
+                                        post.Height = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "md5":
+                                        post.MD5 = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "rating":
+                                        post.Rating = innerReader.ReadElementContentAsString();
+                                        // substring for compat
+                                        post.Rating = post.Rating.Substring(0, 1);
+                                        break;
+
+                                    case "source":
+                                        post.Source = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "change":
+                                        post.Change = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "parent_id":
+                                        post.ParentId = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "preview_height":
+                                        post.PreviewHeight = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "preview_width":
+                                        post.PreviewWidth = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "tags":
+                                        post.Tags = innerReader.ReadElementContentAsString();
+                                        post.TagsEntity = Helper.ParseTags(post.Tags, Option.Provider);
+                                        break;
+
+                                    case "file_url":
+                                        post.FileUrl = AppendHttp(innerReader.ReadElementContentAsString());
+                                        break;
+
+                                    case "preview_url":
+                                        // thumbnail
+                                        post.PreviewUrl = AppendHttp(innerReader.ReadElementContentAsString());
+                                        break;
+
+                                    case "sample_url":
+                                        post.SampleUrl = AppendHttp(innerReader.ReadElementContentAsString());
+                                        break;
+
+                                    case "sample_height":
+                                        post.SampleHeight = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "sample_width":
+                                        post.SampleWidth = innerReader.ReadElementContentAsInt();
+                                        break;
+
+                                    case "status":
+                                        post.Status = innerReader.ReadElementContentAsString();
+                                        break;
+
+                                    case "has_children":
+                                        post.HasChildren = innerReader.ReadElementContentAsBoolean();
+                                        break;
+
+                                    default:
+                                        // always move to next element
+                                        innerReader.Read();
+                                        break;
+                                }
+                                break;
+
+                            default:
+                                // always move to next element
+                                innerReader.Read();
+                                break;
+                        }
+                    }
+                }
+            }
+
+            //// if no sample, take it from full url
+            //if (String.IsNullOrWhiteSpace(post.SampleUrl))
+            //{
+            //    post.SampleUrl = post.FileUrl;
+            //    post.SampleHeight = post.Height;
+            //    post.SampleWidth = post.Width;
+            //}
+            //if (String.IsNullOrWhiteSpace(post.PreviewUrl))
+            //{
+            //    post.PreviewUrl = post.SampleUrl;
+            //    post.PreviewWidth = post.SampleHeight;
+            //    post.PreviewHeight = post.SampleWidth;
+            //}
         }
 
         public static DateTime ParseDateTime(string dtStr, DanbooruProvider provider)
