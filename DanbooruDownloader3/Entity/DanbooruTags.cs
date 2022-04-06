@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -97,7 +98,7 @@ namespace DanbooruDownloader3.Entity
     }
 
     [XmlTypeAttribute(AnonymousType = true)]
-    public class DanbooruTag : IComparable<DanbooruTag>
+    public class DanbooruTag : IComparable<DanbooruTag>, IEqualityComparer<DanbooruTag>
     {
         [XmlAttribute("type")]
         public DanbooruTagType Type { get; set; }
@@ -119,6 +120,16 @@ namespace DanbooruDownloader3.Entity
         public int CompareTo(DanbooruTag obj)
         {
             return string.Compare(this.Name, obj.Name);
+        }
+
+        public bool Equals(DanbooruTag x, DanbooruTag y)
+        {
+            return String.Equals(x.Name, y.Name);
+        }
+
+        public int GetHashCode(DanbooruTag obj)
+        {
+            return obj.Name.GetHashCode();
         }
 
         #endregion IComparable Members

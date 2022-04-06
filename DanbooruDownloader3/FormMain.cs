@@ -1187,7 +1187,7 @@ namespace DanbooruDownloader3
                     ++currentJob.Skipped;
                     download = false;
 
-                    var matchingBlacklistedTag = post.TagsEntity.Intersect(this.TagBlacklist).ToList();
+                    var matchingBlacklistedTag = post.TagsEntity.Intersect(this.TagBlacklist, new DanbooruTag()).ToList();
                     if (matchingBlacklistedTag.Count > 0)
                     {
                         UpdateLog("DoBatchJob", $"Download skipped, contains blacklisted tag: {String.Join(" ", matchingBlacklistedTag.OrderBy(x => x.Name).Select(x => x.Name))} Url: {targetUrl}");
