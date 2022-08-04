@@ -60,6 +60,20 @@ namespace DanbooruDownloader3.Engine
                     sample_url = file_url = Helper.FixUrl(dl, isHttps(post.Provider), hostname: post.Provider.Url);
                 }
 
+                if (sample_url == "")
+                {
+                    var download = doc.DocumentNode.SelectSingleNode("//a[@download='']");
+                    if (download != null)
+                    {
+                        var dl = download.GetAttributeValue("href", "");
+                        file_url = sample_url = Helper.FixUrl(dl, isHttps(post.Provider), hostname: post.Provider.Url);
+                    }
+                }
+                if (sample_url == "")
+                {
+                    Program.Logger.Warn($"Cannot get file url for {post.Id}");
+                }
+
                 post.SampleUrl = sample_url;
                 post.FileUrl = file_url;
                 post.CreatedAt = "N/A";

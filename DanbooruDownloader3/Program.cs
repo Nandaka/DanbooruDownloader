@@ -20,22 +20,22 @@ namespace DanbooruDownloader3
             SetLogger(DanbooruDownloader3.Properties.Settings.Default.EnableLogging);
 
 #if !DEBUG
-            try
-            {
+            //try
+            //{
 #endif
-                DB.Create();
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new FormMain());
+            DB.Create();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormMain());
 #if !DEBUG
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Unhandled Exception", ex);
-                Logger.Error("Terminating Danbooru Downloader .");
-                Logger.Error("############################################################################");
-                throw;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error("Unhandled Exception", ex);
+            //    Logger.Error("Terminating Danbooru Downloader .");
+            //    Logger.Error("############################################################################");
+            //    throw;
+            //}
 #endif
             Logger.Info("Closing down Danbooru Downloader.");
             Logger.Info("############################################################################");
