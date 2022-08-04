@@ -27,7 +27,7 @@
     <QueryStringJson />
     <QueryStringHtml>/?%_query%</QueryStringHtml>
     <Url>https://chan.sankakucomplex.com</Url>
-    <UserName></UserName>
+    <UserName>put the cookie here</UserName>
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
@@ -45,9 +45,9 @@
     <QueryStringJson>/post/index.json?%_query%</QueryStringJson>
     <QueryStringHtml>/post/index?%_query%</QueryStringHtml>
     <Url>https://idol.sankakucomplex.com</Url>
-    <UserName />
+    <UserName>put the cookie here</UserName>
     <Password />
-    <LoginType>Anonymous</LoginType>
+    <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
     <PasswordHash />
     <BoardType>Danbooru</BoardType>
@@ -97,9 +97,9 @@
     <Preferred>Xml</Preferred>
     <QueryStringXml>/index.php?page=dapi&amp;s=post&amp;q=index&amp;%_query%</QueryStringXml>
     <QueryStringJson />
-    <QueryStringHtml />
+    <QueryStringHtml>/index.php?page=post&amp;s=list&amp;%_query%</QueryStringHtml>
     <Url>https://gelbooru.com</Url>
-    <UserName></UserName>
+    <UserName />
     <Password />
     <LoginType>Cookie</LoginType>
     <PasswordSalt>choujin-steiner--%PASSWORD%--</PasswordSalt>
@@ -239,7 +239,7 @@
     <DefaultLimit>0</DefaultLimit>
     <HardLimit>0</HardLimit>
     <Preferred>Html</Preferred>
-    <QueryStringXml>/post/list/%_query%</QueryStringXml>
+    <QueryStringXml />
     <QueryStringJson />
     <QueryStringHtml>/post/list/%_query%</QueryStringHtml>
     <Url>https://rule34hentai.net</Url>
