@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20220804
+  - Fix Issue #266: Update Shimmie Html Parser for swf file.
+  - Fix Issue #267: Update sankaku parser.
+
 - DanbooruDownloader20220406
   - Fix Issue #258: update parser for gelbooru.
   - Add handler to ask cookie again if cloudfire session expired.
