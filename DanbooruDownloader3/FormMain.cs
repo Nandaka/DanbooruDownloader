@@ -2498,7 +2498,10 @@ namespace DanbooruDownloader3
                         candidate = _currProvider.ProviderTagCollection.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
                     }
                     else
-                        candidate = DanbooruTagsDao.Instance.Tags.Tag.Where(x => x.Name.StartsWith(keyword)).Select(x => x.Name).Take(limit).ToList<String>();
+                        candidate = DanbooruTagsDao.Instance.Tags.Tag
+                            .Where(x => (x.Name != null && x.Name.StartsWith(keyword)))
+                            .Select(x => x.Name)
+                            .Take(limit).ToList<String>();
                     if (candidate.Count > 0)
                     {
                         lbxAutoComplete.DataSource = candidate;

@@ -23,10 +23,10 @@ namespace DanbooruDownloader3
             try
             {
 #endif
-            DB.Create();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+                DB.Create();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FormMain());
 #if !DEBUG
             }
             catch (Exception ex)

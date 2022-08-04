@@ -235,60 +235,83 @@ namespace DanbooruDownloader3.Engine
                             post.SearchTags = searchParam.Tag;
                             post.Query = GenerateQueryString(searchParam);
 
-                            int i = 0;
-                            // get the image link
-                            for (; i < thumb.ChildNodes.Count; ++i)
+                            // get the link to post
+                            HtmlNode a = null;
+                            foreach (var node in thumb.ChildNodes)
                             {
-                                if (thumb.ChildNodes[i].Name == "a") break;
+                                if (node.Name == "a")
+                                {
+                                    a = node;
+                                    break;
+                                }
                             }
-                            var a = thumb.ChildNodes[i];
-                            post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
-
-                            var img = a.ChildNodes[i];
-                            if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
+                            if (a == null)
                             {
-                                Program.Logger.Warn(String.Format("No access for post {0}.", post.Id));
+                                Program.Logger.Warn(String.Format($"Cannot get post link for {post.Id}."));
                                 continue;
                             }
-                            var title = img.GetAttributeValue("title", "");
-                            post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
-                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                            post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
 
-                            post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
+                            post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
 
-                            var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
-                            if (status.Contains("deleted"))
-                                post.Status = "deleted";
-                            else if (status.Contains("pending"))
-                                post.Status = "pending";
+                            HtmlNode img = null;
+                            foreach (var node in a.ChildNodes)
+                            {
+                                if (node.Name == "img")
+                                {
+                                    img = node;
+                                    break;
+                                }
+                            }
+                            if (a == null)
+                            {
+                                Program.Logger.Warn(String.Format($"Cannot get image thumbs for {post.Id}."));
+                            }
                             else
-                                post.Status = status;
+                            {
+                                if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
+                                {
+                                    Program.Logger.Warn(String.Format($"No access for post {post.Id}."));
+                                    continue;
+                                }
+                                var title = img.GetAttributeValue("title", "");
+                                post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
+                                post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
+                                post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
 
-                            post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
-                            post.PreviewHeight = img.GetAttributeValue("height", 0);
-                            post.PreviewWidth = img.GetAttributeValue("width", 0);
+                                post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
-                            // Rating:Explicit Score:4.5 Size:1080x1800 User:System
-                            post.Source = "";
-                            post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
-                            post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
+                                var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
+                                if (status.Contains("deleted"))
+                                    post.Status = "deleted";
+                                else if (status.Contains("pending"))
+                                    post.Status = "pending";
+                                else
+                                    post.Status = status;
 
-                            string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
-                            resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
-                            string[] resArr = resolution.Split('x');
-                            post.Width = Int32.Parse(resArr[0]);
-                            post.Height = Int32.Parse(resArr[1]);
+                                post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
+                                post.PreviewHeight = img.GetAttributeValue("height", 0);
+                                post.PreviewWidth = img.GetAttributeValue("width", 0);
 
-                            string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
-                            //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
-                            post.Rating = rating.ToLower();
+                                // Rating:Explicit Score:4.5 Size:1080x1800 User:System
+                                post.Source = "";
+                                post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
+                                post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
 
-                            post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
+                                string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
+                                resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
+                                string[] resArr = resolution.Split('x');
+                                post.Width = Int32.Parse(resArr[0]);
+                                post.Height = Int32.Parse(resArr[1]);
 
-                            post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
-                            post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
+                                string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
+                                //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                                post.Rating = rating.ToLower();
 
+                                post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
+
+                                post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
+                                post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
+                            }
                             posts.Add(post);
                         }
                     }
@@ -338,9 +361,9 @@ namespace DanbooruDownloader3.Engine
             }
             catch (Exception ex)
             {
-                var filename = Helper.SanitizeFilename("Dump for Sankaku Image List - " + searchParam.Tag + " - page " + searchParam.Page + ".txt");
+                var filename = Helper.SanitizeFilename($"Dump for Sankaku Image List - {searchParam.Tag} - page {searchParam.Page}.txt");
                 var result = Helper.DumpRawData(data, filename);
-                if (!result) Program.Logger.Error("Failed to dump rawdata to: " + filename, ex);
+                if (!result) Program.Logger.Error($"Failed to dump rawdata to: {filename}", ex);
                 throw;
             }
         }
