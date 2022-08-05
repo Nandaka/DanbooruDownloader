@@ -272,7 +272,7 @@ namespace DanbooruDownloader3.DAO
 
         private void ParsePostAttributes(XmlTextReader reader, DanbooruPost post)
         {
-            // Inline attribute type
+            // Inline attribute type (old API)
             while (reader.MoveToNextAttribute())
             {
                 switch (reader.Name.ToLowerInvariant())
@@ -449,6 +449,7 @@ namespace DanbooruDownloader3.DAO
 
                                     case "created_at":
                                         post.CreatedAt = innerReader.ReadElementContentAsString();
+                                        post.CreatedAtDateTime = ParseDateTime(post.CreatedAt, Option.Provider);
                                         break;
 
                                     case "score":
