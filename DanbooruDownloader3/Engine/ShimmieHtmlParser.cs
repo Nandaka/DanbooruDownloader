@@ -93,6 +93,17 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
 
+                // last resort to get time
+                if (post.CreatedAt == "N/A")
+                {
+                    var time = Regex.Matches(postHtml, @"Posted: ([\d\-: ]+)");
+                    if (time.Count > 0 && time[0].Groups.Count > 0)
+                    {
+                        post.CreatedAt = time[0].Groups[0].Value;
+                        post.CreatedAtDateTime = DateTime.Parse(post.CreatedAt);
+                    }
+                }
+
                 // score
                 var score = Regex.Matches(postHtml, @"Current Score: (\d+)");
                 if (score.Count > 0 && score[0].Groups.Count > 0)
