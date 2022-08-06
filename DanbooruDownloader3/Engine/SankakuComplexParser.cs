@@ -39,7 +39,7 @@ namespace DanbooruDownloader3.Engine
                 }
 
                 // Flash Game or bmp
-                if (post.PreviewUrl.EndsWith("download-preview.png"))
+                if (post.PreviewUrl != null && post.PreviewUrl.EndsWith("download-preview.png"))
                 {
                     var links = doc.DocumentNode.SelectNodes("//a");
                     foreach (var link in links)
@@ -186,8 +186,22 @@ namespace DanbooruDownloader3.Engine
                         break;
                 }
                 tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode("//ul[@id='tag-sidebar']/li/a").InnerText);
+
+                // Fix Issue #268
                 var countStr = tag.SelectSingleNode("//ul[@id='tag-sidebar']/li//span[@class='post-count']").InnerText.Trim();
-                tagEntity.Count = Int32.Parse(countStr);
+                var modifier = 1;
+                if (countStr.EndsWith("K"))
+                {
+                    modifier = 1000;
+                    countStr = countStr.Replace("K", "");
+                }
+                else if (countStr.EndsWith("M"))
+                {
+                    modifier = 1000000;
+                    countStr = countStr.Replace("M", "");
+                }
+                double.TryParse(countStr, out double count);
+                tagEntity.Count = (int)(count * modifier);
 
                 post.TagsEntity.Add(tagEntity);
                 tag.Remove();

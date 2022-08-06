@@ -305,5 +305,28 @@ namespace DanbooruDownloader3.test
 
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void TestSankakuDetailPostParser()
+        {
+            DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
+            string target = @"../../../DanbooruDownloader3.test/TestXml/Dump for Post 31149948Sankaku Complex (HTTPS) Query tags=arisu_kazumi&commit=Search.txt";
+            var data = File.ReadAllText(target);
+            var query = new DanbooruSearchParam();
+            query.Provider = pd.Read(sourceProvider).Where(x => x.Name == "Sankaku Complex (HTTPS)").First();
+            query.Tag = "arisu_kazumi";
+            query.OrderBy = "score";
+
+            var post = new DanbooruPost();
+            post.Id = "31149948";
+            post.Provider = query.Provider;
+            post.SearchTags = query.Tag;
+
+            var result = SankakuComplexParser.ParsePost(post, data, true);
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.SampleUrl);
+            Assert.IsNotNull(result.FileUrl);
+        }
     }
 }
