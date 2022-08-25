@@ -1321,6 +1321,20 @@ namespace DanbooruDownloader3
                         }));
                     })).Wait();
                     File.Move(filename2, filename);
+
+                    if (chkUseLastModified.Checked)
+                    {
+                        var lastModified = _clientBatch.ResponseHeaders["last-modified"];
+                        if (!String.IsNullOrWhiteSpace(lastModified))
+                        {
+                            var date = DateTime.Parse(lastModified);
+                            File.SetCreationTimeUtc(filename, date);
+                            File.SetLastWriteTimeUtc(filename, date);
+                            File.SetLastAccessTimeUtc(filename, date);
+                            UpdateLog("DoBatchJob", $"LastModified: {date}");
+                        }
+                    }
+
                     UpdateLog("DoBatchJob", "Saved To: " + filename);
 
                     var fileInfo = new FileInfo(filename);

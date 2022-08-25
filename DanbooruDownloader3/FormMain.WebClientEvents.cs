@@ -346,6 +346,19 @@ namespace DanbooruDownloader3
                     }
                     row.Cells["colProgress2"].Value += Environment.NewLine + "Complete, Status: OK";
 
+                    if (chkUseLastModified.Checked)
+                    {
+                        var lastModified = _clientFile.ResponseHeaders["last-modified"];
+                        if (!String.IsNullOrWhiteSpace(lastModified))
+                        {
+                            var date = DateTime.Parse(lastModified);
+                            File.SetCreationTimeUtc(filename, date);
+                            File.SetLastWriteTimeUtc(filename, date);
+                            File.SetLastAccessTimeUtc(filename, date);
+                            UpdateLog("clientFileDownload", $"LastModified: {date}");
+                        }
+                    }
+
                     var provider = row.Cells["colProvider2"].Value.ToString();
                     var postId = row.Cells["colId2"].Value.ToString();
                     var fileInfo = new FileInfo(row.Cells["colFilename"].Value.ToString());

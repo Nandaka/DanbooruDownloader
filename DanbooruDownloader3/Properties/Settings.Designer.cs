@@ -959,5 +959,17 @@ namespace DanbooruDownloader3.Properties {
                 this["IgnoreSkipLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool useLastModifiedDate {
+            get {
+                return ((bool)(this["useLastModifiedDate"]));
+            }
+            set {
+                this["useLastModifiedDate"] = value;
+            }
+        }
     }
 }
