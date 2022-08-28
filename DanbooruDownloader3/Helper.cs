@@ -24,7 +24,8 @@ namespace DanbooruDownloader3
         public static Color ColorBlacklisted = Color.LightGray;
         public static Color ColorUnknown = Color.Gray;
         public static Color ColorDeleted = Color.FromArgb(255, 241, 243, 244);
-        public const String PRIORITY_TAGS = @"included_tags.txt";
+        public const string PRIORITY_TAGS = @"included_tags.txt";
+        public const string CLOUDFLARE_STR = "href=\"https://www.cloudflare.com?utm_source=challenge&utm_campaign=j\"";
 
         /// <summary>
         /// Generate hashed password+salt using SHA1

@@ -1462,7 +1462,7 @@ namespace DanbooruDownloader3
                             using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                             {
                                 html = reader.ReadToEnd();
-                                if (html.Contains("DDoS protection by <a rel=\"noopener noreferrer\" href=\"https://www.cloudflare.com/5xx-error-landing/\" target=\"_blank\">Cloudflare</a>"))
+                                if (html.Contains(Helper.CLOUDFLARE_STR))
                                 {
                                     UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {post.Provider.Name}, please update the cookie to access.");
                                     var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", post.Provider.Name, "");
@@ -1572,7 +1572,7 @@ namespace DanbooruDownloader3
                         using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                         {
                             html = reader.ReadToEnd();
-                            if (html.Contains("DDoS protection by <a rel=\"noopener noreferrer\" href=\"https://www.cloudflare.com/5xx-error-landing/\" target=\"_blank\">Cloudflare</a>"))
+                            if (html.Contains(Helper.CLOUDFLARE_STR))
                             {
                                 UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {job.Provider.Name}, please update the cookie to access.");
                                 var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", job.Provider.Name, "");
