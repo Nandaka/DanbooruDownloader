@@ -1,5 +1,9 @@
 Change Log:
 =============================
+- DanbooruDownloader20220828
+  - Implement #272: add option to use last-modified timestamp for downloaded file.
+  - Update Cloudflare detection.
+
 - DanbooruDownloader20220806
   - Fix Issue #268: Update Sankaku parser for tag count.
 
