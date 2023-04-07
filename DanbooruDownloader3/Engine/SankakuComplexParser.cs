@@ -227,11 +227,15 @@ namespace DanbooruDownloader3.Engine
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(data);
 
-                // remove popular preview
-                var popular = doc.DocumentNode.SelectSingleNode("//div[@id='popular-preview']");
-                if (popular != null)
+                // remove popular preview and images in mail notice
+                var nodeIds = ['popular-preview', 'has-mail-notice'];
+                for (var nodeId in nodeIds)
                 {
-                    popular.Remove();
+                    var node = doc.DocumentNode.SelectSingleNode(string.Join("//div[@id='", nodeId, "'"));
+                    if (node != null)
+                    {
+                        node.Remove();
+                    }
                 }
 
                 // get all thumbs
