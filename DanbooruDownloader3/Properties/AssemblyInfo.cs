@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nandaka")]
 [assembly: AssemblyProduct("DanbooruDownloader3")]
-[assembly: AssemblyCopyright("Copyright © Nandaka 2016-2022")]
+[assembly: AssemblyCopyright("Copyright © Nandaka 2016-2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.2022.08.28")]
-[assembly: AssemblyFileVersion("3.2022.08.28")]
+[assembly: AssemblyVersion("3.2023.04.08")]
+[assembly: AssemblyFileVersion("3.2023.04.08")]
