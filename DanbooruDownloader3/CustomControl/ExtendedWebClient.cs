@@ -100,6 +100,11 @@ namespace DanbooruDownloader3.CustomControl
             }
         }
 
+        public static void ClearCookies()
+        {
+            cookieJar = new CookieContainer();
+        }
+
         public static bool EnableCompression { get; set; }
 
         private static string _acceptLanguage;

@@ -77,5 +77,16 @@ namespace DanbooruDownloader3
 
             return cookieCollection;
         }
+
+        private void btnClearCookie_Click(object sender, EventArgs e)
+        {
+            var cj = ExtendedWebClient.CookieJar;
+            if (cj != null)
+            {
+                ExtendedWebClient.ClearCookies();
+                dgvCookie.DataSource = GetAllCookies(ExtendedWebClient.CookieJar);
+                dgvCookie.Refresh(); 
+            }
+        }
     }
 }
