@@ -231,7 +231,7 @@ namespace DanbooruDownloader3.Engine
                 var nodeIds = new string[] {"popular-preview", "has-mail-notice"};
                 foreach (var nodeId in nodeIds)
                 {
-                    var node = doc.DocumentNode.SelectSingleNode(string.Join("//div[@id='", nodeId, "'"));
+                    var node = doc.DocumentNode.SelectSingleNode($"//div[@id='{nodeId}']");
                     if (node != null)
                     {
                         node.Remove();
