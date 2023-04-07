@@ -228,8 +228,8 @@ namespace DanbooruDownloader3.Engine
                 doc.LoadHtml(data);
 
                 // remove popular preview and images in mail notice
-                var nodeIds = ['popular-preview', 'has-mail-notice'];
-                for (var nodeId in nodeIds)
+                var nodeIds = new string[] {"popular-preview", "has-mail-notice"};
+                foreach (var nodeId in nodeIds)
                 {
                     var node = doc.DocumentNode.SelectSingleNode(string.Join("//div[@id='", nodeId, "'"));
                     if (node != null)
