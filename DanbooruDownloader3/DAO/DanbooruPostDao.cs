@@ -43,7 +43,7 @@ namespace DanbooruDownloader3.DAO
                 }
                 this.Option = option;
 
-                if (rawData.Contains(Helper.CLOUDFLARE_STR))
+                if (rawData.Contains(Helper.CLOUDFLARE_STR) || rawData.Contains(Helper.DDOS_STR))
                 {
                     throw new NotImplementedException($"Cloudflare DDoS protection enabled for : {option.Provider.Name}, please use the cookie method to access.");
                 }

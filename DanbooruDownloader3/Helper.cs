@@ -26,6 +26,7 @@ namespace DanbooruDownloader3
         public static Color ColorDeleted = Color.FromArgb(255, 241, 243, 244);
         public const string PRIORITY_TAGS = @"included_tags.txt";
         public const string CLOUDFLARE_STR = "href=\"https://www.cloudflare.com?utm_source=challenge&utm_campaign=j\"";
+        public const string DDOS_STR = "<title>Just a moment...</title>";
 
         /// <summary>
         /// Generate hashed password+salt using SHA1
