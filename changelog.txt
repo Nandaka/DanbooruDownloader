@@ -1,5 +1,10 @@
 Change Log:
 =============================
+- DanbooruDownloader20230623
+  - Fix #277: update parser for %uploadDateTime% on sankaku.
+  - Fix #283: update tags parser causing sankaku fail to get the files.
+  - Update ddos check handling for batch job
+
 - DanbooruDownloader20230408
   - Fix #279: Update handling for Sankaku AI Banner with help from @bea831333
   - Update to .Net Framework 4.8.1

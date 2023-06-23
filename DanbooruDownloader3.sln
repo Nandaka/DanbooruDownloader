@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.960
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanbooruDownloader3", "DanbooruDownloader3\DanbooruDownloader3.csproj", "{9590336F-EB2B-4C60-9ED6-785E5BB8C430}"
 EndProject
@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		changelog.txt = changelog.txt
 		DanbooruDownloader3.vsmdi = DanbooruDownloader3.vsmdi
+		host_replacement.txt = host_replacement.txt
 		Local.testsettings = Local.testsettings
 		Performance1.psess = Performance1.psess
 		readme.txt = readme.txt
