@@ -89,23 +89,18 @@ namespace DanbooruDownloader3.Engine
                 post.CreatedAtDateTime = DateTime.MinValue;
                 try
                 {
-                    var lis = doc.DocumentNode.SelectNodes("//div[@id='post-view']//div[@id='stats']//li");
+                    // Issue #277
+                    var lis = doc.DocumentNode.SelectNodes("//div[@id='post-view']//div[@id='stats']//a");
                     foreach (var item in lis)
                     {
-                        if (item.InnerText.Contains("Posted:"))
+                        
+                        if (item.Attributes.Contains("href") && item.Attributes["href"].Value.Contains("?tags=date"))
                         {
-                            var links = item.SelectNodes("//div[@id='post-view']//div[@id='stats']//li//a");
-                            foreach (var link in links)
-                            {
-                                if (link.Attributes.Contains("href") && link.Attributes["href"].Value.Contains("?tags=date"))
-                                {
-                                    post.CreatedAt = link.Attributes["title"].Value;
-                                    post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
-                                    break;
-                                }
-                            }
+                            post.CreatedAt = item.Attributes["title"].Value;
+                            post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
                             break;
                         }
+                            
                     }
                 }
                 catch (Exception ex)
