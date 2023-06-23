@@ -301,18 +301,20 @@ namespace DanbooruDownloader3
 
         #region clientDownloadFile event handler
 
+        int _prevProgress = 0;
+
         private void clientFile_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             tsProgressBar.Visible = true;
             tsProgress2.Visible = true;
 
-            if (e.UserState != null)
+            if (e.UserState != null && _prevProgress != e.ProgressPercentage)
             {
                 DataGridViewRow row = (DataGridViewRow)e.UserState;
                 var startTime = (DateTime)row.Cells["colDownloadStart2"].Value;
                 string speed = Helper.shortSpeedStr((long)(e.BytesReceived / (TimeSpan.FromTicks(DateTime.Now.AddTicks(-startTime.Ticks).Ticks).TotalSeconds)));
-                txtLog.AppendText("[clientFileDownload]" + row.Index + "    downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + " bytes. " + e.ProgressPercentage + " % complete..." + Environment.NewLine);
-                row.Cells["colProgress2"].Value = String.Format("Downloading: {0:0.00} of {1:0.00} ({2:0.00}/s)", Helper.shortSpeedStr(e.BytesReceived), Helper.shortSpeedStr(e.TotalBytesToReceive), speed);
+                txtLog.AppendText($"[clientFileDownload]{row.Index}    downloaded {e.BytesReceived} of {e.TotalBytesToReceive} bytes. {e.ProgressPercentage}% complete...{Environment.NewLine}");
+                row.Cells["colProgress2"].Value = $"Downloading: {Helper.shortSpeedStr(e.BytesReceived):0.00} of {Helper.shortSpeedStr(e.TotalBytesToReceive):0.00} ({speed:0.00}/s)";
             }
             if (e.TotalBytesToReceive > 0)
             {

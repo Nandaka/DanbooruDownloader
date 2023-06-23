@@ -11,6 +11,9 @@ namespace DanbooruDownloader3.Engine
 {
     public class SankakuComplexParser : IEngine
     {
+
+        private static Regex _postCount = new Regex("Posts: (.*)Books");
+
         private static bool isHttps(DanbooruProvider provider)
         {
             return provider.Url.ToLowerInvariant().StartsWith("https");
@@ -185,10 +188,15 @@ namespace DanbooruDownloader3.Engine
                         tagEntity.Type = DanbooruTagType.Unknown;
                         break;
                 }
-                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode("//ul[@id='tag-sidebar']/li/a").InnerText);
+                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.FirstChild.FirstChild.InnerText);
 
                 // Fix Issue #268
-                var countStr = tag.SelectSingleNode("//ul[@id='tag-sidebar']/li//span[@class='post-count']").InnerText.Trim();
+                var match = _postCount.Match(tag.InnerText.Trim());
+                var countStr = "0";
+                if (match.Success)
+                {
+                    countStr = match.Groups[1].Value;
+                }
                 var modifier = 1;
                 if (countStr.EndsWith("K"))
                 {
