@@ -184,6 +184,11 @@ namespace DanbooruDownloader3.Engine
                         break;
                 }
                 tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.FirstChild.FirstChild.InnerText);
+                if(String.IsNullOrWhiteSpace(tagEntity.Name))
+                {
+                    
+                    tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode(".//a").InnerText);
+                }
 
                 // Fix Issue #268
                 var match = _postCount.Match(tag.InnerText.Trim());
