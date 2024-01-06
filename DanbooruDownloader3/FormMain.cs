@@ -529,7 +529,13 @@ namespace DanbooruDownloader3
         private void LoadList(DanbooruPostDao postDao)
         {
             Program.Logger.Debug("Loading list");
-            if (postDao.Posts.Count > 0)
+            if(postDao.HasError)
+            {
+                _isMorePost = false;
+                _isLoadingList = false;
+                ShowMessage("Main", postDao.ErrorMessage);
+            }
+            else if (postDao.Posts.Count > 0)
             {
                 _isLoadingList = true;
 
@@ -883,6 +889,12 @@ namespace DanbooruDownloader3
                             job.Status = "Cannot load list.";
                             job.isCompleted = false;
                             job.isError = true;
+                            flag = false;
+                        }
+                        else if (d.HasError)
+                        {
+                            UpdateLog("DoBatchJob", d.ErrorMessage);
+                            job.Status = d.ErrorMessage;
                             flag = false;
                         }
                         else if (status == HttpStatusCode.NotFound || d.Posts == null || d.Posts.Count == 0)

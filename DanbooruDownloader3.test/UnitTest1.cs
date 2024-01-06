@@ -69,6 +69,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestDanbooruEngineParser()
         {
+            var errorMessage = "";
             DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             DanbooruXmlEngine e = new DanbooruXmlEngine();
 
@@ -76,7 +77,7 @@ namespace DanbooruDownloader3.test
                 XDocument doc = XDocument.Load(sourceDanbooruXml);
                 var searchQuery = new DanbooruSearchParam();
                 searchQuery.Provider = pd.Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Danbooru && x.Name.Contains("danbooru")).First<DanbooruProvider>();
-                BindingList<DanbooruPost> result = e.Parse(doc.ToString(), searchQuery);
+                BindingList<DanbooruPost> result = e.Parse(doc.ToString(), searchQuery, ref errorMessage);
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(e.RawData);
                 Assert.IsTrue(e.TotalPost == 1021107);
@@ -88,7 +89,7 @@ namespace DanbooruDownloader3.test
                 XDocument doc = XDocument.Load(sourceYandereXml);
                 var searchQuery = new DanbooruSearchParam();
                 searchQuery.Provider = pd.Read(sourceProvider).Where<DanbooruProvider>(x => x.BoardType == BoardType.Danbooru && x.Name.Contains("yande.re")).First<DanbooruProvider>();
-                BindingList<DanbooruPost> result = e.Parse(doc.ToString(), searchQuery);
+                BindingList<DanbooruPost> result = e.Parse(doc.ToString(), searchQuery, ref errorMessage);
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(e.RawData);
                 Assert.IsTrue(e.TotalPost == 160753);
@@ -215,6 +216,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestSankakuParser()
         {
+            var errorMessage = "";
             DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             string target = @"../../../DanbooruDownloader3.test/TestXml/sankaku_paging.htm";
             var data = File.ReadAllText(target);
@@ -225,7 +227,7 @@ namespace DanbooruDownloader3.test
 
             var parser = new SankakuComplexParser();
 
-            var result = parser.Parse(data, query);
+            var result = parser.Parse(data, query, ref errorMessage);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count == 20, "Count: " + result.Count);
@@ -291,6 +293,7 @@ namespace DanbooruDownloader3.test
         [TestMethod]
         public void TestShimmieHtmlParser()
         {
+            var errorMessage = "";
             DanbooruProviderDao pd = DanbooruProviderDao.GetInstance();
             string target = @"../../../DanbooruDownloader3.test/TestXml/rule34hentai.htm";
             var data = File.ReadAllText(target);
@@ -301,7 +304,7 @@ namespace DanbooruDownloader3.test
 
             var parser = new ShimmieHtmlParser();
 
-            var result = parser.Parse(data, query);
+            var result = parser.Parse(data, query, ref errorMessage);
 
             Assert.IsNotNull(result);
         }

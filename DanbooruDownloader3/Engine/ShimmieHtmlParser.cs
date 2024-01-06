@@ -122,7 +122,7 @@ namespace DanbooruDownloader3.Engine
             }
         }
 
-        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
+        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query, ref string errorMessage)
         {
             this.RawData = data;
             this.SearchParam = query;

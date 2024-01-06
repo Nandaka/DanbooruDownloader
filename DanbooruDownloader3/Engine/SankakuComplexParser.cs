@@ -93,14 +93,14 @@ namespace DanbooruDownloader3.Engine
                     var lis = doc.DocumentNode.SelectNodes("//div[@id='post-view']//div[@id='stats']//a");
                     foreach (var item in lis)
                     {
-                        
+
                         if (item.Attributes.Contains("href") && item.Attributes["href"].Value.Contains("?tags=date"))
                         {
                             post.CreatedAt = item.Attributes["title"].Value;
                             post.CreatedAtDateTime = DanbooruPostDao.ParseDateTime(post.CreatedAt, post.Provider);
                             break;
                         }
-                            
+
                     }
                 }
                 catch (Exception ex)
@@ -183,33 +183,34 @@ namespace DanbooruDownloader3.Engine
                         tagEntity.Type = DanbooruTagType.Unknown;
                         break;
                 }
-                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.FirstChild.FirstChild.InnerText);
-                if(String.IsNullOrWhiteSpace(tagEntity.Name))
+                tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.InnerText.Trim());
+                if (String.IsNullOrWhiteSpace(tagEntity.Name))
                 {
-                    
+
                     tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode(".//a").InnerText);
                 }
 
-                // Fix Issue #268
-                var match = _postCount.Match(tag.InnerText.Trim());
-                var countStr = "0";
-                if (match.Success)
-                {
-                    countStr = match.Groups[1].Value;
-                }
-                var modifier = 1;
-                if (countStr.EndsWith("K"))
-                {
-                    modifier = 1000;
-                    countStr = countStr.Replace("K", "");
-                }
-                else if (countStr.EndsWith("M"))
-                {
-                    modifier = 1000000;
-                    countStr = countStr.Replace("M", "");
-                }
-                double.TryParse(countStr, out double count);
-                tagEntity.Count = (int)(count * modifier);
+                // no more tags count 20240106
+                //// Fix Issue #268
+                //var match = _postCount.Match(tag.InnerText.Trim());
+                //var countStr = "0";
+                //if (match.Success)
+                //{
+                //    countStr = match.Groups[1].Value;
+                //}
+                //var modifier = 1;
+                //if (countStr.EndsWith("K"))
+                //{
+                //    modifier = 1000;
+                //    countStr = countStr.Replace("K", "");
+                //}
+                //else if (countStr.EndsWith("M"))
+                //{
+                //    modifier = 1000000;
+                //    countStr = countStr.Replace("M", "");
+                //}
+                //double.TryParse(countStr, out double count);
+                //tagEntity.Count = (int)(count * modifier);
 
                 post.TagsEntity.Add(tagEntity);
                 tag.Remove();
@@ -223,7 +224,7 @@ namespace DanbooruDownloader3.Engine
         /// <param name="data"></param>
         /// <param name="searchParam"></param>
         /// <returns></returns>
-        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
+        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam, ref string errorMessage)
         {
             try
             {
@@ -235,8 +236,18 @@ namespace DanbooruDownloader3.Engine
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(data);
 
+                // get error message
+                // post-premium-browsing_error
+                var sankakuPremiumError = doc.DocumentNode.SelectSingleNode("//div[@class='post-premium-browsing_error']");
+                if (sankakuPremiumError != null)
+                {
+                    errorMessage = $"Sankaku Premium Error: {sankakuPremiumError.InnerText.Trim()}";
+                    Program.Logger.Error(errorMessage);
+                    return posts;
+                }
+
                 // remove popular preview and images in mail notice
-                var nodeIds = new string[] {"popular-preview", "has-mail-notice"};
+                var nodeIds = new string[] { "popular-preview", "has-mail-notice" };
                 foreach (var nodeId in nodeIds)
                 {
                     var node = doc.DocumentNode.SelectSingleNode($"//div[@id='{nodeId}']");
@@ -247,99 +258,100 @@ namespace DanbooruDownloader3.Engine
                 }
 
                 // get all thumbs
-                var thumbs = doc.DocumentNode.SelectNodes("//span");
+                // var thumbs = doc.DocumentNode.SelectNodes("//span");
+                var thumbs = doc.DocumentNode.SelectNodes("//span[contains(@class, 'thumb')]");
                 if (thumbs != null && thumbs.Count > 0)
                 {
                     foreach (var thumb in thumbs)
                     {
-                        if (thumb.GetAttributeValue("class", "").Contains("thumb"))
+                        //if (thumb.GetAttributeValue("class", "").Contains("thumb"))
+                        //{
+                        DanbooruPost post = new DanbooruPost();
+                        post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
+
+                        post.Provider = searchParam.Provider;
+                        post.SearchTags = searchParam.Tag;
+                        post.Query = GenerateQueryString(searchParam);
+
+                        // get the link to post
+                        HtmlNode a = null;
+                        foreach (var node in thumb.ChildNodes)
                         {
-                            DanbooruPost post = new DanbooruPost();
-                            post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
-
-                            post.Provider = searchParam.Provider;
-                            post.SearchTags = searchParam.Tag;
-                            post.Query = GenerateQueryString(searchParam);
-
-                            // get the link to post
-                            HtmlNode a = null;
-                            foreach (var node in thumb.ChildNodes)
+                            if (node.Name == "a")
                             {
-                                if (node.Name == "a")
-                                {
-                                    a = node;
-                                    break;
-                                }
+                                a = node;
+                                break;
                             }
-                            if (a == null)
+                        }
+                        if (a == null)
+                        {
+                            Program.Logger.Warn(String.Format($"Cannot get post link for {post.Id}."));
+                            continue;
+                        }
+                        post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
+
+                        // get thumbnail
+                        HtmlNode img = null;
+                        foreach (var node in a.ChildNodes)
+                        {
+                            if (node.Name == "img")
                             {
-                                Program.Logger.Warn(String.Format($"Cannot get post link for {post.Id}."));
+                                img = node;
+                                break;
+                            }
+                        }
+                        if (img == null)
+                        {
+                            Program.Logger.Warn(String.Format($"Cannot get image thumbs for {post.Id}."));
+                        }
+                        else
+                        {
+                            if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
+                            {
+                                Program.Logger.Warn(String.Format($"No access for post {post.Id}."));
                                 continue;
                             }
+                            var title = img.GetAttributeValue("data-auto_page", "");
+                            post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
+                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
+                            post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
 
-                            post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
+                            post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
 
-                            HtmlNode img = null;
-                            foreach (var node in a.ChildNodes)
-                            {
-                                if (node.Name == "img")
-                                {
-                                    img = node;
-                                    break;
-                                }
-                            }
-                            if (a == null)
-                            {
-                                Program.Logger.Warn(String.Format($"Cannot get image thumbs for {post.Id}."));
-                            }
+                            var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
+                            if (status.Contains("deleted"))
+                                post.Status = "deleted";
+                            else if (status.Contains("pending"))
+                                post.Status = "pending";
                             else
-                            {
-                                if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
-                                {
-                                    Program.Logger.Warn(String.Format($"No access for post {post.Id}."));
-                                    continue;
-                                }
-                                var title = img.GetAttributeValue("title", "");
-                                post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
-                                post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                                post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
+                                post.Status = status;
 
-                                post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
+                            post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
+                            post.PreviewHeight = img.GetAttributeValue("height", 0);
+                            post.PreviewWidth = img.GetAttributeValue("width", 0);
 
-                                var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
-                                if (status.Contains("deleted"))
-                                    post.Status = "deleted";
-                                else if (status.Contains("pending"))
-                                    post.Status = "pending";
-                                else
-                                    post.Status = status;
+                            // Rating:R18+ Score:5.0 Size:1425x1188 User:kabeshi"
+                            post.Source = "";
+                            post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
+                            post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
 
-                                post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
-                                post.PreviewHeight = img.GetAttributeValue("height", 0);
-                                post.PreviewWidth = img.GetAttributeValue("width", 0);
+                            string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
+                            resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
+                            string[] resArr = resolution.Split('x');
+                            post.Width = Int32.Parse(resArr[0]);
+                            post.Height = Int32.Parse(resArr[1]);
 
-                                // Rating:Explicit Score:4.5 Size:1080x1800 User:System
-                                post.Source = "";
-                                post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
-                                post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
+                            string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
+                            //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                            post.Rating = rating.ToLower();
 
-                                string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
-                                resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
-                                string[] resArr = resolution.Split('x');
-                                post.Width = Int32.Parse(resArr[0]);
-                                post.Height = Int32.Parse(resArr[1]);
+                            post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
 
-                                string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
-                                //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
-                                post.Rating = rating.ToLower();
-
-                                post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
-
-                                post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
-                                post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
-                            }
-                            posts.Add(post);
+                            post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
+                            post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
                         }
+                        posts.Add(post);
+                        //}
                     }
                 }
 

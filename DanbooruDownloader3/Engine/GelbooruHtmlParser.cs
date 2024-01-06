@@ -87,7 +87,7 @@ namespace DanbooruDownloader3.Engine
             return post;
         }
 
-        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam)
+        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam searchParam, ref string errorMessage)
         {
             this.SearchParam = searchParam;
 

@@ -11,6 +11,18 @@ namespace DanbooruDownloader3.DAO
 {
     public class DanbooruPostDao
     {
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            private set { }
+        }
+
+        public Boolean HasError
+        {
+            get { return !String.IsNullOrWhiteSpace(errorMessage); }
+        }
+
         #region ctor
 
         /// <summary>
@@ -19,6 +31,7 @@ namespace DanbooruDownloader3.DAO
         /// <param name="option"></param>
         public DanbooruPostDao(DanbooruPostDaoOption option)
         {
+            errorMessage = "";
             this.Option = option;
             if (option.Url.ToLower().EndsWith(".xml"))
                 ReadXML(option.Url);
@@ -33,6 +46,7 @@ namespace DanbooruDownloader3.DAO
         /// <param name="option"></param>
         public DanbooruPostDao(Stream input, DanbooruPostDaoOption option, int? currentPage)
         {
+            errorMessage = "";
             string rawData = "";
             this.Option = option;
             try
@@ -68,7 +82,7 @@ namespace DanbooruDownloader3.DAO
                         if (option.Provider.BoardType == BoardType.Danbooru)
                         {
                             SankakuComplexParser parser = new SankakuComplexParser();
-                            posts = parser.Parse(rawData, param);
+                            posts = parser.Parse(rawData, param, ref errorMessage);
                             NextId = param.NextKey;
                             if (parser.TotalPost.HasValue)
                                 postCount = parser.TotalPost.Value;
@@ -76,12 +90,12 @@ namespace DanbooruDownloader3.DAO
                         else if (option.Provider.BoardType == BoardType.Gelbooru)
                         {
                             GelbooruHtmlParser parser = new GelbooruHtmlParser();
-                            posts = parser.Parse(rawData, param);
+                            posts = parser.Parse(rawData, param, ref errorMessage);
                         }
                         else if (option.Provider.BoardType == BoardType.Shimmie2)
                         {
                             var parser = new ShimmieHtmlParser();
-                            posts = parser.Parse(rawData, param);
+                            posts = parser.Parse(rawData, param, ref errorMessage);
                         }
                         else
                         {

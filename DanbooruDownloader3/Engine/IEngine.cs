@@ -13,7 +13,7 @@ namespace DanbooruDownloader3.Engine
         bool Success { get; set; }
         DanbooruSearchParam SearchParam { get; set; }
 
-        BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query);
+        BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query, ref string errorMessage);
 
         String GenerateQueryString(DanbooruSearchParam query);
 

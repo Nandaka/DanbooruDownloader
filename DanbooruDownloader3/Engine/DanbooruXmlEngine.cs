@@ -26,7 +26,7 @@ namespace DanbooruDownloader3.Engine
 
         public bool Success { get; set; }
 
-        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query)
+        public BindingList<DanbooruPost> Parse(string data, DanbooruSearchParam query, ref string errorMessage)
         {
             BindingList<DanbooruPost> list = new BindingList<DanbooruPost>();
             XDocument posts = XDocument.Parse(data);

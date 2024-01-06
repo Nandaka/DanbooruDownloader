@@ -308,7 +308,8 @@ namespace DanbooruDownloader3
             tsProgressBar.Visible = true;
             tsProgress2.Visible = true;
 
-            if (e.UserState != null && _prevProgress != e.ProgressPercentage)
+            // only report for 10% increment
+            if (e.UserState != null && _prevProgress != e.ProgressPercentage && (e.ProgressPercentage % 10 == 0))
             {
                 DataGridViewRow row = (DataGridViewRow)e.UserState;
                 var startTime = (DateTime)row.Cells["colDownloadStart2"].Value;
