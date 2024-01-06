@@ -1,5 +1,8 @@
 Change Log:
 =============================
+- DanbooruDownloader20240106
+  - Fix #290: Update tags parser for sankaku and enhance error handling for non-premium member.
+
 - DanbooruDownloader20230629
   - Fix #284: Update tags parser for sankaku again
 
