@@ -186,6 +186,8 @@ namespace DanbooruDownloader3
             {
                 if (IsDisposed && IsHandleCreated) return;
                 tsStatus.Text = message;
+                tsProgress2.Visible = false;
+                tsProgressBar.Visible = false;
                 if (Properties.Settings.Default.ShutdownAfterCompleteBatchJob)
                 {
                     Helper.Shutdown();

@@ -365,11 +365,19 @@ namespace DanbooruDownloader3.Engine
                     TotalPost = posts.Count;
                 }
 
+                // get post count
+                var tag_count = doc.DocumentNode.SelectSingleNode("//span[@class='tag-count']");
+                if(tag_count != null)
+                {
+                    Int32.TryParse(tag_count.InnerText, out int count);
+                    TotalPost = count;
+                }
+
                 if (!SearchParam.Page.HasValue && SearchParam.Page > 0) SearchParam.Page = 1;
                 Offset = TotalPost * SearchParam.Page;
 
-                // get next id for 26th page and current page return full list (20 posts)
-                if (searchParam.Page >= 25 && posts.Count == 20)
+                // get next id for 26th page and current page return full list (25 posts)
+                if (searchParam.Page >= 25 && posts.Count >= 25)
                 {
                     searchParam.NextKey = posts[posts.Count - 1].Id;
                 }
