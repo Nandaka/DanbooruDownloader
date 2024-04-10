@@ -179,6 +179,11 @@ namespace DanbooruDownloader3.Engine
                         tagEntity.Type = DanbooruTagType.Character;
                         break;
 
+                    case "tag-type-genre":
+                        // both
+                        tagEntity.Type = DanbooruTagType.Character;
+                        break;
+
                     default:
                         tagEntity.Type = DanbooruTagType.Unknown;
                         break;
@@ -189,28 +194,6 @@ namespace DanbooruDownloader3.Engine
 
                     tagEntity.Name = Helper.DecodeEncodedNonAsciiCharacters(tag.SelectSingleNode(".//a").InnerText);
                 }
-
-                // no more tags count 20240106
-                //// Fix Issue #268
-                //var match = _postCount.Match(tag.InnerText.Trim());
-                //var countStr = "0";
-                //if (match.Success)
-                //{
-                //    countStr = match.Groups[1].Value;
-                //}
-                //var modifier = 1;
-                //if (countStr.EndsWith("K"))
-                //{
-                //    modifier = 1000;
-                //    countStr = countStr.Replace("K", "");
-                //}
-                //else if (countStr.EndsWith("M"))
-                //{
-                //    modifier = 1000000;
-                //    countStr = countStr.Replace("M", "");
-                //}
-                //double.TryParse(countStr, out double count);
-                //tagEntity.Count = (int)(count * modifier);
 
                 post.TagsEntity.Add(tagEntity);
                 tag.Remove();

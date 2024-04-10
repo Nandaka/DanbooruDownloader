@@ -138,6 +138,7 @@ namespace DanbooruDownloader3
                 btnListCancel.Enabled = false;
                 _isLoadingList = false;
             }
+            tsProgressBar.Visible = false;
         }
 
         private void clientList_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -173,6 +174,7 @@ namespace DanbooruDownloader3
             }
 
             _isLoadingList = false;
+            tsProgressBar.Visible = false;
         }
 
         private void clientList_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -231,6 +233,7 @@ namespace DanbooruDownloader3
             {
                 UpdateLog("clientThumb_DownloadProgressChanged", "Error: " + e.UserState + " " + ex.Message, ex);
             }
+            tsProgressBar.Visible = false;
         }
 
         private void clientThumb_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
@@ -295,6 +298,7 @@ namespace DanbooruDownloader3
                 throw;
 #endif
             }
+            tsProgressBar.Visible = false;
         }
 
         #endregion clientThumb event handler
