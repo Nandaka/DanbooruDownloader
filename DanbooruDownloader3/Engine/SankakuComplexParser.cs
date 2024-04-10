@@ -257,32 +257,36 @@ namespace DanbooruDownloader3.Engine
                     }
                 }
 
-                // get all thumbs
-                // var thumbs = doc.DocumentNode.SelectNodes("//span");
-                var thumbs = doc.DocumentNode.SelectNodes("//span[contains(@class, 'thumb')]");
-                if (thumbs != null && thumbs.Count > 0)
+                // remove carousel
+                var nodeClasses = new string[] { "carousel" };
+                foreach (var nodeClass in nodeClasses)
                 {
-                    foreach (var thumb in thumbs)
+                    var node = doc.DocumentNode.SelectSingleNode($"//div[@class='{nodeClass}']");
+                    if (node != null)
                     {
-                        //if (thumb.GetAttributeValue("class", "").Contains("thumb"))
-                        //{
+                        node.Remove();
+                    }
+                }
+
+
+                // get all posts
+                var articles = doc.DocumentNode.SelectNodes("//article[contains(@class, 'post-preview')]");
+                if (articles != null && articles.Count > 0)
+                {
+                    foreach (var article in articles)
+                    {
+                        HtmlDocument articleDoc = new HtmlDocument();
+                        articleDoc.LoadHtml(article.InnerHtml);
+
                         DanbooruPost post = new DanbooruPost();
-                        post.Id = thumb.GetAttributeValue("id", "-1").Substring(1);
+                        post.Id = article.GetAttributeValue("id", "-1");
 
                         post.Provider = searchParam.Provider;
                         post.SearchTags = searchParam.Tag;
                         post.Query = GenerateQueryString(searchParam);
 
                         // get the link to post
-                        HtmlNode a = null;
-                        foreach (var node in thumb.ChildNodes)
-                        {
-                            if (node.Name == "a")
-                            {
-                                a = node;
-                                break;
-                            }
-                        }
+                        var a = articleDoc.DocumentNode.SelectSingleNode("//a");
                         if (a == null)
                         {
                             Program.Logger.Warn(String.Format($"Cannot get post link for {post.Id}."));
@@ -291,67 +295,59 @@ namespace DanbooruDownloader3.Engine
                         post.Referer = Helper.FixUrl(searchParam.Provider.Url + a.GetAttributeValue("href", ""), isHttps(post.Provider));
 
                         // get thumbnail
-                        HtmlNode img = null;
-                        foreach (var node in a.ChildNodes)
-                        {
-                            if (node.Name == "img")
-                            {
-                                img = node;
-                                break;
-                            }
-                        }
+                        var img = articleDoc.DocumentNode.SelectSingleNode("//img");
                         if (img == null)
                         {
                             Program.Logger.Warn(String.Format($"Cannot get image thumbs for {post.Id}."));
+                            continue;
                         }
-                        else
+
+                        if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
                         {
-                            if (img.GetAttributeValue("src", "").Contains("images/no-visibility.svg"))
-                            {
-                                Program.Logger.Warn(String.Format($"No access for post {post.Id}."));
-                                continue;
-                            }
-                            var title = img.GetAttributeValue("data-auto_page", "");
-                            post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
-                            post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
-                            post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
-
-                            post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
-
-                            var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
-                            if (status.Contains("deleted"))
-                                post.Status = "deleted";
-                            else if (status.Contains("pending"))
-                                post.Status = "pending";
-                            else
-                                post.Status = status;
-
-                            post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
-                            post.PreviewHeight = img.GetAttributeValue("height", 0);
-                            post.PreviewWidth = img.GetAttributeValue("width", 0);
-
-                            // Rating:R18+ Score:5.0 Size:1425x1188 User:kabeshi"
-                            post.Source = "";
-                            post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
-                            post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
-
-                            string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
-                            resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
-                            string[] resArr = resolution.Split('x');
-                            post.Width = Int32.Parse(resArr[0]);
-                            post.Height = Int32.Parse(resArr[1]);
-
-                            string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
-                            //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
-                            post.Rating = rating.ToLower();
-
-                            post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
-
-                            post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
-                            post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
+                            Program.Logger.Warn(String.Format($"No access for post {post.Id}."));
+                            continue;
                         }
+
+                        var title = img.GetAttributeValue("data-auto_page", "");
+                        post.Tags = title.Substring(0, title.LastIndexOf("Rating:")).Trim();
+                        post.Tags = Helper.DecodeEncodedNonAsciiCharacters(post.Tags);
+                        post.TagsEntity = Helper.ParseTags(post.Tags, SearchParam.Provider);
+
+                        post.Hidden = Helper.CheckBlacklistedTag(post, searchParam.Option);
+
+                        var status = img.GetAttributeValue("class", "").Replace("preview", "").Trim();
+                        if (status.Contains("deleted"))
+                            post.Status = "deleted";
+                        else if (status.Contains("pending"))
+                            post.Status = "pending";
+                        else
+                            post.Status = status;
+
+                        post.PreviewUrl = Helper.FixUrl(img.GetAttributeValue("src", ""), isHttps(post.Provider));
+                        post.PreviewHeight = img.GetAttributeValue("height", 0);
+                        post.PreviewWidth = img.GetAttributeValue("width", 0);
+
+                        // Rating:R18+ Score:5.0 Size:1425x1188 User:kabeshi"
+                        post.Source = "";
+                        post.Score = title.Substring(title.LastIndexOf("Score:") + 6);
+                        post.Score = post.Score.Substring(0, post.Score.IndexOf(" ")).Trim();
+
+                        string resolution = title.Substring(title.LastIndexOf("Size:") + 5);
+                        resolution = resolution.Substring(0, resolution.IndexOf(" ")).Trim();
+                        string[] resArr = resolution.Split('x');
+                        post.Width = Int32.Parse(resArr[0]);
+                        post.Height = Int32.Parse(resArr[1]);
+
+                        string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
+                        //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                        post.Rating = rating.ToLower();
+
+                        post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
+
+                        post.MD5 = post.PreviewUrl.Substring(post.PreviewUrl.LastIndexOf("/") + 1);
+                        post.MD5 = post.MD5.Substring(0, post.MD5.LastIndexOf("."));
+                        
                         posts.Add(post);
-                        //}
                     }
                 }
 

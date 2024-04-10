@@ -27,6 +27,8 @@ namespace DanbooruDownloader3
         public const string PRIORITY_TAGS = @"included_tags.txt";
         public const string CLOUDFLARE_STR = "href=\"https://www.cloudflare.com?utm_source=challenge&utm_campaign=j\"";
         public const string DDOS_STR = "<title>Just a moment...</title>";
+        public const string CLOUDFLARE_COOKIE = "<span id=\"challenge-error-text\">Enable JavaScript and cookies to continue</span>";
+
 
         /// <summary>
         /// Generate hashed password+salt using SHA1

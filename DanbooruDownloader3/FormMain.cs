@@ -1474,7 +1474,7 @@ namespace DanbooruDownloader3
                             using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                             {
                                 html = reader.ReadToEnd();
-                                if (html.Contains(Helper.CLOUDFLARE_STR) || html.Contains(Helper.DDOS_STR))
+                                if (html.Contains(Helper.CLOUDFLARE_STR) || html.Contains(Helper.DDOS_STR) || html.Contains(Helper.CLOUDFLARE_COOKIE))
                                 {
                                     UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {post.Provider.Name}, please update the cookie to access.");
                                     var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", post.Provider.Name, "");
@@ -1544,7 +1544,10 @@ namespace DanbooruDownloader3
                 try
                 {
                     //var strs = _clientBatch.DownloadString(job.Url);
-                    using (MemoryStream ms = new MemoryStream(_clientBatch.DownloadData(job.Url)))
+                    var data = _clientBatch.DownloadData(job.Url);
+
+                    if (data is null) break;
+                    using (MemoryStream ms = new MemoryStream(data))
                     {
                         var option = new DanbooruPostDaoOption()
                         {
@@ -1584,7 +1587,7 @@ namespace DanbooruDownloader3
                         using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                         {
                             html = reader.ReadToEnd();
-                            if (html.Contains(Helper.CLOUDFLARE_STR) || html.Contains(Helper.DDOS_STR))
+                            if (html.Contains(Helper.CLOUDFLARE_STR) || html.Contains(Helper.DDOS_STR) || html.Contains(Helper.CLOUDFLARE_COOKIE))
                             {
                                 UpdateLog("DoBatchJob", $"Cloudflare DDoS protection enabled for : {job.Provider.Name}, please update the cookie to access.");
                                 var newCookie = Microsoft.VisualBasic.Interaction.InputBox("Update cookie", job.Provider.Name, "");
