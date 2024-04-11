@@ -1331,6 +1331,29 @@ namespace DanbooruDownloader3
                         {
                             if (this.Focused) this.Refresh();
                         }));
+                        statusStrip1.BeginInvoke((Action)(() =>
+                        {
+                            if (tsProgress2.Value < t.Item2)
+                            {
+                                if (tsProgress2.Visible)
+                                {
+                                    tsProgress2.Value = t.Item2;
+                                    tsProgress2.ToolTipText = $" Downloaded {Helper.FormatByteSize(t.Item1)} of {Helper.FormatByteSize(t.Item3)}";
+
+                                    if (t.Item2 == 100)
+                                    {
+                                        tsProgress2.Visible = false;
+                                        tsProgress2.Value = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    tsProgress2.Visible = true;
+                                }
+                            }
+
+                        }));
+
                     })).Wait();
                     File.Move(filename2, filename);
 

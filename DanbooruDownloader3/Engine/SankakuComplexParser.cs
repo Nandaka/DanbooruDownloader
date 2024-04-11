@@ -321,8 +321,9 @@ namespace DanbooruDownloader3.Engine
                         post.Width = Int32.Parse(resArr[0]);
                         post.Height = Int32.Parse(resArr[1]);
 
-                        string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 1);
-                        //rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
+                        // R15+, R18+, G
+                        string rating = title.Substring(title.LastIndexOf("Rating:") + 7, 5);
+                        rating = rating.Substring(0, rating.IndexOf(" ")).Trim();
                         post.Rating = rating.ToLower();
 
                         post.CreatorId = title.Substring(title.LastIndexOf("User:") + 5);
