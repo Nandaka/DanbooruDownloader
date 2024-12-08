@@ -886,23 +886,23 @@ namespace DanbooruDownloader3
                         {
                             // Cannot get list.
                             UpdateLog("DoBatchJob", "Cannot load list");
+                            flag = false;
                             job.Status = "Cannot load list.";
                             job.isCompleted = false;
                             job.isError = true;
-                            flag = false;
                         }
-                        else if (d.HasError)
+                        else if (d != null && d.HasError)
                         {
                             UpdateLog("DoBatchJob", d.ErrorMessage);
-                            job.Status = d.ErrorMessage;
                             flag = false;
+                            job.Status = d.ErrorMessage;
                         }
                         else if (status == HttpStatusCode.NotFound || d.Posts == null || d.Posts.Count == 0)
                         {
                             // No more image
                             UpdateLog("DoBatchJob", "No more image.");
-                            job.Status = "No more image.";
                             flag = false;
+                            job.Status = "No more image.";
                         }
                         else
                         {
@@ -1211,7 +1211,7 @@ namespace DanbooruDownloader3
                 }
 
                 // Feature #95: filter by extensions
-                if (!String.IsNullOrWhiteSpace(currentJob.Filter))
+                if (download && !String.IsNullOrWhiteSpace(currentJob.Filter))
                 {
                     // get file extensions
                     var ext = Helper.getFileExtensions(targetUrl);
@@ -1490,7 +1490,7 @@ namespace DanbooruDownloader3
                         {
                             delay = Convert.ToInt32(txtDelay.Text) * currRetry;
                         }
-                        else if (status == HttpStatusCode.ServiceUnavailable)
+                        else if (status == HttpStatusCode.ServiceUnavailable || status == HttpStatusCode.Forbidden)
                         {
                             var html = "";
                             post.Provider.UserName = "";
@@ -1597,7 +1597,7 @@ namespace DanbooruDownloader3
                     if (status == HttpStatusCode.NotFound)
                     {
                         UpdateLog("DoBatchJob", $"Error Getting List: {ex.Message}", ex);
-                        break;
+                        return null;
                     }
                     else if ((int)status == 429)
                     {
@@ -1618,7 +1618,11 @@ namespace DanbooruDownloader3
                                 delay = 0;
                             }
                         }
-                        if (job.Provider.UserName == "") break;
+                        if (job.Provider.UserName == "")
+                        {
+                            UpdateLog("DoBatchJob", $"Empty UserName: {ex.Message}", ex);
+                            return null;
+                        }
                     }
                     UpdateLog("DoBatchJob", $"Error Getting List ({currRetry} of {maxRetry}): {ex.Message} Wait for {delay}s.", ex);
                     for (int wait = 0; wait < delay; ++wait)
