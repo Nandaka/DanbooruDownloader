@@ -13,7 +13,7 @@ The latest source code can be pulled from https://github.com/Nandaka/DanbooruDow
 The compiled binary can be downloaded at http://nandaka.devnull.zone/tag/danbooru-batch-download/
 The previous version of compiled binary can be downloaded at https://github.com/Nandaka/DanbooruDownloader/releases
 
-DanbooruProvider.xml
+DanbooruProviderList.xml
 =============================
 This file will be parsed when you run the applications. You can modify the xml to add new provider.
 The contents structure are:
@@ -29,7 +29,8 @@ The contents structure are:
 - PasswordSalt: choujin-steiner--%PASSWORD%-- for danbooru.donmai.us.
 - UserName    : Your username.
 - Password    : Your password, in plain text.
-- LoginType   : Anonymous/UserPass/Cookie/CookieAlwaysAsk.
+- ApiKey      : Your API key, in plain text.
+- LoginType   : Anonymous/UserPass/Cookie/CookieAlwaysAsk/ApiKey.
                 If set to Cookie, paste your full cookie information to UserName field.
                 If set to CookieAlwaysAsk, it will ask for new cookie everytime you run the application.
 
@@ -119,8 +120,7 @@ D. To do Batch Download
 FAQ
 =============================
 Q1: I cannot download from Danbooru (403 Forbidden)!
-A1: Please read http://danbooru.donmai.us/forum/show/72300.
-    You need to supply login information in the DanbooruProvider.xml and set UseAuth to true.
+A1: You need to supply an API key in the DanbooruProviderList.xml and set LoginType to ApiKey.
 
 Q2: I cannot download/can only download 1 image from 3DBooru!
 A2: On Settings tab, check Pad User Agent.
