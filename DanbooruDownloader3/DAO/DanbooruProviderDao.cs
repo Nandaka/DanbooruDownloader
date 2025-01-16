@@ -113,6 +113,7 @@ namespace DanbooruDownloader3.DAO
 
                                             case "PasswordSalt": newProvider.PasswordSalt = reader.ReadElementContentAsString(); break;
                                             case "PasswordHash": newProvider.PasswordHash = reader.ReadElementContentAsString(); break;
+                                            case "ApiKey": newProvider.ApiKey = reader.ReadElementContentAsString(); break;
                                             case "BoardType":
                                                 string type = reader.ReadElementContentAsString();
                                                 newProvider.BoardType = (BoardType)Enum.Parse(typeof(BoardType), type); //Type.Equals("Danbooru") ? BoardType.Danbooru:BoardType.Gelbooru ;

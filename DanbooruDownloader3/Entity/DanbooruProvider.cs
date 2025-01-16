@@ -26,7 +26,8 @@ namespace DanbooruDownloader3.Entity
         Anonymous,
         UserPass,
         Cookie,
-        CookieAlwaysAsk
+        CookieAlwaysAsk,
+        ApiKey
     }
 
     public class DanbooruProvider
@@ -57,6 +58,8 @@ namespace DanbooruDownloader3.Entity
         public string PasswordSalt { get; set; }
 
         public string PasswordHash { get; set; }
+
+        public string ApiKey { get; set; }
 
         public BoardType BoardType { get; set; }
 
@@ -192,6 +195,10 @@ namespace DanbooruDownloader3.Entity
                 case LoginType.CookieAlwaysAsk:
                     // need to inject csv cookie to the webclient
                     ReloadCookie(UserName);
+                    break;
+
+                case LoginType.ApiKey:
+                    queryStr = $"{queryStr}&api_key={ApiKey}&login={UserName}";
                     break;
 
                 default:
